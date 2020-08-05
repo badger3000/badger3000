@@ -70,7 +70,7 @@ const HomeIndex = () => {
               <form
                 method="POST"
                 name="contact"
-                action="/pages/confirmation"
+                action="/confirmation"
                 netlify-honeypot="bot-field"
                 data-netlify="true"
               >
