@@ -1,16 +1,16 @@
 module.exports = {
   siteMetadata: {
-    title: 'Gatsby Starter - Strata by HTML5 UP',
-    author: 'Hunter Chang',
-    description: 'A Gatsby.js Starter based on Strata by HTML5 UP',
+    title: 'Kyle Ross - Web Developer',
+    author: 'Kyle Ross',
+    description: 'Personal site of Kyle Ross',
   },
   plugins: [
     'gatsby-plugin-react-helmet',
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
+        name: 'Badger3000',
+        short_name: 'Badger3000',
         start_url: '/',
         background_color: '#663399',
         theme_color: '#663399',

@@ -19,11 +19,7 @@ const HomeIndex = () => {
       <div id="main">
         <section id="one">
           <header className="major">
-            <h2>
-              Hi, My name is Kyle Ross
-              <br />
-              Front-end web developer based in the Bay Area
-            </h2>
+            <h2>My main focus is on Front-End web technologies</h2>
           </header>
           <p>
             I have worked on large scale enterprise level web applications for
