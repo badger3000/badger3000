@@ -70,7 +70,7 @@ const HomeIndex = () => {
                 netlify-honeypot="bot-field"
                 data-netlify="true"
               >
-                <p class="hidden" style={{ display: 'none' }}>
+                <p className="hidden" style={{ display: 'none' }}>
                   <label>
                     Don’t fill this out if you're human:
                     <input name="bot-field" />
