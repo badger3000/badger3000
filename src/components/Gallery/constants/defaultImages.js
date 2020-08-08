@@ -1,67 +1,51 @@
-import full01 from '../../../assets/images/fulls/01.jpg'
-import full02 from '../../../assets/images/fulls/02.jpg'
-import full03 from '../../../assets/images/fulls/03.jpg'
-import full04 from '../../../assets/images/fulls/04.jpg'
-import full05 from '../../../assets/images/fulls/05.jpg'
-import full06 from '../../../assets/images/fulls/06.jpg'
-import thumb02 from '../../../assets/images/thumbs/02.jpg'
-import thumb01 from '../../../assets/images/thumbs/01.jpg'
-import thumb03 from '../../../assets/images/thumbs/03.jpg'
-import thumb04 from '../../../assets/images/thumbs/04.jpg'
-import thumb05 from '../../../assets/images/thumbs/05.jpg'
-import thumb06 from '../../../assets/images/thumbs/06.jpg'
-
 export const DEFAULT_IMAGES = [
   {
     id: '1',
-    source: full01,
-    thumbnail: thumb01,
+    source: '01.jpg',
+    thumbnail: '01.jpg',
     caption: 'Whisk',
     link: 'https://whisk.com/',
-    description:
-      'Developed using WordPress, HTML, JavaScript, Gulp, Docker, SCSS',
+    description: 'WordPress, HTML, JavaScript, Gulp, Docker, SCSS',
   },
   {
     id: '2',
-    source: full02,
-    thumbnail: thumb02,
+    source: '02',
+    thumbnail: '02.jpg',
     caption: 'Dis.co',
     link: 'https://dis.co/',
     description:
-      'Developed using GatsbyJS, ReactJS, SCSS, Netlify, NodeJs, HTML, (Headless) WordPress, JSON',
+      'GatsbyJS, ReactJS, SCSS, Netlify, NodeJs, HTML, (Headless) WordPress, JSON',
   },
   {
     id: '3',
-    source: full03,
-    thumbnail: thumb03,
+    source: '03',
+    thumbnail: '03.jpg',
     caption: 'Bell',
     link: 'https://www.bellflight.com/',
-    description: 'Developed using Site Core, JavaScript, HTML, JQuery, SCSS',
+    description: 'Site Core, JavaScript, HTML, JQuery, SCSS',
   },
   {
     id: '4',
-    source: full04,
-    thumbnail: thumb04,
+    source: '04',
+    thumbnail: '04.jpg',
     caption: 'Western Digital',
     link: 'https://blog.westerndigital.com/',
-    description:
-      'Developed using WordPress, HTML, Gulp, JavaScript, TailwindsJS, CSS, jQuery',
+    description: 'WordPress, HTML, Gulp, JavaScript, TailwindsJS, CSS, jQuery',
   },
   {
     id: '5',
-    source: full05,
-    thumbnail: thumb05,
+    source: '05',
+    thumbnail: '05.jpg',
     caption: 'Sony UK',
     link: 'https://www.sony.co.uk/',
-    description:
-      'Developed using Java, Scala, Jade, JavaScript, HMTL, SCSS, jQuery, JSON ',
+    description: 'Java, Scala, Jade, JavaScript, HMTL, SCSS, jQuery, JSON ',
   },
   {
     id: '6',
-    source: full06,
-    thumbnail: thumb06,
+    source: '06',
+    thumbnail: '06.jpg',
     caption: 'Hotwire',
     link: 'https://www.hotwire.com/hotels/',
-    description: 'Developed using Java, JavaScript, HTML, CSS, Google Maps API',
+    description: 'Java, JavaScript, HTML, CSS, Google Maps API',
   },
 ]

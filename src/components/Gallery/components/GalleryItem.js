@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
+import Image from '../../Image'
 
 const GalleryItem = ({
   id,
@@ -7,23 +8,21 @@ const GalleryItem = ({
   thumbnail,
   caption,
   description,
-  position,
   toggleLightbox,
 }) => {
   const onClick = useCallback(
     (e) => {
       e.preventDefault()
-      toggleLightbox(position)
+      toggleLightbox()
     },
-    [position, toggleLightbox]
+    [toggleLightbox]
   )
 
   return (
-    <article key={id} className="6u 12u$(xsmall) work-item">
+    <article id={id} className="6u 12u$(xsmall) work-item">
       <a className="image fit thumb" href={source} onClick={onClick}>
-        <img src={thumbnail} alt={caption} />
+        <Image filename={thumbnail} alt={caption} />
       </a>
-
       <h3>{caption}</h3>
       <p>{description}</p>
     </article>
@@ -37,7 +36,6 @@ GalleryItem.propTypes = {
   thumbnail: PropTypes.string.isRequired,
   caption: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  position: PropTypes.string.isRequired,
   toggleLightbox: PropTypes.func.isRequired,
 }
 

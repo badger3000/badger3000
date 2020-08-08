@@ -522,11 +522,13 @@ input[type='radio'] {
     &:hover {
       &:after {
         opacity: 1;
+        z-index: 2;
       }
 
       &:before {
         background: url('images/overlay.png'), url('images/overlay.png');
         opacity: 1;
+        z-index: 1;
       }
     }
   }
@@ -941,8 +943,8 @@ input[type='button'],
   @include vendor('justify-content', 'space-between');
   background-color: _palette(accent2, bg);
   background-attachment: scroll, fixed;
-  background-image: url('images/overlay.png'), url('../images/bg.jpg');
-  background-position: 0 left, top left;
+  //background-image: url('images/overlay.png');
+  //background-position: top left;
   background-repeat: repeat, no-repeat;
   background-size: auto, auto;
   color: _palette(accent2, fg);
