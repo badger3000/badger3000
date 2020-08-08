@@ -29,7 +29,7 @@ export const DEFAULT_IMAGES = [
     source: '04',
     thumbnail: '04.jpg',
     caption: 'Western Digital',
-    link: 'https://blog.westerndigital.com/',
+    link: 'https://www.westerndigital.com/',
     description: 'WordPress, HTML, Gulp, JavaScript, TailwindsJS, CSS, jQuery',
   },
   {

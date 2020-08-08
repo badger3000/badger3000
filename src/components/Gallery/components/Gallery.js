@@ -1,22 +1,21 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Carousel, { Modal, ModalGateway } from 'react-images'
+//import Carousel, { Modal, ModalGateway } from 'react-images'
 import GalleryItem from './GalleryItem'
 
 import { DEFAULT_IMAGES } from '../constants/defaultImages'
 
 const Gallery = ({ images = DEFAULT_IMAGES }) => {
-  console.log(images)
-  const [lightboxIsOpen, setLightboxIsOpen] = useState(false)
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  // const [lightboxIsOpen, setLightboxIsOpen] = useState(false)
+  // const [selectedIndex, setSelectedIndex] = useState(0)
 
-  const toggleLightbox = useCallback(
-    (selectedIndex) => {
-      setLightboxIsOpen(!lightboxIsOpen)
-      setSelectedIndex(selectedIndex)
-    },
-    [lightboxIsOpen]
-  )
+  // const toggleLightbox = useCallback(
+  //   (selectedIndex) => {
+  //     setLightboxIsOpen(!lightboxIsOpen)
+  //     setSelectedIndex(selectedIndex)
+  //   },
+  //   [lightboxIsOpen]
+  // )
 
   return (
     <div>
@@ -27,23 +26,23 @@ const Gallery = ({ images = DEFAULT_IMAGES }) => {
               <GalleryItem
                 key={obj.id}
                 id={obj.id}
-                source={obj.source}
+                link={obj.link}
                 thumbnail={obj.thumbnail}
                 caption={obj.caption}
                 description={obj.description}
-                toggleLightbox={toggleLightbox}
+                //toggleLightbox={toggleLightbox}
               />
             )
           })}
         </div>
       )}
-      <ModalGateway>
+      {/* <ModalGateway>
         {lightboxIsOpen && (
           <Modal onClose={toggleLightbox}>
             <Carousel currentIndex={selectedIndex} views={images} />
           </Modal>
         )}
-      </ModalGateway>
+      </ModalGateway> */}
     </div>
   )
 }
