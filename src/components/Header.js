@@ -1,25 +1,97 @@
 import React from 'react'
-//import { StaticQuery, graphql } from 'gatsby'
+import { graphql, useStaticQuery } from 'gatsby'
 import Image from './Image'
 import Footer from './Footer'
-//import avatar from '../assets/images/avatar.jpg'
-
-const Header = () => (
-  <header id="header">
-    <div className="inner">
-      <a href="/" className="image avatar">
-        <Image filename="avatar.jpg" />
-      </a>
-      <h1>
-        <strong>My name is Kyle Ross</strong>,
-        <br />
-        Web Developer
-        <br />
-        Bay Area, CA
-      </h1>
-    </div>
-    <Footer />
-  </header>
-)
+import BackgroundImage from 'gatsby-background-image'
+const Header = ({ className }) => {
+  const { photo, blackBg } = useStaticQuery(
+    graphql`
+      query {
+        photo: file(relativePath: { eq: "bg.jpg" }) {
+          childImageSharp {
+            fluid(quality: 100) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+        blackBg: file(relativePath: { eq: "overlay.png" }) {
+          childImageSharp {
+            fluid(quality: 100) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+      }
+    `
+  )
+  const backgroundFluidImageStack = [
+    photo.childImageSharp.fluid,
+    blackBg.childImageSharp.fluid,
+  ].reverse()
+  return (
+    <BackgroundImage
+      Tag="header"
+      className={className}
+      fluid={backgroundFluidImageStack}
+      id="header"
+      style={{ position: 'fixed' }}
+    >
+      <div className="inner">
+        <a href="/" className="image avatar">
+          <Image filename="avatar.jpg" />
+        </a>
+        <h1>
+          <strong>My name is Kyle Ross</strong>,
+          <br />
+          Web Developer
+          <br />
+          Bay Area, CA
+        </h1>
+      </div>
+      <Footer />
+    </BackgroundImage>
+  )
+  // <StaticQuery
+  //   query={graphql`
+  //     query {
+  //       desktop: file{relativePath: { eq: "bg.jpg" }) {
+  //         childImageSharp {
+  //           fluid(quality: 100, maxWidth: 1200) {
+  //             ...GatsbyImageSharpFluid_withWebp
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `}
+  //   render={(data) => {
+  //     // Set ImageData.
+  //     const imageData = data.desktop.childImageSharp.fluid
+  //     return (
+  //       <BackgroundImage
+  //         Tag="header"
+  //         className={className}
+  //         fluid={imageData}
+  //         id="header"
+  //         position="fixed"
+  //         style={{ position: 'fixed' }}
+  //       >
+  //         <div className="inner">
+  //           <a href="/" className="image avatar">
+  //             <Image filename="avatar.jpg" />
+  //           </a>
+  //           <h1>
+  //             <strong>My name is Kyle Ross</strong>,
+  //             <br />
+  //             Web Developer
+  //             <br />
+  //             Bay Area, CA
+  //           </h1>
+  //         </div>
+  //         <Footer />
+  //       </BackgroundImage>
+  //     )
+  //   }}
+  // />
+}
 
 export default Header
