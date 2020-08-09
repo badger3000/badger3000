@@ -3,6 +3,7 @@ import Helmet from 'react-helmet'
 
 import Gallery from '../components/Gallery'
 import Layout from '../components/layout'
+import PDF from '../assets/pdf/kyle-ross-resume.pdf'
 
 const HomeIndex = () => {
   const siteTitle = 'Personal site of Kyle Ross'
@@ -31,7 +32,7 @@ const HomeIndex = () => {
           </p>
           <ul className="actions">
             <li>
-              <a href="../pdf/kyle-ross-resume.pdf" className="button">
+              <a href={PDF} className="button">
                 Download Resume
               </a>
             </li>
