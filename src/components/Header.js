@@ -34,7 +34,7 @@ const Header = ({ className }) => {
       className={className}
       fluid={backgroundFluidImageStack}
       id="header"
-      style={{ position: 'fixed' }}
+      style={{ position: 'inhert' }}
     >
       <div className="inner">
         <a href="/" className="image avatar">
