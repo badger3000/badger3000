@@ -86,7 +86,7 @@ a {
   border-bottom: dotted 1px;
   color: _palette(accent1, bg);
   text-decoration: none;
-
+  padding: 0 5px;
   &:hover {
     border-bottom-color: transparent;
     color: _palette(accent1, bg) !important;

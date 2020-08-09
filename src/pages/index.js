@@ -31,7 +31,7 @@ const HomeIndex = () => {
           </p>
           <ul className="actions">
             <li>
-              <a href="/static/resume/kyle-ross-resume.pdf" className="button">
+              <a href="../pdf/kyle-ross-resume.pdf" className="button">
                 Download Resume
               </a>
             </li>

@@ -51,47 +51,6 @@ const Header = ({ className }) => {
       <Footer />
     </BackgroundImage>
   )
-  // <StaticQuery
-  //   query={graphql`
-  //     query {
-  //       desktop: file{relativePath: { eq: "bg.jpg" }) {
-  //         childImageSharp {
-  //           fluid(quality: 100, maxWidth: 1200) {
-  //             ...GatsbyImageSharpFluid_withWebp
-  //           }
-  //         }
-  //       }
-  //     }
-  //   `}
-  //   render={(data) => {
-  //     // Set ImageData.
-  //     const imageData = data.desktop.childImageSharp.fluid
-  //     return (
-  //       <BackgroundImage
-  //         Tag="header"
-  //         className={className}
-  //         fluid={imageData}
-  //         id="header"
-  //         position="fixed"
-  //         style={{ position: 'fixed' }}
-  //       >
-  //         <div className="inner">
-  //           <a href="/" className="image avatar">
-  //             <Image filename="avatar.jpg" />
-  //           </a>
-  //           <h1>
-  //             <strong>My name is Kyle Ross</strong>,
-  //             <br />
-  //             Web Developer
-  //             <br />
-  //             Bay Area, CA
-  //           </h1>
-  //         </div>
-  //         <Footer />
-  //       </BackgroundImage>
-  //     )
-  //   }}
-  // />
 }
 
 export default Header
