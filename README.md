@@ -1,18 +1,41 @@
-# gatsby-starter-strata
+# Badger3000
 
-**This is a starter for Gatsby.js V2.**
+**This is the code base for my personal web site**
 
-**The older V1 version of this starter can be found on the v1 branch**
-
-Gatsby starter based on the Strata site template, designed by [HTML5 UP](https://html5up.net/strata). Check out https://codebushi.com/gatsby-starters-and-themes/ for more Gatsby starters and templates.
+Based on [GatsbyJS](https://www.gatsbyjs.org/) and [Gatsby Strata Starter](https://www.gatsbyjs.org/starters/codebushi/gatsby-starter-strata/)
 
 ## Preview
 
-http://gatsby-strata.surge.sh/
+https://badger3000.com
 
 ## Installation
 
-Install this starter (assuming Gatsby is installed) by running from your CLI:
-`gatsby new gatsby-starter-strata https://github.com/codebushi/gatsby-starter-strata`
+Gatsby CLI
 
-Run `gatsby develop` in the terminal to start.
+```bash
+npm install -g gatsby-cli
+```
+
+clone the repo, navigate into the dirctory and run the following command:
+
+```bash
+npm install
+```
+
+Run development enviroment:
+
+```bash
+gatsby develop
+```
+
+Run production build:
+
+```bash
+gatsby build
+```
+
+Run production locally:
+
+```bash
+gatsby serve
+```
