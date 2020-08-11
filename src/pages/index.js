@@ -105,7 +105,9 @@ const HomeIndex = () => {
                 </div>
                 <ul className="actions" style={{ marginTop: 30 }}>
                   <li>
-                    <button type="submit">Send Message</button>
+                    <button className="button" type="submit">
+                      Send Message
+                    </button>
                   </li>
                 </ul>
               </form>
