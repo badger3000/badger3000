@@ -103,13 +103,11 @@ const HomeIndex = () => {
                     ></textarea>
                   </div>
                 </div>
-                <ul className="actions" style={{ marginTop: 30 }}>
-                  <li>
-                    <button className="button" type="submit">
-                      Send Message
-                    </button>
-                  </li>
-                </ul>
+                <p className="actions" style={{ marginTop: 30 }}>
+                  <button className="button" type="submit">
+                    Send Message
+                  </button>
+                </p>
               </form>
             </div>
           </div>

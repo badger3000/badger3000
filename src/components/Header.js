@@ -41,7 +41,7 @@ const Header = ({ className }) => {
           <Image filename="avatar.jpg" />
         </a>
         <h1>
-          <strong>My name is Kyle Ross</strong>,
+          <strong>My name is Kyle Ross</strong>
           <br />
           Web Developer
           <br />
