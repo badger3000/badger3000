@@ -60,7 +60,7 @@ const HomeIndex = () => {
               available
             </span>
             for full and contract work. Please fill out the form below and I
-            will be in contact shorly.
+            will be in contact shortly.
           </p>
           <div className="row">
             <div className="12u 12u$(small)">
