@@ -9,6 +9,14 @@ module.exports = {
   plugins: [
     'gatsby-plugin-react-helmet',
     {
+      resolve: 'gatsby-plugin-hubspot',
+      options: {
+        trackingCode: '8390727',
+        respectDNT: true,
+        productionOnly: true,
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
 
       options: {
