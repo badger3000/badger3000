@@ -16,7 +16,7 @@ const Header = ({ className }) => {
         }
         blackBg: file(relativePath: { eq: "overlay.png" }) {
           childImageSharp {
-            fluid(quality: 100) {
+            fluid(quality: 80) {
               ...GatsbyImageSharpFluid_withWebp
             }
           }
