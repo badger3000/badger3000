@@ -38,7 +38,7 @@ const Header = ({ className }) => {
     >
       <div className="inner">
         <a href="/" className="image avatar">
-          <Image filename="avatar.jpg" />
+          <Image filename="avatar.jpg" alt="Kyle Ross profile picture" />
         </a>
         <h1>
           <strong>My name is Kyle Ross</strong>
