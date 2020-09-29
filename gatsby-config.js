@@ -15,7 +15,7 @@ module.exports = {
       options: {
         name: 'Badger3000',
         short_name: 'Badger3000',
-        start_url: '/',
+        start_url: 'https://badger3000.com/',
         background_color: '#663399',
         theme_color: '#663399',
         display: 'minimal-ui',
