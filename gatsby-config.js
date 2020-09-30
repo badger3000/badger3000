@@ -15,10 +15,10 @@ module.exports = {
       options: {
         name: 'Badger3000',
         short_name: 'Badger3000',
-        start_url: '/',
+        start_url: './',
         background_color: '#663399',
         theme_color: '#663399',
-        display: 'minimal-ui',
+        display: `standalone`,
         icon: [
           {
             src: 'src/assets/images/favicons/android-icon-36x36.png',
