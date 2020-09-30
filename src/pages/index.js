@@ -81,28 +81,37 @@ const HomeIndex = () => {
                 </p>
                 <div className="row uniform 50%">
                   <div className="6u 12u$(xsmall)">
-                    <input
-                      type="text"
-                      name="name"
-                      id="name"
-                      placeholder="Name"
-                    />
+                    <label>
+                      <span className="sr-text">name</span>
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="Name"
+                      />
+                    </label>
                   </div>
                   <div className="6u 12u$(xsmall)">
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="Email"
-                    />
+                    <lable>
+                      <span className="sr-text">email</span>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Email"
+                      />
+                    </lable>
                   </div>
                   <div className="12u">
-                    <textarea
-                      name="message"
-                      id="message"
-                      placeholder="Message"
-                      rows="4"
-                    ></textarea>
+                    <lable>
+                      <span className="sr-text">message</span>
+                      <textarea
+                        name="message"
+                        id="message"
+                        placeholder="Message"
+                        rows="4"
+                      ></textarea>
+                    </lable>
                   </div>
                 </div>
                 <p className="actions" style={{ marginTop: 30 }}>
