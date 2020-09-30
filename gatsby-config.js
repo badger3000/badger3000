@@ -25,6 +25,7 @@ module.exports = {
         theme_color: '#49bf9d',
         display: 'standalone',
         icon: 'src/assets/images/website-icon.png',
+        purpose: 'any maskable',
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
