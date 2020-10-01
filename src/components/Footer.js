@@ -6,24 +6,30 @@ const Footer = () => (
       <ul className="icons">
         <li>
           <a
+            rel="preconnect"
             href="https://www.youtube.com/user/badger816"
             className="icon fa-youtube"
+            crossorigin
           >
             <span className="label">YouTube</span>
           </a>
         </li>
         <li>
           <a
+            rel="preconnect"
             href="https://github.com/badger612/badger3000.git"
             className="icon fa-github"
+            crossorigin
           >
             <span className="label">Github</span>
           </a>
         </li>
         <li>
           <a
+            rel="preconnect"
             href="https://www.linkedin.com/in/badger816/"
             className="icon fa-linkedin"
+            crossorigin
           >
             <span className="label">Linkedin</span>
           </a>

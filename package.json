@@ -10,6 +10,7 @@
     "gatsby-plugin-manifest": "^2.4.32",
     "gatsby-plugin-offline": "^3.2.29",
     "gatsby-plugin-preact": "^4.0.13",
+    "gatsby-plugin-preconnect": "^1.1.54",
     "gatsby-plugin-preload-link-crossorigin": "^1.0.2",
     "gatsby-plugin-react-helmet": "^3.3.12",
     "gatsby-plugin-sass": "^2.3.14",

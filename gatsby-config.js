@@ -33,6 +33,19 @@ module.exports = {
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
+    {
+      resolve: 'gatsby-plugin-preconnect',
+      options: {
+        domains: [
+          'https://samsungnext.com/',
+          'https://www.hotwire.com/hotels/',
+          'https://www.sony.co.uk/',
+          'https://www.youtube.com/',
+          'https://github.com/',
+          'https://www.linkedin.com/',
+        ],
+      },
+    },
     'gatsby-plugin-preload-link-crossorigin',
     'gatsby-plugin-sass',
     'gatsby-plugin-offline',

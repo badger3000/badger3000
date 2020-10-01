@@ -25,11 +25,24 @@ const HomeIndex = () => {
           </header>
           <p>
             I have worked on large scale enterprise level web applications for
-            companies such as <a href="https://www.sony.co.uk/">Sony</a>,
-            <a href="https://www.hotwire.com/hotels/">Hotwire.com</a> and
-            <a href="https://samsungnext.com/">Samsung</a>. I have also worked
-            on a variety of digital projects for small businesses, artists and
-            professional athletes.
+            companies such as
+            <a rel="preconnect" href="https://www.sony.co.uk/" crossorigin>
+              Sony
+            </a>
+            ,
+            <a
+              rel="preconnect"
+              href="https://www.hotwire.com/hotels/"
+              crossorigin
+            >
+              Hotwire.com
+            </a>
+            and
+            <a rel="preconnect" href="https://samsungnext.com/" crossorigin>
+              Samsung
+            </a>
+            . I have also worked on a variety of digital projects for small
+            businesses, artists and professional athletes.
           </p>
           <ul className="actions">
             <li>
