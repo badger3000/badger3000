@@ -34,7 +34,6 @@ const Image = (props) => (
       //const imageSizes = image.node.childImageSharp.sizes; sizes={imageSizes}
       return (
         <Img
-          fadeIn={false}
           loading="eager"
           alt={props.alt}
           fluid={image.node.childImageSharp.fluid}
