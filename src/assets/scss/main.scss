@@ -959,8 +959,6 @@ input[type='button'],
   @include vendor('justify-content', 'space-between');
   background-color: _palette(accent2, bg);
   background-attachment: scroll, fixed;
-  //background-image: url('images/overlay.png');
-  //background-position: top left;
   background-repeat: repeat, no-repeat;
   background-size: auto, auto;
   color: _palette(accent2, fg);
@@ -997,7 +995,7 @@ input[type='button'],
 
   h1 {
     color: _palette(accent2, fg);
-    font-size: 1.35em;
+    font-size: 1.75em;
     line-height: 1.75em;
     margin: 0;
   }

@@ -42,11 +42,9 @@ const Header = ({ className }) => {
         </a>
         <h1>
           <strong>My name is Kyle Ross</strong>
-          <br />
-          Web Developer
-          <br />
-          Bay Area, CA
         </h1>
+        <p style={{ marginBottom: 0, fontSize: '1.5em' }}>Web Developer</p>
+        <p style={{ marginBottom: 0, fontSize: '1.5em' }}>Bay Area, CA</p>
       </div>
       <Footer />
     </BackgroundImage>
