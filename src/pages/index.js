@@ -92,7 +92,7 @@ const HomeIndex = () => {
                     </label>
                   </div>
                   <div className="6u 12u$(xsmall)">
-                    <lable>
+                    <label>
                       <span className="sr-text">email</span>
                       <input
                         type="email"
@@ -100,10 +100,10 @@ const HomeIndex = () => {
                         id="email"
                         placeholder="Email"
                       />
-                    </lable>
+                    </label>
                   </div>
                   <div className="12u">
-                    <lable>
+                    <label>
                       <span className="sr-text">message</span>
                       <textarea
                         name="message"
@@ -111,7 +111,7 @@ const HomeIndex = () => {
                         placeholder="Message"
                         rows="4"
                       ></textarea>
-                    </lable>
+                    </label>
                   </div>
                 </div>
                 <p className="actions" style={{ marginTop: 30 }}>
