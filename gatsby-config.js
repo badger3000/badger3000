@@ -32,6 +32,7 @@ module.exports = {
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
+    'gatsby-plugin-preload-link-crossorigin',
     'gatsby-plugin-sass',
     'gatsby-plugin-offline',
   ],
