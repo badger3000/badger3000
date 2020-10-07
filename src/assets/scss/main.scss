@@ -927,6 +927,9 @@ input[type='button'],
     color: _palette(fg-light) !important;
     cursor: default;
   }
+  @media screen and (max-width: 480px) {
+    width: 100%;
+  }
 }
 
 /* Work Item */
