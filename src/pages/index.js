@@ -66,15 +66,14 @@ const HomeIndex = () => {
               style={{
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
-                color: 'green',
+                color: 'red',
                 paddingLeft: 5,
                 paddingRight: 5,
               }}
             >
               available
             </span>
-            for full and contract work. Please fill out the form below and I
-            will be in contact shortly.
+            for full or contract work, but feel free to contact me.  
           </p>
           <div className="row">
             <div className="12u 12u$(small)">
