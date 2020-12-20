@@ -71,7 +71,7 @@ const HomeIndex = () => {
                 paddingRight: 5,
               }}
             >
-              available
+              unavailable
             </span>
             for full or contract work, but feel free to contact me.  
           </p>
