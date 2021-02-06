@@ -100,6 +100,7 @@ const HomeIndex = () => {
                         name="name"
                         id="name"
                         placeholder="Name"
+                        required
                       />
                     </label>
                   </div>
@@ -111,6 +112,7 @@ const HomeIndex = () => {
                         name="email"
                         id="email"
                         placeholder="Email"
+                        required
                       />
                     </label>
                   </div>
@@ -122,6 +124,7 @@ const HomeIndex = () => {
                         id="message"
                         placeholder="Message"
                         rows="4"
+                        required
                       ></textarea>
                     </label>
                   </div>
