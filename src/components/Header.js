@@ -36,7 +36,7 @@ const Header = ({ className }) => {
       id="header"
       style={{ position: 'inhert' }}
     >
-      <div className="inner" style={{textAlign: 'center'}}>
+      <div className="inner">
         <a href="/" className="image avatar" style={{ display: 'inline-block', width: '100px', height: '100px' }}>
           <Image filename="avatar.jpg" alt="Kyle Ross profile picture"/>
         </a>
