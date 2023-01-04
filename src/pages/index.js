@@ -66,12 +66,12 @@ const HomeIndex = () => {
               style={{
                 fontWeight: 'bold',
                 textTransform: 'uppercase',
-                color: 'red',
+                color: 'green',
                 paddingLeft: 5,
                 paddingRight: 5,
               }}
             >
-              unavailable
+              available
             </span>
             for full or contract work, but feel free to contact me.  
           </p>
