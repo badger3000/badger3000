@@ -73,7 +73,7 @@ const HomeIndex = () => {
             >
               available
             </span>
-            for full or contract work, but feel free to contact me.  
+            for full or contract work, feel free to contact me.
           </p>
           <div className="row">
             <div className="12u 12u$(small)">
