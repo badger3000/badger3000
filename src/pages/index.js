@@ -25,7 +25,10 @@ const HomeIndex = () => {
           </header>
           <p>
             I have worked on large scale enterprise level web applications for
-            companies such as
+            companies such as <a rel="preconnect" href='https://www.headspace.com/' crossorigin>
+              Headspace
+            </a>
+            ,
             <a rel="preconnect" href="https://www.sony.co.uk/" crossorigin>
               Sony
             </a>
