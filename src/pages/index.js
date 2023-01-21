@@ -1,23 +1,12 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 
 import Gallery from '../components/Gallery'
 import Layout from '../components/layout'
 import PDF from '../assets/pdf/kyle-ross-resume.pdf'
 
 const HomeIndex = () => {
-  const siteTitle = 'Personal site of Kyle Ross'
-  const siteDescription =
-    'Kyle Ross is a front end developer, based in the Bay Area, California'
-
   return (
     <Layout>
-      <Helmet>
-        <title>{siteTitle}</title>
-        <meta name="description" content={siteDescription} />
-        <html lang="en" />
-      </Helmet>
-
       <div id="main">
         <section id="one">
           <header className="major">
@@ -25,23 +14,20 @@ const HomeIndex = () => {
           </header>
           <p>
             I have worked on large scale enterprise level web applications for
-            companies such as <a rel="preconnect" href='https://www.headspace.com/' >
+            companies such as{' '}
+            <a rel="preconnect" href="https://www.headspace.com/">
               Headspace
             </a>
             ,
-            <a rel="preconnect" href="https://www.sony.co.uk/" >
+            <a rel="preconnect" href="https://www.sony.co.uk/">
               Sony
             </a>
             ,
-            <a
-              rel="preconnect"
-              href="https://www.hotwire.com/hotels/"
-              
-            >
+            <a rel="preconnect" href="https://www.hotwire.com/hotels/">
               Hotwire.com
             </a>
             and
-            <a rel="preconnect" href="https://samsungnext.com/" >
+            <a rel="preconnect" href="https://samsungnext.com/">
               Samsung
             </a>
             . I have also worked on a variety of digital projects for small
@@ -147,3 +133,16 @@ const HomeIndex = () => {
 }
 
 export default HomeIndex
+
+export function Head() {
+  const siteTitle = 'Personal site of Kyle Ross'
+  const siteDescription =
+    'Kyle Ross is a front end developer, based in the Bay Area, California'
+  return (
+    <>
+      <title>{siteTitle}</title>
+      <meta name="description" content={siteDescription} />
+      <html lang="en" />
+    </>
+  )
+}
