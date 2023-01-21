@@ -4,7 +4,7 @@
 
 	/// Breakpoints.
 	/// @var {list}
-	$breakpoints: () !global;
+	$breakpoints: ();
 
 	/// Vendor prefixes.
 	/// @var {list}
@@ -347,7 +347,7 @@
 	/// @param {map} $x Breakpoints.
 	///
 	@mixin skel-breakpoints($x: ()) {
-		$breakpoints: $x !global;
+		$breakpoints: $x ;
 	}
 
 	///
@@ -573,7 +573,7 @@
 			}
 
 		// Expand just the value?
-			@elseif $expandValue {
+			@else if $expandValue {
 			    @each $vendor in $vendor-prefixes {
 			        #{$property}: #{str-replace-all($value, '-prefix-', $vendor)};
 			    }
