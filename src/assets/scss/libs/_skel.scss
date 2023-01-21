@@ -4,7 +4,7 @@
 
 	/// Breakpoints.
 	/// @var {list}
-	$breakpoints: ();
+	$breakpoints: () !global;
 
 	/// Vendor prefixes.
 	/// @var {list}
@@ -347,7 +347,7 @@
 	/// @param {map} $x Breakpoints.
 	///
 	@mixin skel-breakpoints($x: ()) {
-		$breakpoints: $x ;
+		$breakpoints: $x !global;
 	}
 
 	///

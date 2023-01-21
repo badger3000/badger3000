@@ -5,7 +5,6 @@ module.exports = {
     description: 'Personal site of Kyle Ross',
   },
   plugins: [
-   
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -45,7 +44,7 @@ module.exports = {
         ],
       },
     },
-   
+
     'gatsby-plugin-sass',
   ],
 }
