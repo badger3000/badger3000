@@ -5,7 +5,7 @@ module.exports = {
     description: 'Personal site of Kyle Ross',
   },
   plugins: [
-    'gatsby-plugin-preact',
+   
     'gatsby-plugin-react-helmet',
     {
       resolve: `gatsby-source-filesystem`,
@@ -46,8 +46,8 @@ module.exports = {
         ],
       },
     },
-    'gatsby-plugin-preload-link-crossorigin',
+   
     'gatsby-plugin-sass',
-    'gatsby-plugin-offline',
+    //'gatsby-plugin-offline',
   ],
 }
