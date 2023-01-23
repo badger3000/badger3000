@@ -4,13 +4,15 @@ import Image from '../../Image'
 
 const GalleryItem = ({ id, link, thumbnail, caption, description }) => {
   return (
-    <article id={id} className="6u 12u$(xsmall) work-item">
-      <a className="image fit thumb" href={link}>
-        <Image filename={thumbnail} alt={caption} />
-      </a>
-      <h3>{caption}</h3>
-      <p>{description}</p>
-    </article>
+    <>
+      <article id={id} className="6u 12u$(xsmall) work-item">
+        <a className="image fit thumb" href={link}>
+          <Image filename={thumbnail} alt={caption} />
+        </a>
+        <h3>{caption}</h3>
+        <p>{description}</p>
+      </article>
+    </>
   )
 }
 

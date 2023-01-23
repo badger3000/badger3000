@@ -6,24 +6,26 @@ import { DEFAULT_IMAGES } from '../constants/defaultImages'
 
 const Gallery = ({ images = DEFAULT_IMAGES }) => {
   return (
-    <div>
-      {images && (
-        <div className="row">
-          {images.map((image, index) => {
-            return (
-              <GalleryItem
-                key={index}
-                id={image.id}
-                link={image.link}
-                thumbnail={image.thumbnail}
-                caption={image.caption}
-                description={image.description}
-              />
-            )
-          })}
-        </div>
-      )}
-    </div>
+    <>
+      <div>
+        {images && (
+          <div className="row">
+            {images.map((image, index) => {
+              return (
+                <GalleryItem
+                  key={index}
+                  id={image.id}
+                  link={image.link}
+                  thumbnail={image.thumbnail}
+                  caption={image.caption}
+                  description={image.description}
+                />
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 
