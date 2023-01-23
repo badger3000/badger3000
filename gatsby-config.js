@@ -2,7 +2,9 @@ module.exports = {
   siteMetadata: {
     title: 'Kyle Ross - Web Developer',
     author: 'Kyle Ross',
-    description: 'Personal site of Kyle Ross',
+    siteUrl: 'https://badger3000.com',
+    description:
+      'Kyle Ross is a front end developer, based in the Prescott, Arizona',
   },
   plugins: [
     {

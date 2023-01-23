@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'gatsby'
 import Image from './Image'
 import Footer from './Footer'
 const Header = ({ className }) => {
@@ -6,13 +7,13 @@ const Header = ({ className }) => {
     <>
       <header id="header" className={className} style={{ position: 'inhert' }}>
         <div className="inner">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="image avatar"
             style={{ display: 'inline-block', width: '100px', height: '100px' }}
           >
             <Image filename="avatar.jpg" alt="Kyle Ross profile picture" />
-          </a>
+          </Link>
           <h1>
             <strong>Kyle Ross</strong>
           </h1>

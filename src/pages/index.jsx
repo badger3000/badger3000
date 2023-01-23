@@ -4,6 +4,7 @@ import Gallery from '../components/Gallery'
 import Layout from '../components/layout'
 import ContactFrom from '../components/ContactFrom'
 import PDF from '../assets/pdf/kyle-ross-resume.pdf'
+import { useSiteMetadata } from '../components/hooks/site-meta'
 
 const HomeIndex = () => {
   return (
@@ -59,13 +60,11 @@ const HomeIndex = () => {
 export default HomeIndex
 
 export function Head() {
-  const siteTitle = 'Personal site of Kyle Ross'
-  const siteDescription =
-    'Kyle Ross is a front end developer, based in the Bay Area, California'
+  const { title, description } = useSiteMetadata()
   return (
     <>
-      <title>{siteTitle}</title>
-      <meta name="description" content={siteDescription} />
+      <title>{title}</title>
+      <meta name="description" content={description} />
     </>
   )
 }

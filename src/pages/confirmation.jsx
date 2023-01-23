@@ -1,6 +1,7 @@
 import React from 'react'
 import Layout from '../components/layout'
 
+import { useSiteMetadata } from '../components/hooks/site-meta'
 const NotFoundPage = () => {
   return (
     <Layout>
@@ -18,12 +19,12 @@ const NotFoundPage = () => {
 export default NotFoundPage
 
 export function Head() {
-  const siteTitle = 'Thank you for contacting me'
-  const siteDescription = 'Your submission is confirmed'
+  const { title, description } = useSiteMetadata
+
   return (
     <>
-      <title>{siteTitle}</title>
-      <meta name="description" content={siteDescription} />
+      <title>{title}</title>
+      <meta name="description" content={description} />
     </>
   )
 }
