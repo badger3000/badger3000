@@ -12,7 +12,6 @@ module.exports = {
         path: `${__dirname}/src/assets/images/`,
       },
     },
-    'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
       resolve: `gatsby-plugin-manifest`,
@@ -31,6 +30,8 @@ module.exports = {
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
+    'gatsby-transformer-sharp',
+    `gatsby-plugin-image`,
     {
       resolve: 'gatsby-plugin-preconnect',
       options: {

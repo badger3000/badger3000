@@ -11,6 +11,7 @@ const Image = (props) => (
         images: allFile {
           edges {
             node {
+              publicURL
               relativePath
               name
               childImageSharp {
@@ -23,7 +24,7 @@ const Image = (props) => (
     `}
     render={(data) => {
       const image = data.images.edges.find((n) => {
-        return n.node.relativePath.includes(props.filename)
+        return n.node.publicURL.includes(props.filename)
       })
       if (!image) {
         return null
@@ -33,8 +34,9 @@ const Image = (props) => (
         <GatsbyImage
           image={image.node.childImageSharp.gatsbyImageData}
           loading="eager"
+          fit="cover"
           alt={props.alt}
-          style={{ position: 'inhert' }}
+          style={{ position: 'revert' }}
         />
       )
     }}
