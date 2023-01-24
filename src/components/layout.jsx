@@ -1,13 +1,13 @@
 import React from 'react'
 import '../assets/scss/main.scss'
 
-import Header from './Header'
+import Aside from './Aside'
 
-const Template = ({ children }) => (
+const Layout = ({ children }) => (
   <>
-    <Header />
+    <Aside />
     {children}
   </>
 )
 
-export default Template
+export default Layout
