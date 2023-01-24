@@ -10,7 +10,7 @@ const Header = ({ className }) => {
       className={className}
       filename="bg.jpg"
       id="header"
-      style={{ position: 'fixed' }}
+      style={{ position: '' }}
     >
       <div className="inner">
         <Link

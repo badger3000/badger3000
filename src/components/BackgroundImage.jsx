@@ -37,6 +37,7 @@ export default function BackgroundImages(props) {
       id={props.id}
       {...bgImage}
       backgroundColor={`#040e18`}
+      style={props.style}
     >
       {props.children}
     </BackgroundImage>
