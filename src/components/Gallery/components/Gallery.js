@@ -6,7 +6,7 @@ import { DEFAULT_IMAGES } from '../constants/defaultImages'
 
 const Gallery = ({ images = DEFAULT_IMAGES }) => {
   return (
-    <>
+    <div>
       {images && (
         <div className="row">
           {images.map((image, index) => {
@@ -23,7 +23,7 @@ const Gallery = ({ images = DEFAULT_IMAGES }) => {
           })}
         </div>
       )}
-    </>
+    </div>
   )
 }
 
