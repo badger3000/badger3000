@@ -5,7 +5,6 @@
   "author": "Kyle Ross",
   "dependencies": {
     "gatsby": "^5.4.2",
-    "gatsby-background-image": "^1.6.0",
     "gatsby-plugin-image": "^3.4.0",
     "gatsby-plugin-manifest": "^5.4.0",
     "gatsby-plugin-offline": "^6.4.0",
@@ -14,8 +13,6 @@
     "gatsby-plugin-sharp": "^5.4.0",
     "gatsby-source-filesystem": "^5.4.0",
     "gatsby-transformer-sharp": "^5.4.0",
-    "gbimage-bridge": "^0.2.2",
-    "intersection-observer": "^0.12.2",
     "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,7 +25,7 @@
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "debug": "gatsby build && gatsby serve",
+    "production": "gatsby build && gatsby serve",
     "format": "prettier --write \"**/*.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

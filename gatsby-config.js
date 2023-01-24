@@ -42,6 +42,7 @@ module.exports = {
           'https://www.hotwire.com/hotels/',
           'https://www.sony.co.uk/',
           'https://www.youtube.com/',
+          'https://mplsclips.com',
           'https://github.com/',
           'https://www.linkedin.com/',
         ],
