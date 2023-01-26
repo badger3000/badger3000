@@ -5,7 +5,7 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
   return (
     <>
       <article className="6u 12u$(xsmall) work-item">
-        <a className="image fit thumb" href={link}>
+        <a className="image fit thumb" href={link} style={{ padding: '0' }}>
           <GatsbyImage image={thumbnail} alt={title} />
         </a>
         <h3>{title}</h3>
