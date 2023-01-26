@@ -4,7 +4,7 @@ import Image from './Image'
 
 export default function InnerBlock() {
   return (
-    <div className="inner">
+    <div className="inner relative">
       <Link
         to="/"
         className="image avatar"

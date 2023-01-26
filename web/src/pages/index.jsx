@@ -9,7 +9,7 @@ import { useSiteMetadata } from '../components/hooks/site-meta'
 const HomeIndex = () => {
   return (
     <Layout>
-      <div id="main">
+      <main id="main" className="basis-9/12 flex-col bg-white">
         <section id="one">
           <header className="major">
             <h2>My main focus is on Front-End web technologies</h2>
@@ -52,7 +52,7 @@ const HomeIndex = () => {
         <section id="three">
           <ContactFrom />
         </section>
-      </div>
+      </main>
     </Layout>
   )
 }
