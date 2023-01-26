@@ -10,6 +10,7 @@ module.exports = {
       'Kyle Ross is a front end developer, based in the Prescott, Arizona',
   },
   plugins: [
+    'gatsby-plugin-postcss',
     {
       resolve: `gatsby-source-filesystem`,
       options: {

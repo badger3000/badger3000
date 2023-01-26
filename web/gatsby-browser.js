@@ -8,3 +8,5 @@
 // ES5 way
 // exports.onClientEntry = () => {
 // ES6 way
+
+import './src/styles/global.css'
