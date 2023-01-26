@@ -6,6 +6,7 @@ import {schemaTypes} from './schemas'
 export default defineConfig({
   name: 'default',
   title: ' badger3000',
+  basePath: '/studio',
 
   projectId: '57e12m54',
   dataset: 'badger3000',
