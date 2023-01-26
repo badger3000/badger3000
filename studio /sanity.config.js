@@ -8,7 +8,7 @@ import {netlifyWidget} from 'sanity-plugin-dashboard-widget-netlify'
 export default defineConfig({
   name: 'default',
   title: ' badger3000',
-
+  basePath: '/',
   projectId: '57e12m54',
   dataset: 'badger3000',
 
