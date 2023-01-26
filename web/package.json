@@ -1,7 +1,7 @@
 {
   "name": "badger3000",
-  "description": "Gatsby site",
-  "version": "1.1.0",
+  "description": "Personal web site built with Gatsby and Sanity",
+  "version": "2.0.0",
   "author": "Kyle Ross",
   "dependencies": {
     "gatsby": "^5.4.2",
@@ -35,6 +35,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/badger612/badger3000"
   }
 }

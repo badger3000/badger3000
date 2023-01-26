@@ -1,23 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { graphql, useStaticQuery } from 'gatsby'
 import GalleryItem from './GalleryItem'
 
-import { DEFAULT_IMAGES } from '../constants/defaultImages'
+const Gallery = () => {
+  const data = useStaticQuery(graphql`
+    query Sanity {
+      projects: allSanityProjects {
+        edges {
+          node {
+            title
+            tech
+            web_url
+            project_image {
+              asset {
+                gatsbyImage(width: 600)
+              }
+            }
+            _id
+          }
+        }
+      }
+    }
+  `)
+  const projectItems = data.projects.edges
 
-const Gallery = ({ images = DEFAULT_IMAGES }) => {
   return (
     <>
-      {images && (
+      {projectItems && (
         <div className="row">
-          {images.map((image, index) => {
+          {projectItems.map((project) => {
             return (
               <GalleryItem
-                key={index}
-                id={image.id}
-                link={image.link}
-                thumbnail={image.thumbnail}
-                caption={image.caption}
-                description={image.description}
+                key={project.node._id}
+                thumbnail={project.node.project_image.asset.gatsbyImage}
+                link={project.node.web_url}
+                title={project.node.title}
+                tech={project.node.tech}
               />
             )
           })}

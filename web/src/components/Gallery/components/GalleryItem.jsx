@@ -1,28 +1,18 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Image from '../../Image'
+import { GatsbyImage } from 'gatsby-plugin-image'
 
-const GalleryItem = ({ id, link, thumbnail, caption, description }) => {
+const GalleryItem = ({ link, thumbnail, title, tech }) => {
   return (
     <>
-      <article id={id} className="6u 12u$(xsmall) work-item">
+      <article className="6u 12u$(xsmall) work-item">
         <a className="image fit thumb" href={link}>
-          <Image filename={thumbnail} alt={caption} />
+          <GatsbyImage image={thumbnail} alt={title} />
         </a>
-        <h3>{caption}</h3>
-        <p>{description}</p>
+        <h3>{title}</h3>
+        <p>{tech}</p>
       </article>
     </>
   )
-}
-
-GalleryItem.displayName = 'GalleryItem'
-GalleryItem.propTypes = {
-  id: PropTypes.string.isRequired,
-  link: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  caption: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
 }
 
 export default GalleryItem

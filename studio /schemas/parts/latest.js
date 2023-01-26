@@ -15,8 +15,8 @@ export default {
       of: [{type: 'block'}],
     },
     {
-      title: 'Poster',
-      name: 'poster',
+      title: 'Main Image',
+      name: 'main_image',
       type: 'image',
       options: {
         hotspot: false, // <-- Defaults to false
@@ -27,7 +27,7 @@ export default {
           type: 'string',
           title: 'Caption',
           options: {
-            isHighlighted: true, // <-- make this field easily accessible
+            collapsible: true, // <-- make this field easily accessible
           },
         },
         {
