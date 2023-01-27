@@ -17,7 +17,7 @@ const Footer = () => (
           <li>
             <a
               rel="preconnect"
-              href="https://github.com/badger612/badger3000.git"
+              href="https://github.com/badger3000/badger3000"
               className="icon fa-github"
             >
               <span className="label">Github</span>
