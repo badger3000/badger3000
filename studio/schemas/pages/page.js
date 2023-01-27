@@ -13,7 +13,7 @@ export default {
       type: 'array',
       title: 'Page sections',
       description: 'Add, edit, and reorder sections',
-      of: [{type: 'hero'}, {type: 'projects'}, {type: 'contactForm'}],
+      of: [{type: 'hero'}, {type: 'projectComponent'}, {type: 'contactForm'}],
     },
   ],
 }

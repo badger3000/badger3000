@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
+import {deskStructure} from './deskStructure'
 import {dashboardTool, projectInfoWidget} from '@sanity/dashboard'
 import {netlifyWidget} from 'sanity-plugin-dashboard-widget-netlify'
 
@@ -9,11 +10,13 @@ export default defineConfig({
   name: 'default',
   title: ' badger3000',
   basePath: '/',
-  projectId: '57e12m54',
-  dataset: 'badger3000',
+  projectId: import.meta.env.SANITY_STUDIO_PROJECT_ID,
+  dataset: import.meta.env.SANITY_STUDIO_DATASET,
 
   plugins: [
-    deskTool(),
+    deskTool({
+      deskStructure,
+    }),
     visionTool(),
     dashboardTool({
       widgets: [
@@ -23,12 +26,12 @@ export default defineConfig({
           sites: [
             {
               title: 'CMS Badger3000',
-              apiId: '47abe777-1a82-44c6-8fb6-5a08aef31fb9',
+              apiId: import.meta.env.SANITY_STUDIO_API_ID_CMS,
               name: 'boisterous-shortbread-857076',
             },
             {
               title: 'Badger3000',
-              apiId: '82748cae-cf44-4f28-bceb-22e83e5c6e3f',
+              apiId: import.meta.env.SANITY_STUDIO_API_ID,
               name: 'affectionate-jepsen-8027b4',
             },
           ],

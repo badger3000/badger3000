@@ -21,8 +21,8 @@ module.exports = {
     {
       resolve: `gatsby-source-sanity`,
       options: {
-        projectId: `57e12m54`,
-        dataset: `badger3000`,
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET,
         watchMode: true,
         // a token with read permissions is required
         // if you have a private dataset

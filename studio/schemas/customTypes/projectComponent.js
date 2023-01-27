@@ -1,9 +1,11 @@
 export default {
-  title: 'Hero',
-  name: 'hero',
+  title: 'Project Component',
+  name: 'projectComponent',
   type: 'object',
+
   fields: [
     {
+      title: 'Label',
       name: 'label',
       type: 'string',
     },
@@ -12,22 +14,21 @@ export default {
       name: 'heading',
       type: 'string',
     },
+
     {
-      title: 'Hero Text',
-      name: 'hero_text',
-      type: 'array',
-      of: [{type: 'block'}],
+      title: 'Display Projects?',
+      name: 'form',
+      type: 'boolean',
     },
   ],
   preview: {
     select: {
-      title: 'heading',
-      subtitle: 'label',
+      title: 'label',
       disabled: 'disabled',
     },
     prepare({title, disabled}) {
       return {
-        title: `Hero: ${disabled ? 'DISABLED' : title}`,
+        title: `Projects: ${disabled ? 'DISABLED' : title}`,
       }
     },
   },

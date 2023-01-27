@@ -23,7 +23,7 @@ export default {
   ],
   preview: {
     select: {
-      title: 'Contact Form',
+      title: 'heading',
       disabled: 'disabled',
     },
     prepare({title, disabled}) {
