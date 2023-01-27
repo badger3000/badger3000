@@ -15,6 +15,11 @@ export default {
       type: 'array',
       of: [{type: 'block'}],
     },
+    {
+      title: 'Display Contact Form?',
+      name: 'form',
+      type: 'boolean',
+    },
   ],
   preview: {
     select: {
