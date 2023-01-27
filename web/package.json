@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "author": "Kyle Ross",
   "dependencies": {
+    "@portabletext/react": "^2.0.0",
     "gatsby": "^5.4.2",
     "gatsby-plugin-image": "^3.4.0",
     "gatsby-plugin-manifest": "^5.4.0",

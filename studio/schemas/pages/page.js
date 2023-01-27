@@ -8,5 +8,12 @@ export default {
       name: 'title',
       type: 'string',
     },
+    {
+      name: 'content',
+      type: 'array',
+      title: 'Page sections',
+      description: 'Add, edit, and reorder sections',
+      of: [{type: 'hero'}, {type: 'projects'}, {type: 'contactForm'}],
+    },
   ],
 }
