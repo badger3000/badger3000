@@ -39,7 +39,7 @@ export default function Page(props) {
     })
   return (
     <Layout>
-      <main className="flex min-h-screen basis-9/12 flex-col bg-white px-4  pt-4">
+      <main className="flex min-h-screen basis-9/12 flex-col bg-white p-6">
         {content}
       </main>
     </Layout>

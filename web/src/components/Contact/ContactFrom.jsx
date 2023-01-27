@@ -3,22 +3,6 @@ import React from 'react'
 export default function ContactFrom() {
   return (
     <>
-      <h2>Contact Me</h2>
-      <p>
-        Currently
-        <span
-          style={{
-            fontWeight: 'bold',
-            textTransform: 'uppercase',
-            color: 'green',
-            paddingLeft: 5,
-            paddingRight: 5,
-          }}
-        >
-          available
-        </span>
-        for full or contract work&#x2c; feel free to contact me.
-      </p>
       <div className="row">
         <div className="12u 12u$(small)">
           <form
