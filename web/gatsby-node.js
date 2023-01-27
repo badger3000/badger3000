@@ -5,17 +5,17 @@
  */
 
 // You can delete this file if you're not using it
-exports.createSchemaCustomization = ({ actions, schema }) => {
-  actions.createTypes([
-    schema.buildObjectType({
-      name: 'SanityPost',
-      interfaces: ['Node'],
-      fields: {
-        isPublished: {
-          type: 'Boolean!',
-          resolve: (source) => new Date(source.publishedAt) <= new Date(),
-        },
-      },
-    }),
-  ])
-}
+// exports.createSchemaCustomization = ({ actions, schema }) => {
+//   actions.createTypes([
+//     schema.buildObjectType({
+//       name: 'SanityPost',
+//       interfaces: ['Node'],
+//       fields: {
+//         isPublished: {
+//           type: 'Boolean!',
+//           resolve: (source) => new Date(source.publishedAt) <= new Date(),
+//         },
+//       },
+//     }),
+//   ])
+// }
