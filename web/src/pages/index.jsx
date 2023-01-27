@@ -1,6 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import { useSiteMetadata } from '../components/hooks/site-meta'
+import { useSiteMetadata } from '../components/Hooks/SiteMeta'
 import Page from '../templates/page'
 import Errors from '../components/Errors/Errors'
 

@@ -17,7 +17,7 @@ export default {
 
     {
       title: 'Display Projects?',
-      name: 'form',
+      name: 'display_projects',
       type: 'boolean',
     },
   ],
