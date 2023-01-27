@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === 'production'
+
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
@@ -23,7 +25,7 @@ module.exports = {
       options: {
         projectId: process.env.SANITY_PROJECT_ID,
         dataset: process.env.SANITY_DATASET,
-        watchMode: true,
+        watchMode: !isProd,
         // a token with read permissions is required
         // if you have a private dataset
         token: process.env.SANITY_TOKEN,

@@ -16,7 +16,7 @@ export default function Page(props) {
     )
   }
   const page = data.sanityPage
-  console.log(page)
+  //console.log(page)
   const content = (page._rawContent || [])
     .filter((c) => !c.disabled)
     .map((c) => {
@@ -39,7 +39,9 @@ export default function Page(props) {
     })
   return (
     <Layout>
-      <main className="flex basis-9/12 flex-col bg-white pt-2">{content}</main>
+      <main className="flex min-h-screen basis-9/12 flex-col bg-white px-4  pt-4">
+        {content}
+      </main>
     </Layout>
   )
 }
