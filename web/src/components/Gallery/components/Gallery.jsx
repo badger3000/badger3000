@@ -28,7 +28,7 @@ const Gallery = () => {
   return (
     <>
       {projectItems && (
-        <div className="row">
+        <div className="gird-cols-1 grid gap-4 md:grid-cols-3 lg:grid-cols-2">
           {projectItems.map((project) => {
             return (
               <GalleryItem

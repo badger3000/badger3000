@@ -4,7 +4,7 @@ import { GatsbyImage } from 'gatsby-plugin-image'
 const GalleryItem = ({ link, thumbnail, title, tech }) => {
   return (
     <>
-      <article className="work-item">
+      <article>
         <a className="image fit thumb" href={link} style={{ padding: '0' }}>
           <GatsbyImage image={thumbnail} alt={title} />
         </a>
