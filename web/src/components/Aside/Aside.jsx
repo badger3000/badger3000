@@ -5,10 +5,10 @@ import Footer from '../Footer'
 const Aside = () => {
   return (
     <aside id="header" className="relative basis-3/12 md:mt-2 md:mr-2">
-      <section className="sticky top-6 flex min-h-screen flex-col content-between p-6">
+      <div className="sticky top-6 flex min-h-screen flex-col content-between p-6">
         <InnerBlock />
         <Footer />
-      </section>
+      </div>
     </aside>
   )
 }
