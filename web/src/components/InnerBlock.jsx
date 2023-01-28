@@ -4,7 +4,7 @@ import Image from './Image'
 
 export default function InnerBlock() {
   return (
-    <section className="inner text-right text-white">
+    <section className="inner grow  text-white">
       <Link
         to="/"
         className="image avatar border-grey shadow-inner-md relative m-auto block w-[100px] overflow-hidden rounded-full"

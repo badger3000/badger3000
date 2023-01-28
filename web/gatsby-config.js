@@ -12,7 +12,7 @@ module.exports = {
       'Kyle Ross is a front end developer, based in the Prescott, Arizona',
   },
   plugins: [
-    'gatsby-plugin-postcss',
+    `gatsby-plugin-postcss`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -34,7 +34,7 @@ module.exports = {
         graphqlTag: 'default',
       },
     },
-    'gatsby-plugin-sharp',
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -52,7 +52,7 @@ module.exports = {
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
-    'gatsby-transformer-sharp',
+    `gatsby-transformer-sharp`,
     `gatsby-plugin-image`,
     {
       resolve: 'gatsby-plugin-preconnect',
@@ -68,7 +68,5 @@ module.exports = {
         ],
       },
     },
-
-    'gatsby-plugin-sass',
   ],
 }

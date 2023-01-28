@@ -1,16 +1,23 @@
 import React from 'react'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faYoutube,
+  faGithub,
+  faLinkedin,
+} from '@fortawesome/free-brands-svg-icons'
+library.add(faYoutube, faGithub, faLinkedin)
 const Footer = () => (
   <footer className="text-white">
     <div className="inner">
-      <ul className="icons">
+      <ul className="icons inline-flex align-middle">
         <li>
           <a
             rel="preconnect"
             href="https://www.youtube.com/user/badger816"
             className="icon fa-youtube"
           >
-            <span className="label">YouTube</span>
+            <FontAwesomeIcon className="stoke-1" icon="fa-brands fa-youtube" />
           </a>
         </li>
         <li>
@@ -19,7 +26,7 @@ const Footer = () => (
             href="https://github.com/badger3000/badger3000"
             className="icon fa-github"
           >
-            <span className="label">Github</span>
+            <FontAwesomeIcon icon="fa-brands fa-github" />
           </a>
         </li>
         <li>
@@ -28,7 +35,7 @@ const Footer = () => (
             href="https://www.linkedin.com/in/badger816/"
             className="icon fa-linkedin"
           >
-            <span className="label">Linkedin</span>
+            <FontAwesomeIcon icon="fa-brands fa-linkedin" />
           </a>
         </li>
       </ul>

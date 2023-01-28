@@ -2,5 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(./font-awesome.css);
 @import url(./google-fonts.css);
