@@ -2,25 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
-    url(/fonts/SourceSansPro-Regular.woff2) format('woff2');
-}
+@import url(./fonts.css);
 
-@font-face {
-  font-family: 'Source Sans Pro';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Source Sans Pro Italic'), local('SourceSansPro-Italic'),
-    url(/fonts/SourceSansPro-Italic.woff2) format('woff2');
-}
 @layer base {
   html {
-    font-family: Source Sans Pro, system-ui, sans-serif;
+    font-family: SourceSansPro-Regular, Helvetica, sans-serif;
   }
 }
