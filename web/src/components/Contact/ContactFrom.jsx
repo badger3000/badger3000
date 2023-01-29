@@ -79,7 +79,7 @@ export default function ContactFrom() {
           </div>
           <p className="actions mt-6">
             <button
-              className="rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 transition-all duration-700	ease-in-out hover:border-[#075841] hover:text-[#075841]	"
+              className="rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 uppercase transition-all duration-700	ease-in-out hover:border-[#075841] hover:text-[#075841]	"
               type="submit"
             >
               Send Message
