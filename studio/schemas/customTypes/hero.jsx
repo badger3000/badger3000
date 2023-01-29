@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default {
   title: 'Hero',
   name: 'hero',
@@ -16,7 +18,20 @@ export default {
       title: 'Hero Text',
       name: 'hero_text',
       type: 'array',
-      of: [{type: 'block'}, {type: 'image'}],
+      of: [
+        {
+          type: 'block',
+          marks: {
+            decorators: [
+              {
+                title: 'CTA',
+                value: 'cta',
+              },
+            ],
+          },
+        },
+        {type: 'image'},
+      ],
     },
   ],
   preview: {
