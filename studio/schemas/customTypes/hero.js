@@ -16,7 +16,7 @@ export default {
       title: 'Hero Text',
       name: 'hero_text',
       type: 'array',
-      of: [{type: 'block'}],
+      of: [{type: 'block'}, {type: 'image'}],
     },
   ],
   preview: {
