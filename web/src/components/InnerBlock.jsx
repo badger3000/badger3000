@@ -7,15 +7,15 @@ export default function InnerBlock() {
     <section className="inner grow  text-white">
       <Link
         to="/"
-        className="image avatar border-grey shadow-inner-md relative m-auto block w-[100px] overflow-hidden rounded-full"
+        className="image avatar border-grey shadow-inner-md relative m-auto mb-6 block w-[175px] overflow-hidden rounded-full"
       >
         <Image filename="avatar.jpg" alt="Kyle Ross profile picture" />
       </Link>
-      <h1>
-        <strong>Kyle Ross</strong>
-      </h1>
-      <p>Web Developer</p>
-      <p>Prescott, AZ</p>
+      <header>
+        <strong className="text-2xl">Kyle Ross</strong>
+      </header>
+      <p className="text-xl">Web Developer</p>
+      <p className="text-xl">Prescott, AZ</p>
     </section>
   )
 }

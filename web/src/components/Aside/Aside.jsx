@@ -5,7 +5,7 @@ import Footer from '../Footer'
 const Aside = () => {
   return (
     <aside id="header" className="relative basis-3/12 md:mt-2 md:mr-2">
-      <div className="sticky top-6 flex flex-col flex-wrap  pb-11 text-center align-middle md:min-h-screen">
+      <div className="sticky top-6 flex flex-col flex-wrap pt-16 pb-11 text-center align-middle md:min-h-screen">
         <InnerBlock />
         <Footer />
       </div>
