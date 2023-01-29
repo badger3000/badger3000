@@ -7,7 +7,7 @@ import React from 'react'
 
 // You can delete this file if you're not using it
 export const onRenderBody = ({ setHtmlAttributes, setHeadComponents }) => {
-  setHtmlAttributes({ lang: 'en-GB' }),
+  setHtmlAttributes({ lang: 'en-GB', className: 'scroll-smooth' }),
     setHeadComponents([
       <link
         key="sansPro"

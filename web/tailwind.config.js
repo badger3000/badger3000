@@ -6,7 +6,7 @@ module.exports = {
     './src/templates/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {},
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
   corePlugins: {
     float: false,
   },
