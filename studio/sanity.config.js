@@ -10,8 +10,8 @@ export default defineConfig({
   name: 'default',
   title: ' badger3000',
   basePath: '/',
-  projectId: import.meta.env.SANITY_STUDIO_PROJECT_ID,
-  dataset: import.meta.env.SANITY_STUDIO_DATASET,
+  projectId: '57e12m54',
+  dataset: 'badger3000',
 
   plugins: [
     deskTool({
@@ -26,12 +26,12 @@ export default defineConfig({
           sites: [
             {
               title: 'CMS Badger3000',
-              apiId: import.meta.env.SANITY_STUDIO_API_ID_CMS,
+              apiId: '47abe777-1a82-44c6-8fb6-5a08aef31fb9',
               name: 'boisterous-shortbread-857076',
             },
             {
               title: 'Badger3000',
-              apiId: import.meta.env.SANITY_STUDIO_API_ID,
+              apiId: '82748cae-cf44-4f28-bceb-22e83e5c6e3f',
               name: 'affectionate-jepsen-8027b4',
             },
           ],
