@@ -23,7 +23,7 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
       {tech && (
         <div className="flex flex-row flex-wrap">
           {tech.map((techUsed) => (
-            <p className=" mx-[2px] rounded-md bg-gray-600 px-2 py-1 text-xs capitalize text-white">
+            <p className=" mx-[3px] mb-2 border-b-[1px] border-dashed border-gray-600 text-xs capitalize text-gray-600">
               {techUsed}
             </p>
           ))}
