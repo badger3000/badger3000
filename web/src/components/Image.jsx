@@ -38,6 +38,7 @@ export default function Image(props) {
       fit="cover"
       alt={props.alt}
       style={{ position: 'revert' }}
+      className={props.className}
     />
   )
 }

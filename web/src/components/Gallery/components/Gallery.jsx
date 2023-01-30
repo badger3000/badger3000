@@ -16,7 +16,7 @@ const Gallery = () => {
                 gatsbyImage(width: 600)
               }
             }
-            _id
+            id
           }
         }
       }
@@ -31,7 +31,7 @@ const Gallery = () => {
           {projectItems.map((project) => {
             return (
               <GalleryItem
-                key={project.node._id}
+                key={project.node.id}
                 thumbnail={project.node.project_image.asset.gatsbyImage}
                 link={project.node.web_url}
                 title={project.node.title}
