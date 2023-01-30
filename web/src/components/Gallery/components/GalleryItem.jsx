@@ -5,15 +5,15 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
   return (
     <article className="mb-6">
       <a
-        className=" relative mb-6 block origin-center transform-gpu overflow-hidden rounded-lg  border transition-all hover:skew-x-1 hover:scale-[102%] hover:drop-shadow-xl"
+        className=" group/item relative mb-6 block origin-center transform-gpu overflow-hidden rounded-lg  border transition-all hover:skew-x-1 hover:scale-[102%] hover:drop-shadow-xl"
         href={link ? link : '#projects'}
       >
-        <div className="invisible absolute z-10 h-full w-full hover:visible">
-          <span className="rounded-xl border-[2px] p-4 uppercase ">
-            {link ? 'View Site' : 'This site is no longer live'}
-          </span>
+        <span className="group/edit invisible absolute top-1/2 left-1/2 z-10 inline-block h-auto  -translate-x-1/2 -translate-y-0 transform rounded-xl border-[2px] bg-gray-600 p-4 text-center uppercase text-white opacity-0 transition-all duration-500 ease-in-out group-hover/item:visible group-hover/item:-translate-y-1/2 group-hover/item:opacity-100 ">
+          {link ? 'View Site' : 'This site is no longer live'}
+        </span>
+        <div className="group/edit transition-all duration-500 ease-in-out group-hover/item:opacity-40">
+          <GatsbyImage image={thumbnail} alt={title} />
         </div>
-        <GatsbyImage image={thumbnail} alt={title} />
       </a>
       <h3 className="mb-6 text-xl">{title}</h3>
       {tech && (
