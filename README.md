@@ -1,11 +1,11 @@
 <pre
       style="
-        width:100%;
-        font-size: 9px;
+        width:%;
+        font-size: 5px;
         background-color: #000;
         color: #fff;
-        padding: 4px 5px;
-        --fs: 9px;
+        padding: 0px;
+        --fs: 4px;
       "
     >
                                                                                                     
@@ -45,6 +45,4 @@
                                            .~JG&amp;@@@@@@@@@@@@@BY!:                                       
                                                :!5#@@@@@@#57:                                           
                                                    ^~7!~:                                               
-                                                                                                        
-                                                                                                        
-    </pre>
+                                                                                            </pre>
