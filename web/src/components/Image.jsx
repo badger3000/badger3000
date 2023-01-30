@@ -11,7 +11,11 @@ export default function Image(props) {
           node {
             name
             childImageSharp {
-              gatsbyImageData(width: 600, layout: CONSTRAINED)
+              gatsbyImageData(
+                width: 600
+                layout: CONSTRAINED
+                placeholder: DOMINANT_COLOR
+              )
             }
             publicURL
             relativePath

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { graphql, useStaticQuery } from 'gatsby'
 import GalleryItem from './GalleryItem'
 
@@ -28,7 +27,7 @@ const Gallery = () => {
   return (
     <>
       {projectItems && (
-        <div className="row">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-2">
           {projectItems.map((project) => {
             return (
               <GalleryItem
@@ -44,11 +43,6 @@ const Gallery = () => {
       )}
     </>
   )
-}
-
-Gallery.displayName = 'Gallery'
-Gallery.propTypes = {
-  images: PropTypes.array,
 }
 
 export default Gallery

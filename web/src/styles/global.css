@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url(./fonts.css);
+@import url(./background.css);
+@layer base {
+  html {
+    font-family: SourceSansPro-Regular, Helvetica, sans-serif;
+  }
+}

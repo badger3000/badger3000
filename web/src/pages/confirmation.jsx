@@ -1,7 +1,7 @@
 import React from 'react'
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
-import { useSiteMetadata } from '../components/hooks/site-meta'
+import { useSiteMetadata } from '../components/Hooks/SiteMeta'
 const NotFoundPage = () => {
   return (
     <Layout>

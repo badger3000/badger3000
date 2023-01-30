@@ -4,23 +4,18 @@ import Image from './Image'
 
 export default function InnerBlock() {
   return (
-    <div className="inner">
+    <section className="inner grow  text-white">
       <Link
         to="/"
-        className="image avatar"
-        style={{
-          display: 'inline-block',
-          width: '100px',
-          height: '100px',
-        }}
+        className=" avatar border-grey shadow-inner-md relative  m-auto mb-6 block h-[160px] w-[160px] overflow-hidden overflow-hidden rounded-full border-[2px] border-white"
       >
-        <Image filename="avatar.jpg" alt="Kyle Ross profile picture" />
+        <Image filename="kyle.jpg" alt="Kyle Ross profile picture" />
       </Link>
-      <h1>
-        <strong>Kyle Ross</strong>
-      </h1>
-      <p style={{ marginBottom: 0, fontSize: '1.5em' }}>Web Developer</p>
-      <p style={{ marginBottom: 0, fontSize: '1.5em' }}>Prescott, AZ</p>
-    </div>
+      <header>
+        <strong className="text-2xl">Kyle Ross</strong>
+      </header>
+      <p className="text-xl">Web Developer</p>
+      <p className="text-xl">Prescott, AZ</p>
+    </section>
   )
 }

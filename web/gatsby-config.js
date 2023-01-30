@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === 'production'
+
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
 })
@@ -10,6 +12,7 @@ module.exports = {
       'Kyle Ross is a front end developer, based in the Prescott, Arizona',
   },
   plugins: [
+    `gatsby-plugin-postcss`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -20,9 +23,9 @@ module.exports = {
     {
       resolve: `gatsby-source-sanity`,
       options: {
-        projectId: `57e12m54`,
-        dataset: `badger3000`,
-        watchMode: true,
+        projectId: process.env.SANITY_PROJECT_ID,
+        dataset: process.env.SANITY_DATASET,
+        watchMode: !isProd,
         // a token with read permissions is required
         // if you have a private dataset
         token: process.env.SANITY_TOKEN,
@@ -31,7 +34,7 @@ module.exports = {
         graphqlTag: 'default',
       },
     },
-    'gatsby-plugin-sharp',
+    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -49,7 +52,7 @@ module.exports = {
         orientation: 'portrait', // This path is relative to the root of the site.
       },
     },
-    'gatsby-transformer-sharp',
+    `gatsby-transformer-sharp`,
     `gatsby-plugin-image`,
     {
       resolve: 'gatsby-plugin-preconnect',
@@ -65,7 +68,5 @@ module.exports = {
         ],
       },
     },
-
-    'gatsby-plugin-sass',
   ],
 }

@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
+import {deskStructure} from './deskStructure'
 import {dashboardTool, projectInfoWidget} from '@sanity/dashboard'
 import {netlifyWidget} from 'sanity-plugin-dashboard-widget-netlify'
 
@@ -13,7 +14,9 @@ export default defineConfig({
   dataset: 'badger3000',
 
   plugins: [
-    deskTool(),
+    deskTool({
+      deskStructure,
+    }),
     visionTool(),
     dashboardTool({
       widgets: [
