@@ -8,7 +8,7 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
         className=" group/item relative mb-6 block origin-center transform-gpu overflow-hidden rounded-lg  border transition-all hover:scale-[105%] hover:drop-shadow-xl "
         href={link ? link : '#projects'}
       >
-        <div className="group/edit absolute top-0 left-0 z-20 h-full w-full bg-white/0 transition-all duration-500 ease-in-out hover:bg-white/50">
+        <div className="group/edit absolute top-0  left-0 z-20 h-full w-full rounded-lg bg-white/0 transition-all duration-500 ease-in-out hover:bg-white/50">
           <div className="relative h-full w-full">
             <span className=" invisible absolute top-1/2 left-1/2 z-10 inline-block h-auto  -translate-x-1/2 -translate-y-0 transform rounded-xl border-[2px] bg-gray-600 p-4 text-center uppercase text-white opacity-0 transition-all duration-500 ease-in-out group-hover/item:visible group-hover/item:-translate-y-1/2 group-hover/item:opacity-100 ">
               {link ? 'View Site' : 'Currently Unavailable'}

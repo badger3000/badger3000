@@ -3,7 +3,7 @@ import React from 'react'
 import Aside from './Aside/Aside'
 
 const Layout = ({ children }) => (
-  <div className="container mx-auto flex min-h-screen flex-col scroll-smooth md:mr-0 md:flex-row">
+  <div className="container flex min-h-screen flex-col scroll-smooth sm:mx-2 lg:mr-0 lg:flex-row">
     <Aside />
     {children}
   </div>
