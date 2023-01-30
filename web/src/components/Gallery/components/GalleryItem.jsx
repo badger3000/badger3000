@@ -22,8 +22,11 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
       <h3 className="mb-6 text-xl">{title}</h3>
       {tech && (
         <div className="flex flex-row flex-wrap">
-          {tech.map((techUsed) => (
-            <p className=" mx-[3px] mb-2 border-b-[1px] border-dashed border-gray-600 text-xs capitalize text-gray-600">
+          {tech.map((techUsed, i) => (
+            <p
+              key={i}
+              className=" mx-[3px] mb-2 border-b-[1px] border-dashed border-gray-600 text-xs capitalize text-gray-600"
+            >
               {techUsed}
             </p>
           ))}

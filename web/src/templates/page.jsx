@@ -16,7 +16,7 @@ export default function Page(props) {
     )
   }
   const page = data.sanityPage
-  console.log(page)
+
   const content = (page._rawContent || [])
     .filter((c) => !c.disabled)
     .map((c) => {
