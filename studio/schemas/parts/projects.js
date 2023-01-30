@@ -35,7 +35,7 @@ export default {
           {title: 'Netfliy', value: 'netlify'},
           {title: 'Webflow', value: 'webflow'},
           {title: 'WordPress', value: 'wordpress'},
-          {title: '...more', value: 'more'},
+          {title: '...more', value: '...more'},
         ],
       },
     },
