@@ -1,4 +1,5 @@
 import React from 'react'
+const CtaIcon = () => <span style={{fontWeight: 'bold'}}>CTA</span>
 
 export default {
   title: 'Hero',
@@ -26,6 +27,7 @@ export default {
               {
                 title: 'CTA',
                 value: 'cta',
+                icon: CtaIcon,
               },
             ],
           },
