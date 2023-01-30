@@ -12,7 +12,15 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
         <GatsbyImage image={thumbnail} alt={title} />
       </a>
       <h3 className="mb-6 text-xl">{title}</h3>
-      <p>{tech}</p>
+      <div className="flex flex-row">
+        {tech
+          ? tech.map((techUsed) => (
+              <p className=" mx-[2px] rounded-md bg-gray-600 px-2 py-1 text-xs capitalize text-white">
+                {techUsed}
+              </p>
+            ))
+          : null}
+      </div>
     </article>
   )
 }
