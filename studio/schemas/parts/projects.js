@@ -34,6 +34,7 @@ export default {
           {title: 'HubSpot', value: 'hubspot'},
           {title: 'Netfliy', value: 'netlify'},
           {title: 'Webflow', value: 'webflow'},
+          {title: 'Shopify', value: 'shopify'},
           {title: 'WordPress', value: 'wordpress'},
           {title: '...more', value: '...more'},
         ],
