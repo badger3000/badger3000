@@ -7,7 +7,7 @@ export default function InnerBlock() {
     <section className="inner grow  text-white">
       <Link
         to="/"
-        className="avatar border-grey shadow-inner-md relative  m-auto mb-6 block h-[160px] w-[160px] overflow-hidden rounded-full border-[2px] border-white ring ring-slate-900"
+        className="avatar border-grey shadow-inner-md relative m-auto mb-6  block h-[160px] w-[160px] translate-x-0 translate-y-0 overflow-hidden rounded-full border-[2px] border-white ring ring-slate-900"
       >
         <Image
           filename="kyle.jpg"
