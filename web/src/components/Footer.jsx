@@ -14,6 +14,7 @@ const Footer = () => (
         rel="preconnect"
         href="https://www.youtube.com/user/badger816"
         className="icon fa-youtube mx-2"
+        aria-label="Find me on Youtube"
       >
         <FontAwesomeIcon
           className="stoke-1 hover:fill-black"
@@ -26,6 +27,7 @@ const Footer = () => (
         rel="preconnect"
         href="https://github.com/badger3000/badger3000"
         className="icon fa-github mx-2"
+        aria-label="You can view this source code on github.com/badger3000/badger3000"
       >
         <FontAwesomeIcon icon="fa-brands fa-github" size="2x" />
       </a>
@@ -34,6 +36,7 @@ const Footer = () => (
         rel="preconnect"
         href="https://www.linkedin.com/in/badger816/"
         className="icon fa-linkedin mx-2"
+        aria-label="Fine me on Linkedin"
       >
         <FontAwesomeIcon icon="fa-brands fa-linkedin" size="2x" />
       </a>
