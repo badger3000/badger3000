@@ -39,7 +39,7 @@ export default function Page(props) {
     })
   return (
     <Layout>
-      <main className="min-h-screen basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 lg:basis-9/12 lg:rounded-none lg:px-16">
+      <main className="main">
         {content}
         <div className="flex justify-center">
           <span className="block pt-4">&copy; Badger3000</span>

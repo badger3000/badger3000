@@ -1,16 +1,23 @@
 import React from 'react'
 import Layout from '../components/Layout'
+import { Link } from 'gatsby'
 
 import { useSiteMetadata } from '../components/Hooks/SiteMeta'
 const NotFoundPage = () => {
   return (
     <Layout>
-      <div id="main">
-        <h1>Thanks for Contacting Me</h1>
-        <p>Will be in touch soon</p>
-        <a href="/" className="button">
-          Back to Home
-        </a>
+      <div id="main" className="main text-center lg:items-center">
+        <section className="h-auto ">
+          <h1 className=" mb-6 text-4xl lg:text-6xl">
+            Your message was received
+          </h1>
+          <p className=" text-lg">
+            Thanks for contacting me, will be in touch soon
+          </p>
+          <Link to="/" className="button">
+            Back to Home
+          </Link>
+        </section>
       </div>
     </Layout>
   )
