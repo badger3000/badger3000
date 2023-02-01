@@ -1,19 +1,19 @@
 import React from 'react'
+import { Link } from 'gatsby'
 import Layout from '../components/Layout'
 import { useSiteMetadata } from '../components/Hooks/SiteMeta'
 
 const NotFoundPage = () => {
   return (
     <Layout>
-      <main
-        id="main"
-        className="min-h-screen basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 lg:basis-9/12 lg:rounded-none lg:px-16"
-      >
-        <h1>NOT FOUND</h1>
-        <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
-        <a href="/" className="button">
+      <main id="main" className="main items-center text-center">
+        <h1 className="mb-6 text-6xl">NOT FOUND</h1>
+        <p className="text-lg">
+          You just hit a route that doesn&#39;t exist... the sadness.
+        </p>
+        <Link to="/" className="button">
           Back to Home
-        </a>
+        </Link>
       </main>
     </Layout>
   )

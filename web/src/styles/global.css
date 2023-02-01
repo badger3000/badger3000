@@ -9,3 +9,9 @@
     font-family: SourceSansPro-Regular, Helvetica, sans-serif;
   }
 }
+.button {
+  @apply mt-6 inline-block rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 uppercase transition-all duration-700	ease-in-out hover:border-[#075841] hover:text-[#075841];
+}
+.main {
+  @apply flex min-h-full basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 lg:basis-9/12 lg:rounded-none lg:px-16;
+}
