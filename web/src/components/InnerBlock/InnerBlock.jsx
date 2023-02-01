@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import Image from './Image'
+import Image from '../Image/Image'
 
 export default function InnerBlock() {
   return (
