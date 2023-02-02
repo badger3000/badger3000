@@ -4,14 +4,25 @@
 
 @import url(./fonts.css);
 @import url(./background.css);
+/*overides*/
 @layer base {
   html {
     font-family: SourceSansPro-Regular, Helvetica, sans-serif;
   }
 }
+/*an attemped to declutter components files with long classnames*/
 .button {
-  @apply mt-6 inline-block rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 uppercase transition-all duration-700	ease-in-out hover:border-[#075841] hover:text-[#075841];
+  @apply mt-6 block w-full rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 text-center uppercase transition-all duration-700 ease-in-out hover:border-[#075841] hover:text-[#075841]	lg:inline-block  lg:w-auto;
 }
 .main {
   @apply flex min-h-full basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 lg:basis-9/12 lg:rounded-none lg:px-16;
+}
+.project-link {
+  @apply relative mb-6 block origin-center transform-gpu overflow-hidden rounded-lg  border transition-all hover:scale-[105%] hover:drop-shadow-xl;
+}
+.project-link-overlay {
+  @apply absolute top-0 left-0  z-20 h-full w-full overflow-hidden rounded-lg bg-white/0 transition-all duration-500 ease-in-out hover:bg-white/50;
+}
+.project-link-overlay-link {
+  @apply invisible absolute top-1/2 left-1/2 z-10 inline-block h-auto -translate-x-1/2 -translate-y-0  transform rounded-xl border-[2px] bg-gray-600 p-4 text-center text-sm uppercase text-white opacity-0 transition-all duration-500 ease-in-out lg:text-base;
 }
