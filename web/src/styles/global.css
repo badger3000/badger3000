@@ -12,10 +12,10 @@
 }
 /*an attemped to declutter components files with long classnames*/
 .button {
-  @apply mt-6 block w-full rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 text-center uppercase transition-all duration-700 ease-in-out hover:border-[#075841] hover:text-[#075841]	lg:inline-block  lg:w-auto;
+  @apply mt-6 block w-full rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 text-center uppercase transition-all duration-700 ease-in-out hover:border-gray-600 hover:text-gray-600	lg:inline-block  lg:w-auto;
 }
 .main {
-  @apply flex min-h-full basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 lg:basis-9/12 lg:rounded-none lg:px-16;
+  @apply flex min-h-full basis-auto flex-col rounded-tl-lg rounded-tr-lg bg-white px-4 pt-6 pb-11 drop-shadow-xl lg:basis-9/12 lg:rounded-none lg:px-16;
 }
 .project-link {
   @apply relative mb-6 block origin-center transform-gpu overflow-hidden rounded-lg  border transition-all hover:scale-[105%] hover:drop-shadow-xl;
