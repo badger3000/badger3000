@@ -1,6 +1,6 @@
 import React from 'react'
-import InnerBlock from '../InnerBlock'
-import Footer from '../Footer'
+import InnerBlock from '../InnerBlock/InnerBlock'
+import Footer from '../Footer/Footer'
 
 const Aside = () => {
   return (

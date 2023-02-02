@@ -5,18 +5,19 @@ import GalleryItem from './GalleryItem'
 const Gallery = () => {
   const data = useStaticQuery(graphql`
     query Sanity {
-      projects: allSanityProjects {
+      projects: allSanityProjects(sort: { order: ASC }) {
         edges {
           node {
+            id
+            order
             title
             tech
             web_url
             project_image {
               asset {
-                gatsbyImage(width: 600)
+                gatsbyImage(width: 800)
               }
             }
-            id
           }
         }
       }

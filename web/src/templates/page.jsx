@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from '../components/Layout'
+import Layout from '../components/Layout/Layout'
 import GraphQLErrorList from '../components/Errors/GraphqlErrorList'
 
 import Hero from '../components/Hero/Hero'

@@ -20,7 +20,7 @@ export default function ContactFrom() {
           </p>
           <div className="grid grid-cols-1 gap-6">
             <div className="flex flex-col justify-between md:flex-row">
-              <div className=" flex-grow sm:mb-6 md:mr-3">
+              <div className=" mb-6 flex-grow md:mr-3 md:mb-0 lg:mb-0">
                 <label className="block">
                   <span className="sr-only">name</span>
                   <input
