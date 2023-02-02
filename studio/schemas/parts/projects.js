@@ -39,6 +39,10 @@ export default {
           {title: 'HubSpot', value: 'hubspot'},
           {title: 'Netfliy', value: 'netlify'},
           {title: 'Webflow', value: 'Webflow'},
+          {title: 'docker', value: 'docker'},
+          {title: 'GCloud', value: 'GCloud'},
+          {title: 'AWS', value: 'AWS'},
+          {title: 'Liquid', value: 'Liquid'},
           {title: 'Shopify', value: 'Shopify'},
           {title: 'WordPress', value: 'WordPress'},
           {title: '...more', value: '...more'},
@@ -74,6 +78,18 @@ export default {
           title: 'Attribution',
         },
       ],
+    },
+  ],
+  orderings: [
+    {
+      title: 'Project Order - First',
+      name: 'prjectOrderAsc',
+      by: [{field: 'order', direction: 'asc'}],
+    },
+    {
+      title: 'Project Order - Last',
+      name: 'prjectOrderDesc',
+      by: [{field: 'order', direction: 'desc'}],
     },
   ],
 }
