@@ -15,7 +15,7 @@ export default defineConfig({
   document: {
     productionUrl: async (prev, {document}) => {
       if (document._type == 'page') {
-        return `https://affectionate-jepsen-8027b4.netlify.app/page/${document._id}`
+        return `https://affectionate-jepsen-8027b4.netlify.app/page-preview/${document._id}`
       }
 
       return prev
