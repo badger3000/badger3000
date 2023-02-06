@@ -14,7 +14,7 @@ export default defineConfig({
   dataset: 'badger3000',
   document: {
     productionUrl: async (prev, {document}) => {
-      const remoteURL = 'https://cms.badger3000.com'
+      const remoteURL = 'https://badger3000.com'
       const localURL = 'http://localhost:8000'
       const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
 
