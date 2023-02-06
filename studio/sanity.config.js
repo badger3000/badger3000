@@ -12,6 +12,15 @@ export default defineConfig({
   basePath: '/',
   projectId: '57e12m54',
   dataset: 'badger3000',
+  document: {
+    productionUrl: async (prev, {document}) => {
+      if (document._type == 'page') {
+        return `https://affectionate-jepsen-8027b4.netlify.app/page/${document._id}`
+      }
+
+      return prev
+    },
+  },
 
   plugins: [
     deskTool({
