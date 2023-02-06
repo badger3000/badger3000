@@ -12,6 +12,19 @@ export default defineConfig({
   basePath: '/',
   projectId: '57e12m54',
   dataset: 'badger3000',
+  document: {
+    productionUrl: async (prev, {document}) => {
+      const remoteURL = 'https://cms.badger3000.com'
+      const localURL = 'http://localhost:8000'
+      const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
+
+      if (document._type == 'page') {
+        return `${previewURL}/page-preview/${document._id}`
+      }
+
+      return prev
+    },
+  },
 
   plugins: [
     deskTool({
