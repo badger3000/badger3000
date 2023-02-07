@@ -1,8 +1,7 @@
 import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
-import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
-import {deskStructure} from './deskStructure'
+import {deskStructure, defaultDocumentNode} from './deskStructure'
 import {dashboardTool, projectInfoWidget} from '@sanity/dashboard'
 import {netlifyWidget} from 'sanity-plugin-dashboard-widget-netlify'
 
@@ -12,25 +11,13 @@ export default defineConfig({
   basePath: '/',
   projectId: '57e12m54',
   dataset: 'badger3000',
-  document: {
-    productionUrl: async (prev, {document}) => {
-      const remoteURL = 'https://badger3000.com'
-      const localURL = 'http://localhost:8000'
-      const previewURL = window.location.hostname === 'localhost' ? localURL : remoteURL
-
-      if (document._type == 'page') {
-        return `${previewURL}/page-preview/${document._id}`
-      }
-
-      return prev
-    },
-  },
 
   plugins: [
     deskTool({
       deskStructure,
+      defaultDocumentNode,
     }),
-    visionTool(),
+
     dashboardTool({
       widgets: [
         projectInfoWidget(),

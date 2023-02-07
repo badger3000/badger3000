@@ -1,4 +1,6 @@
 const isProd = process.env.NODE_ENV === 'production'
+const previewEnabled =
+  (process.env.GATSBY_IS_PREVIEW || 'false').toLowerCase() === 'true'
 
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -25,10 +27,11 @@ module.exports = {
       options: {
         projectId: process.env.SANITY_PROJECT_ID,
         dataset: process.env.SANITY_DATASET,
-        watchMode: !isProd,
         // a token with read permissions is required
         // if you have a private dataset
         token: process.env.SANITY_TOKEN,
+        watchMode: !isProd, // watchMode only in dev mode
+        overlayDrafts: !isProd || previewEnabled, // drafts in dev & Gatsby Cloud Preview
         // If the Sanity GraphQL API was deployed using `--tag <name>`,
         // use `graphqlTag` to specify the tag name. Defaults to `default`.
         graphqlTag: 'default',
@@ -41,8 +44,8 @@ module.exports = {
         name: 'Badger3000',
         short_name: 'Badger3000',
         start_url: '/',
-        background_color: '#49bf9d',
-        theme_color: '#49bf9d',
+        background_color: '#37393d',
+        theme_color: '#37393d',
         display: 'standalone',
         icon: 'src/assets/images/website-icon.png',
         icon_options: {
