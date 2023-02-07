@@ -1,7 +1,7 @@
 {
-  "name": "-badger3000",
+  "name": "badger3000",
   "private": true,
-  "version": "1.0.0",
+  "version": "2.2.0",
   "main": "package.json",
   "license": "UNLICENSED",
   "scripts": {
