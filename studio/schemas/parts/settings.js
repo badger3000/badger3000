@@ -35,6 +35,12 @@ export default {
       type: 'text',
     },
     {
+      title: 'Social Links',
+      name: 'links',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'socialLinks'}]}],
+    },
+    {
       title: 'Avatar',
       name: 'avatar_image',
       type: 'image',
