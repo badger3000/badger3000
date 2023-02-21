@@ -16,7 +16,11 @@ export default function InnerBlock() {
 
   return (
     <section className="inner grow  text-white">
-      <Link to="/" className="mb-6 flex justify-center">
+      <Link
+        to="/"
+        className="mb-6 flex justify-center"
+        aria-label="Link to homepage"
+      >
         <LogoSvg classes="w-[160px]" />
       </Link>
       <header className="mb-2 text-lg lg:text-2xl">
