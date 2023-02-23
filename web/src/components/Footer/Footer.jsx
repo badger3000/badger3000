@@ -13,6 +13,7 @@ const Footer = () => {
     query SocialLinks {
       social: sanitySettings {
         links {
+          id
           webUrl
           siteName
         }
@@ -26,6 +27,7 @@ const Footer = () => {
       <div className="flex flex-row justify-center lg:pb-4">
         {links.map((link) => (
           <a
+            key={link.id}
             rel="preconnect"
             href={link.webUrl}
             className={`icon fa-${link.siteName} mx-2`}
