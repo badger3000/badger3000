@@ -21,7 +21,12 @@ export default function InnerBlock() {
         className="mb-6 flex justify-center"
         aria-label="Link to homepage"
       >
-        <LogoSvg classes="w-[160px]" />
+        <LogoSvg
+          classes="w-[160px]"
+          fillStroke={'#FFF'}
+          fillBg={'#FFF'}
+          fill={'#000'}
+        />
       </Link>
       <header className="mb-2 text-lg lg:text-2xl">
         <strong>{data.settings.name}</strong>
