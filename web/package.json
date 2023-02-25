@@ -15,7 +15,6 @@
     "gatsby-plugin-manifest": "^5.4.0",
     "gatsby-plugin-offline": "^6.4.0",
     "gatsby-plugin-preconnect": "^1.1.54",
-    "gatsby-plugin-sass": "^6.4.0",
     "gatsby-plugin-sharp": "^5.4.0",
     "gatsby-source-filesystem": "^5.4.0",
     "gatsby-source-sanity": "^7.6.2",
