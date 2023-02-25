@@ -10,6 +10,30 @@
     font-family: SourceSansPro-Regular, Helvetica, sans-serif;
   }
 }
+/*set the opacity, to prevetent the logo from flashing before the animation*/
+.logo-bg,
+.logo-fill,
+.logo-stroke {
+  opacity: 0;
+}
+/*if JS is disabled, show the logo*/
+.no-js .logo-bg,
+.no-js .logo-fill,
+.no-js .logo-stroke {
+  opacity: 1;
+}
+.icon {
+  animation: fadeIn 1s ease-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 /*an attemped to declutter components files with long classnames*/
 .button {
   @apply mt-6 block w-full rounded-lg border-[3px] border-solid border-[#efefef] px-6 py-4 text-center uppercase transition-all duration-700 ease-in-out hover:border-gray-600 hover:text-gray-600	lg:inline-block  lg:w-auto;

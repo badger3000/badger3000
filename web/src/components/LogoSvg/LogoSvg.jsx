@@ -1,13 +1,13 @@
-import React, { useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
 export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
   const logo = useRef()
 
-  useLayoutEffect(() => {
-    // -- ANIMATION CODE HERE --
+  useEffect(() => {
+    // -- Just a basic animation to start--
     const animateLogo = gsap.context(() => {
-      //
+      //grab elements to animate
       const logoBg = document.querySelector('.logo-bg')
       const logoFill = document.querySelector('.logo-fill')
       const logoStroke = document.querySelector('.logo-stroke')
@@ -20,7 +20,7 @@ export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
       const tl = gsap.timeline()
 
       tl.to(logoBg, {
-        delay: 0.12,
+        delay: 0.1,
         opacity: 1,
         scale: 1,
         ease: 'power3.inOut',
@@ -48,7 +48,7 @@ export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
     }
   }, [])
   return (
-    <div ref={logo}>
+    <div className="logo" ref={logo}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 138.83504 81.488462"
