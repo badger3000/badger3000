@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import LogoSvg from '../LogoSvg/LogoSvg'
 
@@ -19,9 +19,9 @@ export default function InnerBlock() {
     }
   `)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     requestColors()
-  }, [])
+  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   async function requestColors() {
     const options = {
