@@ -13,14 +13,14 @@ export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
       const logoStroke = document.querySelector('.logo-stroke')
 
       //set init values of elements
-      gsap.set(logoBg, { opacity: 0, scale: 0, transformOrigin: '50% 50%' })
-      gsap.set(logoFill, { opacity: 0, scale: 0, transformOrigin: '50% 50%' })
+      gsap.set(logoBg, { opacity: 0, scale: 0.7, transformOrigin: '50% 50%' })
+      gsap.set(logoFill, { opacity: 0, scale: 0.5, transformOrigin: '50% 50%' })
       gsap.set(logoStroke, { opacity: 0 })
 
       const tl = gsap.timeline()
 
       tl.to(logoBg, {
-        delay: 0.1,
+        delay: 0.3,
         opacity: 1,
         scale: 1,
         ease: 'power3.inOut',
@@ -29,6 +29,7 @@ export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
       tl.to(
         logoFill,
         {
+          delay: 0.2,
           opacity: 1,
           scale: 1,
           ease: 'power3.inOut',
@@ -38,7 +39,12 @@ export default function LogoSvg({ classes, fillBg, fillStroke, fill }) {
       )
       tl.to(
         logoStroke,
-        { delay: 0.5, opacity: 1, duration: 1, ease: 'power3.inOut' },
+        {
+          delay: 0.5,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'power3.inOut',
+        },
         '-=1'
       )
     })
