@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import LogoSvg from '../LogoSvg/LogoSvg'
 
 export default function InnerBlock() {
   const [colors, setColors] = useState([
     { hex: 'FFF' },
-    { hex: '35597a' },
-    { hex: '970b0c' },
+    { hex: 'FFF' },
+    { hex: '000' },
   ])
 
   const data = useStaticQuery(graphql`
@@ -18,10 +18,6 @@ export default function InnerBlock() {
       }
     }
   `)
-
-  useEffect(() => {
-    requestColors()
-  }, []) //eslint-disable-line react-hooks/exhaustive-deps
 
   async function requestColors() {
     const options = {
@@ -35,7 +31,7 @@ export default function InnerBlock() {
     const json = await res.json()
 
     setColors(json.colors)
-    console.log(colors)
+    //console.log(colors)
   }
 
   return (
