@@ -34,6 +34,18 @@ library.add(
 )
 
 const GalleryItem = ({ link, thumbnail, title, tech }) => {
+  const itemsNoIcon = [
+    'jQuery',
+    'Webflow',
+    'Liquid',
+    'tailwindcss',
+    'netlify',
+    'gatsbyJs',
+    'jamstack',
+    'GCloud',
+    '...more',
+  ]
+
   return (
     <article className="mb-6">
       <a className=" group/item project-link" href={link ? link : '#projects'}>
@@ -51,8 +63,9 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
       <h3 className="mb-6 text-xl">{title}</h3>
       {tech && (
         <div className="flex flex-row flex-wrap">
-          {tech.map((techUsed, i) =>
-            techUsed !== 'jQuery' || techUsed !== 'Webflow' ? (
+          {tech
+            .filter((item) => !itemsNoIcon.includes(item))
+            .map((techUsed, i) => (
               <p
                 key={i}
                 className=" mx-[3px] mb-2 text-xs capitalize text-gray-600"
@@ -65,15 +78,7 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
                 />
                 {techUsed}
               </p>
-            ) : (
-              <p
-                key={i}
-                className="text-gray-600>This is webflow item mx-[3px] mb-2 text-xs capitalize"
-              >
-                No Icon {techUsed}
-              </p>
-            )
-          )}
+            ))}
         </div>
       )}
     </article>
