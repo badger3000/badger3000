@@ -1,5 +1,37 @@
 import React from 'react'
 import { GatsbyImage } from 'gatsby-plugin-image'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faJava,
+  faHtml5,
+  faCss3,
+  faSass,
+  faJs,
+  faReact,
+  faNodeJs,
+  faHubspot,
+  faDocker,
+  faAws,
+  faShopify,
+  faWordpress,
+  faPhp,
+} from '@fortawesome/free-brands-svg-icons'
+library.add(
+  faJava,
+  faHtml5,
+  faCss3,
+  faSass,
+  faJs,
+  faReact,
+  faNodeJs,
+  faHubspot,
+  faDocker,
+  faAws,
+  faShopify,
+  faPhp,
+  faWordpress
+)
 
 const GalleryItem = ({ link, thumbnail, title, tech }) => {
   return (
@@ -19,14 +51,29 @@ const GalleryItem = ({ link, thumbnail, title, tech }) => {
       <h3 className="mb-6 text-xl">{title}</h3>
       {tech && (
         <div className="flex flex-row flex-wrap">
-          {tech.map((techUsed, i) => (
-            <p
-              key={i}
-              className=" mx-[3px] mb-2 border-b-[1px] border-dashed border-gray-600 text-xs capitalize text-gray-600"
-            >
-              {techUsed}
-            </p>
-          ))}
+          {tech.map((techUsed, i) =>
+            techUsed !== 'jQuery' || techUsed !== 'Webflow' ? (
+              <p
+                key={i}
+                className=" mx-[3px] mb-2 text-xs capitalize text-gray-600"
+              >
+                <FontAwesomeIcon
+                  key={i}
+                  className="stoke-1 mx-[5px] hover:fill-black"
+                  icon={`fa-brands fa-${techUsed}`}
+                  size="lg"
+                />
+                {techUsed}
+              </p>
+            ) : (
+              <p
+                key={i}
+                className="text-gray-600>This is webflow item mx-[3px] mb-2 text-xs capitalize"
+              >
+                No Icon {techUsed}
+              </p>
+            )
+          )}
         </div>
       )}
     </article>
