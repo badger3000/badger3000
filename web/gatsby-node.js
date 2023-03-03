@@ -17,7 +17,10 @@ async function createPreviewPages(reporter, graphql, actions) {
             _id
             id
             slug {
+              _key
+              _type
               current
+              source
             }
           }
         }
@@ -33,9 +36,9 @@ async function createPreviewPages(reporter, graphql, actions) {
     return
   }
   result.data.allSanityPage.edges.forEach((edge) => {
-    const { _id, id } = edge.node
-    const path = `/page-preview/${_id}`
-    reporter.info(`Creating Preview Page: ${_id}`)
+    const { id, slug = {} } = edge.node
+    const path = `/${slug.current}`
+    reporter.info(`Creating Preview Page: ${slug.current}`)
     createPage({
       path: path,
       component: pageTemplate,
