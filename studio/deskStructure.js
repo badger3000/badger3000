@@ -1,4 +1,5 @@
 import Iframe from 'sanity-plugin-iframe-pane'
+import {EarthGlobeIcon, EditIcon} from '@sanity/icons'
 
 function getPreviewUrl(document) {
   const remoteURL = 'https://badger3000.com'
@@ -13,7 +14,7 @@ function getPreviewUrl(document) {
 }
 
 // note: context includes `currentUser` and the client
-export const deskStructure = (S, context) =>
+export const deskStructure = (S) =>
   S.list()
     .title('Content')
     .items([
@@ -23,14 +24,15 @@ export const deskStructure = (S, context) =>
       ...S.documentTypeListItems(),
     ])
 
-export const defaultDocumentNode = (S, {schemaType, document}) => {
+export const defaultDocumentNode = (S, {schemaType}) => {
   // Conditionally return a different configuration based on the schema type
   if (schemaType === 'page') {
     return S.document().views([
-      S.view.form(),
+      S.view.form().icon(EditIcon),
       S.view
         .component(Iframe)
         .options({url: (doc) => getPreviewUrl(doc)})
+        .icon(EarthGlobeIcon)
         .title('Preview'),
     ])
   }
