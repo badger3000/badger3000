@@ -9,3 +9,4 @@ yarn.lock
 .DS_Store
 .env.development
 /web/storybook-static
+/dist
