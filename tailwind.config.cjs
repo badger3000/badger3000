@@ -3,6 +3,10 @@ module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        16: 'repeat(16, minmax(0, 1fr))',
+      },
       fontFamily: {
         sans: ['Plus Jakarta Sans'],
       },
@@ -24,9 +28,6 @@ module.exports = {
 
         '2xl': '1140px',
         // => @media (min-width: 1536px) { ... }
-      },
-      backgroundImage: {
-        'hero-image': "url('/images/hero-image.webp')",
       },
     },
   },
