@@ -2,8 +2,15 @@
 import { Image } from '@astrojs/image/components'
 ---
 
-<nav>
-  <ul>
+<nav class="flex flex-col justify-center px-[20px] py-[24px] text-white">
+  <Image
+    src={'./images/avatar.png'}
+    alt="Avatar"
+    width={85}
+    height={85}
+    class="mb-[27px] rounded-full border-8 border-[#242F40]"
+  />
+  <ul class="hidden lg:block">
     <li><a href="/">About</a></li>
     <li><a href="/contact">Contact</a></li>
     <li><a href="https://github.com/badger3000">GitHub</a></li>

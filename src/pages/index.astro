@@ -1,15 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import Navigation from '../components/Navigation.astro'
 ---
 
 <Layout title="The Badger3000 - Quility Web Development since 2009">
   <div class="mx-[10px]">
     <div class="grid min-h-screen grid-cols-16 gap-4">
-      <div
-        class="col-span-16 h-full min-h-full border-orange-200 bg-slate-50 lg:col-span-2"
-      >
+      <div class="col-span-16 h-full min-h-full lg:col-span-2">
         <!-- Column 1 content here -->
-        <p>this is colum 1</p>
+        <Navigation />
       </div>
       <div class="col-span-16 bg-slate-100 lg:col-span-3">
         <!-- Column 2 content here -->
