@@ -1,0 +1,30 @@
+body {
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background: linear-gradient(180deg, #363636 0%, #1c1a1a 100%);
+  transition: background 0.5s cubic-bezier(0.4, 0.4, 0, 1);
+}
+/* Register your custom font family and tell the browser where to find it. */
+:root,
+:host {
+  --fa-style-family-classic: 'Font Awesome 6 Free';
+  --fa-font-solid: normal 900 1em/1 'Font Awesome 6 Free';
+}
+
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url('/fonts/webfonts/fa-solid-900.woff2') format('woff2'),
+    url('/fonts/webfonts/fa-solid-900.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/webfonts/fa-brands-400.woff2') format('woff2'),
+    url('/fonts/webfonts/fa-brands-400.ttf') format('truetype');
+}

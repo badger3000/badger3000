@@ -14,6 +14,9 @@ import Footer from '../components/Footer.astro'
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
+    <!-- Font Awesome Styles-->
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/global.css" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
@@ -22,14 +25,5 @@ import Footer from '../components/Footer.astro'
       <slot />
     </main>
     <Footer />
-    <style is:global>
-      body {
-        height: 100vh;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background: linear-gradient(180deg, #363636 0%, #1c1a1a 100%);
-        transition: background 0.5s cubic-bezier(0.4, 0.4, 0, 1);
-      }
-    </style>
   </body>
 </html>
