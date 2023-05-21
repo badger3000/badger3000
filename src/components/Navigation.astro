@@ -7,7 +7,7 @@ import { Picture } from '@astrojs/image/components'
     src={import('../assets/avatar.png')}
     widths={[70, 85]}
     aspectRatio="1:1"
-    sizes="(max-width: 414px) 70px, 70px (min-width: 415px) 85px, 85px"
+    sizes="(max-width: 1139px) 70px, 70px (min-width: 1140px) 85px, 85px"
     alt="avatar"
     class="avatar mb-[27px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out"
   />
@@ -53,7 +53,7 @@ import { Picture } from '@astrojs/image/components'
 
 <style>
   nav {
-    @apply flex min-h-[90px] flex-row justify-between px-[0] py-[10px] text-white lg:min-h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
+    @apply mb-4 flex h-[90px] flex-row justify-between px-[0] py-[10px] text-white lg:h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
   }
   .nav-link {
     @apply block align-middle text-lg transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out hover:after:w-full;
