@@ -5,14 +5,14 @@ import { Picture } from '@astrojs/image/components'
 <nav>
   <Picture
     src={import('../assets/avatar.png')}
-    widths={[70, 85]}
+    widths={[65, 70, 85]}
     aspectRatio="1:1"
-    sizes="(max-width: 1139px) 70px, 70px (min-width: 1140px) 85px, 85px"
+    sizes="(max-width: 414px) 65px (max-width: 1139px) 70px, 70px (min-width: 1140px) 85px, 85px"
     alt="avatar"
-    class="avatar mb-[27px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out"
+    class="avatar mb-[27px] max-h-[70px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out lg:max-h-[85px]"
   />
 
-  <ul class="nav-items hidden lg:block">
+  <ul class="nav-items">
     <li class="nav-item mb-6">
       <a href="/" class="nav-link active"
         ><i class="fa-solid fa-user nav-icon mr-[10px]"></i>About</a
@@ -54,13 +54,16 @@ import { Picture } from '@astrojs/image/components'
     @apply mb-4 flex h-[90px] flex-row justify-between px-[6px] py-[10px] text-white lg:h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
   }
   .nav-items {
-    @apply fixed left-0 top-0 z-10 h-screen w-screen overflow-auto bg-zinc-900 pt-[20%] text-center transition-all lg:relative lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left;
+    @apply fixed left-0 top-0 z-10 h-0 w-screen overflow-auto bg-zinc-900 pt-[20%] text-center opacity-0 transition-opacity duration-200 ease-in-out lg:relative lg:h-auto lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left lg:opacity-100;
+  }
+  .nav-items.mobile-menu {
+    @apply h-screen opacity-100;
   }
   .nav-link {
-    @apply block align-middle text-lg transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out hover:after:w-full;
+    @apply block align-middle text-2xl transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out lg:text-lg lg:hover:after:w-full;
   }
   .nav-link.active {
-    @apply after:w-full;
+    @apply lg:after:w-full;
   }
   .button {
     @apply relative z-20 block lg:hidden;
@@ -88,7 +91,7 @@ import { Picture } from '@astrojs/image/components'
   //hamburger menu toggle
   document.querySelector('button').addEventListener('click', () => {
     //hide / show navigation on mobile
-    document.querySelector('ul').classList.toggle('hidden')
+    document.querySelector('ul').classList.toggle('mobile-menu')
     //prevent scrolling on mobile when navigation is open
     document.querySelector('body').classList.toggle('overflow-hidden')
     //animate hamburger menu
