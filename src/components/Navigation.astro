@@ -1,19 +1,20 @@
 ---
-import { Image } from '@astrojs/image/components'
+import { Picture } from '@astrojs/image/components'
 ---
 
-<nav
-  class="flex flex-row px-[20px] py-[24px] text-white lg:flex-col lg:items-center"
->
-  <Image
-    src={'/images/avatar.png'}
-    alt="Avatar"
-    width={85}
-    height={85}
-    format={'webp'}
-    class="mb-[27px] rounded-full border-8 border-[#242F40]"
+<nav>
+  <Picture
+    src={import('../assets/avatar.png')}
+    widths={[70, 85]}
+    aspectRatio="1:1"
+    sizes="(max-width: 414px) 70px, 70px (min-width: 415px) 85px, 85px"
+    alt="avatar"
+    class="avatar mb-[27px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out"
   />
-  <ul class="hidden lg:block">
+
+  <ul
+    class="absolute z-10 hidden min-h-screen w-full overflow-hidden bg-zinc-900 pt-[20%] text-center transition-all lg:relative lg:block lg:min-h-full lg:bg-transparent lg:text-left"
+  >
     <li class="nav-item mb-6">
       <a href="/" class="nav-link active"
         ><i class="fa-solid fa-user nav-icon mr-[10px]"></i>About</a
@@ -35,12 +36,62 @@ import { Image } from '@astrojs/image/components'
       >
     </li>
   </ul>
+  <button class="button group">
+    <div
+      class="relative flex h-[50px] w-[50px] transform items-center justify-center overflow-hidden transition-all duration-200"
+    >
+      <div
+        class="flex h-[20px] w-[20px] origin-center transform flex-col justify-between overflow-hidden transition-all duration-300"
+      >
+        <div class="top-bar"></div>
+        <div class="middle-bar"></div>
+        <div class="bottom-bar"></div>
+      </div>
+    </div></button
+  >
 </nav>
+
 <style>
+  nav {
+    @apply flex min-h-[90px] flex-row justify-between px-[0] py-[10px] text-white lg:min-h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
+  }
   .nav-link {
     @apply block align-middle text-lg transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out hover:after:w-full;
   }
   .nav-link.active {
     @apply after:w-full;
   }
+  .button {
+    @apply relative z-20 block lg:hidden;
+  }
+  .top-bar {
+    @apply h-[2px] w-7 origin-left transform bg-white transition-all duration-300;
+  }
+  .top-bar.animate {
+    @apply group-focus:rotate-[42deg];
+  }
+  .middle-bar {
+    @apply h-[2px] w-1/2 transform rounded bg-white transition-all duration-300;
+  }
+  .middle-bar.animate {
+    @apply group-focus:-translate-x-10;
+  }
+  .bottom-bar {
+    @apply h-[2px] w-7 origin-left transform bg-white transition-all duration-300;
+  }
+  .bottom-bar.animate {
+    @apply group-focus:-rotate-[42deg];
+  }
 </style>
+<script is:inline>
+  //hamburger menu toggle
+  document.querySelector('button').addEventListener('click', () => {
+    //hide show navigation on mobile
+    document.querySelector('ul').classList.toggle('hidden')
+    //animate hamburger menu
+    const bars = document.querySelectorAll('.top-bar, .middle-bar, .bottom-bar')
+    bars.forEach((bar) => {
+      bar.classList.toggle('animate')
+    })
+  })
+</script>
