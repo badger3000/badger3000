@@ -12,9 +12,7 @@ import { Picture } from '@astrojs/image/components'
     class="avatar mb-[27px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out"
   />
 
-  <ul
-    class="absolute z-10 hidden min-h-screen w-full overflow-hidden bg-zinc-900 pt-[20%] text-center transition-all lg:relative lg:block lg:min-h-full lg:bg-transparent lg:text-left"
-  >
+  <ul class="nav-items hidden lg:block">
     <li class="nav-item mb-6">
       <a href="/" class="nav-link active"
         ><i class="fa-solid fa-user nav-icon mr-[10px]"></i>About</a
@@ -53,7 +51,10 @@ import { Picture } from '@astrojs/image/components'
 
 <style>
   nav {
-    @apply mb-4 flex h-[90px] flex-row justify-between px-[0] py-[10px] text-white lg:h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
+    @apply mb-4 flex h-[90px] flex-row justify-between px-[6px] py-[10px] text-white lg:h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
+  }
+  .nav-items {
+    @apply fixed left-0 top-0 z-10 h-screen w-screen overflow-auto bg-zinc-900 pt-[20%] text-center transition-all lg:relative lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left;
   }
   .nav-link {
     @apply block align-middle text-lg transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out hover:after:w-full;
@@ -86,8 +87,10 @@ import { Picture } from '@astrojs/image/components'
 <script is:inline>
   //hamburger menu toggle
   document.querySelector('button').addEventListener('click', () => {
-    //hide show navigation on mobile
+    //hide / show navigation on mobile
     document.querySelector('ul').classList.toggle('hidden')
+    //prevent scrolling on mobile when navigation is open
+    document.querySelector('body').classList.toggle('overflow-hidden')
     //animate hamburger menu
     const bars = document.querySelectorAll('.top-bar, .middle-bar, .bottom-bar')
     bars.forEach((bar) => {
