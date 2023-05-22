@@ -1,3 +1,30 @@
-<footer class="min-w-full bg-slate-700 px-[10px] py-5">
-  <p>This is the footer</p>
+---
+import { Image } from '@astrojs/image/components'
+---
+
+<footer
+  class="flex min-w-full flex-col items-center justify-between bg-transparent px-[10px] py-5 text-white lg:flex-row"
+>
+  <p class="order-last mb-2 text-xs lg:order-first lg:mb-0">
+    Personal site of <a
+      href="https://www.linkedin.com/in/badger816/"
+      class="underline decoration-solid">Kyle Ross</a
+    > | &copy <span id="year"></span>
+  </p>
+  <div class="flex flex-col items-center text-center lg:flex-row lg:text-left">
+    <p class="mb-2 mr-0 text-xs lg:mb-0 lg:mr-2">Brands I have worked with</p>
+    <Image
+      src={import('../assets/company-logos.png')}
+      width={242}
+      height={16}
+      format={'webp'}
+      alt="Brand logos"
+      aspectRatio={'16:9'}
+      class="mb-2 lg:mb-0"
+    />
+  </div>
 </footer>
+<script is:inline>
+  const year = new Date().getFullYear()
+  document.getElementById('year').innerHTML = year
+</script>

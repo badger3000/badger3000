@@ -3,6 +3,9 @@ module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
+      dropShadow: {
+        '3xl': '0px 16px 14px -14px rgba(255, 255, 255, 1);',
+      },
       gridTemplateColumns: {
         // Simple 16 column grid
         16: 'repeat(16, minmax(0, 1fr))',
