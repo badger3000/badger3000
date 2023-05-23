@@ -1,0 +1,32 @@
+---
+import { Picture } from '@astrojs/image/components'
+import thumbnail from '../assets/thumbnail.jpg'
+---
+
+<section>
+  <form action="/">
+    <select
+      name="options"
+      class="my-[16px] w-full rounded-lg border bg-transparent p-2 text-white"
+    >
+      <option value="default">All the things...</option>
+      <option value="development">Development</option>
+      <option value="golf">Golf</option>
+      <option value="projects">Projects</option>
+    </select>
+  </form>
+  <a href="/artical/post" class="block lg:min-h-[160px]">
+    <article class="relative overflow-hidden rounded-lg">
+      <Picture
+        src={thumbnail}
+        widths={[500]}
+        height={160}
+        alt="Astro Logo"
+        class="absolute left-[16px] top-[16px]"
+      />
+      <h2 class="text-md bottom-[16px] left-[16px] text-white">
+        Lorem Ipsum is simply dummy text of the printin
+      </h2>
+    </article>
+  </a>
+</section>
