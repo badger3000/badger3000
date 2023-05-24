@@ -1,0 +1,28 @@
+---
+import { Picture } from '@astrojs/image/components'
+import thumbnail from '../assets/thumbnail.jpg'
+---
+
+<a href="/artical/post" class="post-link">
+  <article class="artical">
+    <Picture
+      src={thumbnail}
+      widths={[500]}
+      height={160}
+      sizes="(max-width: 414px) 100vw"
+      alt="Thumbnail"
+      class="left-[16px] top-[16px] rounded-lg"
+    />
+    <h2 class="text-md absolute bottom-0 z-[2] p-[8px] text-white">
+      Lorem Ipsum is simply dummy text of the printin
+    </h2>
+  </article>
+</a>
+<style>
+  .artical {
+    @apply overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-30% after:to-transparent after:to-30%;
+  }
+  .post-link {
+    @apply relative mb-3 block transition-all duration-300 ease-in-out md:mr-2 md:text-sm lg:mr-0 lg:min-h-[160px] lg:hover:translate-y-[-3px];
+  }
+</style>

@@ -1,13 +1,12 @@
 ---
-import { Picture } from '@astrojs/image/components'
-import thumbnail from '../assets/thumbnail.jpg'
+import Post from '../components/Posts.astro'
 ---
 
 <section>
   <form action="/">
     <select
       name="options"
-      class="my-[16px] w-full rounded-lg border bg-transparent p-2 text-white"
+      class="my-[16px] w-full rounded-lg border bg-transparent p-2 text-white md:w-[20%] lg:w-full"
     >
       <option value="default">All the things...</option>
       <option value="development">Development</option>
@@ -15,42 +14,16 @@ import thumbnail from '../assets/thumbnail.jpg'
       <option value="projects">Projects</option>
     </select>
   </form>
-  <div class="grid grid-flow-col lg:grid-flow-row">
-    <a
-      href="/artical/post"
-      class="relative block transition-all duration-300 ease-in-out lg:min-h-[160px] lg:hover:translate-y-[-3px]"
-    >
-      <article class="mb-[16px] overflow-hidden">
-        <Picture
-          src={thumbnail}
-          widths={[500]}
-          height={160}
-          sizes="(max-width: 414px) 100vw"
-          alt="Thumbnail"
-          class="left-[16px] top-[16px] rounded-lg"
-        />
-        <h2 class="text-md absolute bottom-[16px] left-[16px] text-white">
-          Lorem Ipsum is simply dummy text of the printin
-        </h2>
-      </article>
-    </a>
-    <a
-      href="/artical/post"
-      class="relative block transition-all duration-300 ease-in-out lg:min-h-[160px] lg:hover:translate-y-[-3px]"
-    >
-      <article class="overflow-hidden">
-        <Picture
-          src={thumbnail}
-          widths={[500]}
-          height={160}
-          sizes="(max-width: 414px) 100vw"
-          alt="Thumbnail"
-          class="left-[16px] top-[16px] rounded-lg"
-        />
-        <h2 class="text-md absolute bottom-[16px] left-[16px] text-white">
-          Lorem Ipsum is simply dummy text of the printin
-        </h2>
-      </article>
-    </a>
+  <div class="post-container">
+    <Post />
+    <Post />
+    <Post />
+    <Post />
+    <Post />
   </div>
 </section>
+<style>
+  .post-container {
+    @apply flex flex-col md:flex-row md:justify-between lg:mx-2 lg:flex-col;
+  }
+</style>
