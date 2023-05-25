@@ -4,7 +4,7 @@ import { Picture } from '@astrojs/image/components'
 export interface Props {
   title: string
   url: string
-  image?: string
+  image?: any
 }
 const { title = 'Default Title Text', url = '/', image } = Astro.props as Props
 ---
@@ -20,14 +20,14 @@ const { title = 'Default Title Text', url = '/', image } = Astro.props as Props
       alt="Thumbnail"
       class="left-[16px] top-[16px] rounded-lg"
     />
-    <h2 class="text-md absolute bottom-0 z-[2] p-[8px] text-white">
+    <h2 class="absolute bottom-0 z-[2] p-[8px] text-xl text-white">
       {title}
     </h2>
   </article>
 </a>
 <style>
   .artical {
-    @apply overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-30% after:to-transparent after:to-30% after:opacity-60;
+    @apply overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-5% after:to-transparent after:to-60% after:opacity-60;
   }
   .post-link {
     @apply relative mb-3 block transition-all duration-300 ease-in-out md:mr-2 md:text-sm lg:mr-0 lg:min-h-[160px] lg:hover:translate-y-[-3px];
