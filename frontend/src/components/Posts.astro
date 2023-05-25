@@ -1,18 +1,21 @@
 ---
 import { Picture } from '@astrojs/image/components'
-import thumbnail from '../assets/thumbnail.jpg'
+
 export interface Props {
-  title?: string
+  title: string
+  url: string
+  image?: string
 }
-const { title = 'Title Text' } = Astro.props as Props
+const { title = 'Default Title Text', url = '/', image } = Astro.props as Props
 ---
 
-<a href="/artical/post" class="post-link">
+<a href={`/artical/${url}`} class="post-link">
   <article class="artical">
     <Picture
-      src={thumbnail}
+      src={image}
       widths={[500]}
       height={160}
+      aspectRatio="16:9"
       sizes="(max-width: 414px) 100vw"
       alt="Thumbnail"
       class="left-[16px] top-[16px] rounded-lg"
@@ -24,7 +27,7 @@ const { title = 'Title Text' } = Astro.props as Props
 </a>
 <style>
   .artical {
-    @apply overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-30% after:to-transparent after:to-30%;
+    @apply overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-30% after:to-transparent after:to-30% after:opacity-60;
   }
   .post-link {
     @apply relative mb-3 block transition-all duration-300 ease-in-out md:mr-2 md:text-sm lg:mr-0 lg:min-h-[160px] lg:hover:translate-y-[-3px];

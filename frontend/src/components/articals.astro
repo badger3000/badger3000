@@ -1,7 +1,13 @@
 ---
 import Post from '../components/Posts.astro'
 import { getAllProjects } from '../sanity/api'
+import { urlForImage } from '../sanity/urlForImage'
 
+type Project = {
+  title: string
+  slug: string
+  project_image: any // replace 'any' with the actual type of `project_image`
+}
 const projects = await getAllProjects()
 ---
 
@@ -18,7 +24,15 @@ const projects = await getAllProjects()
     </select>
   </form>
   <div class="post-container">
-    {projects.map((project) => <Post title={project.title} />)}
+    {
+      projects.map((project: Project) => (
+        <Post
+          title={project.title}
+          url={project.slug}
+          image={urlForImage(project.project_image).url()}
+        />
+      ))
+    }
   </div>
 </section>
 <style>
