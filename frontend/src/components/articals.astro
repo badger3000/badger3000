@@ -1,5 +1,8 @@
 ---
 import Post from '../components/Posts.astro'
+import { getAllProjects } from '../sanity/api'
+
+const projects = await getAllProjects()
 ---
 
 <section>
@@ -15,11 +18,7 @@ import Post from '../components/Posts.astro'
     </select>
   </form>
   <div class="post-container">
-    <Post />
-    <Post />
-    <Post />
-    <Post />
-    <Post />
+    {projects.map((project) => <Post title={project.title} />)}
   </div>
 </section>
 <style>

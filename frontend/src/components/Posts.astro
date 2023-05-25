@@ -1,6 +1,10 @@
 ---
 import { Picture } from '@astrojs/image/components'
 import thumbnail from '../assets/thumbnail.jpg'
+export interface Props {
+  title?: string
+}
+const { title = 'Title Text' } = Astro.props as Props
 ---
 
 <a href="/artical/post" class="post-link">
@@ -14,7 +18,7 @@ import thumbnail from '../assets/thumbnail.jpg'
       class="left-[16px] top-[16px] rounded-lg"
     />
     <h2 class="text-md absolute bottom-0 z-[2] p-[8px] text-white">
-      Lorem Ipsum is simply dummy text of the printin
+      {title}
     </h2>
   </article>
 </a>
