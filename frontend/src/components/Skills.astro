@@ -6,16 +6,16 @@
 >
   <div class="basis-3/4 rounded-lg bg-[#242F40] p-4 lg:col-span-8">
     <h2>Skills</h2>
-    <div class="flex flex-col lg:flex-row">
-      <div class="basis-1/2">
-        <ul class="w-full border-dashed lg:border-r-2">
+    <div class="flex min-h-[214px] flex-col lg:flex-row">
+      <div class="h-auto basis-1/2">
+        <ul class="skills-list h-full w-full border-dashed pr-3 lg:border-r-2">
           <li>Problem Solving</li>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
         </ul>
       </div>
-      <div class="basis-1/2">
+      <div class="skills-list h-full basis-1/2 pr-3">
         <ul>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
@@ -29,9 +29,11 @@
     class="mx-4 mb-0 mt-[-16px] basis-1/4 rounded-lg bg-[#CCA43B] p-4 drop-shadow-md lg:col-span-3 lg:mb-4 lg:ml-[-16px] lg:mr-0 lg:mt-4"
   >
     <div>
-      <h2 class="text-center text-3xl lg:text-left lg:text-2xl">Kyle Ross</h2>
-      <p>I build things</p>
-      <p>
+      <h2 class="mb-2 text-center text-3xl lg:text-left lg:text-2xl">
+        Kyle Ross
+      </h2>
+      <p class="mb-4 text-sm">I build things for the internet</p>
+      <p class="text-xs">
         It is a long established fact that a reader will be distracted by the
         readable content of a page when looking at its layout. The point of
         using Lorem Ipsum is that it has a more-or-less normal distributio
@@ -39,3 +41,8 @@
     </div>
   </div>
 </section>
+<style>
+  .skills-list li {
+    @apply mb-4 text-right;
+  }
+</style>
