@@ -6,24 +6,23 @@ type Projects = {
 }
 
 export async function getStaticPaths() {
-  //get all the project posts
-  const project = await getAllProjects()
+  const allProjects = await getAllProjects()
 
-  return [
-    {
-      params: { slug: project.slug.current },
-      props: { project },
-    },
-  ]
+  return allProjects.map((project: Projects) => ({
+    params: { slug: project.slug.current },
+    props: { project },
+  }))
 }
 
 const { slug } = Astro.params
+const { project } = Astro.props
 ---
 
 <Layout title="this is the page title">
   <div class="col-span-16 mx-[16px] lg:col-span-3 lg:mx-0">
     <!-- Column 2 content here -->
     <h1 class="text-4xl text-white">{slug}</h1>
+    <div>{project.title}</div>
   </div>
   <div class="col-span-16 lg:col-span-11">
     <!-- Column 3 content here -->

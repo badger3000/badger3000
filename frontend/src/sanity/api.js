@@ -1,7 +1,7 @@
-import { useSanityClient, groq } from 'astro-sanity'
+import { useSanityClient } from 'astro-sanity'
 
 export async function getAllProjects() {
-  const query = groq`*[_type == "projects" && _id == "08959814-169b-4423-806a-94408907cd9d"][0]`
+  const query = `*[_type == "projects" && defined(slug.current)]`
   const projects = await useSanityClient().fetch(query)
   return projects
 }

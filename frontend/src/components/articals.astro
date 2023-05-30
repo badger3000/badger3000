@@ -24,12 +24,17 @@ const projects = await getAllProjects()
     </select>
   </form>
   <div class="post-container">
-    <Post
-      title={projects.title}
-      url={projects.slug.current}
-      image={urlForImage(projects.project_image).url()}
-    />
-
+    {
+      projects
+        .slice(0, 5)
+        .map((project: Project) => (
+          <Post
+            title={project.title}
+            url={project.slug.current}
+            image={urlForImage(project.project_image).url()}
+          />
+        ))
+    }
     <buton
       class="mx-auto mt-4 text-4xl text-white opacity-20 transition-opacity duration-500 ease-in-out hover:opacity-100"
     >

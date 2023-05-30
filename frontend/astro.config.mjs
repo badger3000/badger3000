@@ -25,7 +25,7 @@ export default defineConfig({
       projectId: SANITY_PROJECT_ID,
       dataset: SANITY_DATASET,
       token: SANITY_TOKEN,
-      apiVersion: 'v2021-03-25',
+      apiVersion: '2021-03-25',
       useCdn: false,
     }),
   ],
