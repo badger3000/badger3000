@@ -12,7 +12,10 @@ export default {
       title: 'Slug',
       name: 'slug',
       type: 'slug',
-      options: {source: 'title', slugify: (input) => input.toLowerCase()},
+      options: {
+        source: 'title',
+        maxLength: 200, // will be ignored if slugify is set
+      },
     },
     {
       title: 'Website URL',

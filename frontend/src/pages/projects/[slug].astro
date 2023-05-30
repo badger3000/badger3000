@@ -1,13 +1,31 @@
 ---
+import Layout from '../../layouts/Layout.astro'
+import { getAllProjects } from '../../sanity/api'
+type Projects = {
+  slug: any
+}
+
 export async function getStaticPaths() {
+  //get all the project posts
+  const project = await getAllProjects()
+
   return [
-    { params: { slug: 'hello-world' } },
-    { params: { slug: 'my-favorite-things' } },
-    { params: { slug: 'summertime' } },
+    {
+      params: { slug: project.slug.current },
+      props: { project },
+    },
   ]
 }
 
 const { slug } = Astro.params
 ---
 
-<h1>{slug}</h1>
+<Layout title="this is the page title">
+  <div class="col-span-16 mx-[16px] lg:col-span-3 lg:mx-0">
+    <!-- Column 2 content here -->
+    <h1 class="text-4xl text-white">{slug}</h1>
+  </div>
+  <div class="col-span-16 lg:col-span-11">
+    <!-- Column 3 content here -->
+  </div>
+</Layout>

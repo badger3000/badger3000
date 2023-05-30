@@ -5,6 +5,7 @@ export interface Props {
 
 const { title } = Astro.props
 
+import Navigation from '../components/Navigation.astro'
 import Footer from '../components/Footer.astro'
 ---
 
@@ -22,7 +23,15 @@ import Footer from '../components/Footer.astro'
   </head>
   <body>
     <main class="min-h-screen">
-      <slot />
+      <div class="lg:mx-[10px]">
+        <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
+          <div class="col-span-16 lg:col-span-2">
+            <!-- Column 1 content here -->
+            <Navigation />
+          </div>
+          <slot />
+        </div>
+      </div>
     </main>
     <Footer />
   </body>
