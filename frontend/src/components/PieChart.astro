@@ -1,0 +1,50 @@
+---
+export interface Props {
+  percent: number
+  offset: number
+}
+const { percent = 60, offset = 40 } = Astro.props as Props
+---
+
+<svg width="120" height="120" viewBox="-100 -100 200 200">
+  <circle
+    r="75"
+    pathLength="100"
+    fill="transparent"
+    stroke-dasharray="100"
+    stroke-dashoffset="100"
+    stroke-width="30"
+    stroke="#CCA43B"></circle>
+  <text>{percent}%</text>
+</svg>
+<style define:vars={{ offset }}>
+  circle {
+    transform: rotate(-90deg);
+    animation: draw 1000ms ease-in forwards;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: var(--offset);
+    }
+  }
+
+  text {
+    @apply text-white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(20%);
+    text-anchor: middle;
+    dominant-baseline: middle;
+    animation: rise 900ms ease-in forwards 200ms;
+  }
+
+  @keyframes rise {
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+</style>
