@@ -2,23 +2,69 @@
 export interface Props {
   percent: number
   offset: number
+  icon: string
+  iconPackage: string
+  title: string
 }
-const { percent = 60, offset = 40 } = Astro.props as Props
+const {
+  percent = 60,
+  offset = 40,
+  icon = 'user',
+  iconPackage = 'solid',
+  title = 'HTML5',
+} = Astro.props as Props
 ---
 
-<svg width="120" height="120" viewBox="-100 -100 200 200">
-  <circle
-    r="75"
-    pathLength="100"
-    fill="transparent"
-    stroke-dasharray="100"
-    stroke-dashoffset="100"
-    stroke-width="30"
-    stroke="#CCA43B"></circle>
-  <text>{percent}%</text>
-</svg>
+<div class="relative text-center">
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="-100 -100 200 200"
+    class="relative z-20"
+  >
+    <circle
+      class="circleAnimate"
+      r="75"
+      pathLength="100"
+      fill="transparent"
+      stroke-dasharray="100"
+      stroke-dashoffset="100"
+      stroke-width="20"
+      stroke="#CCA43B"
+    >
+    </circle>
+    <foreignObject
+      x="-100"
+      y="-100"
+      width="100%"
+      height="100%"
+      class="relative"
+    >
+      <i class=`fa-${iconPackage} fa-${icon} icons`></i>
+    </foreignObject>
+    <text>{percent}%</text>
+  </svg>
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="-100 -100 200 200"
+    class="absolute top-0 z-10"
+  >
+    <circle
+      r="75"
+      pathLength="100"
+      fill="white"
+      stroke-dasharray="100"
+      stroke-dashoffset="0"
+      stroke-width="20"
+      stroke="#78693D"
+    >
+    </circle>
+  </svg>
+  <p>{title}</p>
+</div>
 <style define:vars={{ offset }}>
-  circle {
+  .circleAnimate {
     transform: rotate(-90deg);
     animation: draw 1000ms ease-in forwards;
   }
@@ -30,20 +76,18 @@ const { percent = 60, offset = 40 } = Astro.props as Props
   }
 
   text {
-    @apply text-white;
-    font-size: 2.5rem;
-    font-weight: bold;
-    line-height: 1;
-    opacity: 0;
-    transform: translateY(20%);
+    @apply text-2xl font-bold leading-4 opacity-0;
+    transform: translateY(18%);
     text-anchor: middle;
     dominant-baseline: middle;
     animation: rise 900ms ease-in forwards 200ms;
   }
-
+  .icons {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-3/4 transform text-[60px] text-[#2B2B2B] opacity-0;
+    animation: rise 900ms ease-in forwards 200ms;
+  }
   @keyframes rise {
     to {
-      transform: translateY(0);
       opacity: 1;
     }
   }

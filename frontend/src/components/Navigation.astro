@@ -3,9 +3,7 @@ import { Picture } from '@astrojs/image/components'
 import image from '../assets/avatar.png'
 ---
 
-<nav
-  class="bg:bg-transparent bg-gradient-to-t from-[#242F40] to-[#323F54] drop-shadow-3xl lg:bg-transparent lg:bg-none lg:drop-shadow-none"
->
+<nav>
   <Picture
     src={image}
     widths={[65, 70, 85]}
@@ -42,19 +40,19 @@ import image from '../assets/avatar.png'
       class="relative flex h-[50px] w-[50px] transform items-center justify-center overflow-hidden transition-all duration-200"
     >
       <div
-        class="flex h-[20px] w-[20px] origin-center transform flex-col justify-between overflow-hidden transition-all duration-300"
+        class="flex h-5 w-5 origin-center transform flex-col justify-between overflow-hidden transition-all duration-300"
       >
         <div class="top-bar"></div>
         <div class="middle-bar"></div>
         <div class="bottom-bar"></div>
       </div>
-    </div></button
-  >
+    </div>
+  </button>
 </nav>
 
 <style>
   nav {
-    @apply mb-4 flex h-[90px] flex-row justify-between px-[6px] py-[10px] text-white lg:h-max lg:flex-col lg:items-center lg:px-[20px] lg:py-[24px];
+    @apply mb-4 flex h-[90px] flex-row justify-between bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:h-max lg:flex-col lg:items-center lg:bg-transparent lg:bg-none lg:px-[20px] lg:py-[24px] lg:drop-shadow-none;
   }
   .nav-items {
     @apply fixed left-0 top-0 z-10 h-screen w-screen overflow-auto bg-zinc-900 pt-[20%] text-center opacity-0 transition-opacity duration-200 ease-in-out sm:hidden lg:relative lg:block lg:h-auto lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left lg:opacity-100;
@@ -78,13 +76,13 @@ import image from '../assets/avatar.png'
     @apply group-focus:rotate-[42deg];
   }
   .middle-bar {
-    @apply h-[2px] w-1/2 transform rounded bg-white transition-all duration-300;
+    @apply h-0.5 w-1/2 transform rounded bg-white transition-all duration-300;
   }
   .middle-bar.animate {
     @apply group-focus:-translate-x-10;
   }
   .bottom-bar {
-    @apply h-[2px] w-7 origin-left transform bg-white transition-all duration-300;
+    @apply h-0.5 w-7 origin-left transform bg-white transition-all duration-300;
   }
   .bottom-bar.animate {
     @apply group-focus:-rotate-[42deg];

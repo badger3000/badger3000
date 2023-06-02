@@ -28,10 +28,34 @@ import PieChart from '../components/PieChart.astro'
       </div>
     </div>
     <div class="flex flex-row flex-nowrap justify-between py-6">
-      <PieChart percent={90} offset={10} />
-      <PieChart percent={80} offset={20} />
-      <PieChart percent={80} offset={20} />
-      <PieChart percent={70} offset={30} />
+      <PieChart
+        icon="html5"
+        iconPackage="brands"
+        title="HTML5"
+        percent={90}
+        offset={10}
+      />
+      <PieChart
+        icon="css3"
+        iconPackage="brands"
+        title="CSS"
+        percent={80}
+        offset={20}
+      />
+      <PieChart
+        icon="js"
+        iconPackage="brands"
+        title="JavaScript"
+        percent={80}
+        offset={20}
+      />
+      <PieChart
+        icon="react"
+        iconPackage="brands"
+        title="ReactJS"
+        percent={75}
+        offset={25}
+      />
     </div>
   </div>
   <div
