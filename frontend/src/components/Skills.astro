@@ -7,12 +7,11 @@ import PieChart from '../components/PieChart.astro'
 >
   <div class="basis-3/4 rounded-lg bg-[#242F40] p-4 lg:col-span-8">
     <h2>Skills</h2>
-    <div class="flex min-h-[214px] flex-col lg:flex-row">
+    <div class="min-h-40 flex flex-col lg:flex-row">
       <div class="h-auto basis-1/2">
         <ul
           class="skills-list h-full w-full border-dashed pr-3 lg:border-r-2 lg:pt-6"
         >
-          <li>Problem Solving</li>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
@@ -23,38 +22,45 @@ import PieChart from '../components/PieChart.astro'
           <li>Problem Solving</li>
           <li>Problem Solving</li>
           <li>Problem Solving</li>
-          <li>Problem Solving</li>
         </ul>
       </div>
     </div>
     <div class="flex flex-row flex-nowrap justify-between py-6">
       <PieChart
         icon="html5"
-        iconPackage="brands"
-        title="HTML5"
         percent={90}
         offset={10}
+        delay={450}
+        speed={800}
+        iconPackage="brands"
+        title="HTML5"
       />
       <PieChart
         icon="css3"
         iconPackage="brands"
         title="CSS"
-        percent={80}
-        offset={20}
+        percent={90}
+        offset={10}
+        delay={450}
+        speed={500}
       />
       <PieChart
         icon="js"
         iconPackage="brands"
         title="JavaScript"
-        percent={80}
-        offset={20}
+        percent={90}
+        offset={10}
+        delay={450}
+        speed={800}
       />
       <PieChart
         icon="react"
         iconPackage="brands"
         title="ReactJS"
-        percent={75}
-        offset={25}
+        percent={90}
+        offset={10}
+        delay={450}
+        speed={800}
       />
     </div>
   </div>
@@ -79,3 +85,101 @@ import PieChart from '../components/PieChart.astro'
     @apply mb-6 text-right;
   }
 </style>
+<script is:inline>
+  //grab the SVG
+  const pieCharts = document.querySelectorAll('[data-graphic-container]')
+
+  // //If user has set there browser to reduce web animations
+  const preferReducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches
+
+  //Make sure all elements are visible, before triggering animations
+  const pieChartObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((chart) => {
+        if (chart.isIntersecting) {
+          //grab the pie graphic
+          const pie = chart.target.querySelector('[data-pie]')
+
+          let speed = +pie.dataset.speed || 0
+          preferReducedMotion && (speed = 0)
+          const delay = +pie.dataset.delay || 0
+          const percent = +pie.dataset.percent || 0
+          const circle = chart.target.querySelector('circle')
+          const icon = chart.target.querySelector('i')
+          const text = chart.target.querySelector('text')
+          const graphic = chart.target.querySelector('[data-graphic]')
+
+          text.textContent = `${percent}%`
+          chart.target.setAttribute(
+            'aria-label',
+            `${percent} percent pie chart`
+          )
+          icon.animate([{ opacity: 0 }, { opacity: 1 }], {
+            duration: 1000,
+            easing: 'cubic-bezier(0.57,-0.04, 0.41, 1.13)',
+            fill: 'forwards',
+          })
+          circle.animate(
+            [
+              {
+                strokeDashoffset: 100,
+              },
+              {
+                strokeDashoffset: 100 - percent,
+              },
+            ],
+            {
+              duration: speed,
+              easing: 'cubic-bezier(0.57,-0.04, 0.41, 1.13)',
+              fill: 'forwards',
+            }
+          )
+          text.animate(
+            [
+              {
+                opacity: 0,
+                transform: 'translateY(20%)',
+              },
+              {
+                opacity: 1,
+                transform: 'translateY(18%)',
+              },
+            ],
+            {
+              delay: preferReducedMotion ? 0 : delay,
+              duration: preferReducedMotion ? 0 : 300,
+              easing: 'cubic-bezier(0.57,-0.04, 0.41, 1.13)',
+              fill: 'forwards',
+            }
+          )
+          //Hover Effect
+          //Moving Animation Event
+          chart.target.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 25
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 25
+            graphic.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`
+          })
+          //   // //Animate In
+          chart.target.addEventListener('mouseenter', (e) => {
+            graphic.style.transition = 'none'
+          })
+          //   // //Animate Out
+          chart.target.addEventListener('mouseleave', (e) => {
+            graphic.style.transition = 'all 0.5s ease'
+            graphic.style.transform = `rotateY(0deg) rotateX(0deg)`
+          })
+          pieChartObserver.unobserve(chart.target)
+        }
+      })
+    },
+    {
+      threshold: 0.8,
+    }
+  )
+
+  pieCharts.forEach((chart) => {
+    pieChartObserver.observe(chart)
+  })
+</script>
