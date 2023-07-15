@@ -36,6 +36,10 @@ export default {
           type: 'string',
           title: 'Attribution',
         },
+        {
+          name:'category',
+          type:'postCategories',
+        }
       ],
     },
   ],

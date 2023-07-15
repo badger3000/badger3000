@@ -4,6 +4,7 @@ import projects from './parts/projects'
 import settings from './parts/settings'
 import socialLinks from './parts/socialLinks'
 import golfScore from './parts/golfScores'
+import postCategories from './parts/categories'
 import hero from './customTypes/hero'
 import projectComponent from './customTypes/projectComponent'
 import contactForm from './customTypes/contactForm'
@@ -18,4 +19,5 @@ export const schemaTypes = [
   settings,
   socialLinks,
   golfScore,
+  postCategories,
 ]
