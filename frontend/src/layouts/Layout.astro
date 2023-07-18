@@ -24,14 +24,13 @@ import Footer from '../components/Footer.astro'
   </head>
   <body>
     <main class="min-h-screen">
-      <div class="lg:mx-[10px]">
-        <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
-          <div class="col-span-16 lg:col-span-2">
-            <!-- Column 1 content here -->
-            <Navigation />
-          </div>
-          <slot />
+      <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
+        <div class="col-span-16 lg:col-span-2">
+          <!-- Column 1 content here -->
+          <Navigation />
         </div>
+        <!-- Column 2 content here -->
+        <slot />
       </div>
     </main>
     <Footer />

@@ -1,22 +1,22 @@
 ---
 //import { Picture } from '@astrojs/image/components'
 import Layout from '../../layouts/Layout.astro'
-import { getAllProjects } from '../../sanity/api'
-type Projects = {
+import { getAllPosts } from '../../sanity/api'
+type Posts = {
   slug: any
 }
 
 export async function getStaticPaths() {
-  const allProjects = await getAllProjects()
+  const allPosts = await getAllPosts()
 
-  return allProjects.map((project: Projects) => ({
-    params: { slug: project.slug.current },
-    props: { project },
+  return allPosts.map((post: Posts) => ({
+    params: { slug: post.slug.current },
+    props: { post },
   }))
 }
 
 const { slug } = Astro.params
-const { project } = Astro.props
+const { post } = Astro.props
 ---
 
 <Layout title="this is the page title">
@@ -27,14 +27,13 @@ const { project } = Astro.props
       <!-- Banner image -->
       <div class="w-full min-h-[312px] bg-purple-600 lg:rounded-lg">
         <pre
-          class="text-white text-2xl block">{ JSON.stringify(project, null, 1)}</pre>
+          class="text-white text-2xl block">{ JSON.stringify(post, null, 1)}</pre>
       </div>
       <!-- Subheader -->
       <div
         class="mt-[-76px] min-h-[150px] text-center lg:min-w-[80%] drop-shadow-2xl bg-red-300 rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
       >
-        <h1>{project.title}</h1>
-        <p>{project.tech}</p>
+        <h1>{post.title}</h1>
       </div>
       <!-- Post content -->
       <div class="content lg:min-w-[60%]">

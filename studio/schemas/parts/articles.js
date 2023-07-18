@@ -1,12 +1,21 @@
 export default {
-  title: 'Latest',
-  name: 'latest',
+  title: 'Articles',
+  name: 'articles',
   type: 'document',
   fields: [
     {
       title: 'Title',
       name: 'title',
       type: 'string',
+    },
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        maxLength: 200, // will be ignored if slugify is set
+      },
     },
     {
       title: 'Content',
@@ -37,9 +46,9 @@ export default {
           title: 'Attribution',
         },
         {
-          name:'category',
-          type:'postCategories',
-        }
+          name: 'category',
+          type: 'postCategories',
+        },
       ],
     },
   ],

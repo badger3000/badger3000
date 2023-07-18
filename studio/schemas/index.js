@@ -1,5 +1,5 @@
 import pages from './pages/page'
-import latest from './parts/latest'
+import articles from './parts/articles'
 import projects from './parts/projects'
 import settings from './parts/settings'
 import socialLinks from './parts/socialLinks'
@@ -11,7 +11,7 @@ import contactForm from './customTypes/contactForm'
 
 export const schemaTypes = [
   pages,
-  latest,
+  articles,
   projects,
   hero,
   contactForm,
