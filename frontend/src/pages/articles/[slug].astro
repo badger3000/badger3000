@@ -1,5 +1,6 @@
 ---
-//import { Picture } from '@astrojs/image/components'
+import { Image } from '@astrojs/image/components'
+import { urlForImage } from '../../sanity/urlForImage'
 import Layout from '../../layouts/Layout.astro'
 import { getAllPosts } from '../../sanity/api'
 type Posts = {
@@ -15,28 +16,35 @@ export async function getStaticPaths() {
   }))
 }
 
-const { slug } = Astro.params
 const { post } = Astro.props
 ---
 
-<Layout title="this is the page title">
+<Layout title={post.title}>
   <div
     class="bg-purple-50 w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12"
   >
     <div class="flex flex-col items-center">
       <!-- Banner image -->
-      <div class="w-full min-h-[312px] bg-purple-600 lg:rounded-lg">
-        <pre
-          class="text-white text-2xl block">{ JSON.stringify(post, null, 1)}</pre>
+      <div class="w-full bg-purple-600">
+        <Image
+          src={urlForImage(post.main_image).url()}
+          widths={[1500]}
+          height={8000}
+          aspectRatio="16:9"
+          alt="Thumbnail"
+          class="left-[16px] top-[16px] rounded-lg"
+        />
+        <!-- <pre
+          class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
       </div>
       <!-- Subheader -->
       <div
-        class="mt-[-76px] min-h-[150px] text-center lg:min-w-[80%] drop-shadow-2xl bg-red-300 rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
+        class="mt-[-76px] min-h-[150px] text-center min-w-[95%] lg:min-w-[80%] drop-shadow-2xl bg-red-600 rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
       >
         <h1>{post.title}</h1>
       </div>
       <!-- Post content -->
-      <div class="content lg:min-w-[60%]">
+      <div class="content lg:max-w-[60%] lg:mt-4">
         <p>
           Web development has come a long way since its inception. Today's web
           applications are more complex and feature-rich than ever before. With

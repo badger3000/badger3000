@@ -11,11 +11,11 @@ const SANITY_PROJECT_ID = import.meta.env.VITE_SANITY_PROJECT_ID
 const SANITY_DATASET = import.meta.env.VITE_SANITY_DATASET
 const SANITY_TOKEN = import.meta.env.VITE_SANITY_TOKEN
 
-// https://astro.build/config
-
-// https://astro.build/config
 export default defineConfig({
   site: 'https://badger3000.com/',
+  experimental: {
+    assets: true,
+  },
   integrations: [
     tailwind(),
     image({
@@ -28,7 +28,7 @@ export default defineConfig({
       dataset: SANITY_DATASET,
       token: SANITY_TOKEN,
       apiVersion: '2021-03-25',
-      useCdn: false,
+      useCdn: true,
     }),
     sitemap(),
   ],

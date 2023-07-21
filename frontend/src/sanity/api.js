@@ -10,3 +10,8 @@ export async function getAllPosts() {
   const posts = await useSanityClient().fetch(query)
   return posts
 }
+export async function getAllContent() {
+  const query = `*[_type in ["articles", "projects"]]`
+  const allContent = await useSanityClient().fetch(query)
+  return allContent
+}

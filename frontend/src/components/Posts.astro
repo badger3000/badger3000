@@ -4,12 +4,18 @@ import { Picture } from '@astrojs/image/components'
 export interface Props {
   title: string
   url: string
+  type?: string
   image?: any
 }
-const { title = 'Default Title Text', url = '/', image } = Astro.props as Props
+const {
+  title = 'Default Title Text',
+  url = '/',
+  image,
+  type,
+} = Astro.props as Props
 ---
 
-<a href={`/projects/${url}`} class="post-link">
+<a href={`/${type}/${url}`} class="post-link">
   <article class="artical relative">
     <Picture
       src={image}
