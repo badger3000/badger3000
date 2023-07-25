@@ -14,7 +14,7 @@ const SANITY_TOKEN = import.meta.env.VITE_SANITY_TOKEN
 export default defineConfig({
   site: 'https://badger3000.com/',
   experimental: {
-    assets: true,
+    assets: false,
   },
   integrations: [
     tailwind(),

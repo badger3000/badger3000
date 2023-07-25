@@ -1,6 +1,6 @@
 ---
-import { getImage } from 'astro:assets'
-import { urlForImage } from '../../sanity/urlForImage'
+// import { getImage } from 'astro:assets'
+//import { urlForImage } from '../../sanity/urlForImage'
 import { PortableText } from 'astro-portabletext'
 import Layout from '../../layouts/Layout.astro'
 import { getAllPosts } from '../../sanity/api'
@@ -18,12 +18,12 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props
-const bannerIamge = await getImage({
-  src: urlForImage(post.main_image).url(),
-  width: 1000,
-  height: 500,
-  format: 'avif',
-})
+// const bannerIamge = await getImage({
+//   src: urlForImage(post.main_image).url(),
+//   width: 1000,
+//   height: 500,
+//   format: 'avif',
+// })
 ---
 
 <Layout title={post.title}>
@@ -32,7 +32,6 @@ const bannerIamge = await getImage({
       <!-- Banner image -->
       <div
         class="w-full min-h-[313px] lg:mt-8 rounded-lg bg-cover bg-no-repeat bg-center"
-        style={`background-image: url(${bannerIamge.src});`}
       >
         <!-- <pre
           class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->

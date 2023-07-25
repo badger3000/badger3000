@@ -10,7 +10,7 @@ import Footer from '../components/Footer.astro'
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -23,8 +23,9 @@ import Footer from '../components/Footer.astro'
     <title>{title}</title>
   </head>
   <body>
+    <Navigation />
     <main class="min-h-screen">
-      <Navigation />
+     
       <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
         <div class="col-span-16 lg:col-span-2"></div>
         <!-- Column 2 content here -->
