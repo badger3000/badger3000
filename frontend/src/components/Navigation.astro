@@ -4,9 +4,9 @@ import image from '../assets/avatar.png'
 ---
 
 <header
-  class="mb-4 grid lg:grid-cols-1 lg:justify-items-center content-between lg:w-[10%] lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-[100vh] h-[90px] bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:px-[20px] lg:py-[24px] lg:drop-shadow-none"
+  class="mb-4 grid grid-rows-1 lg:grid-cols-1 lg:justify-items-center content-between lg:w-[10%] lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-[100vh] h-[90px] bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:px-[20px] lg:py-[24px] lg:drop-shadow-none"
 >
-  <nav class="lg:items-center">
+  <nav class="lg:items-center flex justify-between lg:flex-none">
     <Picture
       src={image}
       widths={[65, 80, 100]}
@@ -77,9 +77,9 @@ import image from '../assets/avatar.png'
   </p>
 </header>
 <style>
-  .nav-items.mobile-menu {
+  /* .nav-items.mobile-menu {
     @apply opacity-100 sm:block;
-  }
+  } */
 
   .nav-link.active {
     @apply lg:after:w-full;
@@ -96,22 +96,3 @@ import image from '../assets/avatar.png'
     @apply group-focus:-rotate-[42deg];
   }
 </style>
-<script is:inline>
-const mobileMenu = () => {
-  //hamburger menu toggle
-  document.querySelector('button').addEventListener('click', () => {
-    //hide / show navigation on mobile
-    document.querySelector('ul').classList.toggle('mobile-menu')
-    //prevent scrolling on mobile when navigation is open
-    document.querySelector('body').classList.toggle('overflow-hidden')
-    //animate hamburger menu
-    const bars = document.querySelectorAll(
-      '.top-bar, .middle-bar, .bottom-bar'
-    )
-    bars.forEach((bar) => {
-      bar.classList.toggle('animate')
-    })
-  })
-}
-document.addEventListener('DOMContentLoaded', mobileMenu)
-</script>
