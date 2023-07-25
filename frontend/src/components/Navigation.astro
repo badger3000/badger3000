@@ -4,9 +4,9 @@ import image from '../assets/avatar.png'
 ---
 
 <header
-  class="mb-4 flex lg:flex-col flex-row lg:w-[10%] lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-[100vh] h-[90px] bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:px-[20px] lg:py-[24px] lg:drop-shadow-none"
+  class="mb-4 grid lg:grid-cols-1 lg:justify-items-center content-between lg:w-[10%] lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-[100vh] h-[90px] bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:px-[20px] lg:py-[24px] lg:drop-shadow-none"
 >
-  <nav class="flex flex-row justify-between lg:flex-col lg:items-center">
+  <nav class="lg:items-center">
     <Picture
       src={image}
       widths={[65, 80, 100]}
@@ -72,11 +72,8 @@ import image from '../assets/avatar.png'
       </div>
     </button>
   </nav>
-  <p class="mb-2 text-xs lg:mb-0 lg:block hidden">
+  <p class="mb-2 text-xs whitespace-nowrap lg:mb-0 lg:block hidden">
     &copy Mad Badger Studios LLC
-    <span
-      id="year"
-      class="w-full text-sm font-light tracking-wide block text-center"></span>
   </p>
 </header>
 <style>
@@ -115,8 +112,6 @@ const mobileMenu = () => {
       bar.classList.toggle('animate')
     })
   })
-  const year = new Date().getFullYear()
-  document.getElementById('year').innerHTML = year
 }
 document.addEventListener('DOMContentLoaded', mobileMenu)
 </script>
