@@ -35,9 +35,9 @@
     "prettier": "^3.0.0",
     "prettier-plugin-astro": "^0.11.0",
     "prettier-plugin-tailwindcss": "^0.4.0",
-    "@swup/a11y-plugin": "^2.0.0",
-    "@swup/head-plugin": "^1.2.0",
-    "@swup/slide-theme": "^1.0.5",
-    "swup": "^3.1.1"
+    "@swup/a11y-plugin": "^4.1.0",
+    "@swup/head-plugin": "^2.1.0",
+    "@swup/slide-theme": "^2.0.0",
+    "swup": "^4.1.0"
   }
 }
