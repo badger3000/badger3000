@@ -1,6 +1,6 @@
 ---
-import { Picture } from '@astrojs/image/components'
-import image from '../assets/avatar.png'
+import {Picture} from "@astrojs/image/components";
+import image from "../assets/avatar.png";
 ---
 
 <header
@@ -11,6 +11,7 @@ import image from '../assets/avatar.png'
   >
     <Picture
       src={image}
+      format={"avif"}
       widths={[65, 80, 100]}
       aspectRatio="1:1"
       sizes="(max-width: 414px) 65px (max-width: 1139px) 80px, 80px (min-width: 1140px) 100px, 100px"

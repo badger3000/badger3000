@@ -1,44 +1,46 @@
 ---
-// import { getImage } from 'astro:assets'
-//import { urlForImage } from '../../sanity/urlForImage'
-import { PortableText } from 'astro-portabletext'
-import Layout from '../../layouts/Layout.astro'
-import { getAllPosts } from '../../sanity/api'
+import {Picture} from "@astrojs/image/components";
+import {urlForImage} from "../../sanity/urlForImage";
+import {PortableText} from "astro-portabletext";
+import Layout from "../../layouts/Layout.astro";
+import {getAllPosts} from "../../sanity/api";
 type Posts = {
-  slug: any
-}
+  slug: any;
+};
 
 export async function getStaticPaths() {
-  const allPosts = await getAllPosts()
+  const allPosts = await getAllPosts();
 
   return allPosts.map((post: Posts) => ({
-    params: { slug: post.slug.current },
-    props: { post },
-  }))
+    params: {slug: post.slug.current},
+    props: {post},
+  }));
 }
 
-const { post } = Astro.props
-// const bannerIamge = await getImage({
-//   src: urlForImage(post.main_image).url(),
-//   width: 1000,
-//   height: 500,
-//   format: 'avif',
-// })
+const {post} = Astro.props;
 ---
 
 <Layout title={post.title}>
   <div class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12">
     <div class="flex flex-col items-center">
       <!-- Banner image -->
-      <div
-        class="w-full min-h-[313px] lg:mt-8 rounded-lg bg-cover bg-no-repeat bg-center"
-      >
+
+      <div class="w-3/4">
+        <Picture
+          src={urlForImage(post.main_image).url()}
+          widths={[400, 800, 1020]}
+          height={320}
+          aspectRatio={"16:9"}
+          format={"avif"}
+          alt="Thumbnail"
+          class="rounded-lg object-fill"
+        />
         <!-- <pre
-          class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
+            class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
       </div>
       <!-- Subheader -->
       <div
-        class="mt-[-76px] min-h-[150px] text-center min-w-[95%] lg:min-w-[80%] drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
+        class="mt-[-76px] min-h-[150px] text-center w- lg:max-w-[80%] drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
       >
         <h1>{post.title}</h1>
       </div>
@@ -48,12 +50,12 @@ const { post } = Astro.props
       </div>
     </div>
   </div>
+  <style>
+    .content p {
+      @apply my-4 font-normal text-lg;
+    }
+    .content h2 {
+      @apply font-bold text-4xl;
+    }
+  </style>
 </Layout>
-<style>
-  .content p {
-    @apply my-4 font-normal text-lg;
-  }
-  .content h2 {
-    @apply font-bold text-4xl;
-  }
-</style>
