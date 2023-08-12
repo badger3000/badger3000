@@ -6,8 +6,9 @@ import {
   faYoutube,
   faGithub,
   faLinkedin,
+  faCodepen,
 } from '@fortawesome/free-brands-svg-icons'
-library.add(faYoutube, faGithub, faLinkedin)
+library.add(faYoutube, faGithub, faLinkedin, faCodepen)
 const Footer = () => {
   const data = useStaticQuery(graphql`
     query SocialLinks {
