@@ -25,12 +25,12 @@ const {post} = Astro.props;
     <div class="flex flex-col items-center">
       <!-- Banner image -->
 
-      <div class="w-3/4">
+      <div class="w-full">
         <Picture
           src={urlForImage(post.main_image).url()}
-          widths={[400, 800, 1020]}
-          height={320}
-          aspectRatio={"16:9"}
+          widths={[400, 1020, 1020]}
+          height={315}
+          aspectRatio={16 / 9}
           format={"avif"}
           alt="Thumbnail"
           class="rounded-lg object-fill"
@@ -40,17 +40,22 @@ const {post} = Astro.props;
       </div>
       <!-- Subheader -->
       <div
-        class="mt-[-76px] min-h-[150px] text-center w- lg:max-w-[80%] drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
+        class="mt-[-76px] min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
       >
         <h1>{post.title}</h1>
       </div>
       <!-- Post content -->
-      <div class="content lg:max-w-[60%] lg:mt-4 text-white">
+      <div class="content w-[80%] lg:mt-4 text-white">
         {(<PortableText value={post.content} />)}
       </div>
     </div>
   </div>
   <style>
+    .content p,
+    .content h2,
+    .content h3 {
+      @apply px-[20%];
+    }
     .content p {
       @apply my-4 font-normal text-lg;
     }
