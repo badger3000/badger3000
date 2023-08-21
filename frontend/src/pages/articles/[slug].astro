@@ -28,12 +28,12 @@ const {post} = Astro.props;
       <div class="w-full">
         <Picture
           src={urlForImage(post.main_image).url()}
-          widths={[400, 1020, 1020]}
-          height={315}
+          widths={[400, 800, 1020]}
+          height={200}
           aspectRatio={16 / 9}
           format={"avif"}
           alt="Thumbnail"
-          class="rounded-lg object-fill"
+          class="rounded-lg"
         />
         <!-- <pre
             class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
