@@ -1,7 +1,5 @@
 import { defineConfig } from 'astro/config'
-import image from '@astrojs/image'
 import tailwind from '@astrojs/tailwind'
-import react from '@astrojs/react'
 import alpinejs from '@astrojs/alpinejs'
 
 import sanity from 'astro-sanity'
@@ -13,15 +11,8 @@ const SANITY_TOKEN = import.meta.env.VITE_SANITY_TOKEN
 
 export default defineConfig({
   site: 'https://badger3000.com/',
-  experimental: {
-    assets: false,
-  },
   integrations: [
-    tailwind(),
-    image({
-      serviceEntryPoint: '@astrojs/image/sharp',
-    }),
-    react(),
+    tailwind(),   
     alpinejs(),
     sanity({
       projectId: SANITY_PROJECT_ID,

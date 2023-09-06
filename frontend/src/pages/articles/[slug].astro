@@ -1,5 +1,5 @@
 ---
-import {Picture} from "@astrojs/image/components";
+import {Image} from "astro:assets";
 import {urlForImage} from "../../sanity/urlForImage";
 import {PortableText} from "astro-portabletext";
 import Layout from "../../layouts/Layout.astro";
@@ -26,11 +26,10 @@ const {post} = Astro.props;
       <!-- Banner image -->
 
       <div class="w-full">
-        <Picture
+        <Image
           src={urlForImage(post.main_image).url()}
-          widths={[400, 800, 1020]}
-          height={200}
-          aspectRatio={16 / 9}
+          width="1920px"
+          height="628px"
           format={"avif"}
           alt="Thumbnail"
           class="rounded-lg"

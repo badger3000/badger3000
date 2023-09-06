@@ -1,5 +1,5 @@
 ---
-import { Picture } from '@astrojs/image/components'
+import { Image }from 'astro:assets'
 
 export interface Props {
   title: string
@@ -22,11 +22,10 @@ const {
   <article
     class="overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-5% after:to-transparent after:to-60% after:opacity-60 relative"
   >
-    <Picture
+    <Image
       src={image}
-      widths={[500]}
-      height={160}
-      aspectRatio="16:9"
+      width="100px"
+      height="100px"
       sizes="(max-width: 414px) 100vw"
       alt="Thumbnail"
       class="left-[16px] top-[16px] rounded-lg"
