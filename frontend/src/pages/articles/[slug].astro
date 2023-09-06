@@ -28,8 +28,8 @@ const {post} = Astro.props;
       <div class="w-full">
         <Image
           src={urlForImage(post.main_image).url()}
-          width="1920px"
-          height="628px"
+          width={1920}
+          height={628}
           format={"avif"}
           alt="Thumbnail"
           class="rounded-lg"
