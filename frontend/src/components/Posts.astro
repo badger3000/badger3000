@@ -20,7 +20,7 @@ const {
   class="relative mb-3 block transition-all duration-300 ease-in-out md:mr-2 md:text-sm lg:mr-0 lg:hover:translate-y-[-3px]"
 >
   <article
-    class="overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-5% after:to-transparent after:to-60% after:opacity-60 relative"
+    class="overflow-hidden after:absolute after:bottom-0 after:top-0 after:block after:h-full after:w-full after:rounded-l-lg after:rounded-r-lg after:bg-gradient-to-t after:from-black after:from-5% after:to-transparent after:to-60% after:opacity-60 relative min-h-[15vh]"
   >
     <Image
       src={image}
@@ -28,7 +28,7 @@ const {
       height={640}
       sizes="(max-width: 414px) 100vw"
       alt="Thumbnail"
-      class="left-[16px] top-[16px] rounded-lg"
+      class="left-[16px] top-[16px] rounded-lg object-cover h-[25vh]"
     />
     <h2 class="absolute bottom-0 z-[2] p-4 text-white line-clamp-2 text-md">
       {title}

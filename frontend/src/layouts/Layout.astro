@@ -27,14 +27,13 @@ import { ViewTransitions } from 'astro:transitions';
   <body>
     <Navigation />
     <main class="min-h-screen">
-      <div class="grid grid-cols-16 gap-4 lg:min-h-screen" id="swup">
+      <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
         <div class="col-span-16 lg:col-span-2"></div>
         <!-- Column 2 content here -->
         <slot />
       </div>
     </main>
     <Footer />
-    <script src="../assets/js/app.js"></script>
   </body>
 </html>
 <style>

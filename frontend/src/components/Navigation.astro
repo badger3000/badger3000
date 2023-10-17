@@ -1,6 +1,7 @@
 ---
 import {Image} from "astro:assets";
 import image from "../assets/images/avatar.jpg";
+import NavItems from "./NavItems.astro";
 ---
 
 <header
@@ -21,39 +22,7 @@ import image from "../assets/images/avatar.jpg";
     />
   </a>
 
-    <ul
-      class="nav-items fixed left-0 top-0 z-10 h-screen w-screen overflow-auto bg-zinc-900 pt-[20%] text-center opacity-0 transition-opacity duration-200 ease-in-out sm:hidden lg:relative lg:block lg:h-auto lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left lg:opacity-100"
-    >
-      <li class="nav-item mb-6">
-        <a
-          href="/"
-          class="nav-link active block align-middle text-2xl transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out lg:text-lg lg:hover:after:w-full"
-          ><i class="fa-solid fa-user nav-icon mr-2.5"></i>About</a
-        >
-      </li>
-      <li class="nav-item mb-6">
-        <a
-          href="/contact"
-          class="nav-link block align-middle text-2xl transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out lg:text-lg lg:hover:after:w-full"
-          ><i class="fa-solid fa-envelope mr-2.5"></i>Contact</a
-        >
-      </li>
-      <li class="nav-item mb-6">
-        <a
-          href="https://github.com/badger3000"
-          class="nav-link block align-middle text-2xl transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out lg:text-lg lg:hover:after:w-full"
-        >
-          <i class="fa-brands fa-github mr-2.5"></i>GitHub</a
-        >
-      </li>
-      <li class="nav-item mb-6">
-        <a
-          href="https://www.linkedin.com/in/badger816/"
-          class="nav-link block align-middle text-2xl transition-all duration-1000 ease-in-out after:mt-[3px] after:block after:h-[2px] after:w-0 after:bg-white after:transition-all after:duration-300 after:ease-in-out lg:text-lg lg:hover:after:w-full"
-          ><i class="fa-brands fa-linkedin mr-2.5"></i>LinkedIn</a
-        >
-      </li>
-    </ul>
+   <NavItems />
     <button class="button group relative z-20 block lg:hidden">
       <div
         class="relative flex h-12 w-12 transform items-center justify-center overflow-hidden transition-all duration-200"
@@ -81,6 +50,25 @@ import image from "../assets/images/avatar.jpg";
     &copy Mad Badger Studios LLC
   </p>
 </header>
+<script is:inline>
+  //mobile menu
+const mobileMenu = () => {
+  //hamburger menu toggle
+  document.querySelector('button').addEventListener('click', () => {
+    //hide / show navigation on mobile
+    document.querySelector('ul').classList.toggle('mobile-menu')
+    //prevent scrolling on mobile when navigation is open
+    document.querySelector('body').classList.toggle('overflow-hidden')
+    //animate hamburger menu
+    const bars = document.querySelectorAll('.top-bar, .middle-bar, .bottom-bar')
+    bars.forEach((bar) => {
+      bar.classList.toggle('animate')
+    })
+  })
+}
+document.addEventListener('DOMContentLoaded', mobileMenu)
+
+</script>
 <style>
   .nav-items.mobile-menu {
     @apply opacity-100 sm:block;
