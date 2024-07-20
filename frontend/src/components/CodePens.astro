@@ -1,0 +1,42 @@
+---
+import {Image} from "astro:assets";
+import {getAllPens} from "../sanity/api";
+import {urlForImage} from "../sanity/urlForImage";
+
+const pens = await getAllPens();
+
+interface Pen {
+  title: string;
+  slug: {current: string};
+  description: string;
+  thumbnail: {
+    asset: {
+      _ref: string;
+    };
+  };
+}
+---
+
+<div class="text-white my-6">
+  <h2 class="my-2">Codepens</h2>
+  <div class="flex md:flex-row flex-col">
+    {
+      pens.map((pen: Pen) => (
+        <a
+          href={`/codepen/${pen.slug.current}`}
+          class="relative mb-3 block transition-all duration-300 ease-in-out md:mr-2 md:text-sm lg:mr-0 lg:hover:translate-y-[-3px]"
+        >
+          {pen.thumbnail && (
+            <Image
+              src={urlForImage(pen.thumbnail.asset._ref).url()}
+              alt={pen.title}
+              width={300}
+              height={200}
+              class={"rounded-lg"}
+            />
+          )}
+        </a>
+      ))
+    }
+  </div>
+</div>

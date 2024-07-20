@@ -8,6 +8,7 @@ import postCategories from './parts/categories'
 import hero from './customTypes/hero'
 import projectComponent from './customTypes/projectComponent'
 import contactForm from './customTypes/contactForm'
+import codepen from './customTypes/codepen'
 
 export const schemaTypes = [
   pages,
@@ -20,4 +21,5 @@ export const schemaTypes = [
   socialLinks,
   golfScore,
   postCategories,
+  codepen,
 ]

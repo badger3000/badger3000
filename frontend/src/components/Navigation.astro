@@ -10,19 +10,17 @@ import NavItems from "./NavItems.astro";
   <nav
     class="lg:items-center flex flex-row lg:flex-col justify-between lg:justify-normal lg:flex-none"
   >
-  <a href="/">
-    <Image
-      src={image}
-      format={"avif"}
-     
-     
-      sizes="(max-width: 414px) 65px (max-width: 1139px) 80px, 80px (min-width: 1140px) 100px, 100px"
-      alt="avatar"
-      class="avatar h-[70px] w-[70px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out lg:h-[100px] lg:w-[100px]"
-    />
-  </a>
+    <a href="/">
+      <Image
+        src={image}
+        format={"avif"}
+        sizes="(max-width: 414px) 65px (max-width: 1139px) 80px, 80px (min-width: 1140px) 100px, 100px"
+        alt="avatar"
+        class="avatar h-[70px] w-[70px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out lg:h-[100px] lg:w-[100px]"
+      />
+    </a>
 
-   <NavItems />
+    <NavItems />
     <button class="button group relative z-20 block lg:hidden">
       <div
         class="relative flex h-12 w-12 transform items-center justify-center overflow-hidden transition-all duration-200"
@@ -50,24 +48,25 @@ import NavItems from "./NavItems.astro";
     &copy Mad Badger Studios LLC
   </p>
 </header>
-<script is:inline>
+<script is:inline data-astro-rerun>
   //mobile menu
-const mobileMenu = () => {
-  //hamburger menu toggle
-  document.querySelector('button').addEventListener('click', () => {
-    //hide / show navigation on mobile
-    document.querySelector('ul').classList.toggle('mobile-menu')
-    //prevent scrolling on mobile when navigation is open
-    document.querySelector('body').classList.toggle('overflow-hidden')
-    //animate hamburger menu
-    const bars = document.querySelectorAll('.top-bar, .middle-bar, .bottom-bar')
-    bars.forEach((bar) => {
-      bar.classList.toggle('animate')
-    })
-  })
-}
-document.addEventListener('DOMContentLoaded', mobileMenu)
-
+  const mobileMenu = () => {
+    //hamburger menu toggle
+    document.querySelector("button").addEventListener("click", () => {
+      //hide / show navigation on mobile
+      document.querySelector("ul").classList.toggle("mobile-menu");
+      //prevent scrolling on mobile when navigation is open
+      document.querySelector("body").classList.toggle("overflow-hidden");
+      //animate hamburger menu
+      const bars = document.querySelectorAll(
+        ".top-bar, .middle-bar, .bottom-bar"
+      );
+      bars.forEach((bar) => {
+        bar.classList.toggle("animate");
+      });
+    });
+  };
+  document.addEventListener("DOMContentLoaded", mobileMenu);
 </script>
 <style>
   .nav-items.mobile-menu {
