@@ -40,7 +40,10 @@ const navItems = [
     ))
   }
 </ul>
-<button class="button group relative z-20 block lg:hidden">
+<button
+  class="button group relative z-20 block lg:hidden"
+  aria-label="Toggle Menu"
+>
   <div
     class="relative flex h-12 w-12 transform items-center justify-center overflow-hidden transition-all duration-200"
   >
@@ -62,26 +65,40 @@ const navItems = [
     </div>
   </div>
 </button>
-<script is:inline data-astro-rerun>
-  document.addEventListener("astro:page-load", () => {
-    //mobile menu
-    const mobileMenu = () => {
-      //hamburger menu toggle
-      document.querySelector("button").addEventListener("click", () => {
-        //hide / show navigation on mobile
-        document.querySelector("ul.nav-items").classList.toggle("mobile-menu");
-        //prevent scrolling on mobile when navigation is open
-        document.querySelector("body").classList.toggle("overflow-hidden");
-        //animate hamburger menu
-        const bars = document.querySelectorAll(
-          ".top-bar, .middle-bar, .bottom-bar"
-        );
-        bars.forEach((bar) => {
-          bar.classList.toggle("animate");
-        });
-      });
-    };
-    mobileMenu();
+<script is:inline>
+  function handleMenuToggle(event) {
+    const button = event.target.closest("button[aria-label='Toggle Menu']");
+    if (button) {
+      const navItems = document.querySelector("ul.nav-items");
+      const body = document.body;
+      const bars = document.querySelectorAll(
+        ".top-bar, .middle-bar, .bottom-bar"
+      );
+
+      if (navItems && bars.length) {
+        navItems.classList.toggle("mobile-menu");
+        body.classList.toggle("overflow-hidden");
+        bars.forEach((bar) => bar.classList.toggle("animate"));
+      }
+    }
+  }
+
+  function setupMobileMenu() {
+    document.removeEventListener("click", handleMenuToggle);
+    document.addEventListener("click", handleMenuToggle);
+    console.log("Mobile menu setup complete");
+  }
+
+  // Initial setup
+  setupMobileMenu();
+
+  // Setup for subsequent navigations
+  document.addEventListener("astro:after-swap", setupMobileMenu);
+
+  // Cleanup before navigation
+  document.addEventListener("astro:before-swap", () => {
+    document.removeEventListener("click", handleMenuToggle);
+    console.log("Mobile menu cleanup complete");
   });
 </script>
 <style>
@@ -89,7 +106,7 @@ const navItems = [
     @apply opacity-0 hidden fixed left-0 top-0 z-10 h-screen w-screen overflow-auto bg-zinc-900 pt-[20%] text-center transition-opacity duration-200 ease-in-out md:hidden lg:relative lg:block lg:h-auto lg:min-h-full lg:w-auto lg:bg-transparent lg:text-left lg:opacity-100;
   }
   ul.nav-items.mobile-menu {
-    @apply opacity-100 block;
+    @apply opacity-100 block !important;
   }
   .nav-link.active {
     @apply lg:after:w-full;
