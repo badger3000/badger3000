@@ -21,71 +21,8 @@ import NavItems from "./NavItems.astro";
     </a>
 
     <NavItems />
-    <button class="button group relative z-20 block lg:hidden">
-      <div
-        class="relative flex h-12 w-12 transform items-center justify-center overflow-hidden transition-all duration-200"
-      >
-        <div
-          class="flex h-5 w-5 origin-center transform flex-col justify-between overflow-hidden transition-all duration-300"
-        >
-          <div
-            class="top-bar h-0.5 w-7 origin-left transform bg-white transition-all duration-300"
-          >
-          </div>
-          <div
-            class="middle-bar h-0.5 w-1/2 transform rounded bg-white transition-all duration-300"
-          >
-          </div>
-          <div
-            class="bottom-bar h-0.5 w-7 origin-left transform bg-white transition-all duration-300"
-          >
-          </div>
-        </div>
-      </div>
-    </button>
   </nav>
   <p class="mb-2 text-xs whitespace-nowrap lg:mb-0 lg:block hidden">
     &copy Mad Badger Studios LLC
   </p>
 </header>
-<script is:inline data-astro-rerun>
-  document.addEventListener("astro:page-load", () => {
-    //mobile menu
-    const mobileMenu = () => {
-      //hamburger menu toggle
-      document.querySelector("button").addEventListener("click", () => {
-        //hide / show navigation on mobile
-        document.querySelector("ul").classList.toggle("mobile-menu");
-        //prevent scrolling on mobile when navigation is open
-        document.querySelector("body").classList.toggle("overflow-hidden");
-        //animate hamburger menu
-        const bars = document.querySelectorAll(
-          ".top-bar, .middle-bar, .bottom-bar"
-        );
-        bars.forEach((bar) => {
-          bar.classList.toggle("animate");
-        });
-      });
-    };
-  });
-</script>
-<style>
-  .nav-items.mobile-menu {
-    @apply opacity-100 sm:block;
-  }
-
-  .nav-link.active {
-    @apply lg:after:w-full;
-  }
-
-  .top-bar.animate {
-    @apply group-focus:rotate-[42deg];
-  }
-
-  .middle-bar.animate {
-    @apply group-focus:-translate-x-10;
-  }
-  .bottom-bar.animate {
-    @apply group-focus:-rotate-[42deg];
-  }
-</style>
