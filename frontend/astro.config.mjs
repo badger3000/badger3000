@@ -11,6 +11,9 @@ const SANITY_TOKEN = import.meta.env.VITE_SANITY_TOKEN;
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: {
+    enabled: false
+  },
   site: 'https://badger3000.com/',
   integrations: [tailwind(), alpinejs(), sanity({
     projectId: SANITY_PROJECT_ID,

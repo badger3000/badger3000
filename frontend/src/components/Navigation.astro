@@ -5,29 +5,22 @@ import NavItems from "./NavItems.astro";
 ---
 
 <header
-  class="mb-4 grid grid-rows-1 lg:grid-cols-1 lg:justify-items-center content-between lg:w-[10%] lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-[100vh] h-[90px] bg-gradient-to-t from-[#242F40] to-[#323F54] px-4 py-2.5 text-white drop-shadow-3xl lg:px-[20px] lg:py-[24px] lg:drop-shadow-none"
+  class="bg-white text-dark lg:col-span-2 col-span-9 transition-all lg:h-screen lg:pt-10 relative"
 >
-  <nav
-    class="lg:items-center flex flex-row lg:flex-col justify-between lg:justify-normal lg:flex-none"
+  <a
+    href="/"
+    class="w-[80px] h-[80px] lg:w-[100px] lg:h-[100px] lg:mx-auto lg:mb-24 text-center"
   >
-    <a href="/">
-      <Image
-        src={image}
-        format={"webp"}
-        sizes="(max-width: 414px) 65px (max-width: 1139px) 80px, 80px (min-width: 1140px) 100px, 100px"
-        alt="avatar"
-        class="avatar h-[70px] w-[70px] rounded-full border-8 border-[#242F40] transition-all duration-500 ease-in-out lg:h-[100px] lg:w-[100px]"
-      />
-    </a>
-
+    <Image
+      src={image}
+      format={"webp"}
+      sizes="(max-width: 414px) 65px (max-width: 1139px) 80px, 80px (min-width: 1140px) 100px, 100px"
+      alt="avatar"
+      class="avatar h-[100px] w-[100px] rounded-full transition-all duration-500 ease-in-out lg:h-[100px] lg:w-[100px mb-3.5"
+    />
+    <span class="font-bold text-xl">Kyle Ross</span>
+  </a>
+  <nav class="lg:w-full lg:h-screen flex flex-col align-middle relative">
     <NavItems />
   </nav>
-  <p class="mb-2 text-xs whitespace-nowrap lg:mb-0 lg:block hidden">
-    &copy Mad Badger Studios LLC
-  </p>
 </header>
-<style>
-  .nav-link.active {
-    @apply lg:after:w-full;
-  }
-</style>

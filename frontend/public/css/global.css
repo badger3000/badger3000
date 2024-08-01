@@ -1,9 +1,4 @@
-body {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background: linear-gradient(180deg, #363636 0%, #1c1a1a 100%);
-  transition: background 0.5s cubic-bezier(0.4, 0.4, 0, 1);
-}
+
 /* Register your custom font family and tell the browser where to find it. */
 :root,
 :host {
@@ -27,3 +22,57 @@ body {
   src: url('/fonts/webfonts/fa-brands-400.woff2') format('woff2'),
     url('/fonts/webfonts/fa-brands-400.ttf') format('truetype');
 }
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Black.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Bold.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Regular.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Light.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Medium.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cera Round Pro';
+  src: url('/fonts/webfonts/CeraRoundPro-Thin.woff2') format('woff2'),
+      url('/fonts/webfonts/CeraRoundPro-Thin.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+

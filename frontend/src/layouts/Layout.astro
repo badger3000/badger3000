@@ -1,39 +1,37 @@
 ---
 export interface Props {
-  title: string
+  title: string;
 }
 
-const { title } = Astro.props
+const {title} = Astro.props;
 
-import Navigation from '../components/Navigation.astro'
-import Footer from '../components/Footer.astro'
-import { ViewTransitions } from 'astro:transitions';
+import Navigation from "../components/Navigation.astro";
+import {ViewTransitions} from "astro:transitions";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon-32x32.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <!-- Font Awesome Styles-->
+    <!-- Font  Styles-->
     <link rel="stylesheet" href="/css/all.min.css" />
     <link rel="stylesheet" href="/css/global.css" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ViewTransitions />
   </head>
-  <body>
-    <Navigation />
+  <body class="bg-primary">
     <main class="min-h-screen">
-      <div class="grid grid-cols-16 gap-4 lg:min-h-screen">
-        <div class="col-span-16 lg:col-span-2"></div>
+      <div class="grid grid-cols-9 gap-5 min-h-screen">
+        <Navigation />
+        <div class="col-span-9 lg:col-span-7"></div>
         <!-- Column 2 content here -->
         <slot />
       </div>
     </main>
-    <Footer />
   </body>
 </html>
 <style>

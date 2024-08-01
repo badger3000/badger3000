@@ -2,19 +2,20 @@
 module.exports = {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
+    colors: {
+      transparent: 'transparent',
+      white: '#ffffff',
+      primary: '#DFEBED',
+      secondary: '#F78536',
+      neutral: '#497285',
+      dark: '#2B4450',
+    },
     extend: {
       dropShadow: {
         '3xl': '0px 16px 14px -14px rgba(255, 255, 255, 1);',
       },
-      gridTemplateColumns: {
-        // Simple 16 column grid
-        16: 'repeat(16, minmax(0, 1fr))',
-      },
-      gridColumn: {
-        'span-16': 'span 16 / span 16',
-      },
       fontFamily: {
-        sans: ['Plus Jakarta Sans'],
+        sans: ['Cera Round Pro'],
       },
       container: {
         center: true,
@@ -29,10 +30,10 @@ module.exports = {
         lg: '1024px',
         // => @media (min-width: 1024px) { ... }
 
-        xl: '1140px',
+        xl: '1280px',
         // => @media (min-width: 1280px) { ... }
 
-        '2xl': '1140px',
+        '2xl': '1280px',
         // => @media (min-width: 1536px) { ... }
       },
     },
