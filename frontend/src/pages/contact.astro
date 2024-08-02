@@ -1,15 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import ContactForm from "../components/ContactForm.astro";
 ---
 
 <Layout title="Contact Me">
-  <div class="col-span-16 lg:col-span-11">
-    <div
-      class="flex flex-col w-full text-white items-center h-screen align-middle"
-    >
-      <h1 class="text-4xl text-white">Contact Me</h1>
-      <ContactForm />
-    </div>
-  </div>
+  <PageLayout pageTitle="Contact Me">
+    <ContactForm />
+  </PageLayout>
 </Layout>

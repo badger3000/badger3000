@@ -1,4 +1,5 @@
 ---
+const pathname = new URL(Astro.request.url).pathname;
 const navItems = [
   {
     name: "Topics",
@@ -19,12 +20,11 @@ const navItems = [
 ---
 
 <span class="highlight"></span>
-
 {
   navItems.map((item) => (
     <a
       href={item.url}
-      class="hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links"
+      class={` ${pathname === item.url ? "current" : ""} hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links`}
     >
       <>
         <i class={item.icons + " nav-icon mr-4 z-10 relative"} />
@@ -59,7 +59,7 @@ const navItems = [
     </div>
   </div>
 </button>
-<script is:inline>
+<script is:inline data-astro-rerun>
   function handleMenuToggle(event) {
     const button = event.target.closest("button[aria-label='Toggle Menu']");
     if (button) {
@@ -90,30 +90,32 @@ const navItems = [
   document.addEventListener("astro:after-swap", setupMobileMenu);
 
   // Cleanup before navigation
-  document.addEventListener("astro:before-swap", () => {
+  document.addEventListener("astro:page-load", () => {
     document.removeEventListener("click", handleMenuToggle);
     console.log("Mobile menu cleanup complete");
   });
   //NAv hover states
   function NavHover() {
-    const setCssProps = (top, container) => {
-      container.style.setProperty("--barTop", `${top}px`);
-    };
+    document.addEventListener("astro:after-swap", () => {
+      const setCssProps = (top, container) => {
+        container.style.setProperty("--barTop", `${top}px`);
+      };
 
-    let currentTop;
+      let currentTop;
 
-    [...document.querySelector("nav").children].forEach((item) => {
-      if (item.classList.contains("current")) {
-        currentTop = item.offsetTop;
-        setCssProps(currentTop, item.parentNode);
-      }
+      [...document.querySelector("nav").children].forEach((item) => {
+        if (item.classList.contains("current")) {
+          currentTop = item.offsetTop;
+          setCssProps(currentTop, item.parentNode);
+        }
 
-      item.addEventListener("mouseenter", (event) => {
-        setCssProps(event.target.offsetTop, item.parentNode);
-      });
+        item.addEventListener("mouseup", (event) => {
+          setCssProps(currentTop, item.parentNode);
+        });
 
-      item.addEventListener("mouseleave", (event) => {
-        setCssProps(currentTop, item.parentNode);
+        item.addEventListener("mouseleave", (event) => {
+          setCssProps(currentTop, item.parentNode);
+        });
       });
     });
   }
@@ -145,6 +147,9 @@ const navItems = [
   .nav-links span {
     position: relative;
     z-index: 2;
+  }
+  .nav-links.current {
+    @apply text-secondary;
   }
   .highlight {
     content: "";

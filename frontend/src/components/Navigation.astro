@@ -5,7 +5,7 @@ import NavItems from "./NavItems.astro";
 ---
 
 <header
-  class="bg-white text-dark lg:col-span-2 col-span-9 transition-all lg:h-screen lg:pt-10 relative"
+  class="bg-white text-dark lg:col-span-2 col-span-9 transition-all lg:h-screen lg:pt-10 relative flex flex-col justify-center"
 >
   <a
     href="/"
@@ -20,7 +20,9 @@ import NavItems from "./NavItems.astro";
     />
     <span class="font-bold text-xl">Kyle Ross</span>
   </a>
-  <nav class="lg:w-full lg:h-screen flex flex-col align-middle relative">
+  <nav
+    class="lg:w-full lg:h-screen lg:flex flex-col align-middle relative hidden"
+  >
     <NavItems />
   </nav>
 </header>
