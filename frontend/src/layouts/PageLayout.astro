@@ -8,17 +8,16 @@ const {pageTitle} = Astro.props;
 
 <div class="lg:col-span-7 col-span-9">
   <section class="flex flex-row items-center w-full py-14 justify-items-start">
-    <h1 class="text-4xl font-bold text-secondary mr-14">{pageTitle}</h1>
-    <div
-      class="bg-white rounded-lg flex flex-row items-center"
-      transition:persist
-    >
+    <h1 class="text-4xl font-bold text-secondary mr-14 lg:min-w-60">
+      {pageTitle}
+    </h1>
+    <div class="flex flex-row items-center">
       <input
-        class="px-6 py-4 bg-transparent text-dark focus:outline-none min-w-[560px]"
+        class="px-6 py-4 bg-transparent text-dark focus:outline-none min-w-[560px] bg-white rounded-tl-lg rounded-bl-lg"
         type="text"
         placeholder="Search..."
       />
-      <button class="hover:bg-gray-700bg-white font-bold py-2 px-4 rounded">
+      <button class="bg-white font-bold rounded-tr-lg rounded-br-lg py-3 pr-6">
         <i class="fa-solid fa-search text-secondary text-2xl"></i></button
       >
     </div>
