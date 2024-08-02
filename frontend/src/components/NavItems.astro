@@ -24,10 +24,10 @@ const navItems = [
   navItems.map((item) => (
     <a
       href={item.url}
-      class="hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium"
+      class="hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links"
     >
       <>
-        <i class={item.icons + " nav-icon mr-4"} />
+        <i class={item.icons + " nav-icon mr-4 z-10 relative"} />
         <span>{item.name}</span>
       </>
     </a>
@@ -94,6 +94,30 @@ const navItems = [
     document.removeEventListener("click", handleMenuToggle);
     console.log("Mobile menu cleanup complete");
   });
+  //NAv hover states
+  function NavHover() {
+    const setCssProps = (top, container) => {
+      container.style.setProperty("--barTop", `${top}px`);
+    };
+
+    let currentTop;
+
+    [...document.querySelector("nav").children].forEach((item) => {
+      if (item.classList.contains("current")) {
+        currentTop = item.offsetTop;
+        setCssProps(currentTop, item.parentNode);
+      }
+
+      item.addEventListener("mouseenter", (event) => {
+        setCssProps(event.target.offsetTop, item.parentNode);
+      });
+
+      item.addEventListener("mouseleave", (event) => {
+        setCssProps(currentTop, item.parentNode);
+      });
+    });
+  }
+  NavHover();
 </script>
 <style>
   ul.nav-items.mobile-menu {
@@ -110,6 +134,18 @@ const navItems = [
   .bottom-bar.animate {
     @apply group-focus:-rotate-[42deg];
   }
+
+  .nav-links {
+    text-align: left;
+    position: relative;
+    display: block;
+    padding: 20px;
+    margin-left: 20%;
+  }
+  .nav-links span {
+    position: relative;
+    z-index: 2;
+  }
   .highlight {
     content: "";
     position: absolute;
@@ -119,7 +155,7 @@ const navItems = [
     height: 64px;
     background: #dfebed;
     transform: translateY(var(--barTop, 0));
-    width: 95%;
+    width: 80%;
     transition: 0.5s;
     pointer-events: none;
     border-radius: 40px 0 0 40px;
@@ -127,7 +163,6 @@ const navItems = [
   .highlight::after {
     content: "";
     display: block;
-    background: var(--primary-color);
     width: 40px;
     height: 40px;
     position: absolute;
@@ -139,7 +174,6 @@ const navItems = [
   .highlight::before {
     content: "";
     display: block;
-    background: var(--primary-color);
     width: 40px;
     height: 40px;
     position: absolute;
