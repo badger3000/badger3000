@@ -9,9 +9,12 @@ const {pageTitle} = Astro.props;
 <div class="lg:col-span-7 col-span-9">
   <section class="flex flex-row items-center w-full py-14 justify-items-start">
     <h1 class="text-4xl font-bold text-secondary mr-14">{pageTitle}</h1>
-    <div class="bg-white rounded-full py-2" transition:persist>
+    <div
+      class="bg-white rounded-lg flex flex-row items-center"
+      transition:persist
+    >
       <input
-        class="px-4 py-1 bg-transparent text-dark focus:outline-none min-w-[560px]"
+        class="px-6 py-4 bg-transparent text-dark focus:outline-none min-w-[560px]"
         type="text"
         placeholder="Search..."
       />
