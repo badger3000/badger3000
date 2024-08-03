@@ -13,7 +13,7 @@ import {ViewTransitions} from "astro:transitions";
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/images/favicon-32x32.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <!-- Font  Styles-->
@@ -24,17 +24,11 @@ import {ViewTransitions} from "astro:transitions";
     <ViewTransitions />
   </head>
   <body class="bg-primary">
-    <main class="min-h-screen">
-      <div class="grid grid-cols-9 gap-5 min-h-screen">
+    <main>
+      <div class="grid grid-cols-9 gap-4 lg:min-h-screen">
         <Navigation />
         <slot />
       </div>
     </main>
   </body>
 </html>
-<style>
-  html {
-    /**prevent layout shifting with scrollbar*/
-    scrollbar-gutter: stable;
-  }
-</style>
