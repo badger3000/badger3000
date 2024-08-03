@@ -6,14 +6,14 @@ export interface Props {
 const {pageTitle} = Astro.props;
 ---
 
-<div class="lg:col-span-7 col-span-9">
-  <section class="flex flex-row items-center w-full py-14 justify-items-start">
-    <h1 class="text-4xl font-bold text-secondary mr-14 lg:min-w-60">
+<div class="lg:col-span-7 col-span-9 py-16">
+  <section class="grid lg:grid-cols-7 col-span-9 gap-5">
+    <h1 class="text-4xl font-bold text-secondary lg:col-span-2">
       {pageTitle}
     </h1>
-    <div class="flex flex-row items-center">
+    <div class="flex flex-row items-center lg:col-span-5">
       <input
-        class="px-6 py-4 bg-transparent text-dark focus:outline-none min-w-[560px] bg-white rounded-tl-lg rounded-bl-lg"
+        class="px-6 py-4 bg-transparent text-dark focus:outline-none min-w-full lg:min-w-[560px] bg-white rounded-tl-lg rounded-bl-lg"
         type="text"
         placeholder="Search..."
       />

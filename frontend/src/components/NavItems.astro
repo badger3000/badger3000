@@ -8,12 +8,12 @@ const navItems = [
   },
   {
     name: "About",
-    url: "/about",
+    url: "/about/",
     icons: "fa-solid fa-address-card",
   },
   {
     name: "Contact",
-    url: "/contact",
+    url: "/contact/",
     icons: "fa-solid fa-inbox",
   },
 ];
@@ -59,7 +59,7 @@ const navItems = [
     </div>
   </div>
 </button>
-<script is:inline data-astro-rerun>
+<script is:inline>
   function handleMenuToggle(event) {
     const button = event.target.closest("button[aria-label='Toggle Menu']");
     if (button) {
@@ -96,7 +96,7 @@ const navItems = [
   });
   //NAv hover states
   function NavHover() {
-    document.addEventListener("astro:after-swap", () => {
+    document.addEventListener("astro:page-load", () => {
       const setCssProps = (top, container) => {
         container.style.setProperty("--barTop", `${top}px`);
       };
