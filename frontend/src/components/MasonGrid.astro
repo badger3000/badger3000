@@ -1,29 +1,126 @@
-<div>
-  <!-- With grid -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    <!-- Column #1 -->
-    <div class="grid gap-4">
-      <div class="block w-[232px] h-[290px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[290px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[174px] bg-white rounded"></div>
-    </div>
-    <!-- Column #2 -->
-    <div class="grid gap-4">
-      <div class="block w-[232px] h-[155px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[349px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[250px] bg-white rounded"></div>
-    </div>
-    <!-- Column #3 -->
-    <div class="grid gap-4">
-      <div class="block w-[232px] h-[349px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[155px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[250px] bg-white rounded"></div>
-    </div>
-    <!-- Column #4 -->
-    <div class="grid gap-4">
-      <div class="block w-[232px] h-[290px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[155px] bg-white rounded"></div>
-      <div class="block w-[232px] h-[309px] bg-white rounded"></div>
+<seciton class="grid lg:grid-cols-7 col-span-9 gap-5">
+  <div class="lg:col-start-3 lg:col-span-4 py-6">
+    <nav
+      class="flex flex-row flex-wrap gap-4 lg:gap-12 lg:text-2xl font-medium lg:py-6 items-center"
+    >
+      <button
+        class="filter-link active opacity-100 relative pb-2 after:block after:h-1 after:absolute after:bg-secondary after:w-full after:bottom-0"
+        data-filter="all">All</button
+      >
+      <button class="filter-link opacity-100 relative pb-2" data-filter="golf"
+        >Golf</button
+      >
+      <button
+        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
+        data-filter="skateboarding">Skateboarding</button
+      >
+      <button
+        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
+        data-filter="tech">Tech</button
+      >
+      <button
+        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
+        data-filter="codepen">Codepen</button
+      >
+    </nav>
+  </div>
+</seciton>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:px-4">
+  <div class="tile col-span-2" data-category="golf" data-order="1">
+    <a
+      href="#"
+      class="bg-secondary rounded-2xl drop-shadow-md min-w-full min-h-[400px] p-4 block"
+    >
+    </a>
+  </div>
+  <div class="tile col-span-1" data-category="golf" data-order="2">
+    <div
+      class="bg-dark rounded-2xl drop-shadow-md min-w-full min-h-[450px] p-4"
+    >
     </div>
   </div>
-</div>
+  <div class="tile col-span-1" data-category="skateboarding" data-order="2">
+    <div
+      class="bg-white rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
+    >
+    </div>
+  </div>
+  <div class="tile col-span-1" data-category="tech" data-order="3">
+    <div
+      class="bg-neutral rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
+    >
+    </div>
+  </div>
+  <div class="tile col-span-1" data-category="codepen" data-order="4">
+    <div
+      class="bg-white rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
+    >
+    </div>
+  </div>
+</section>
+
+<script>
+  // Define types for our HTML elements
+  type FilterLink = HTMLAnchorElement;
+  type Tile = HTMLDivElement;
+
+  // Helper function to ensure an element is not null
+  function assertNonNull<T>(value: T | null): asserts value is T {
+    if (value === null) {
+      throw new Error("Value is null");
+    }
+  }
+
+  // Function to initialize sorting and filtering
+  function initSortAndFilter() {
+    const filterLinks: NodeListOf<FilterLink> =
+      document.querySelectorAll(".filter-link");
+    const tiles: NodeListOf<Tile> = document.querySelectorAll(".tile");
+
+    filterLinks.forEach((link: FilterLink) => {
+      link.addEventListener("click", function (e: Event) {
+        e.preventDefault();
+        const filterValue: string | null = this.getAttribute("data-filter");
+        assertNonNull(filterValue);
+
+        // Remove active class from all links and add to the clicked one
+        filterLinks.forEach((link: FilterLink) =>
+          link.classList.remove("active")
+        );
+        this.classList.add("active");
+
+        // Filter and sort tiles
+        tiles.forEach((tile: Tile) => {
+          const tileFilter: string | null = tile.getAttribute("data-category");
+          assertNonNull(tileFilter);
+          if (filterValue === "all" || tileFilter === filterValue) {
+            tile.style.display = "block";
+          } else {
+            tile.style.display = "none";
+          }
+        });
+
+        // Sort visible tiles
+        const visibleTiles: Tile[] = Array.from(tiles).filter(
+          (tile: Tile) => tile.style.display !== "none"
+        );
+        visibleTiles.sort((a: Tile, b: Tile) => {
+          const orderA: string | null = a.getAttribute("data-order");
+          const orderB: string | null = b.getAttribute("data-order");
+          assertNonNull(orderA);
+          assertNonNull(orderB);
+          return parseInt(orderA) - parseInt(orderB);
+        });
+
+        // Reorder tiles in the DOM
+        const container: HTMLElement | null = tiles[0]
+          .parentNode as HTMLElement;
+        assertNonNull(container);
+        visibleTiles.forEach((tile: Tile) => container.appendChild(tile));
+      });
+    });
+  }
+
+  // Call the initialization function when the DOM is fully loaded
+  document.addEventListener("astro:page-load", initSortAndFilter);
+</script>

@@ -11,6 +11,10 @@ module.exports = {
       dark: '#2B4450',
     },
     extend: {
+      rotate: {
+        '30': '30deg',
+        '60': '60deg',
+      },
       dropShadow: {
         '3xl': '0px 16px 14px -14px rgba(255, 255, 255, 1);',
       },
@@ -38,5 +42,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-3d')({ legacy: true })],
 }
