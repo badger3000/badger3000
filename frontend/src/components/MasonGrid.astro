@@ -1,5 +1,5 @@
 <seciton class="grid lg:grid-cols-7 col-span-9 gap-5">
-  <div class="lg:col-start-3 lg:col-span-4 py-6">
+  <div class="lg:col-start-2 lg:col-span-4 py-6">
     <nav
       class="flex flex-row flex-wrap gap-4 lg:gap-12 lg:text-2xl font-medium lg:py-6 items-center"
     >
@@ -25,7 +25,7 @@
     </nav>
   </div>
 </seciton>
-<section class="tiles-container grid grid-cols-1 lg:grid-cols-3 gap-6 lg:px-4">
+<section class="tiles-container grid grid-cols-1 lg:grid-cols-3 gap-6 lg:px-32">
   <div class="tile col-span-2" data-category="golf" data-order="1">
     <a
       href="#"
@@ -64,31 +64,21 @@
   }
 
   .tile {
+    opacity: 0; /* Start with tiles invisible */
+    transform: rotateY(
+      -90deg
+    ); /* Changed to negative value for right rotation */
     transition:
-      transform 0.4s,
-      opacity 0.4s;
+      transform 0.6s ease-in-out,
+      opacity 0.6s ease-in-out;
     transform-style: preserve-3d;
     backface-visibility: hidden;
+    transform-origin: center center; /* Ensure rotation is centered */
   }
 
-  .tile.fade-out {
-    transform: rotateY(-90deg);
-    opacity: 0;
-  }
-
-  .tile.fade-in {
-    animation: fadeInFromRight 0.4s ease-out;
-  }
-
-  @keyframes fadeInFromRight {
-    from {
-      transform: rotateY(90deg);
-      opacity: 0;
-    }
-    to {
-      transform: rotateY(0);
-      opacity: 1;
-    }
+  .tile.visible {
+    opacity: 1;
+    transform: rotateY(0deg);
   }
 
   .filter-link {
@@ -123,6 +113,7 @@
     transform: scaleX(1);
   }
 </style>
+
 <script>
   // Define types for our HTML elements
   type FilterLink = HTMLButtonElement;
@@ -135,32 +126,24 @@
     }
   }
 
-  // Function to animate tiles
-  function animateTiles(tiles: NodeListOf<Tile>) {
-    tiles.forEach((tile: Tile) => {
-      tile.classList.add("fade-out");
-      tile.style.opacity = "0";
+  // Function to animate tiles on initial load
+  function animateInitialLoad(tiles: NodeListOf<Tile>) {
+    tiles.forEach((tile: Tile, index: number) => {
+      setTimeout(() => {
+        tile.classList.add("visible");
+      }, index * 110); // Increased delay between tiles
     });
+  }
 
-    setTimeout(() => {
-      tiles.forEach((tile: Tile, index: number) => {
-        setTimeout(() => {
-          tile.classList.remove("fade-out");
-          tile.classList.add("fade-in");
-          tile.style.opacity = "1";
-        }, index * 100); // Stagger the animations
-      });
-
-      // Remove fade-in class after all animations complete
-      setTimeout(
-        () => {
-          tiles.forEach((tile: Tile) => {
-            tile.classList.remove("fade-in");
-          });
-        },
-        tiles.length * 100 + 400
-      ); // Wait for all animations plus duration
-    }, 50); // Short delay before starting fade-in
+  // Function to animate tiles after sorting
+  function animateAfterSort(tiles: Tile[]) {
+    tiles.forEach((tile: Tile, index: number) => {
+      tile.classList.remove("visible");
+      tile.offsetHeight; // Force reflow
+      setTimeout(() => {
+        tile.classList.add("visible");
+      }, index * 110); // Increased delay between tiles
+    });
   }
 
   // Function to initialize sorting and filtering
@@ -170,7 +153,9 @@
     const tiles: NodeListOf<Tile> = document.querySelectorAll(".tile");
 
     // Animate tiles on initial load
-    animateTiles(tiles);
+    setTimeout(() => {
+      animateInitialLoad(tiles);
+    }, 150); // Added delay before starting initial animation
 
     filterLinks.forEach((link: FilterLink) => {
       link.addEventListener("click", function (e: Event) {
@@ -178,25 +163,21 @@
         const filterValue: string | null = this.getAttribute("data-filter");
         assertNonNull(filterValue);
 
-        // Remove active class from all links and add to the clicked one
+        // Update active state of filter links
         filterLinks.forEach((link: FilterLink) => {
-          link.classList.remove("active");
-          link.classList.remove("opacity-100");
+          link.classList.remove("active", "opacity-100");
           link.classList.add("opacity-60");
         });
-        this.classList.add("active");
+        this.classList.add("active", "opacity-100");
         this.classList.remove("opacity-60");
-        this.classList.add("opacity-100");
 
-        // Apply fade-out animation to all tiles
+        // Fade out all tiles
         tiles.forEach((tile: Tile) => {
-          tile.classList.add("fade-out");
-          tile.style.opacity = "0";
+          tile.classList.remove("visible");
         });
 
-        // Wait for the fade-out animation to complete
+        // Wait for fade-out, then filter and animate
         setTimeout(() => {
-          // Filter and prepare tiles
           const visibleTiles: Tile[] = Array.from(tiles).filter(
             (tile: Tile) => {
               const tileFilter: string | null =
@@ -204,13 +185,7 @@
               assertNonNull(tileFilter);
               const isVisible =
                 filterValue === "all" || tileFilter === filterValue;
-
-              if (isVisible) {
-                tile.style.display = "";
-              } else {
-                tile.style.display = "none";
-                tile.classList.remove("fade-out"); // Remove fade-out from hidden tiles
-              }
+              tile.style.display = isVisible ? "" : "none";
               return isVisible;
             }
           );
@@ -230,28 +205,11 @@
           assertNonNull(container);
           visibleTiles.forEach((tile: Tile) => container.appendChild(tile));
 
-          // Trigger reflow to ensure new positions are calculated before animating in
-          container.offsetHeight;
-
-          // Animate in the visible tiles
-          visibleTiles.forEach((tile: Tile, index: number) => {
-            setTimeout(() => {
-              tile.classList.remove("fade-out");
-              tile.classList.add("fade-in");
-              tile.style.opacity = "1";
-            }, index * 100); // Stagger the animations
-          });
-
-          // Remove fade-in class after all animations complete
-          setTimeout(
-            () => {
-              visibleTiles.forEach((tile: Tile) => {
-                tile.classList.remove("fade-in");
-              });
-            },
-            visibleTiles.length * 100 + 400
-          ); // Wait for all animations plus duration
-        }, 400); // Wait for fade-out to complete before starting fade-in
+          // Animate visible tiles
+          setTimeout(() => {
+            animateAfterSort(visibleTiles);
+          }, 50); // Added delay before starting after-sort animation
+        }, 300); // Increased wait time for fade-out to complete
       });
     });
   }
