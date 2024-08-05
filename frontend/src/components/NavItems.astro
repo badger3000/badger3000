@@ -59,68 +59,6 @@ const navItems = [
     </div>
   </div>
 </button>
-<script is:inline>
-  function handleMenuToggle(event) {
-    const button = event.target.closest("button[aria-label='Toggle Menu']");
-    if (button) {
-      const navItems = document.querySelector("ul.nav-items");
-      const body = document.body;
-      const bars = document.querySelectorAll(
-        ".top-bar, .middle-bar, .bottom-bar"
-      );
-
-      if (navItems && bars.length) {
-        navItems.classList.toggle("mobile-menu");
-        body.classList.toggle("overflow-hidden");
-        bars.forEach((bar) => bar.classList.toggle("animate"));
-      }
-    }
-  }
-
-  function setupMobileMenu() {
-    document.removeEventListener("click", handleMenuToggle);
-    document.addEventListener("click", handleMenuToggle);
-    console.log("Mobile menu setup complete");
-  }
-
-  // Initial setup
-  setupMobileMenu();
-
-  // Setup for subsequent navigations
-  document.addEventListener("astro:after-swap", setupMobileMenu);
-
-  // Cleanup before navigation
-  document.addEventListener("astro:page-load", () => {
-    document.removeEventListener("click", handleMenuToggle);
-    console.log("Mobile menu cleanup complete");
-  });
-  //NAv hover states
-  function NavHover() {
-    document.addEventListener("astro:page-load", () => {
-      const setCssProps = (top, container) => {
-        container.style.setProperty("--barTop", `${top}px`);
-      };
-
-      let currentTop;
-
-      [...document.querySelector("nav").children].forEach((item) => {
-        if (item.classList.contains("current")) {
-          currentTop = item.offsetTop;
-          setCssProps(currentTop, item.parentNode);
-        }
-
-        item.addEventListener("mouseup", (event) => {
-          setCssProps(currentTop, item.parentNode);
-        });
-
-        item.addEventListener("mouseleave", (event) => {
-          setCssProps(currentTop, item.parentNode);
-        });
-      });
-    });
-  }
-  NavHover();
-</script>
 <style>
   ul.nav-items.mobile-menu {
     @apply opacity-100 block !important;
@@ -188,3 +126,74 @@ const navItems = [
     box-shadow: 0 -20px 0 0 #dfebed;
   }
 </style>
+<script>
+  function NavHighlight(): void {
+    const navElement: HTMLElement | null = document.querySelector("nav");
+    const highlight: HTMLElement | null = document.querySelector(".highlight");
+    let currentTop: number = 0;
+    let prevTop: number = 0;
+
+    function updateHighlight(top: number, duration: number = 300): void {
+      if (highlight) {
+        highlight.style.transition = `transform ${duration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
+        highlight.style.transform = `translateY(${top}px)`;
+      }
+    }
+
+    function getCurrentItemTop(): number {
+      if (navElement) {
+        const currentItem: HTMLElement | null =
+          navElement.querySelector(".current");
+        return currentItem ? currentItem.offsetTop : 0;
+      }
+      return 0;
+    }
+
+    function smoothTransition(from: number, to: number): void {
+      updateHighlight(from, 0); // Move instantly to the previous position
+      requestAnimationFrame(() => {
+        updateHighlight(to); // Then animate to the new position
+      });
+    }
+
+    // Initialize highlight position without animation
+    currentTop = getCurrentItemTop();
+    updateHighlight(currentTop, 0);
+
+    // Update highlight position before page transition
+    document.addEventListener("astro:before-swap", () => {
+      prevTop = currentTop;
+    });
+
+    // Update highlight position after page transition
+    document.addEventListener("astro:after-swap", () => {
+      currentTop = getCurrentItemTop();
+      smoothTransition(prevTop, currentTop);
+    });
+
+    // Handle click events on nav items
+    if (navElement) {
+      navElement.addEventListener("click", (event: MouseEvent) => {
+        const clickedItem: HTMLElement | null = (
+          event.target as HTMLElement
+        ).closest("a");
+        if (clickedItem) {
+          prevTop = currentTop;
+          currentTop = clickedItem.offsetTop;
+          smoothTransition(prevTop, currentTop);
+        }
+      });
+    }
+
+    // Add resize listener to adjust highlight position
+    window.addEventListener("resize", () => {
+      currentTop = getCurrentItemTop();
+      updateHighlight(currentTop, 0);
+    });
+  }
+
+  // Ensure the script runs on initial page load and subsequent navigations
+  document.addEventListener("astro:page-load", NavHighlight);
+  document.addEventListener("astro:after-swap", NavHighlight);
+  NavHighlight();
+</script>
