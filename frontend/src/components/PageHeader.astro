@@ -1,0 +1,25 @@
+---
+export interface Props {
+  pageTitle: string;
+}
+
+const {pageTitle} = Astro.props;
+---
+
+<section class="grid lg:grid-cols-7 lg:pl-12 col-span-9 gap-5">
+  <h1
+    class="text-4xl font-bold text-secondary lg:col-span-2 order-last lg:order-first"
+  >
+    {pageTitle}
+  </h1>
+  <div class="flex flex-row items-center lg:col-span-5">
+    <input
+      class="px-6 py-4 bg-transparent text-dark focus:outline-none w-full lg:w-3/5 bg-white rounded-tl-lg rounded-bl-lg transition-all duration-300"
+      type="text"
+      placeholder="Search..."
+    />
+    <button class="bg-white font-bold rounded-tr-lg rounded-br-lg py-3 pr-6">
+      <i class="fa-solid fa-search text-secondary text-2xl"></i></button
+    >
+  </div>
+</section>
