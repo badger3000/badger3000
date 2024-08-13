@@ -15,7 +15,11 @@ export default defineConfig({
     enabled: false
   },
   site: 'https://badger3000.com/',
-  integrations: [tailwind(), alpinejs(), sanity({
+  integrations: [tailwind(
+    {
+      applyBaseStyles: false,
+    }
+    ), alpinejs(), sanity({
     projectId: SANITY_PROJECT_ID,
     dataset: SANITY_DATASET,
     token: SANITY_TOKEN,
@@ -30,5 +34,17 @@ export default defineConfig({
       'import.meta.env.PUBLIC_MY_INDEX_NAME_POSTS': JSON.stringify(process.env.MY_INDEX_NAME_POSTS),
       'import.meta.env.PUBLIC_MY_INDEX_NAME_PROJECTS': JSON.stringify(process.env.MY_INDEX_NAME_PROJECTS),
     },
+    plugins: [
+      {
+        name: 'prettier-plugin-tailwindcss',
+        enforce: 'pre',
+        apply: 'build',
+        transform(code, id) {
+          if (id.endsWith('.astro')) {
+            return code;
+          }
+        },
+      },
+    ],
   },
 });

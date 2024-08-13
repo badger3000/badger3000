@@ -2,15 +2,17 @@ module.exports = {
   trailingComma: 'es5',
   semi: false,
   singleQuote: true,
-  tailwindConfig: './tailwind.config.cjs',
-  plugins: [require('prettier-plugin-tailwindcss')],
-  plugins: [require.resolve('prettier-plugin-astro')],
+  tailwindConfig: './tailwind.config.mjs',
+  plugins: [
+    require('prettier-plugin-tailwindcss'),
+    require('prettier-plugin-astro')
+  ],
   overrides: [
     {
-      files: '*.astro,*.css',
+      files: '*.astro',
       options: {
         parser: 'astro',
       },
     },
   ],
-}
+};
