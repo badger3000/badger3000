@@ -1,4 +1,5 @@
 ---
+import MobileNav from "./MobileNav";
 import {Image} from "astro:assets";
 import image from "../assets/images/avatar.jpg";
 import NavItems from "./NavItems.astro";
@@ -8,7 +9,7 @@ import NavItems from "./NavItems.astro";
   <div
     class="bg-white text-dark px-4 py-4 lg:pt-10 lg:px-0 relative col-span-9 lg:col-span-2 transition-all h-full lg:h-screen w-full"
   >
-    <div class="flex flex-col justify-center">
+    <div class="flex flex-row lg:flex-col lg:justify-center justify-between">
       <a
         href="/"
         class="lg:mx-auto lg:mb-24 text-center inline-block h-[65px] w-[65px] lg:h-[100px] lg:w-[100px]"
@@ -28,6 +29,7 @@ import NavItems from "./NavItems.astro";
       >
         <NavItems />
       </nav>
+      <MobileNav client:load />
     </div>
   </div>
 </header>
