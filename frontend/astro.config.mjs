@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import alpinejs from '@astrojs/alpinejs';
-import sanity from 'astro-sanity';
 // Sanity project info
 import sitemap from '@astrojs/sitemap';
 import sanity from "@sanity/astro";

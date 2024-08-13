@@ -1,6 +1,7 @@
-import { portableTextToHtml } from 'astro-sanity'
-import { urlForImage } from './urlForImage'
+import { PortableText } from 'astro-portabletext'
+import { urlForImage } from './urlForImages'
 
+// Custom components for PortableText
 const customComponents = {
   types: {
     image: ({ value }) => {
@@ -21,6 +22,7 @@ const customComponents = {
   },
 }
 
-export function sanityPortableText(portabletext) {
-  return portableTextToHtml(portabletext, customComponents)
-}
+// Export PortableText component with custom components
+export const SanityPortableText = (props) => (
+  <PortableText value={props.value} components={customComponents} />
+)
