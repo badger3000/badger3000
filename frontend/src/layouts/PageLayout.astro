@@ -8,7 +8,7 @@ export interface Props {
 const {pageTitle} = Astro.props;
 ---
 
-<div class="lg:col-span-7 lg:col-start-3 col-span-9 lg:py-16 px-6 lg:px-0">
+<div class="lg:col-span-7 lg:col-start-3 col-span-9 lg:py-16 px-6 lg:px-0 z-20">
   <PageHeader pageTitle={pageTitle} />
   <slot />
 </div>

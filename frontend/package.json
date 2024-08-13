@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/alpinejs": "^0.4.0",
+    "@astrojs/react": "^3.6.2",
     "@astrojs/sitemap": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",

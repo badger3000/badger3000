@@ -1,4 +1,5 @@
 ---
+import AlgoliaSearch from "../components/AlgoliaSearch.jsx";
 export interface Props {
   pageTitle: string;
 }
@@ -13,13 +14,6 @@ const {pageTitle} = Astro.props;
     {pageTitle}
   </h1>
   <div class="flex flex-row items-center lg:col-span-5">
-    <input
-      class="px-6 py-4 bg-transparent text-dark focus:outline-none w-full lg:w-3/5 bg-white rounded-tl-lg rounded-bl-lg transition-all duration-300"
-      type="text"
-      placeholder="Search..."
-    />
-    <button class="bg-white font-bold rounded-tr-lg rounded-br-lg py-3 pr-6">
-      <i class="fa-solid fa-search text-secondary text-2xl"></i></button
-    >
+    <AlgoliaSearch client:load />
   </div>
 </section>
