@@ -1,29 +1,33 @@
 import {indexToAlgolia} from "./algoliaIndexing.js";
-import {createHmac} from "crypto";
+import crypto from "crypto";
 
-const verifySignature = (rawBody, signature, secret) => {
+const verifySignature = (body, signature, secret) => {
   console.log("Verifying signature...");
   console.log("Received signature:", signature);
 
-  const [timestampPart, givenSignature] = signature.split(",");
-  const timestamp = timestampPart.split("=")[1]; // Extract only the timestamp value
+  const [timestampStr, signatureHash] = signature.split(",");
+  const timestamp = timestampStr.split("=")[1];
+  const receivedHash = signatureHash.split("=")[1];
   console.log("Extracted timestamp:", timestamp);
-  console.log("Extracted given signature:", givenSignature);
+  console.log("Extracted signature hash:", receivedHash);
 
-  const hmac = createHmac("sha256", secret);
-  const stringToSign = `${timestamp}.${rawBody}`; // Use the raw body string
-  console.log("String to sign:", stringToSign);
+  const hmac = crypto.createHmac("sha256", secret);
+  const payloadToVerify = `${timestamp}.${body}`;
+  hmac.update(payloadToVerify);
+  const computedHash = hmac.digest("hex");
 
-  hmac.update(stringToSign);
-  const computedSignature = `v1=${hmac.digest("hex")}`;
-  console.log("Computed signature:", computedSignature);
+  console.log("Payload to verify:", payloadToVerify);
+  console.log("Computed hash:", computedHash);
+  console.log("Received hash:", receivedHash);
 
-  const isValid = givenSignature === computedSignature;
+  const isValid = crypto.timingSafeEqual(
+    Buffer.from(computedHash),
+    Buffer.from(receivedHash)
+  );
+
   console.log("Signature valid:", isValid);
-
   return isValid;
 };
-
 export const handler = async (event, context) => {
   console.log(
     "Received event headers:",
