@@ -33,7 +33,10 @@ const CustomSearchBox = connectSearchBox(
         }}
         placeholder="Search..."
       />
-      <button className="bg-white font-bold rounded-tr-lg rounded-br-lg py-3 pr-6">
+      <button
+        className="bg-white font-bold rounded-tr-lg rounded-br-lg py-3 pr-6"
+        aria-label="Search"
+      >
         <i className="fa-solid fa-search text-secondary text-2xl"></i>
       </button>
     </div>
