@@ -14,47 +14,46 @@ const algoliaClient = algoliasearch(
   process.env.MY_ALGOLIA_ADMIN_API_KEY
 );
 
-// Define content types with their queries and Algolia index names
 const contentTypes = [
   {
     type: "projects",
     indexName: process.env.MY_INDEX_NAME_PROJECTS,
     query:
-      '*[_type == "projects" && defined(slug.current)] { _id, title, description, "slug": slug.current }',
+      '*[_type == "projects" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
   },
   {
     type: "articles",
     indexName: process.env.MY_INDEX_NAME_POSTS,
     query:
-      '*[_type == "articles" && defined(slug.current)] { _id, title, description, "slug": slug.current }',
+      '*[_type == "articles" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
   },
   {
     type: "codepenExample",
     indexName: process.env.MY_INDEX_NAME_CODEPENS,
-    query: '*[_type == "codepenExample"] { _id, title, description }',
+    query:
+      '*[_type == "codepenExample" && _id == $documentId][0]{ _id, title, description }',
   },
 ];
 
-const fetchSanityData = async (contentTypes) => {
-  const results = {};
+const fetchSanityDocument = async (documentId) => {
   for (const {type, query} of contentTypes) {
-    results[type] = await client.fetch(query);
+    const document = await client.fetch(query, {documentId});
+    if (document) {
+      return {type, document};
+    }
   }
-  return results;
+  return null;
 };
 
-const formatDataForAlgolia = (data, contentType) => {
-  return data.map((item) => ({
-    objectID: item._id,
-    type: contentType,
-    ...item,
-  }));
-};
+const formatForAlgolia = (document, contentType) => ({
+  objectID: document._id,
+  type: contentType,
+  ...document,
+});
 
 export const indexToAlgolia = async (eventType, documentId) => {
   try {
     if (eventType === "delete") {
-      // Handle deletion
       for (const {indexName} of contentTypes) {
         const index = algoliaClient.initIndex(indexName);
         await index.deleteObject(documentId);
@@ -63,21 +62,23 @@ export const indexToAlgolia = async (eventType, documentId) => {
         );
       }
     } else {
-      // Handle creation or update
-      const allData = await fetchSanityData(contentTypes);
-
-      for (const {type, indexName} of contentTypes) {
-        const index = algoliaClient.initIndex(indexName);
-        const algoliaObjects = formatDataForAlgolia(allData[type], type);
-
-        const {objectIDs} = await index.saveObjects(algoliaObjects);
-        console.log(
-          `Indexed ${objectIDs.length} ${type} to Algolia index '${indexName}'`
+      const result = await fetchSanityDocument(documentId);
+      if (result) {
+        const {type, document} = result;
+        const index = algoliaClient.initIndex(
+          contentTypes.find((ct) => ct.type === type).indexName
         );
+        const algoliaObject = formatForAlgolia(document, type);
+        await index.saveObject(algoliaObject);
+        console.log(
+          `Indexed document ${documentId} to Algolia index for ${type}`
+        );
+      } else {
+        console.log(`Document ${documentId} not found in Sanity`);
       }
     }
   } catch (error) {
     console.error("Error during indexing:", error);
-    throw error; // Rethrow the error so the webhook handler can catch it
+    throw error;
   }
 };

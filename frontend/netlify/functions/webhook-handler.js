@@ -1,9 +1,6 @@
 import {indexToAlgolia} from "./algoliaIndexing.js";
 
 export const handler = async (event, context) => {
-  // Log the entire event for debugging
-  console.log("Received webhook event:", JSON.stringify(event, null, 2));
-
   // Verify the webhook secret
   const WEBHOOK_SECRET = process.env.VITE_SANITY_WEBHOOK_SECRET;
   if (event.headers["sanity-webhook-secret"] !== WEBHOOK_SECRET) {
@@ -27,18 +24,24 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Log all properties of the body
   console.log("Webhook body properties:", Object.keys(body));
 
-  // Try to identify the event type
-  const eventType = body.type || body.operation || body.eventType;
-  console.log("Identified event type:", eventType);
+  // Infer the event type
+  let eventType;
+  if (!body._id) {
+    eventType = "delete";
+  } else if (body._createdAt === body._updatedAt) {
+    eventType = "create";
+  } else {
+    eventType = "update";
+  }
 
-  const documentId = body.documentId || body._id || body.id;
-  console.log("Identified document ID:", documentId);
+  console.log("Inferred event type:", eventType);
 
-  // Check if the webhook is triggered by a relevant event
-  if (eventType && ["create", "update", "delete"].includes(eventType)) {
+  const documentId = body._id;
+  console.log("Document ID:", documentId);
+
+  if (eventType && documentId) {
     try {
       console.log(
         `Received ${eventType} event from Sanity for document ${documentId}. Starting indexing...`
@@ -63,11 +66,11 @@ export const handler = async (event, context) => {
       };
     }
   } else {
-    console.log(`Received event with unrecognized type: ${eventType}`);
+    console.log(`Received event with unrecognized type or missing document ID`);
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: "Event type not recognized or not relevant for indexing",
+        message: "Event not recognized or missing document ID",
       }),
     };
   }

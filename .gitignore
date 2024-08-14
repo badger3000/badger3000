@@ -9,3 +9,6 @@ package-lock.json
 .env.development
 
 /web
+
+# Local Netlify folder
+.netlify
