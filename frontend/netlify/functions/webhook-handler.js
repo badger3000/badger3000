@@ -10,12 +10,12 @@ const verifySignature = (body, signature, secret) => {
 
   const hmac = crypto.createHmac("sha256", secret);
   hmac.update(timestamp + "." + body);
-  const expectedSignature = "v1=" + hmac.digest("hex");
+  const expectedSignature = hmac.digest("hex");
 
   console.log("Expected signature:", expectedSignature);
-  console.log("Received signature hash:", signatureHash);
+  console.log("Received signature hash:", signatureHash.split("=")[1]);
 
-  const isValid = expectedSignature === signatureHash;
+  const isValid = expectedSignature === signatureHash.split("=")[1];
 
   console.log("Signature valid:", isValid);
   return isValid;
@@ -50,29 +50,17 @@ export const handler = async (event, context) => {
   let body;
   try {
     body = JSON.parse(event.body);
-    console.log("Parsed webhook payload:", JSON.stringify(body, null, 2));
   } catch (error) {
     console.error("Error parsing webhook payload:", error);
-    return {
-      statusCode: 400,
-      body: JSON.stringify({message: "Invalid JSON", error: error.message}),
-    };
+    return {statusCode: 400, body: JSON.stringify({message: "Invalid JSON"})};
   }
 
   const eventType = event.headers["sanity-operation"];
   const documentId = event.headers["sanity-document-id"];
 
-  console.log(`Event type: ${eventType}, Document ID: ${documentId}`);
-
   if (["create", "update", "delete"].includes(eventType)) {
     try {
-      console.log(
-        `Received ${eventType} event from Sanity for document ${documentId}. Starting indexing...`
-      );
-
       await indexToAlgolia(eventType, documentId);
-
-      console.log(`Indexing completed successfully for document ${documentId}`);
       return {
         statusCode: 200,
         body: JSON.stringify({message: "Indexing completed", documentId}),
@@ -84,12 +72,10 @@ export const handler = async (event, context) => {
         body: JSON.stringify({
           message: "Indexing failed",
           error: error.message,
-          documentId,
         }),
       };
     }
   } else {
-    console.log(`Received non-indexing event: ${eventType}`);
     return {
       statusCode: 200,
       body: JSON.stringify({message: "Event type not relevant for indexing"}),
