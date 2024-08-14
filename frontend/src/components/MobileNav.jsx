@@ -1,11 +1,32 @@
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
+  SheetTitle,
   SheetHeader,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+//nav links
+const navItems = [
+  {
+    name: "Topics",
+    url: "/",
+    icons: "fa-solid fa-comments",
+    id: 1,
+  },
+  {
+    name: "About",
+    url: "/about/",
+    icons: "fa-solid fa-address-card",
+    id: 2,
+  },
+  {
+    name: "Contact",
+    url: "/contact/",
+    icons: "fa-solid fa-inbox",
+    id: 3,
+  },
+];
 export default function MobileNav() {
   return (
     <Sheet>
@@ -28,8 +49,23 @@ export default function MobileNav() {
       </SheetTrigger>
       <SheetContent className="lg:hidden block max-w-3/4" side={"left"}>
         <SheetHeader>
-          <SheetDescription></SheetDescription>
+          <SheetTitle className="sr-only">main navigation</SheetTitle>
         </SheetHeader>
+        <ul className="mt-12 mx-auto justify-center text-center">
+          {navItems.map((item) => (
+            <li className="my-10" key={item.id}>
+              <a
+                href={item.url}
+                className={`hover:text-secondary transition-all duration-500 text-3xl font-medium text-dark`}
+              >
+                <>
+                  <i className={item.icons + " nav-icon mr-4 z-10 relative"} />
+                  <span>{item.name}</span>
+                </>
+              </a>
+            </li>
+          ))}
+        </ul>
       </SheetContent>
     </Sheet>
   );
