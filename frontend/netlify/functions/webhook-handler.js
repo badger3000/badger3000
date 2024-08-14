@@ -7,42 +7,22 @@ const verifySignature = (body, signature, secret) => {
 
   const [timestampStr, signatureHash] = signature.split(",");
   const timestamp = timestampStr.split("=")[1];
-  const receivedHash = signatureHash.split("=")[1];
-  console.log("Extracted timestamp:", timestamp);
-  console.log("Extracted signature hash:", receivedHash);
 
   const hmac = crypto.createHmac("sha256", secret);
-  const payloadToVerify = `${timestamp}.${body}`;
-  hmac.update(payloadToVerify);
-  const computedHash = hmac.digest("hex");
+  hmac.update(timestamp + "." + body);
+  const expectedSignature = "v1=" + hmac.digest("hex");
 
-  console.log("Payload to verify:", payloadToVerify);
-  console.log("Computed hash:", computedHash);
-  console.log("Received hash:", receivedHash);
+  console.log("Expected signature:", expectedSignature);
+  console.log("Received signature hash:", signatureHash);
 
-  const isValid = crypto.timingSafeEqual(
-    Buffer.from(computedHash),
-    Buffer.from(receivedHash)
-  );
+  const isValid = expectedSignature === signatureHash;
 
   console.log("Signature valid:", isValid);
   return isValid;
 };
 export const handler = async (event, context) => {
-  console.log(
-    "Received event headers:",
-    JSON.stringify(event.headers, null, 2)
-  );
-  console.log("Received event body:", event.body);
-
   const WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
-  console.log(
-    "SANITY_WEBHOOK_SECRET length:",
-    WEBHOOK_SECRET ? WEBHOOK_SECRET.length : "undefined"
-  );
-
   const signature = event.headers["sanity-webhook-signature"];
-  console.log("Received signature:", signature);
 
   if (!WEBHOOK_SECRET) {
     console.error("SANITY_WEBHOOK_SECRET is not set in environment variables");
@@ -54,20 +34,14 @@ export const handler = async (event, context) => {
 
   if (!signature) {
     console.error("No Sanity webhook signature found in headers");
-    return {
-      statusCode: 401,
-      body: JSON.stringify({message: "Unauthorized"}),
-    };
+    return {statusCode: 401, body: JSON.stringify({message: "Unauthorized"})};
   }
 
   const isValid = verifySignature(event.body, signature, WEBHOOK_SECRET);
 
   if (!isValid) {
     console.error("Invalid webhook signature");
-    return {
-      statusCode: 401,
-      body: JSON.stringify({message: "Unauthorized"}),
-    };
+    return {statusCode: 401, body: JSON.stringify({message: "Unauthorized"})};
   }
 
   console.log("Webhook signature verified successfully");
