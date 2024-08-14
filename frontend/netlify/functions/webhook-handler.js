@@ -2,7 +2,7 @@ import {indexToAlgolia} from "./algoliaIndexing.js";
 
 export const handler = async (event, context) => {
   // Verify the webhook secret
-  const WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.VITE_SANITY_WEBHOOK_SECRET;
   if (event.headers["sanity-webhook-secret"] !== WEBHOOK_SECRET) {
     console.error("Unauthorized webhook attempt");
     return {

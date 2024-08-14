@@ -2,35 +2,35 @@ import algoliasearch from "algoliasearch";
 import {createClient} from "@sanity/client";
 
 const client = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  token: process.env.SANITY_TOKEN,
+  projectId: process.env.VITE_SANITY_PROJECT_ID,
+  dataset: process.env.VITE_SANITY_DATASET,
+  token: process.env.VITE_SANITY_TOKEN,
   useCdn: false,
   apiVersion: "2021-03-25",
 });
 
 const algoliaClient = algoliasearch(
-  process.env.ALGOLIA_APP_ID,
-  process.env.ALGOLIA_ADMIN_API_KEY
+  process.env.MY_ALGOLIA_APP_ID,
+  process.env.MY_ALGOLIA_ADMIN_API_KEY
 );
 
 // Define content types with their queries and Algolia index names
 const contentTypes = [
   {
     type: "projects",
-    indexName: "projects",
+    indexName: process.env.MY_INDEX_NAME_PROJECTS,
     query:
       '*[_type == "projects" && defined(slug.current)] { _id, title, description, "slug": slug.current }',
   },
   {
     type: "articles",
-    indexName: "posts",
+    indexName: process.env.MY_INDEX_NAME_POSTS,
     query:
       '*[_type == "articles" && defined(slug.current)] { _id, title, description, "slug": slug.current }',
   },
   {
     type: "codepenExample",
-    indexName: "codepens",
+    indexName: process.env.MY_INDEX_NAME_CODEPENS,
     query: '*[_type == "codepenExample"] { _id, title, description }',
   },
 ];
