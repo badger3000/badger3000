@@ -2,11 +2,25 @@ import {indexToAlgolia} from "./algoliaIndexing.js";
 import {createHmac} from "crypto";
 
 const verifySignature = (body, signature, secret) => {
+  console.log("Verifying signature...");
+  console.log("Received signature:", signature);
+
   const [timestamp, givenSignature] = signature.split(",");
+  console.log("Extracted timestamp:", timestamp);
+  console.log("Extracted given signature:", givenSignature);
+
   const hmac = createHmac("sha256", secret);
-  hmac.update(timestamp + "." + body);
-  const computedSignature = hmac.digest("hex");
-  return givenSignature === `v1=${computedSignature}`;
+  const stringToSign = `${timestamp}.${body}`;
+  console.log("String to sign:", stringToSign);
+
+  hmac.update(stringToSign);
+  const computedSignature = `v1=${hmac.digest("hex")}`;
+  console.log("Computed signature:", computedSignature);
+
+  const isValid = givenSignature === computedSignature;
+  console.log("Signature valid:", isValid);
+
+  return isValid;
 };
 
 export const handler = async (event, context) => {
@@ -14,9 +28,16 @@ export const handler = async (event, context) => {
     "Received event headers:",
     JSON.stringify(event.headers, null, 2)
   );
+  console.log("Received event body:", event.body);
 
   const WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
+  console.log(
+    "SANITY_WEBHOOK_SECRET length:",
+    WEBHOOK_SECRET ? WEBHOOK_SECRET.length : "undefined"
+  );
+
   const signature = event.headers["sanity-webhook-signature"];
+  console.log("Received signature:", signature);
 
   if (!WEBHOOK_SECRET) {
     console.error("SANITY_WEBHOOK_SECRET is not set in environment variables");
@@ -59,11 +80,11 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Extract the event type and document ID from the Sanity webhook payload
   const eventType = event.headers["sanity-operation"];
   const documentId = event.headers["sanity-document-id"];
 
-  // Check if the webhook is triggered by a relevant event
+  console.log(`Event type: ${eventType}, Document ID: ${documentId}`);
+
   if (["create", "update", "delete"].includes(eventType)) {
     try {
       console.log(
