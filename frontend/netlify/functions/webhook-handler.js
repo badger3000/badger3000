@@ -1,4 +1,13 @@
 import {indexToAlgolia} from "./algoliaIndexing.js";
+import {createHmac} from "crypto";
+
+const verifySignature = (body, signature, secret) => {
+  const [timestamp, givenSignature] = signature.split(",");
+  const hmac = createHmac("sha256", secret);
+  hmac.update(timestamp + "." + body);
+  const computedSignature = hmac.digest("hex");
+  return givenSignature === `v1=${computedSignature}`;
+};
 
 export const handler = async (event, context) => {
   console.log(
@@ -7,8 +16,7 @@ export const handler = async (event, context) => {
   );
 
   const WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
-  console.log("SANITY_WEBHOOK_SECRET from env:", WEBHOOK_SECRET);
-  console.log("Received secret:", event.headers["sanity-webhook-secret"]);
+  const signature = event.headers["sanity-webhook-signature"];
 
   if (!WEBHOOK_SECRET) {
     console.error("SANITY_WEBHOOK_SECRET is not set in environment variables");
@@ -18,60 +26,31 @@ export const handler = async (event, context) => {
     };
   }
 
-  // Log the types and lengths of the secrets
-  console.log("Type of WEBHOOK_SECRET:", typeof WEBHOOK_SECRET);
-  console.log("Length of WEBHOOK_SECRET:", WEBHOOK_SECRET.length);
-  console.log(
-    "Type of received secret:",
-    typeof event.headers["sanity-webhook-secret"]
-  );
-  console.log(
-    "Length of received secret:",
-    event.headers["sanity-webhook-secret"]
-      ? event.headers["sanity-webhook-secret"].length
-      : "N/A"
-  );
-
-  // Perform a character-by-character comparison
-  let mismatchIndex = -1;
-  for (
-    let i = 0;
-    i <
-    Math.max(
-      WEBHOOK_SECRET.length,
-      event.headers["sanity-webhook-secret"].length
-    );
-    i++
-  ) {
-    if (WEBHOOK_SECRET[i] !== event.headers["sanity-webhook-secret"][i]) {
-      mismatchIndex = i;
-      break;
-    }
-  }
-
-  if (mismatchIndex !== -1) {
-    console.error(`Mismatch at index ${mismatchIndex}`);
-    console.error(`WEBHOOK_SECRET char: ${WEBHOOK_SECRET[mismatchIndex]}`);
-    console.error(
-      `Received secret char: ${event.headers["sanity-webhook-secret"][mismatchIndex]}`
-    );
-  }
-
-  if (event.headers["sanity-webhook-secret"] !== WEBHOOK_SECRET) {
-    console.error("Unauthorized webhook attempt. Secrets do not match.");
+  if (!signature) {
+    console.error("No Sanity webhook signature found in headers");
     return {
       statusCode: 401,
       body: JSON.stringify({message: "Unauthorized"}),
     };
   }
 
-  console.log("Authorization successful");
+  const isValid = verifySignature(event.body, signature, WEBHOOK_SECRET);
+
+  if (!isValid) {
+    console.error("Invalid webhook signature");
+    return {
+      statusCode: 401,
+      body: JSON.stringify({message: "Unauthorized"}),
+    };
+  }
+
+  console.log("Webhook signature verified successfully");
 
   // Parse the webhook payload
   let body;
   try {
     body = JSON.parse(event.body);
-    console.log("Received webhook payload:", JSON.stringify(body, null, 2));
+    console.log("Parsed webhook payload:", JSON.stringify(body, null, 2));
   } catch (error) {
     console.error("Error parsing webhook payload:", error);
     return {
@@ -80,7 +59,9 @@ export const handler = async (event, context) => {
     };
   }
 
-  const {type: eventType, documentId} = body;
+  // Extract the event type and document ID from the Sanity webhook payload
+  const eventType = event.headers["sanity-operation"];
+  const documentId = event.headers["sanity-document-id"];
 
   // Check if the webhook is triggered by a relevant event
   if (["create", "update", "delete"].includes(eventType)) {
