@@ -1,16 +1,17 @@
 import {indexToAlgolia} from "./algoliaIndexing.js";
 import {createHmac} from "crypto";
 
-const verifySignature = (body, signature, secret) => {
+const verifySignature = (rawBody, signature, secret) => {
   console.log("Verifying signature...");
   console.log("Received signature:", signature);
 
-  const [timestamp, givenSignature] = signature.split(",");
+  const [timestampPart, givenSignature] = signature.split(",");
+  const timestamp = timestampPart.split("=")[1]; // Extract only the timestamp value
   console.log("Extracted timestamp:", timestamp);
   console.log("Extracted given signature:", givenSignature);
 
   const hmac = createHmac("sha256", secret);
-  const stringToSign = `${timestamp}.${body}`;
+  const stringToSign = `${timestamp}.${rawBody}`; // Use the raw body string
   console.log("String to sign:", stringToSign);
 
   hmac.update(stringToSign);
