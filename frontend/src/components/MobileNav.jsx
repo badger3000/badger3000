@@ -1,12 +1,10 @@
-
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
 export default function MobileNav() {
   return (
@@ -30,10 +28,9 @@ export default function MobileNav() {
       </SheetTrigger>
       <SheetContent className="lg:hidden block max-w-3/4" side={"left"}>
         <SheetHeader>
-          <SheetTitle>Navigation</SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
       </SheetContent>
     </Sheet>
-  )
-} 
+  );
+}
