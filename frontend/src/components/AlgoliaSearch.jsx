@@ -16,7 +16,6 @@ const indices = [
   import.meta.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
   import.meta.env.PUBLIC_MY_INDEX_NAME_POSTS,
   import.meta.env.PUBLIC_MY_INDEX_NAME_PROJECTS,
-  import.meta.env.PUBLIC_MY_INDEX_NAME_MOVIE,
 ].filter(Boolean);
 
 const searchClient = algoliasearch(appId || "", searchApiKey || "");

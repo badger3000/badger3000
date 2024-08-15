@@ -16,7 +16,6 @@ const SearchHit = ({hit}) => {
     if (hit.project_image) return "projects";
     if (hit.post_content) return "posts";
     if (hit.pen_id) return "codepens";
-    if (hit.movie_title) return "movie";
 
     // If we still can't determine the type, check for any key that might indicate the type
     const typeIndicators = Object.keys(hit).find((key) =>
@@ -38,8 +37,6 @@ const SearchHit = ({hit}) => {
         return "/blog/";
       case "codepens":
         return "/codepen/";
-      case "movie":
-        return "/movies/";
       default:
         return `/${type}/`;
     }
