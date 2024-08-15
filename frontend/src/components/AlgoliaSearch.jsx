@@ -66,7 +66,32 @@ const AlgoliaSearch = () => {
 
   return (
     <InstantSearch searchClient={searchClient} indexName={indices[0]}>
-      <Configure hitsPerPage={5} />
+      <Configure
+        hitsPerPage={5}
+        attributesToRetrieve={[
+          "title",
+          "slug",
+          "type",
+          "web_url",
+          "order",
+          "tech",
+          "project_description",
+          "project_image",
+          "content",
+          "main_image",
+          "description",
+          "penUrl",
+          "thumbnail",
+        ]}
+        attributesToHighlight={[
+          "title",
+          "project_description",
+          "type",
+          "tech",
+          "content",
+          "description",
+        ]}
+      />
       <CustomSearchBox setQuery={setQuery} />
       {query.length >= 2 &&
         indices.map((indexName) => (

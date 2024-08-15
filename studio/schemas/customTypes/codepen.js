@@ -1,6 +1,6 @@
 export default {
-  name: 'codepenExample',
-  title: 'CodePen Example',
+  name: 'codepen',
+  title: 'CodePens',
   type: 'document',
   fields: [
     {

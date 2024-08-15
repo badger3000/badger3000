@@ -56,7 +56,7 @@ const SearchHit = ({hit}) => {
         <img
           src={hit.project_image.url}
           alt={hit.title || "Content thumbnail"}
-          className="w-16 h-16 object-cover mr-4 rounded"
+          className="w-24 h-auto border object-cover mr-4 rounded"
         />
       )}
       <div className="flex-grow">
@@ -73,7 +73,7 @@ const SearchHit = ({hit}) => {
             {hit.tech.map((tech, index) => (
               <span
                 key={index}
-                className="text-xs bg-gray-200 rounded-full px-2 py-1"
+                className="text-xs bg-gray-200 rounded-full pr-1 uppercase py-1"
               >
                 {tech}
               </span>

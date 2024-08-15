@@ -46,8 +46,100 @@ const contentTypes = [
       }
     }`,
   },
-  // ... other content types remain the same
+  {
+    type: "articles",
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_POSTS,
+    query: `*[_type == "articles" && _id == $documentId][0]{
+      _id,
+      title,
+      "slug": slug.current,
+      "content": content[]{
+        ...,
+        _type == 'block' => {
+          ...,
+          children[]{
+            ...,
+            _type == 'span' => {
+              ...,
+              text
+            }
+          }
+        }
+      },
+      "main_image": main_image{
+        "url": asset->url,
+        caption,
+        attribution,
+        "category": category->title
+      }
+    }`,
+  },
+  {
+    type: "codepenExample",
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
+    query: `*[_type == "codepen" && _id == $documentId][0]{
+      _id,
+      title,
+      "slug": slug.current,
+      description,
+      penUrl,
+      embedCode,
+      "thumbnail": thumbnail{
+        "url": asset->url
+      }
+    }`,
+  },
 ];
+
+const processContentForAlgolia = (content, type) => {
+  switch (type) {
+    case "projects":
+      return {
+        objectID: content._id,
+        type: "project",
+        title: content.title,
+        slug: content.slug,
+        web_url: content.web_url,
+        order: content.order,
+        tech: content.tech,
+        project_description: content.project_description
+          ? content.project_description
+              .map((block) =>
+                block.children.map((child) => child.text).join(" ")
+              )
+              .join(" ")
+          : "",
+        project_image: content.project_image,
+      };
+    case "articles":
+      return {
+        objectID: content._id,
+        type: "article",
+        title: content.title,
+        slug: content.slug,
+        content: content.content
+          ? content.content
+              .map((block) =>
+                block.children.map((child) => child.text).join(" ")
+              )
+              .join(" ")
+          : "",
+        main_image: content.main_image,
+      };
+    case "codepen":
+      return {
+        objectID: content._id,
+        type: "codepen",
+        title: content.title,
+        slug: content.slug,
+        description: content.description,
+        penUrl: content.penUrl,
+        thumbnail: content.thumbnail,
+      };
+    default:
+      return content;
+  }
+};
 
 const fetchSanityDocument = async (documentId) => {
   for (const {type, query} of contentTypes) {
@@ -63,24 +155,6 @@ const fetchSanityDocument = async (documentId) => {
   }
   console.log(`Document ${documentId} not found in any content type`);
   return null;
-};
-
-const formatForAlgolia = (document, contentType) => {
-  const formattedDoc = {
-    objectID: document._id,
-    type: contentType,
-    ...document,
-  };
-
-  // If it's a project, format the project_description
-  if (contentType === "projects" && document.project_description) {
-    formattedDoc.project_description = document.project_description
-      .filter((block) => block._type === "block")
-      .map((block) => block.children.map((child) => child.text).join(" "))
-      .join(" ");
-  }
-
-  return formattedDoc;
 };
 
 export const indexToAlgolia = async (eventType, documentId) => {
@@ -106,7 +180,7 @@ export const indexToAlgolia = async (eventType, documentId) => {
           throw new Error(`No matching content type found for ${type}`);
         }
         const index = algoliaClient.initIndex(contentType.indexName);
-        const algoliaObject = formatForAlgolia(document, type);
+        const algoliaObject = processContentForAlgolia(document, type);
         await index.saveObject(algoliaObject);
         console.log(
           `Indexed document ${documentId} to Algolia index for ${type}`
