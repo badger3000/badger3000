@@ -10,26 +10,26 @@ const client = createClient({
 });
 
 const algoliaClient = algoliasearch(
-  process.env.MY_ALGOLIA_APP_ID,
-  process.env.MY_ALGOLIA_ADMIN_API_KEY
+  process.env.PUBLIC_MY_ALGOLIA_APP_ID,
+  process.env.PUBLIC_MY_ALGOLIA_ADMIN_API_KEY
 );
 
 const contentTypes = [
   {
     type: "projects",
-    indexName: process.env.MY_INDEX_NAME_PROJECTS,
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_PROJECTS,
     query:
       '*[_type == "projects" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
   },
   {
     type: "articles",
-    indexName: process.env.MY_INDEX_NAME_POSTS,
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_POSTS,
     query:
       '*[_type == "articles" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
   },
   {
     type: "codepenExample",
-    indexName: process.env.MY_INDEX_NAME_CODEPENS,
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
     query:
       '*[_type == "codepenExample" && _id == $documentId][0]{ _id, title, description }',
   },
