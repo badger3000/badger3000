@@ -92,11 +92,20 @@ const contentTypes = [
 ];
 
 const processContentForAlgolia = (content, type) => {
+  if (!content || !content._id) {
+    console.error("Content is missing _id:", content);
+    throw new Error("Content is missing _id");
+  }
+
+  const baseObject = {
+    objectID: content._id,
+    type: type,
+  };
+
   switch (type) {
     case "projects":
       return {
-        objectID: content._id,
-        type: "project",
+        ...baseObject,
         title: content.title,
         slug: content.slug,
         web_url: content.web_url,
@@ -113,8 +122,7 @@ const processContentForAlgolia = (content, type) => {
       };
     case "articles":
       return {
-        objectID: content._id,
-        type: "article",
+        ...baseObject,
         title: content.title,
         slug: content.slug,
         content: content.content
@@ -126,10 +134,9 @@ const processContentForAlgolia = (content, type) => {
           : "",
         main_image: content.main_image,
       };
-    case "codepen":
+    case "codepenExample":
       return {
-        objectID: content._id,
-        type: "codepen",
+        ...baseObject,
         title: content.title,
         slug: content.slug,
         description: content.description,
@@ -137,7 +144,8 @@ const processContentForAlgolia = (content, type) => {
         thumbnail: content.thumbnail,
       };
     default:
-      return content;
+      console.warn(`Unknown content type: ${type}`);
+      return {...baseObject, ...content};
   }
 };
 
@@ -190,7 +198,13 @@ export const indexToAlgolia = async (eventType, documentId) => {
       }
     }
   } catch (error) {
-    console.error("Error during indexing:", error);
+    console.error(`Error during indexing for document ${documentId}:`, error);
+    if (error.name === "MissingObjectIDError") {
+      console.error(
+        "Problematic document:",
+        await fetchSanityDocument(documentId)
+      );
+    }
     throw error;
   }
 };
