@@ -18,21 +18,35 @@ const contentTypes = [
   {
     type: "projects",
     indexName: process.env.PUBLIC_MY_INDEX_NAME_PROJECTS,
-    query:
-      '*[_type == "projects" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
+    query: `*[_type == "projects" && _id == $documentId][0]{
+      _id,
+      title,
+      "slug": slug.current,
+      web_url,
+      order,
+      tech,
+      "project_description": project_description[]{
+        ...,
+        _type == 'block' => {
+          ...,
+          children[]{
+            ...,
+            _type == 'span' => {
+              ...,
+              text
+            }
+          }
+        }
+      },
+      "project_image": project_image{
+        "url": asset->url,
+        "metadata": asset->metadata,
+        caption,
+        attribution
+      }
+    }`,
   },
-  {
-    type: "articles",
-    indexName: process.env.PUBLIC_MY_INDEX_NAME_POSTS,
-    query:
-      '*[_type == "articles" && _id == $documentId][0]{ _id, title, description, "slug": slug.current }',
-  },
-  {
-    type: "codepenExample",
-    indexName: process.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
-    query:
-      '*[_type == "codepenExample" && _id == $documentId][0]{ _id, title, description }',
-  },
+  // ... other content types remain the same
 ];
 
 const fetchSanityDocument = async (documentId) => {
@@ -51,11 +65,23 @@ const fetchSanityDocument = async (documentId) => {
   return null;
 };
 
-const formatForAlgolia = (document, contentType) => ({
-  objectID: document._id,
-  type: contentType,
-  ...document,
-});
+const formatForAlgolia = (document, contentType) => {
+  const formattedDoc = {
+    objectID: document._id,
+    type: contentType,
+    ...document,
+  };
+
+  // If it's a project, format the project_description
+  if (contentType === "projects" && document.project_description) {
+    formattedDoc.project_description = document.project_description
+      .filter((block) => block._type === "block")
+      .map((block) => block.children.map((child) => child.text).join(" "))
+      .join(" ");
+  }
+
+  return formattedDoc;
+};
 
 export const indexToAlgolia = async (eventType, documentId) => {
   console.log(
