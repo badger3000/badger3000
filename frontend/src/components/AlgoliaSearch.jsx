@@ -44,7 +44,7 @@ const CustomSearchBox = connectSearchBox(
 );
 
 const CustomHits = connectHits(({hits}) => (
-  <div className="search-results mt-4 absolute bg-white shadow-lg rounded-br-lg rounded-bl-lg top-[35px] w-full lg:w-3/5 z-20">
+  <div className="search-results mt-4 absolute bg-white shadow-lg rounded-br-lg rounded-bl-lg top-[35px] w-full lg:w-3/5 z-30">
     {hits.map((hit) => (
       <SearchHit key={hit.objectID} hit={hit} />
     ))}
