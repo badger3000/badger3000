@@ -53,19 +53,7 @@ const contentTypes = [
       _id,
       title,
       "slug": slug.current,
-      "content": content[]{
-        ...,
-        _type == 'block' => {
-          ...,
-          children[]{
-            ...,
-            _type == 'span' => {
-              ...,
-              text
-            }
-          }
-        }
-      },
+      "excerpt",
       "main_image": main_image{
         "url": asset->url,
         caption,

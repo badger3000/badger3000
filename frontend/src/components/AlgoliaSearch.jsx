@@ -77,7 +77,7 @@ const AlgoliaSearch = () => {
           "tech",
           "project_description",
           "project_image",
-          "content",
+          "excerpt",
           "main_image",
           "description",
           "penUrl",
@@ -88,7 +88,7 @@ const AlgoliaSearch = () => {
           "project_description",
           "type",
           "tech",
-          "content",
+          "excerpt",
           "description",
         ]}
       />

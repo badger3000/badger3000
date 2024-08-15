@@ -24,6 +24,13 @@ export default {
       of: [{type: 'block'}],
     },
     {
+      title: 'Excerpt',
+      name: 'excerpt',
+      type: 'string',
+      description: 'Short Description of the article',
+      validation: (Rule) => Rule.max(200).warning(`A title shouldn't be more than 120 characters.`),
+    },
+    {
       title: 'Main Image',
       name: 'main_image',
       type: 'image',
