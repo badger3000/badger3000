@@ -7,6 +7,7 @@ import {
   connectHits,
   Index,
 } from "react-instantsearch-dom";
+import SearchHit from "./SearchHit";
 
 const appId = import.meta.env.PUBLIC_MY_ALGOLIA_APP_ID;
 const searchApiKey = import.meta.env.PUBLIC_MY_ALGOLIA_SEARCH_API_KEY;
@@ -43,36 +44,10 @@ const CustomSearchBox = connectSearchBox(
   )
 );
 
-const Hit = ({hit}) => {
-  const getContentType = (indexName) => {
-    if (typeof indexName !== "string") return "unknown";
-    const match = indexName.match(/PUBLIC_MY_INDEX_NAME_(\w+)/);
-    return match ? match[1].toLowerCase() : "unknown";
-  };
-
-  return (
-    <div className="search-result-item p-4 border-b">
-      <h3 className="text-lg font-bold">{hit.title || "Untitled"}</h3>
-      <p className="text-sm text-gray-600">
-        {hit.description || "No description available"}
-      </p>
-      <span className="text-xs text-gray-400">
-        Type: {getContentType(hit.__indexName)}
-      </span>
-      <a
-        href={`/${hit.type || "page"}/${hit.slug || ""}`}
-        className="text-blue-500 hover:underline block mt-2"
-      >
-        Read more
-      </a>
-    </div>
-  );
-};
-
 const CustomHits = connectHits(({hits}) => (
   <div className="search-results mt-4 absolute bg-white shadow-lg rounded-br-lg rounded-bl-lg top-[35px] w-full lg:w-3/5 z-20">
     {hits.map((hit) => (
-      <Hit key={hit.objectID} hit={hit} />
+      <SearchHit key={hit.objectID} hit={hit} />
     ))}
   </div>
 ));
