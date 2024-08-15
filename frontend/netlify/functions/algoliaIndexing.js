@@ -37,11 +37,17 @@ const contentTypes = [
 
 const fetchSanityDocument = async (documentId) => {
   for (const {type, query} of contentTypes) {
-    const document = await client.fetch(query, {documentId});
-    if (document) {
-      return {type, document};
+    try {
+      const document = await client.fetch(query, {documentId});
+      if (document) {
+        console.log(`Found document of type ${type}:`, document);
+        return {type, document};
+      }
+    } catch (error) {
+      console.error(`Error fetching ${type} document:`, error);
     }
   }
+  console.log(`Document ${documentId} not found in any content type`);
   return null;
 };
 
@@ -52,6 +58,10 @@ const formatForAlgolia = (document, contentType) => ({
 });
 
 export const indexToAlgolia = async (eventType, documentId) => {
+  console.log(
+    `Indexing to Algolia: ${eventType} event for document ${documentId}`
+  );
+
   try {
     if (eventType === "delete") {
       for (const {indexName} of contentTypes) {
@@ -65,9 +75,11 @@ export const indexToAlgolia = async (eventType, documentId) => {
       const result = await fetchSanityDocument(documentId);
       if (result) {
         const {type, document} = result;
-        const index = algoliaClient.initIndex(
-          contentTypes.find((ct) => ct.type === type).indexName
-        );
+        const contentType = contentTypes.find((ct) => ct.type === type);
+        if (!contentType) {
+          throw new Error(`No matching content type found for ${type}`);
+        }
+        const index = algoliaClient.initIndex(contentType.indexName);
         const algoliaObject = formatForAlgolia(document, type);
         await index.saveObject(algoliaObject);
         console.log(
