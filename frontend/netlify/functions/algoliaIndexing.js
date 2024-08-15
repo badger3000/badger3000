@@ -134,7 +134,7 @@ const processContentForAlgolia = (content, type) => {
           : "",
         main_image: content.main_image,
       };
-    case "codepenExample":
+    case "codepen":
       return {
         ...baseObject,
         title: content.title,
