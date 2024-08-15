@@ -48,7 +48,7 @@ const contentTypes = [
   },
   {
     type: "articles",
-    indexName: process.env.PUBLIC_MY_INDEX_NAME_POSTS,
+    indexName: process.env.PUBLIC_MY_INDEX_NAME_ARTICLES,
     query: `*[_type == "articles" && _id == $documentId][0]{
       _id,
       title,

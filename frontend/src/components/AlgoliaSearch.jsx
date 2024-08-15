@@ -14,7 +14,7 @@ const searchApiKey = import.meta.env.PUBLIC_MY_ALGOLIA_SEARCH_API_KEY;
 
 const indices = [
   import.meta.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
-  import.meta.env.PUBLIC_MY_INDEX_NAME_POSTS,
+  import.meta.env.PUBLIC_MY_INDEX_NAME_ARTICLES,
   import.meta.env.PUBLIC_MY_INDEX_NAME_PROJECTS,
 ].filter(Boolean);
 

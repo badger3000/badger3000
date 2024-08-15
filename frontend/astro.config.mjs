@@ -41,8 +41,8 @@ export default defineConfig({
       "import.meta.env.PUBLIC_MY_INDEX_NAME_CODEPENS": JSON.stringify(
         process.env.MY_INDEX_NAME_CODEPENS
       ),
-      "import.meta.env.PUBLIC_MY_INDEX_NAME_POSTS": JSON.stringify(
-        process.env.MY_INDEX_NAME_POSTS
+      "import.meta.env.PUBLIC_MY_INDEX_NAME_ARTICLES": JSON.stringify(
+        process.env.MY_INDEX_NAME_ARTICLES
       ),
       "import.meta.env.PUBLIC_MY_INDEX_NAME_PROJECTS": JSON.stringify(
         process.env.MY_INDEX_NAME_PROJECTS
