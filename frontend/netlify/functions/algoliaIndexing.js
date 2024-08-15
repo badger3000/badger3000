@@ -53,7 +53,7 @@ const contentTypes = [
       _id,
       title,
       "slug": slug.current,
-      "excerpt",
+      excerpt,
       "main_image": main_image{
         "url": asset->url,
         caption,
@@ -113,14 +113,13 @@ const processContentForAlgolia = (content, type) => {
         ...baseObject,
         title: content.title,
         slug: content.slug,
-        content: content.content
-          ? content.content
-              .map((block) =>
-                block.children.map((child) => child.text).join(" ")
-              )
-              .join(" ")
-          : "",
-        main_image: content.main_image,
+        excerpt: content.excerpt || "",
+        main_image: content.main_image && {
+          url: content.main_image.url,
+          caption: content.main_image.caption,
+          attribution: content.main_image.attribution,
+          category: content.main_image.category,
+        },
       };
     case "codepen":
       return {
