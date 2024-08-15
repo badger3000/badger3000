@@ -75,7 +75,7 @@ const contentTypes = [
     }`,
   },
   {
-    type: "codepenExample",
+    type: "codepen",
     indexName: process.env.PUBLIC_MY_INDEX_NAME_CODEPENS,
     query: `*[_type == "codepen" && _id == $documentId][0]{
       _id,
