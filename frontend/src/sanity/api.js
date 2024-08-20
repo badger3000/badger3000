@@ -22,3 +22,8 @@ export async function getPen() {
   const pens = await sanityClient.fetch(query);
   return pens;
 }
+export async function getAllTopics() {
+  const query = `*[_type == "topics"]`;
+  const allTopics = await sanityClient.fetch(query);
+  return allTopics;
+}

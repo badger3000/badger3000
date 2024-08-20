@@ -1,27 +1,33 @@
+---
+import {getAllTopics} from "../sanity/api";
+
+const topics = await getAllTopics();
+
+type Topics = {
+  title: string;
+  slug: string;
+};
+---
+
 <seciton class="grid lg:grid-cols-7 lg:pl-12 col-span-9 gap-5">
   <div class="lg:col-span-7 py-6">
     <nav
       class="flex flex-row flex-wrap gap-4 lg:gap-12 lg:text-2xl font-medium lg:py-6 items-center"
     >
       <button
-        class="filter-link active opacity-100 relative pb-2 after:block after:h-1 after:absolute after:bg-secondary after:w-full after:bottom-0"
+        class="filter-link active opacity-100 relative pb-2 after:block after:h-1"
         data-filter="all">All</button
       >
-      <button class="filter-link opacity-100 relative pb-2" data-filter="golf"
-        >Golf</button
-      >
-      <button
-        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
-        data-filter="skateboarding">Skateboarding</button
-      >
-      <button
-        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
-        data-filter="tech">Tech</button
-      >
-      <button
-        class="filter-link opacity-60 hover:opacity-100 transition-all pb-2"
-        data-filter="codepen">Codepen</button
-      >
+      {
+        topics.map((topic: Topics) => (
+          <button
+            class="filter-link opacity-100 relative pb-2 after:block after:h-1"
+            data-filter="all"
+          >
+            {topic.title}
+          </button>
+        ))
+      }
     </nav>
   </div>
 </seciton>
@@ -117,21 +123,8 @@
     transform: translateY(-2px);
   }
 
-  .filter-link.active::after {
-    content: "";
-    display: block;
-    height: 2px;
-    background-color: currentColor;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    transform: scaleX(0);
-    transition: transform 0.3s ease-in-out;
-  }
-
-  .filter-link.active::after {
-    transform: scaleX(1);
+  .filter-link.active {
+    @apply after:absolute after:bg-secondary after:w-full after:bottom-0;
   }
 </style>
 
