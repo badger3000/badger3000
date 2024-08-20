@@ -18,6 +18,12 @@ export default {
       },
     },
     {
+      title: 'Topic',
+      name: 'projectTopic',
+      type: 'reference',
+      to: [{type: 'topics'}],
+    },
+    {
       title: 'Website URL',
       name: 'web_url',
       type: 'url',

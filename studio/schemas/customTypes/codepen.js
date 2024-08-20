@@ -20,6 +20,12 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      title: 'Topic',
+      name: 'codepenTopic',
+      type: 'reference',
+      to: [{type: 'topics'}],
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text',

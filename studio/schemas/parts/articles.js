@@ -18,6 +18,12 @@ export default {
       },
     },
     {
+      title: 'Topic',
+      name: 'articalTopic',
+      type: 'reference',
+      to: [{type: 'topics'}],
+    },
+    {
       title: 'Content',
       name: 'content',
       type: 'array',
