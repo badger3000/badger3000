@@ -19,7 +19,7 @@ export default {
     },
     {
       title: 'Topic',
-      name: 'articalTopic',
+      name: 'topic',
       type: 'reference',
       to: [{type: 'topics'}],
     },
@@ -63,6 +63,18 @@ export default {
           type: 'postCategories',
         },
       ],
+    },
+    {
+      name: 'gridSpan',
+      title: 'Grid Span',
+      type: 'string',
+      options: {
+        list: [
+          {title: '1 Column', value: 'lg:col-span-1'},
+          {title: '2 Columns', value: 'lg:col-span-2'},
+          {title: '3 Columns', value: 'lg:col-span-3'},
+        ],
+      },
     },
   ],
 }

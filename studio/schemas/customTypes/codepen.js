@@ -21,7 +21,7 @@ export default {
     },
     {
       title: 'Topic',
-      name: 'codepenTopic',
+      name: 'topic',
       type: 'reference',
       to: [{type: 'topics'}],
     },

@@ -1,12 +1,58 @@
 ---
-import {getAllTopics} from "../sanity/api";
+import {getAllTopics, getAllItems} from "../sanity/api";
 
 const topics = await getAllTopics();
+const items = await getAllItems();
 
-type Topics = {
+interface Topic {
+  _id: string;
   title: string;
-  slug: string;
-};
+  slug:
+    | {
+        current: string;
+      }
+    | string;
+  backgroundColor: {
+    hex: string;
+  };
+}
+
+interface Item {
+  _id: string;
+  _type: "projects" | "articles" | "codepen";
+  title: string;
+  slug:
+    | {
+        current: string;
+      }
+    | string;
+  topic: Topic;
+  gridSpan: string;
+}
+
+// Function to get a default color if topic or backgroundColor is missing
+function getBackgroundColor(item: Item): string {
+  return item.topic?.backgroundColor?.hex || "#CCCCCC"; // Default to a light gray if no color is specified
+}
+
+// Function to get the topic slug, or 'uncategorized' if no topic
+function getItemSlug(item: Item): string {
+  if (typeof item.slug === "string") {
+    return item.slug;
+  } else if (typeof item.slug === "object" && item.slug?.current) {
+    return item.slug.current;
+  } else {
+    return item._id;
+  }
+}
+
+// Function to get the topic title, or 'Uncategorized' if no topic
+function getTopicTitle(item: Item): string {
+  return item.topic?.title || "Uncategorized";
+}
+
+// Log items for debugging
+console.log("Items:", items);
 ---
 
 <seciton class="grid lg:grid-cols-7 lg:pl-12 col-span-9 gap-5">
@@ -19,10 +65,10 @@ type Topics = {
         data-filter="all">All</button
       >
       {
-        topics.map((topic: Topics) => (
+        topics.map((topic: Topic) => (
           <button
             class="filter-link opacity-100 relative pb-2 after:block after:h-1"
-            data-filter="all"
+            data-filter={topic.slug}
           >
             {topic.title}
           </button>
@@ -32,59 +78,37 @@ type Topics = {
   </div>
 </seciton>
 <section class="tiles-container grid grid-cols-1 lg:grid-cols-3 gap-6 lg:px-12">
-  <div
-    class="tile lg:col-span-2 col-span-3"
-    data-category="golf"
-    data-order="1"
-  >
-    <a
-      href="#"
-      class="bg-secondary rounded-2xl drop-shadow-md min-w-full min-h-[400px] p-4 block"
-      aria-label="post link"
-    >
-    </a>
-  </div>
-  <div
-    class="tile lg:col-span-1 col-span-3"
-    data-category="golf"
-    data-order="2"
-  >
-    <div
-      class="bg-dark rounded-2xl drop-shadow-md min-w-full min-h-[450px] p-4"
-    >
-    </div>
-  </div>
-  <div
-    class="tile lg:col-span-1 col-span-3"
-    data-category="skateboarding"
-    data-order="2"
-  >
-    <div
-      class="bg-white rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
-    >
-    </div>
-  </div>
-  <div
-    class="tile lg:col-span-1 col-span-3"
-    data-category="tech"
-    data-order="3"
-  >
-    <div
-      class="bg-neutral rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
-    >
-    </div>
-  </div>
-  <div
-    class="tile lg:col-span-1 col-span-3"
-    data-category="codepen"
-    data-order="4"
-  >
-    <div
-      class="bg-white rounded-2xl drop-shadow-md min-w-full min-h-[300px] p-4"
-    >
-    </div>
-  </div>
+  {
+    items.map((item: Item, index: number) => (
+      <div
+        class={`tile ${item.gridSpan || "lg:col-span-1"} col-span-3`}
+        data-category={
+          typeof item.topic?.slug === "string"
+            ? item.topic.slug
+            : item.topic?.slug?.current
+        }
+        data-order={index}
+      >
+        <a
+          href={`/${item._type}/${getItemSlug(item)}/`}
+          class="rounded-2xl drop-shadow-md min-w-full min-h-[400px] p-4 block"
+          style={`background-color: ${getBackgroundColor(item)};`}
+          aria-label={item.title}
+        >
+          <h2 class="text-xl font-bold mb-2">{item.title}</h2>
+          <p class="text-sm">Type: {item._type}</p>
+          <p class="text-sm">
+            Topic:
+            {typeof item.topic?.slug === "string"
+              ? item.topic.slug
+              : item.topic?.slug?.current}
+          </p>
+        </a>
+      </div>
+    ))
+  }
 </section>
+
 <style>
   .tiles-container {
     perspective: 1000px;

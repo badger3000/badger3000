@@ -26,14 +26,18 @@ const {post} = Astro.props;
       <!-- Banner image -->
 
       <div class="w-full mt-6">
-        <Image
-          src={urlForImage(post.main_image).url()}
-          width={1920}
-          height={628}
-          format={"avif"}
-          alt="Thumbnail"
-          class="rounded-lg"
-        />
+        {
+          post.main_image && (
+            <Image
+              src={urlForImage(post.main_image).url()}
+              width={1920}
+              height={628}
+              format="webp"
+              alt={post.title || "Article thumbnail"}
+              class="rounded-lg"
+            />
+          )
+        }
         <!-- <pre
             class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
       </div>
