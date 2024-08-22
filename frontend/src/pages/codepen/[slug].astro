@@ -1,14 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import {PortableText} from "astro-portabletext";
-import {getPen} from "../../sanity/api";
+import {getAllPens} from "../../sanity/api";
 
 type Pens = {
   slug: any;
 };
 
 export async function getStaticPaths() {
-  const allPosts = await getPen();
+  const allPosts = await getAllPens();
 
   return allPosts.map((pen: Pens) => ({
     params: {slug: pen.slug.current},
