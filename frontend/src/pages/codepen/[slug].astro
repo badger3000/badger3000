@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import PageLayout from "@/layouts/PageLayout.astro";
 import {PortableText} from "astro-portabletext";
 import {getAllPens} from "../../sanity/api";
 
@@ -20,29 +21,31 @@ const {pen} = Astro.props;
 ---
 
 <Layout title={pen.title}>
-  <article
-    class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12 text-white my-16"
-  >
-    <div class="flex flex-col items-center">
-      <div class="w-full">
-        {
-          pen.embedCode && (
-            <div class="codepen-embed" set:html={pen.embedCode} />
-          )
-        }
-        <div
-          class="mt-6 min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
-        >
-          <h1>{pen.title}</h1>
-        </div>
-        <div class="content w-[80%] lg:mt-4 text-white">
-          <p>{pen.description}</p>
-        </div>
+  <PageLayout pageTitle={pen.topic.title}>
+    <article
+      class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12 text-white my-16"
+    >
+      <div class="flex flex-col items-center">
+        <div class="w-full">
+          {
+            pen.embedCode && (
+              <div class="codepen-embed" set:html={pen.embedCode} />
+            )
+          }
+          <div
+            class="mt-6 min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
+          >
+            <h1>{pen.title}</h1>
+          </div>
+          <div class="content w-[80%] lg:mt-4 text-white">
+            <p>{pen.description}</p>
+          </div>
 
-        <a href={pen.penUrl} target="_blank" rel="noopener noreferrer"
-          >View on CodePen</a
-        >
+          <a href={pen.penUrl} target="_blank" rel="noopener noreferrer"
+            >View on CodePen</a
+          >
+        </div>
       </div>
-    </div>
-  </article>
+    </article>
+  </PageLayout>
 </Layout>

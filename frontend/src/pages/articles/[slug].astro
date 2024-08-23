@@ -3,6 +3,7 @@ import {Image} from "astro:assets";
 import {urlForImage} from "../../sanity/urlForImage";
 import {PortableText} from "astro-portabletext";
 import Layout from "../../layouts/Layout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 import {getAllPosts} from "../../sanity/api";
 type Posts = {
   slug: any;
@@ -21,49 +22,42 @@ const {post} = Astro.props;
 ---
 
 <Layout title={post.title}>
-  <div class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12">
-    <div class="flex flex-col items-center">
-      <!-- Banner image -->
+  <PageLayout pageTitle={post.topic.title}>
+    {
+      post.main_image && (
+        <Image
+          src={urlForImage(post.main_image).url()}
+          width={1920}
+          height={628}
+          format="webp"
+          alt={post.title || "Article thumbnail"}
+          class="rounded-lg"
+        />
+      )
+    }
 
-      <div class="w-full mt-6">
-        {
-          post.main_image && (
-            <Image
-              src={urlForImage(post.main_image).url()}
-              width={1920}
-              height={628}
-              format="webp"
-              alt={post.title || "Article thumbnail"}
-              class="rounded-lg"
-            />
-          )
-        }
-        <!-- <pre
-            class="text-white text-2xl block">{ JSON.stringify(post.main_image, null, 1)}</pre> -->
-      </div>
-      <!-- Subheader -->
-      <div
-        class="mt-[-76px] min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
-      >
-        <h1>{post.title}</h1>
-      </div>
-      <!-- Post content -->
-      <div class="content w-[80%] lg:mt-4 text-white">
-        {(<PortableText value={post.content} />)}
-      </div>
+    <!-- Subheader -->
+    <div
+      class="mt-[-76px] min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
+    >
+      <h1>{post.title}</h1>
     </div>
-  </div>
-  <style>
-    .content p,
-    .content h2,
-    .content h3 {
-      @apply px-[20%];
-    }
-    .content p {
-      @apply my-4 font-normal text-lg;
-    }
-    .content h2 {
-      @apply font-bold text-4xl;
-    }
-  </style>
+    <!-- Post content -->
+    <div class="content w-[80%] lg:mt-4 text-white">
+      {(<PortableText value={post.content} />)}
+    </div>
+  </PageLayout>
 </Layout>
+<style>
+  .content p,
+  .content h2,
+  .content h3 {
+    @apply px-[20%];
+  }
+  .content p {
+    @apply my-4 font-normal text-lg;
+  }
+  .content h2 {
+    @apply font-bold text-4xl;
+  }
+</style>
