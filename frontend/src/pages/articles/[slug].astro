@@ -25,40 +25,29 @@ const {post} = Astro.props;
   <PageLayout pageTitle={post.topic.title}>
     <section transition:name={`${post.title}-title`}>
       <div
-        class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9"
+        class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9 flex flex-row justify-between items-center"
         style={`background-color: ${post.topic?.backgroundColor.hex};`}
       >
-        <h2 class="font-bold mb-2 text-white text-4xl">
+        <h2 class="font-bold mb-2 text-white text-4xl w-10/12">
           {post.title}
         </h2>
+        {
+          post.main_image && (
+            <Image
+              src={urlForImage(post.main_image).url()}
+              inferSize={true}
+              alt={post.title || "Article thumbnail"}
+              class="rounded-lg"
+            />
+          )
+        }
       </div>
       <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
         {(<PortableText value={post.content} />)}
       </article>
     </section>
-    <!-- {
-      post.main_image && (
-        <Image
-          src={urlForImage(post.main_image).url()}
-          width={1920}
-          height={628}
-          format="webp"
-          alt={post.title || "Article thumbnail"}
-          class="rounded-lg"
-        />
-      )
-    }
-
-  x
-    <div
-      class="mt-[-76px] min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
-    >
-      <h1>{post.title}</h1>
-    </div>
-   x
-    <div class="content w-[80%] lg:mt-4 text-white">
-      {(<PortableText value={post.content} />)}
-    </div> -->
+    <!-- 
+-->
   </PageLayout>
 </Layout>
 <style>
