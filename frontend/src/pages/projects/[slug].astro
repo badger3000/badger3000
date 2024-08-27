@@ -1,6 +1,9 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import {PortableText} from "astro-portabletext";
+import {urlForImage} from "../../sanity/urlForImage";
 import PageLayout from "../../layouts/PageLayout.astro";
+import SinglePageHeader from "@/components/SinglePageHeader.astro";
 import {getAllProjects} from "../../sanity/api";
 type Projects = {
   slug: any;
@@ -19,6 +22,16 @@ const {project} = Astro.props;
 ---
 
 <Layout title={`${project.title} | Badger3000`}>
-  <PageLayout pageTitle={project.title} />
-  {project}
+  <PageLayout pageTitle={project.title}>
+    <section>
+      <SinglePageHeader
+        pageTitle={`${project.title}`}
+        bgColor={` ${project.topic?.backgroundColor.hex}`}
+        pageImg={urlForImage(project.project_image).url()}
+      />
+      <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
+        {(<PortableText value={project.project_descriptiont} />)}
+      </article>
+    </section>
+  </PageLayout>
 </Layout>

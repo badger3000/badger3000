@@ -68,28 +68,30 @@ interface Item {
       >
         <div class="w-full h-full flex flex-row items-center">
           <div class="flex flex-col w-3/4 h-full justify-between py-6">
-            <h2
-              class="text-4xl font-bold mb-2"
-              transition:name={`${item.title}-title`}
-            >
-              {item.title}
-            </h2>
-            {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
-            {item._type === "articles" && (
-              <div class="flex">
-                <a
-                  href={`/${item._type}/${item.slug}/`}
-                  class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
-                  aria-label={item.title}
-                >
-                  Read more
-                </a>
-              </div>
-            )}
+            <div>
+              <h2
+                class="text-4xl font-bold mb-2"
+                transition:name={`${item.title}-title`}
+              >
+                {item.title}
+              </h2>
+              {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
+            </div>
+
+            <div class="flex">
+              <a
+                href={`/${item._type}/${item.slug}/`}
+                class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
+                aria-label={item.title}
+              >
+                Read more
+              </a>
+            </div>
           </div>
           <div class="w-1/4">
             {item.image && (
               <Image
+                transition:name={`${item.title}-image`}
                 src={urlForImage(item.image).url()}
                 alt={item.title}
                 inferSize={true}

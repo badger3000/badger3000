@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 const {post} = Astro.props;
 ---
 
-<Layout title={post.title}>
+<Layout title={`${post.title} | Badger3000`}>
   <PageLayout pageTitle={post.topic.title}>
     <section>
       <SinglePageHeader
@@ -33,8 +33,6 @@ const {post} = Astro.props;
         {(<PortableText value={post.content} />)}
       </article>
     </section>
-    <!-- 
--->
   </PageLayout>
 </Layout>
 <style>

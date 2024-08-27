@@ -55,6 +55,7 @@ export async function getAllPens() {
     slug,
     description,
     penUrl,
+    excerpt,
     embedCode,
     "topic": topic->{
       title,

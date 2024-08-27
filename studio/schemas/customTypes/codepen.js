@@ -26,6 +26,11 @@ export default {
       to: [{type: 'topics'}],
     },
     {
+      name: 'excerpt',
+      title: 'Excerpt',
+      type: 'text',
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'array',
