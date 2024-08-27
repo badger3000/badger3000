@@ -26,9 +26,9 @@ import "@/styles/globals.css";
     <ViewTransitions />
   </head>
   <body class="bg-primary">
+    <Navigation transition:persist />
     <main>
       <div class="grid grid-cols-9 gap-4 lg:min-h-screen">
-        <Navigation transition:persist />
         <slot />
       </div>
     </main>

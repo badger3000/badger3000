@@ -1,6 +1,6 @@
 ---
-import {Image} from "astro:assets";
 import {urlForImage} from "../../sanity/urlForImage";
+import SinglePageHeader from "@/components/SinglePageHeader.astro";
 import {PortableText} from "astro-portabletext";
 import Layout from "../../layouts/Layout.astro";
 import PageLayout from "../../layouts/PageLayout.astro";
@@ -23,24 +23,12 @@ const {post} = Astro.props;
 
 <Layout title={post.title}>
   <PageLayout pageTitle={post.topic.title}>
-    <section transition:name={`${post.title}-title`}>
-      <div
-        class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9 flex flex-row justify-between items-center"
-        style={`background-color: ${post.topic?.backgroundColor.hex};`}
-      >
-        <h2 class="font-bold mb-2 text-white text-4xl w-10/12">
-          {post.title}
-        </h2>
-        {
-          post.main_image && (
-            <Image
-              src={urlForImage(post.main_image).url()}
-              inferSize={true}
-              alt={post.title || "Article thumbnail"}
-            />
-          )
-        }
-      </div>
+    <section>
+      <SinglePageHeader
+        pageTitle={`${post.title}`}
+        bgColor={` ${post.topic?.backgroundColor.hex}`}
+        pageImg={urlForImage(post.main_image).url()}
+      />
       <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
         {(<PortableText value={post.content} />)}
       </article>
