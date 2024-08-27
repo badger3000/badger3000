@@ -81,7 +81,8 @@ function getTopicTitle(item: Item): string {
   {
     items.map((item: Item, index: number) => (
       <div
-        class={`tile ${item.gridSpan || "lg:col-span-1"} col-span-3`}
+        style={`background-color: ${getBackgroundColor(item)};`}
+        class={`tile rounded-2xl  text-white drop-shadow-md min-w-full min-h-[400px] p-4 h-full ${item.gridSpan || "lg:col-span-1"} col-span-3`}
         data-category={
           typeof item.topic?.slug === "string"
             ? item.topic.slug
@@ -89,20 +90,20 @@ function getTopicTitle(item: Item): string {
         }
         data-order={index}
       >
+        <h2 class="text-xl font-bold mb-2">{item.title}</h2>
+        <p class="text-sm">Type: {item._type}</p>
+        <p class="text-sm">
+          Topic:
+          {typeof item.topic?.slug === "string"
+            ? item.topic.slug
+            : item.topic?.slug?.current}
+        </p>
         <a
           href={`/${item._type}/${getItemSlug(item)}/`}
-          class="rounded-2xl drop-shadow-md min-w-full min-h-[400px] p-4 block"
-          style={`background-color: ${getBackgroundColor(item)};`}
+          class=" rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500"
           aria-label={item.title}
         >
-          <h2 class="text-xl font-bold mb-2">{item.title}</h2>
-          <p class="text-sm">Type: {item._type}</p>
-          <p class="text-sm">
-            Topic:
-            {typeof item.topic?.slug === "string"
-              ? item.topic.slug
-              : item.topic?.slug?.current}
-          </p>
+          Read more
         </a>
       </div>
     ))

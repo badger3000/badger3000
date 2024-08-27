@@ -23,7 +23,10 @@ const {post} = Astro.props;
 
 <Layout title={post.title}>
   <PageLayout pageTitle={post.topic.title}>
-    {
+    <section>
+      {(<PortableText value={post.content} />)}
+    </section>
+    <!-- {
       post.main_image && (
         <Image
           src={urlForImage(post.main_image).url()}
@@ -36,16 +39,16 @@ const {post} = Astro.props;
       )
     }
 
-    <!-- Subheader -->
+  x
     <div
       class="mt-[-76px] min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
     >
       <h1>{post.title}</h1>
     </div>
-    <!-- Post content -->
+   x
     <div class="content w-[80%] lg:mt-4 text-white">
       {(<PortableText value={post.content} />)}
-    </div>
+    </div> -->
   </PageLayout>
 </Layout>
 <style>

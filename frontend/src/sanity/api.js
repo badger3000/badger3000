@@ -27,6 +27,7 @@ export async function getAllPosts() {
     title,
     slug,
     excerpt,
+    content,
     "topic": topic->{
       title,
       "slug": slug.current,
