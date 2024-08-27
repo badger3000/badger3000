@@ -29,30 +29,6 @@ interface Item {
   topic: Topic;
   gridSpan: string;
 }
-
-// Function to get a default color if topic or backgroundColor is missing
-function getBackgroundColor(item: Item): string {
-  return item.topic?.backgroundColor?.hex || "#CCCCCC"; // Default to a light gray if no color is specified
-}
-
-// Function to get the topic slug, or 'uncategorized' if no topic
-function getItemSlug(item: Item): string {
-  if (typeof item.slug === "string") {
-    return item.slug;
-  } else if (typeof item.slug === "object" && item.slug?.current) {
-    return item.slug.current;
-  } else {
-    return item._id;
-  }
-}
-
-// Function to get the topic title, or 'Uncategorized' if no topic
-function getTopicTitle(item: Item): string {
-  return item.topic?.title || "Uncategorized";
-}
-
-// Log items for debugging
-//console.log("Items:", items);
 ---
 
 <seciton class="grid lg:grid-cols-7 lg:pl-12 col-span-9 gap-5">
@@ -81,7 +57,8 @@ function getTopicTitle(item: Item): string {
   {
     items.map((item: Item, index: number) => (
       <div
-        style={`background-color: ${getBackgroundColor(item)};`}
+        transition:name={`${item.title}-title`}
+        style={`background-color: ${item.topic?.backgroundColor.hex};`}
         class={`tile rounded-2xl  text-white drop-shadow-md min-w-full min-h-[400px] p-4 h-full ${item.gridSpan || "lg:col-span-1"} col-span-3`}
         data-category={
           typeof item.topic?.slug === "string"
@@ -98,13 +75,15 @@ function getTopicTitle(item: Item): string {
             ? item.topic.slug
             : item.topic?.slug?.current}
         </p>
-        <a
-          href={`/${item._type}/${getItemSlug(item)}/`}
-          class=" rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500"
-          aria-label={item.title}
-        >
-          Read more
-        </a>
+        {item._type === "articles" && (
+          <a
+            href={`/${item._type}/${item.slug}/`}
+            class=" rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500"
+            aria-label={item.title}
+          >
+            Read more
+          </a>
+        )}
       </div>
     ))
   }

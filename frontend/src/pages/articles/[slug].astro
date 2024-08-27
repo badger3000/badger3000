@@ -23,7 +23,10 @@ const {post} = Astro.props;
 
 <Layout title={post.title}>
   <PageLayout pageTitle={post.topic.title}>
-    <section>
+    <section transition:name={`${post.title}-title`}>
+      <h2 class="text-xl font-bold mb-2">
+        {post.title}
+      </h2>
       {(<PortableText value={post.content} />)}
     </section>
     <!-- {
