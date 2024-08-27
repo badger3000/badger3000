@@ -24,10 +24,17 @@ const {post} = Astro.props;
 <Layout title={post.title}>
   <PageLayout pageTitle={post.topic.title}>
     <section transition:name={`${post.title}-title`}>
-      <h2 class="text-xl font-bold mb-2">
-        {post.title}
-      </h2>
-      {(<PortableText value={post.content} />)}
+      <div
+        class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9"
+        style={`background-color: ${post.topic?.backgroundColor.hex};`}
+      >
+        <h2 class="font-bold mb-2 text-white text-4xl">
+          {post.title}
+        </h2>
+      </div>
+      <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
+        {(<PortableText value={post.content} />)}
+      </article>
     </section>
     <!-- {
       post.main_image && (
