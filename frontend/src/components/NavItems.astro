@@ -1,5 +1,9 @@
 ---
+import {getAllTopics} from "../sanity/api";
+
 const pathname = new URL(Astro.request.url).pathname;
+const topics = await getAllTopics();
+
 const navItems = [
   {
     name: "Topics",
@@ -17,6 +21,14 @@ const navItems = [
     icons: "fa-solid fa-inbox",
   },
 ];
+
+function isCurrentPage(item) {
+  if (item.url === "/") {
+    // "Topics" is current if it's not About or Contact page
+    return pathname !== "/about/" && pathname !== "/contact/";
+  }
+  return pathname === item.url;
+}
 ---
 
 <span class="highlight"></span>
@@ -24,7 +36,7 @@ const navItems = [
   navItems.map((item) => (
     <a
       href={item.url}
-      class={` ${pathname === item.url ? "current" : ""} hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links`}
+      class={`${isCurrentPage(item) ? "current" : ""} hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links`}
     >
       <>
         <i class={item.icons + " nav-icon mr-4 z-10 relative"} />
@@ -33,6 +45,7 @@ const navItems = [
     </a>
   ))
 }
+
 <style>
   ul.nav-items.mobile-menu {
     @apply opacity-100 block !important;

@@ -1,5 +1,7 @@
 ---
 import {getAllTopics, getAllItems} from "../sanity/api";
+import {Image} from "astro:assets";
+import {urlForImage} from "../sanity/urlForImage";
 
 const topics = await getAllTopics();
 const items = await getAllItems();
@@ -19,13 +21,11 @@ interface Topic {
 
 interface Item {
   _id: string;
+  excerpt: string;
   _type: "projects" | "articles" | "codepen";
   title: string;
-  slug:
-    | {
-        current: string;
-      }
-    | string;
+  image: any; // Changed from main_image to image
+  slug: string;
   topic: Topic;
   gridSpan: string;
 }
@@ -67,23 +67,32 @@ interface Item {
         }
         data-order={index}
       >
-        <h2 class="text-xl font-bold mb-2">{item.title}</h2>
-        <p class="text-sm">Type: {item._type}</p>
-        <p class="text-sm">
-          Topic:
-          {typeof item.topic?.slug === "string"
-            ? item.topic.slug
-            : item.topic?.slug?.current}
-        </p>
-        {item._type === "articles" && (
-          <a
-            href={`/${item._type}/${item.slug}/`}
-            class=" rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500"
-            aria-label={item.title}
-          >
-            Read more
-          </a>
-        )}
+        <div class="w-full h-full flex flex-row items-center">
+          <div class="flex flex-col w-3/4 h-full justify-between py-6">
+            <h2 class="text-4xl font-bold mb-2">{item.title}</h2>
+            {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
+            {item._type === "articles" && (
+              <div class="flex">
+                <a
+                  href={`/${item._type}/${item.slug}/`}
+                  class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
+                  aria-label={item.title}
+                >
+                  Read more
+                </a>
+              </div>
+            )}
+          </div>
+          <div class="w-1/4">
+            {item.image && (
+              <Image
+                src={urlForImage(item.image).url()}
+                alt={item.title}
+                inferSize={true}
+              />
+            )}
+          </div>
+        </div>
       </div>
     ))
   }

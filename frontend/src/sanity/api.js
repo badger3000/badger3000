@@ -101,6 +101,12 @@ export async function getAllItems() {
     _id,
     _type,
     title,
+    excerpt,
+    "image": select(
+      _type == "projects" => project_image,
+      _type == "articles" => main_image,
+      _type == "codepen" => thumbnail
+    ),
     "slug": slug.current,
     "topic": topic->{
       _id,
