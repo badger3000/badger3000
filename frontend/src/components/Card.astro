@@ -1,0 +1,44 @@
+---
+import {urlForImage} from "../sanity/urlForImage";
+
+const item = Astro.props.item;
+---
+
+<header
+  class="w-full h-full flex flex-col lg:flex-row items-center p-4 rounded-2xl flex-wrap"
+  style={`background-color: ${item.topic?.backgroundColor.hex};`}
+  transition:name={`${item.title}-header`}
+>
+  <div class="flex flex-col w-full lg:w-3/4 lg:h-full lg:justify-between py-6">
+    <div>
+      <h2
+        class="text-4xl font-bold mb-2"
+        transition:name={`${item.title}-title`}
+      >
+        {item.title}
+      </h2>
+      {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
+    </div>
+    <div
+      class="block lg:hidden w-full my-6 bg-center bg-no-repeat bg-contain min-h-[100px]"
+      style={{backgroundImage: `url(${urlForImage(item.image).url()})`}}
+      transition:name={`${item.title}-image`}
+    >
+    </div>
+    <div class="flex">
+      <a
+        href={`/${item._type}/${item.slug}/`}
+        class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
+        aria-label={item.title}
+      >
+        Read more
+      </a>
+    </div>
+  </div>
+  <div
+    class="hidden lg:block w-full lg:w-1/4 bg-center bg-no-repeat bg-contain min-h-full"
+    style={{backgroundImage: `url(${urlForImage(item.image).url()})`}}
+    transition:name={`${item.title}-image`}
+  >
+  </div>
+</header>

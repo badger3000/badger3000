@@ -9,9 +9,10 @@ export interface Props {
 const {pageTitle, bgColor, pageImg} = Astro.props;
 ---
 
-<div
+<header
   class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9 flex flex-row justify-between items-center"
   style={`background-color: ${bgColor};`}
+  transition:name={`${pageTitle}-header`}
 >
   <h2
     class="font-bold mb-2 text-white text-4xl w-10/12"
@@ -30,4 +31,4 @@ const {pageTitle, bgColor, pageImg} = Astro.props;
       />
     )
   }
-</div>
+</header>

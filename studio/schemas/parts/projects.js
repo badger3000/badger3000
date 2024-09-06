@@ -2,6 +2,16 @@ export default {
   title: 'Projects',
   name: 'projects',
   type: 'document',
+  groups: [
+    {
+      title: 'Grid',
+      name: 'grid',
+    },
+    {
+      title: 'layout',
+      name: 'layout',
+    },
+  ],
   fields: [
     {
       title: 'Title',
@@ -99,11 +109,24 @@ export default {
       name: 'gridSpan',
       title: 'Grid Span',
       type: 'string',
+      group: 'grid',
       options: {
         list: [
           {title: '1 Column', value: 'lg:col-span-1'},
           {title: '2 Columns', value: 'lg:col-span-2'},
           {title: '3 Columns', value: 'lg:col-span-3'},
+        ],
+      },
+    },
+    {
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      group: 'layout',
+      options: {
+        list: [
+          {title: 'Row', value: 'lg:flex-row'},
+          {title: 'Column', value: 'lg:flex-col'},
         ],
       },
     },

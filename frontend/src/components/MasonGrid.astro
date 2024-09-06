@@ -1,7 +1,6 @@
 ---
 import {getAllTopics, getAllItems} from "../sanity/api";
-import {Image} from "astro:assets";
-import {urlForImage} from "../sanity/urlForImage";
+import Card from "./Card.astro";
 
 const topics = await getAllTopics();
 const items = await getAllItems();
@@ -28,6 +27,7 @@ interface Item {
   slug: string;
   topic: Topic;
   gridSpan: string;
+  layout: string;
 }
 ---
 
@@ -57,8 +57,7 @@ interface Item {
   {
     items.map((item: Item, index: number) => (
       <div
-        style={`background-color: ${item.topic?.backgroundColor.hex};`}
-        class={`tile rounded-2xl  text-white drop-shadow-md min-w-full min-h-[400px] p-4 h-full ${item.gridSpan || "lg:col-span-1"} col-span-3`}
+        class={`tile text-white drop-shadow-md min-w-full min-h-[400px]  h-full ${item.gridSpan || "lg:col-span-1"} col-span-3`}
         data-category={
           typeof item.topic?.slug === "string"
             ? item.topic.slug
@@ -66,39 +65,7 @@ interface Item {
         }
         data-order={index}
       >
-        <div class="w-full h-full flex flex-row items-center">
-          <div class="flex flex-col w-3/4 h-full justify-between py-6">
-            <div>
-              <h2
-                class="text-4xl font-bold mb-2"
-                transition:name={`${item.title}-title`}
-              >
-                {item.title}
-              </h2>
-              {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
-            </div>
-
-            <div class="flex">
-              <a
-                href={`/${item._type}/${item.slug}/`}
-                class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
-                aria-label={item.title}
-              >
-                Read more
-              </a>
-            </div>
-          </div>
-          <div class="w-1/4">
-            {item.image && (
-              <Image
-                transition:name={`${item.title}-image`}
-                src={urlForImage(item.image).url()}
-                alt={item.title}
-                inferSize={true}
-              />
-            )}
-          </div>
-        </div>
+        <Card item={item} />
       </div>
     ))
   }
@@ -110,10 +77,10 @@ interface Item {
   }
 
   .tile {
-    opacity: 0; /* Start with tiles invisible */
-    transform: rotateY(
+    //opacity: 0; /* Start with tiles invisible */
+    /* transform: rotateY(
       -90deg
-    ); /* Changed to negative value for right rotation */
+    ); */
     transition:
       transform 0.6s ease-in-out,
       opacity 0.6s ease-in-out;
@@ -147,7 +114,7 @@ interface Item {
   }
 </style>
 
-<script>
+<!-- <script>
   // Define types for our HTML elements
   type FilterLink = HTMLButtonElement;
   type Tile = HTMLDivElement;
@@ -249,4 +216,4 @@ interface Item {
 
   // Call the initialization function when the DOM is fully loaded
   document.addEventListener("astro:page-load", initSortAndFilter);
-</script>
+</script> -->
