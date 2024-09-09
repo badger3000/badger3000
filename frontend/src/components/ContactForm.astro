@@ -1,11 +1,22 @@
-<div class="lg:col-span-2 col-span-3">
+<div class="lg:col-span-2 col-span-3 grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div class="flex flex-col justify-center">
+    <h2 class="text-2xl font-bold mb-4">Get in Touch</h2>
+    <p class="text-gray-600 mb-4">
+      We'd love to hear from you! Whether you have a question about our services,
+      want to collaborate, or just want to say hello, feel free to drop us a message.
+      We'll get back to you as soon as possible.
+    </p>
+    <p class="text-gray-600">
+      Your privacy is important to us. We'll never share your information with anyone else.
+    </p>
+  </div>
   <form
     method="POST"
     name="contact"
     action="/confirmation"
     netlify-honeypot="bot-field"
     data-netlify="true"
-    class="max-w-[600px]"
+    class="w-full"
   >
     <input type="hidden" name="form-name" value="contact" />
     <p class="hidden" style={{display: "none"}}>
