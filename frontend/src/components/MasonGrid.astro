@@ -41,14 +41,16 @@ interface Item {
         data-filter="all">All</button
       >
       {
-        topics.map((topic: Topic) => (
-          <button
-            class="filter-link opacity-100 relative pb-2 after:block after:h-1"
-            data-filter={topic.slug}
-          >
-            {topic.title}
-          </button>
-        ))
+        topics.length > 0
+          ? topics.map((topic: Topic) => (
+              <button
+                class="filter-link opacity-100 relative pb-2 after:block after:h-1"
+                data-filter={topic.slug}
+              >
+                {topic.title}
+              </button>
+            ))
+          : null
       }
     </nav>
   </div>

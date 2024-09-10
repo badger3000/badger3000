@@ -26,6 +26,7 @@ export default defineConfig({
       token: SANITY_TOKEN,
       apiVersion: "2021-03-25",
       useCdn: true,
+      perspective: "published",
     }),
     sitemap(),
     react(),

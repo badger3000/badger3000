@@ -6,9 +6,12 @@ package-lock.json
 # Build directory
 /frontend/dist
 .DS_Store
+.env
 .env.development
+.envAiderSample
 
 /web
 
 # Local Netlify folder
 .netlify
+.aider*

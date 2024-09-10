@@ -98,7 +98,7 @@ export async function getAllTopics() {
   return allTopics;
 }
 export async function getAllItems() {
-  const query = `*[_type in ["projects", "articles", "codepen"]] {
+  const query = `*[_type in ["projects", "articles", "codepen"] && !(_id in path('deleted'))] {
     _id,
     _type,
     title,
