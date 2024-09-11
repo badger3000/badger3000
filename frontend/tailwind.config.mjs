@@ -7,7 +7,16 @@ module.exports = {
     "./app/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
     "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
   ],
-  safelist: ["lg:bg-right", "lg:bg-bottom"],
+  safelist: [
+    "lg:bg-center",
+    "lg:bg-right",
+    "lg:bg-bottom",
+    "lg:bg-top",
+    "lg:bg-right-top",
+    "lg:bg-left-top",
+    "lg:bg-right-bottom",
+    "lg:bg-left-bottom",
+  ],
   prefix: "",
   theme: {
     colors: {
