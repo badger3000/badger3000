@@ -2,19 +2,20 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './components/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './app/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+    "./pages/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./components/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./app/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
   ],
+  safelist: ["lg:bg-right", "lg:bg-bottom"],
   prefix: "",
   theme: {
     colors: {
-      transparent: 'transparent',
-      white: '#ffffff',
-     
-      neutral: '#497285',
-      dark: '#2B4450',
+      transparent: "transparent",
+      white: "#ffffff",
+
+      neutral: "#497285",
+      dark: "#2B4450",
     },
     container: {
       center: true,
@@ -25,29 +26,29 @@ module.exports = {
     },
     extend: {
       rotate: {
-        '30': '30deg',
-        '60': '60deg',
+        "30": "30deg",
+        "60": "60deg",
       },
       dropShadow: {
-        '3xl': '0px 16px 14px -14px rgba(255, 255, 255, 1);',
+        "3xl": "0px 16px 14px -14px rgba(255, 255, 255, 1);",
       },
       fontFamily: {
-        sans: ['Cera Round Pro'],
+        sans: ["Cera Round Pro"],
       },
       screens: {
-        sm: '540px',
+        sm: "540px",
         // => @media (min-width: 640px) { ... }
 
-        md: '840px',
+        md: "840px",
         // => @media (min-width: 768px) { ... }
 
-        lg: '1024px',
+        lg: "1024px",
         // => @media (min-width: 1024px) { ... }
 
-        xl: '1280px',
+        xl: "1280px",
         // => @media (min-width: 1280px) { ... }
 
-        '2xl': '1280px',
+        "2xl": "1280px",
         // => @media (min-width: 1536px) { ... }
       },
       colors: {
@@ -98,12 +99,12 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+          from: {height: "0"},
+          to: {height: "var(--radix-accordion-content-height)"},
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          from: {height: "var(--radix-accordion-content-height)"},
+          to: {height: "0"},
         },
       },
       animation: {
@@ -112,5 +113,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),require('tailwindcss-3d')({ legacy: true })],
-}
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-3d")({legacy: true}),
+  ],
+};

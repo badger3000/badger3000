@@ -115,7 +115,9 @@ export async function getAllItems() {
       "slug": slug.current,
       backgroundColor
     },
-    gridSpan
+    gridSpan,
+    imagePosition,
+    showButton
   }`;
   const allItems = await sanityClient.fetch(query);
   return allItems;
