@@ -16,9 +16,19 @@ module.exports = {
     "lg:bg-left-top",
     "lg:bg-right-bottom",
     "lg:bg-left-bottom",
+    "lg:bg-75%",
+    "lg:bg-50%",
+    "lg:bg-25%",
   ],
   prefix: "",
   theme: {
+    backgroundSize: {
+      "contain": "contain",
+      "cover": "cover",
+      "75%": "75%",
+      "50%": "50%",
+      "25%": "25%",
+    },
     colors: {
       transparent: "transparent",
       white: "#ffffff",

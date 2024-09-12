@@ -5,41 +5,42 @@ const item = Astro.props.item;
 ---
 
 <header
-  class="w-full h-full flex flex-col lg:flex-row items-center p-4 rounded-2xl flex-wrap relative overflow-hidden"
+  class="w-full h-full flex flex-col lg:flex-row items-center p-4 rounded-2xl flex-wrap relative overflow-hidden md:justify-between md:min-h-[400px] mt-0 hover:-mt-2 transition-all duration-300"
   style={{backgroundColor: `${item.topic?.backgroundColor.hex};`}}
   transition:name={`${item.title}-header`}
 >
-  <div
-    class="flex flex-col w-full lg:w-3/4 lg:h-full lg:justify-between py-6 z-10"
-  >
-    <div>
-      <h2
-        class="text-4xl font-bold mb-2"
-        transition:name={`${item.title}-title`}
-      >
-        {item.title}
-      </h2>
-      {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
+  <a href={`/${item._type}/${item.slug}/`} class="block h-full w-full">
+    <div
+      class="flex flex-col w-full lg:w-3/4 lg:h-full lg:justify-between py-6 z-10"
+    >
+      <div>
+        <h2
+          class="text-4xl font-bold mb-2"
+          transition:name={`${item.title}-title`}
+        >
+          {item.title}
+        </h2>
+        {item.excerpt && <p class="text-lg">{item.excerpt}</p>}
+      </div>
+      {
+        item.showButton && (
+          <div class="flex">
+            <div
+              class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6  whitespace-nowrap"
+              aria-label={item.title}
+            >
+              Read more
+            </div>
+          </div>
+        )
+      }
     </div>
-    {
-      item.showButton && (
-        <div class="flex">
-          <a
-            href={`/${item._type}/${item.slug}/`}
-            class="rounded-full inline-block bg-white p-4 uppercase text-lg text-dark font-bold mt-6 hover:bg-dark hover:text-white transition-all duration-500 whitespace-nowrap"
-            aria-label={item.title}
-          >
-            Read more
-          </a>
-        </div>
-      )
-    }
-  </div>
 
-  <div
-    class={`block lg:absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 inset-0  w-full lg:w-11/12 ${item.imagePosition ? `${item.imagePosition}` : " lg:bg-center"} bg-no-repeat bg-contain min-h-14 lg:h-5/6 z-0`}
-    style={{backgroundImage: `url(${urlForImage(item.image).url()})`}}
-    transition:name={`${item.title}-image`}
-  >
-  </div>
+    <div
+      class={`block lg:absolute lg:top-1/2 lg:left-1/2 lg:transform lg:-translate-x-1/2 lg:-translate-y-1/2 lg:inset-0  w-full lg:w-11/12 bg-no-repeat bg-contain bg-bottom min-h-36 lg:min-h-14 lg:h-5/6 z-0 ${item.imagePosition ? `${item.imagePosition}` : " lg:bg-center"}  ${item.imageSize ? `${item.imageSize}` : " lg:bg-contain"}`}
+      style={{backgroundImage: `url(${urlForImage(item.image).url()})`}}
+      transition:name={`${item.title}-image`}
+    >
+    </div>
+  </a>
 </header>

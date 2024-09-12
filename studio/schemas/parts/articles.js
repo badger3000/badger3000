@@ -120,5 +120,18 @@ export default {
         ],
       },
     },
+    {
+      name: 'imageSize',
+      title: 'Image Size',
+      type: 'string',
+      group: 'cardLayout',
+      options: {
+        list: [
+          {title: '75%', value: 'lg:bg-75%'},
+          {title: '50%', value: 'lg:bg-50%'},
+          {title: '25%', value: 'lg:bg-25%'},
+        ],
+      },
+    },
   ],
 }

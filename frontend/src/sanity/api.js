@@ -117,7 +117,8 @@ export async function getAllItems() {
     },
     gridSpan,
     imagePosition,
-    showButton
+    showButton,
+    imageSize
   }`;
   const allItems = await sanityClient.fetch(query);
   return allItems;

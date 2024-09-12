@@ -4,12 +4,8 @@ export default {
   type: 'document',
   groups: [
     {
-      title: 'Grid',
-      name: 'grid',
-    },
-    {
-      title: 'layout',
-      name: 'layout',
+      title: 'Card Layout',
+      name: 'cardLayout',
     },
   ],
   fields: [
@@ -109,7 +105,7 @@ export default {
       name: 'gridSpan',
       title: 'Grid Span',
       type: 'string',
-      group: 'grid',
+      group: 'cardLayout',
       options: {
         list: [
           {title: '1 Column', value: 'lg:col-span-1'},
@@ -122,11 +118,43 @@ export default {
       name: 'layout',
       title: 'Layout',
       type: 'string',
-      group: 'layout',
+      group: 'cardLayout',
       options: {
         list: [
           {title: 'Row', value: 'lg:flex-row'},
           {title: 'Column', value: 'lg:flex-col'},
+        ],
+      },
+    },
+    {
+      name: 'imagePosition',
+      title: 'Image Position',
+      type: 'string',
+      group: 'cardLayout',
+      options: {
+        list: [
+          {title: 'Top', value: 'lg:bg-top'},
+          {title: 'Top Right', value: 'lg:bg-right-top'},
+          {title: 'Top Left', value: 'lg:bg-left-top'},
+          {title: 'Bottom', value: 'lg:bg-bottom'},
+          {title: 'Bottom Right', value: 'lg:bg-right-bottom'},
+          {title: 'Bottom Left', value: 'lg:bg-left-bottom'},
+          {title: 'Right', value: 'lg:bg-right'},
+          {title: 'Left', value: 'lg:bg-left'},
+          {title: 'Center', value: 'lg:bg-center'},
+        ],
+      },
+    },
+    {
+      name: 'imageSize',
+      title: 'Image Size',
+      type: 'string',
+      group: 'cardLayout',
+      options: {
+        list: [
+          {title: '75%', value: 'lg:bg-75%'},
+          {title: '50%', value: 'lg:bg-50%'},
+          {title: '25%', value: 'lg:bg-25%'},
         ],
       },
     },
