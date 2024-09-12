@@ -10,12 +10,12 @@ const {pageTitle, bgColor, pageImg} = Astro.props;
 ---
 
 <header
-  class="rounded-tl-2xl rounded-tr-2xl p-12 mt-9 flex flex-row justify-between items-center"
+  class="rounded-tl-2xl rounded-tr-2xl p-6 lg:p-12 mt-9 flex flex-row justify-between items-center"
   style={`background-color: ${bgColor};`}
   transition:name={`${pageTitle}-header`}
 >
   <h2
-    class="font-bold mb-2 text-white text-4xl w-10/12"
+    class="font-bold mb-2 text-white text-2xl lg:text-4xl w-10/12"
     transition:name={`${pageTitle}-title`}
   >
     {pageTitle}
@@ -24,7 +24,7 @@ const {pageTitle, bgColor, pageImg} = Astro.props;
     pageImg && (
       <Image
         transition:name={`${pageTitle}-image`}
-        class="max-w-[400px]"
+        class="max-w-[140px] max-h-[60px] lg:max-w-[400px] lg:max-h-[175px]"
         src={pageImg}
         inferSize={true}
         alt={pageTitle || "Article thumbnail"}
