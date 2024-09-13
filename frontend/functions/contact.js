@@ -90,7 +90,7 @@ export const handler = async (event, context) => {
       },
       Subject: {Data: "New Contact Form Submission"},
     },
-    Source: `"Mad Badger Studios LLC" <${process.env.SENDER_EMAIL}>`,
+    Source: `"Badger 3000" <${process.env.SENDER_EMAIL}>`,
   };
 
   console.log("Attempting to send email with params:", JSON.stringify(params));
@@ -128,7 +128,7 @@ export const handler = async (event, context) => {
                       <p>Best regards,<br>Mad Badger Studios</p>
                     </div>
                     <div class="footer">
-                      <p>© ${new Date().getFullYear()} Mad Badger Studios LLC. All rights reserved.</p>
+                      <p>© ${new Date().getFullYear()} Badger3000. All rights reserved.</p>
                     </div>
                   </div>
                 </body>
@@ -139,7 +139,7 @@ export const handler = async (event, context) => {
             Data: `Dear ${name},\n\nThank you for contacting us. We have received your message and will get back to you soon.\n\nBest regards,\nMad Badger Studios`,
           },
         },
-        Subject: {Data: "Thank you for your message to Mad Badger Studios"},
+        Subject: {Data: "Thank you for your message to Badger3000"},
       },
       Source: `"Mad Badger Studios LLC" <${process.env.SENDER_EMAIL}>`,
       ReplyToAddresses: [process.env.SENDER_EMAIL],
