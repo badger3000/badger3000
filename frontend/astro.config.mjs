@@ -14,6 +14,9 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  typeScript: {
+    allowImportingTsExtensions: true,
+  },
   site: "https://badger3000.com/",
   integrations: [
     tailwind({
