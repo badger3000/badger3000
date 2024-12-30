@@ -16,3 +16,4 @@ package-lock.json
 # Local Netlify folder
 .netlify
 .aider*
+# .next

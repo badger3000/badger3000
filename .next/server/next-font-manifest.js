@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/Users/pothole/Code/badger3000/app/layout":["static/media/a34f9d1faa5f3315-s.p.woff2","static/media/c4c7b0ec92b72e30-s.p.woff2","static/media/171883e03d2067b6-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';
