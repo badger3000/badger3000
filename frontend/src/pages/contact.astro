@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageLayout from "../layouts/PageLayout.astro";
+import ContactForm from "../components/ContactForm.tsx";
+const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY;
+---
+
+<Layout title="Contact Me">
+  <PageLayout pageTitle="Contact">
+    <ContactForm client:load recaptchaSiteKey={recaptchaSiteKey} />
+  </PageLayout>
+</Layout>

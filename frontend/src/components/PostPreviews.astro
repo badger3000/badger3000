@@ -1,0 +1,46 @@
+---
+import Post from './Posts.astro'
+import { getAllPosts } from '../sanity/api'
+import { urlForImage } from '../sanity/urlForImage'
+
+type Posts = {
+  title: string
+  slug: any
+  _type: any
+  main_image: any // replace 'any' with the actual type of `project_image`
+}
+const posts = await getAllPosts()
+---
+
+<section>
+  <form action="/">
+    <select
+      name="options"
+      class="my-[16px] w-full rounded-lg border bg-transparent p-2 text-white md:w-[20%] lg:w-full"
+    >
+      <option value="default">All the things...</option>
+      <option value="development">Development</option>
+      <option value="golf">Golf</option>
+      <option value="projects">Projects</option>
+    </select>
+  </form>
+  <div class="flex flex-col md:flex-row md:justify-between lg:mx-2 lg:flex-col h-full">
+    {
+      posts.slice(0, 5).map((post: Posts) => (
+        <>
+          <Post
+            title={post.title}
+            url={post.slug.current}
+            type={post._type}
+            image={urlForImage(post.main_image).url()}
+          />
+        </>
+      ))
+    }
+    <buton
+      class="mx-auto mt-4 text-4xl text-white opacity-20 transition-opacity duration-500 ease-in-out hover:opacity-100"
+    >
+      <i class="fa-solid fa-circle-plus"></i>
+    </buton>
+  </div>
+</section>

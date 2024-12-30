@@ -1,0 +1,36 @@
+---
+export interface Props {
+  title: string;
+}
+
+const {title} = Astro.props;
+
+import Navigation from "../components/Navigation.astro";
+import {ViewTransitions} from "astro:transitions";
+import "@/styles/globals.css";
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon-32x32.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <!-- Font  Styles-->
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="Personal website of Kyle Ross" />
+    <title>{title}</title>
+    <ViewTransitions />
+  </head>
+  <body class="bg-primary">
+    <Navigation transition:persist />
+    <main>
+      <div class="grid grid-cols-9 gap-4 lg:min-h-screen mt-6 lg:mt-0">
+        <slot />
+      </div>
+    </main>
+  </body>
+</html>

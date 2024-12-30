@@ -24,5 +24,6 @@
 
 # Typescript
 *.tsbuildinfo
-.env
-.env.development
+
+# Dotenv and similar local-only files
+*.local

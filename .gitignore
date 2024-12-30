@@ -1,11 +1,17 @@
 # Project dependencies
 .cache
-node_modules
-yarn-error.log
-yarn.lock
+/frontend/node_modules
+package-lock.json
 
 # Build directory
-/public
+/frontend/dist
 .DS_Store
+.env
 .env.development
-/web/storybook-static
+.envAiderSample
+
+/web
+
+# Local Netlify folder
+.netlify
+.aider*

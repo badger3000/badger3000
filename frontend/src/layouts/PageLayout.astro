@@ -1,0 +1,16 @@
+---
+import PageHeader from "../components/PageHeader.astro";
+
+export interface Props {
+  pageTitle: string;
+}
+
+const {pageTitle} = Astro.props;
+---
+
+<div class="lg:col-span-7 lg:col-start-3 col-span-9 lg:py-16 px-6 lg:px-0 z-20">
+  <PageHeader pageTitle={pageTitle} />
+  <div class="lg:col-span-7 lg:col-start-3 col-span-9 z-20 lg:px-12">
+    <slot />
+  </div>
+</div>

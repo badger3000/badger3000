@@ -1,0 +1,190 @@
+---
+import {getAllTopics} from "../sanity/api";
+
+const pathname = new URL(Astro.request.url).pathname;
+const topics = await getAllTopics();
+
+const navItems = [
+  {
+    name: "Topics",
+    url: "/",
+    icons: "fa-solid fa-comments",
+  },
+  {
+    name: "About",
+    url: "/about/",
+    icons: "fa-solid fa-address-card",
+  },
+  {
+    name: "Contact",
+    url: "/contact/",
+    icons: "fa-solid fa-inbox",
+  },
+];
+
+function isCurrentPage(item: {url: string}): boolean {
+  if (item.url === "/") {
+    // "Topics" is current if it's not About or Contact page
+    return pathname !== "/about/" && pathname !== "/contact/";
+  }
+  return pathname === item.url;
+}
+---
+
+<span class="highlight"></span>
+{
+  navItems.map((item) => (
+    <a
+      href={item.url}
+      class={`${isCurrentPage(item) ? "current" : ""} hover:text-secondary transition-all duration-500 lg:text-2xl lg:p-8 font-medium nav-links`}
+    >
+      <>
+        <i class={item.icons + " nav-icon mr-4 z-10 relative"} />
+        <span>{item.name}</span>
+      </>
+    </a>
+  ))
+}
+
+<style>
+  ul.nav-items.mobile-menu {
+    @apply opacity-100 block !important;
+  }
+
+  .top-bar.animate {
+    @apply group-focus:rotate-[42deg];
+  }
+
+  .middle-bar.animate {
+    @apply group-focus:-translate-x-10;
+  }
+  .bottom-bar.animate {
+    @apply group-focus:-rotate-[42deg];
+  }
+
+  .nav-links {
+    text-align: left;
+    position: relative;
+    display: block;
+    padding: 20px;
+    margin-left: 20%;
+  }
+  .nav-links span {
+    position: relative;
+    z-index: 2;
+  }
+  .nav-links.current {
+    @apply text-secondary;
+  }
+  .highlight {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    height: 64px;
+    background: #dfebed;
+    transform: translateY(var(--barTop, 0));
+    width: 80%;
+    transition: 0.5s;
+    pointer-events: none;
+    border-radius: 40px 0 0 40px;
+  }
+  .highlight::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    top: -40px;
+    border-bottom-right-radius: 50%;
+    box-shadow: 0 20px 0 0 #dfebed;
+  }
+  .highlight::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 0;
+    bottom: -40px;
+    border-top-right-radius: 50%;
+    box-shadow: 0 -20px 0 0 #dfebed;
+  }
+</style>
+<script>
+  let lastHighlightPosition = 0;
+
+  function NavHighlight(): void {
+    const navElement: HTMLElement | null = document.querySelector("nav");
+    const highlight: HTMLElement | null = document.querySelector(".highlight");
+
+    function updateHighlight(top: number, duration: number = 300): void {
+      if (highlight) {
+        highlight.style.transition = `transform ${duration}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
+        highlight.style.setProperty("--barTop", `${top}px`);
+        lastHighlightPosition = top;
+      }
+    }
+
+    function getCurrentItemTop(): number {
+      if (navElement) {
+        const currentItem: HTMLElement | null =
+          navElement.querySelector(".current");
+        return currentItem ? currentItem.offsetTop : 0;
+      }
+      return 0;
+    }
+
+    function smoothTransition(to: number): void {
+      requestAnimationFrame(() => {
+        updateHighlight(to);
+      });
+    }
+
+    function initializeHighlight(): void {
+      const newTop = getCurrentItemTop();
+      updateHighlight(newTop, 0);
+    }
+
+    // Initialize highlight position without animation
+    initializeHighlight();
+
+    // Update highlight position before page transition starts
+    document.addEventListener("astro:before-preparation", () => {
+      const newTop = getCurrentItemTop();
+      updateHighlight(newTop, 0); // Set duration to 0 for instant update
+    });
+
+    // Smoothly transition to new position after content is swapped
+    document.addEventListener("astro:after-swap", () => {
+      requestAnimationFrame(() => {
+        const newTop = getCurrentItemTop();
+        smoothTransition(newTop);
+      });
+    });
+
+    // Handle click events on nav items
+    if (navElement) {
+      navElement.addEventListener("click", (event: MouseEvent) => {
+        const clickedItem: HTMLElement | null = (
+          event.target as HTMLElement
+        ).closest("a");
+        if (clickedItem) {
+          const newTop = clickedItem.offsetTop;
+          smoothTransition(newTop);
+        }
+      });
+    }
+
+    // Add resize listener to adjust highlight position
+    window.addEventListener("resize", initializeHighlight);
+  }
+
+  // Run NavHighlight on initial page load
+  NavHighlight();
+
+  // Re-run NavHighlight after each navigation
+  document.addEventListener("astro:page-load", NavHighlight);
+</script>
