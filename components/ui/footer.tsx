@@ -1,10 +1,14 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
+import {config} from "@fortawesome/fontawesome-svg-core";
 import {
   faGithub,
   faLinkedin,
   faCodepen,
 } from "@fortawesome/free-brands-svg-icons";
+
+import type {IconProp} from "@fortawesome/fontawesome-svg-core";
+
+config.autoAddCss = false;
 
 export default function Footer() {
   return (
@@ -45,7 +49,7 @@ export default function Footer() {
             >
               <FontAwesomeIcon
                 className="stoke-1 hover:fill-black"
-                icon={faLinkedin}
+                icon={faLinkedin as IconProp}
                 size="sm"
               />
             </a>
@@ -58,7 +62,7 @@ export default function Footer() {
             >
               <FontAwesomeIcon
                 className="stoke-1 hover:fill-black"
-                icon={faGithub}
+                icon={faGithub as IconProp}
                 size="sm"
               />
             </a>
@@ -71,7 +75,7 @@ export default function Footer() {
             >
               <FontAwesomeIcon
                 className="stoke-1 hover:fill-black"
-                icon={faCodepen}
+                icon={faCodepen as IconProp}
                 size="sm"
               />
             </a>
