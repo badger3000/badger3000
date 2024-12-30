@@ -1,12 +1,12 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {library} from "@fortawesome/fontawesome-svg-core";
 import {
-  faYoutube,
+  fab,
   faGithub,
   faLinkedin,
   faCodepen,
 } from "@fortawesome/free-brands-svg-icons";
-library.add(faGithub, faLinkedin, faCodepen);
+library.add(fab);
 export default function Footer() {
   return (
     <footer className="space-y-12 text-center pb-16">
