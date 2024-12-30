@@ -2,6 +2,7 @@ import Image from "next/image";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.jpg";
 import HexImg from "@/public/images/hex.jpg";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.jpg";
+import SamsungImg from "@/public/images/samsung_next_logo.jpg";
 
 const Svg3 = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16">
@@ -38,7 +39,7 @@ export default function Experience() {
       date: "2023 - 2024",
       location: "San Francisco, CA",
       description:
-        "Setting vision, leadership, processes while directly participating in communications with clients such as eBay, Amazon, X, Twitch, Instagram, and many others.",
+        "Front-end Coding · Contentful · Lead Generation · JavaScript · GraphQL",
     },
     {
       title: "Web Developer at Headspace",
@@ -48,14 +49,25 @@ export default function Experience() {
           src={HeadspaceImg}
           width={50}
           height={50}
-          alt="Mad Badger Studios LLC"
+          alt="Headspace"
           priority
         />
       ),
       date: "2021 - 2023",
       location: "San Francisco, CA",
       description:
-        "Setting vision, leadership, processes while directly participating in communications with clients such as eBay, Amazon, X, Twitch, Instagram, and many others.",
+        "TypeScript · HubSpot Marketing Hub · JSON · HubSpot · Git · React.js · Node.js · Healthcare · Google Tag Manager · GatsbyJS",
+    },
+    {
+      title: "Sr. Front End Developer at Headspace",
+      link: "https://www.samsungnext.com/",
+      icon: (
+        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
+      ),
+      date: "2019 - 2020",
+      location: "San Francisco, CA",
+      description:
+        "HubSpot Marketing Hub · JSON · Git · React.js · WordPress · Web Applications · Information Architecture · Node.js · Google Tag Manager · GatsbyJS",
     },
   ];
 

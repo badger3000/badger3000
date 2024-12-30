@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Thumbnail01 from "@/public/images/tutorial-01.jpg";
-import Thumbnail02 from "@/public/images/tutorial-02.jpg";
+import Thumbnail01 from "@/public/images/sony.png";
+import Thumbnail02 from "@/public/images/esusu.webp";
 
 export default function Tutorials() {
   const items = [
@@ -10,8 +10,8 @@ export default function Tutorials() {
       image: Thumbnail01,
     },
     {
-      title: "Learn Next.js in 20min",
-      link: "#0",
+      title: "Esusu Rebrand",
+      link: "https://esusurent.com/",
       image: Thumbnail02,
     },
   ];
