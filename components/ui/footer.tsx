@@ -6,7 +6,7 @@ import {
   faLinkedin,
   faCodepen,
 } from "@fortawesome/free-brands-svg-icons";
-library.add(faYoutube, faGithub, faLinkedin, faCodepen);
+library.add(faGithub, faLinkedin, faCodepen);
 export default function Footer() {
   return (
     <footer className="space-y-12 text-center pb-16">
