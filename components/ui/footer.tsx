@@ -48,7 +48,8 @@ export default function Footer() {
               aria-label="linkedin"
             >
               <FontAwesomeIcon
-                className="stoke-1 hover:fill-black"
+                className="stoke-1 hover:fill-white w-8 h-8"
+                fill="currentColor"
                 icon={faLinkedin as IconProp}
                 size="sm"
               />
@@ -61,7 +62,7 @@ export default function Footer() {
               aria-label="GitHub"
             >
               <FontAwesomeIcon
-                className="stoke-1 hover:fill-black"
+                className="stoke-1 hover:fill-white w-8 h-8"
                 icon={faGithub as IconProp}
                 size="sm"
               />
@@ -74,7 +75,7 @@ export default function Footer() {
               aria-label="Codepen"
             >
               <FontAwesomeIcon
-                className="stoke-1 hover:fill-black"
+                className="stoke-1 hover:fill-white w-8 h-8"
                 icon={faCodepen as IconProp}
                 size="sm"
               />
