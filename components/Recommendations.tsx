@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from "react";
 
 import Image from "next/image";
 import TestimonialImg01 from "@/public/images/testimonial-01.jpg";
@@ -11,12 +11,12 @@ import TestimonialImg04 from "@/public/images/testimonial-04.jpg";
 export default function Recommendations() {
   const items = [
     {
-      name: "Enrico Perry",
-      role: "CTO, medium.com",
+      name: "Tiffany Vurek",
+      role: "Product & User Experience Executive and Advisor",
       image: TestimonialImg01,
-      link: "#0",
+      link: "https://www.linkedin.com/in/tiffany-vurek/",
       content:
-        "If there's one investment that's really paid off, it's hiring a professional developer. I love the results I get every day.",
+        "Kyle has been a trusted colleague and our go-to technology expert for over two decades. His exceptional skills and unwavering dedication have been instrumental in our success. Any company would greatly benefit from having him as a key member of their team.",
     },
     {
       name: "Marta Lower",
@@ -70,7 +70,7 @@ export default function Recommendations() {
     setActiveState();
     containerRef.current?.addEventListener(
       "transitionend",
-      handleTransitionEnd,
+      handleTransitionEnd
     );
     containerRef.current?.addEventListener("mouseover", pauseCarousel);
     containerRef.current?.addEventListener("mouseout", playCarousel);
@@ -84,7 +84,7 @@ export default function Recommendations() {
           pauseCarousel();
         }
       },
-      true,
+      true
     );
     containerRef.current?.addEventListener(
       "blur",
@@ -96,13 +96,13 @@ export default function Recommendations() {
           playCarousel();
         }
       },
-      true,
+      true
     );
     return () => {
       pauseCarousel();
       containerRef.current?.removeEventListener(
         "transitionend",
-        handleTransitionEnd,
+        handleTransitionEnd
       );
       containerRef.current?.removeEventListener("mouseover", pauseCarousel);
       containerRef.current?.removeEventListener("mouseout", playCarousel);
@@ -116,7 +116,7 @@ export default function Recommendations() {
             pauseCarousel();
           }
         },
-        true,
+        true
       );
       containerRef.current?.removeEventListener(
         "blur",
@@ -128,7 +128,7 @@ export default function Recommendations() {
             playCarousel();
           }
         },
-        true,
+        true
       );
     };
   }, [articleWidth]);
