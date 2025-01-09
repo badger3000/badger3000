@@ -19,12 +19,12 @@ export default function Recommendations() {
         "Kyle has been a trusted colleague and our go-to technology expert for over two decades. His exceptional skills and unwavering dedication have been instrumental in our success. Any company would greatly benefit from having him as a key member of their team.",
     },
     {
-      name: "Marta Lower",
-      role: "CTO, Vimeo",
+      name: "Tyler Madison",
+      role: "Software Architect",
       image: TestimonialImg02,
-      link: "#0",
+      link: "https://www.linkedin.com/in/tylermadison/",
       content:
-        "Thanks to Jordan, we were able to start our company in a matter of weeks. We have never been happier working with a freelancer.",
+        "Kyle meticulously and methodically tailors solutions based on the individual client's needs.",
     },
     {
       name: "John Kusac",
