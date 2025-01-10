@@ -6,8 +6,12 @@ import Experience from "@/components/Experience";
 // import Newsletter from "@/components/Newsletter";
 
 export const metadata = {
-  title: "Home - DevFolio",
-  description: "Page description",
+  title: "Kyle Ross | Badger3000",
+  description:
+    "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
+  openGraph: {
+    image: "@/public/images/header-image-06.webp",
+  },
 };
 
 export default async function Home() {
