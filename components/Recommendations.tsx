@@ -1,46 +1,37 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {useState, useEffect, useRef} from "react";
 
 import Image from "next/image";
 import TestimonialImg01 from "@/public/images/testimonial-01.jpg";
 import TestimonialImg02 from "@/public/images/testimonial-02.jpg";
-import TestimonialImg03 from "@/public/images/testimonial-03.jpg";
-import TestimonialImg04 from "@/public/images/testimonial-04.jpg";
+import TestimonialImg05 from "@/public/images/testimonial-05.jpg";
 
 export default function Recommendations() {
   const items = [
     {
-      name: "Enrico Perry",
-      role: "CTO, medium.com",
+      name: "Tiffany Vurek",
+      role: "Product & User Experience Executive and Advisor",
       image: TestimonialImg01,
-      link: "#0",
+      link: "https://www.linkedin.com/in/tiffany-vurek/",
       content:
-        "If there's one investment that's really paid off, it's hiring a professional developer. I love the results I get every day.",
+        "Kyle has been a trusted colleague and our go-to technology expert for over two decades. His exceptional skills and unwavering dedication have been instrumental in our success. Any company would greatly benefit from having him as a key member of their team.",
     },
     {
-      name: "Marta Lower",
-      role: "CTO, Vimeo",
+      name: "Tyler Madison",
+      role: "Software Architect",
       image: TestimonialImg02,
-      link: "#0",
+      link: "https://www.linkedin.com/in/tylermadison/",
       content:
-        "Thanks to Jordan, we were able to start our company in a matter of weeks. We have never been happier working with a freelancer.",
+        "Kyle meticulously and methodically tailors solutions based on the individual client's needs.",
     },
     {
-      name: "John Kusac",
-      role: "CEO, Mailchimp",
-      image: TestimonialImg03,
-      link: "#0",
+      name: "Lauren Boggio",
+      role: "Sr. Marketing Designer",
+      image: TestimonialImg05,
+      link: "https://www.linkedin.com/in/lauren-boggio-41baaaba/",
       content:
-        "If there's one investment that's really paid off, it's hiring a professional developer. I love the results I get every day.",
-    },
-    {
-      name: "Lara Springfield",
-      role: "CTO, IndieHackers",
-      image: TestimonialImg04,
-      link: "#0",
-      content:
-        "Thanks to Jordan, we were able to start our company in a matter of weeks. We have never been happier working with a freelancer.",
+        "I had the pleasure of working with Kyle as a web developer, and he’s truly fantastic. As a designer, Kyle is incredibly easy to collaborate with. He listens to ideas, offers thoughtful feedback, and brings creative solutions to the table. His attention to detail and commitment to making everything look and function perfectly really stand out. Highly recommend him for any web development project!",
     },
   ];
 
@@ -70,7 +61,7 @@ export default function Recommendations() {
     setActiveState();
     containerRef.current?.addEventListener(
       "transitionend",
-      handleTransitionEnd,
+      handleTransitionEnd
     );
     containerRef.current?.addEventListener("mouseover", pauseCarousel);
     containerRef.current?.addEventListener("mouseout", playCarousel);
@@ -84,7 +75,7 @@ export default function Recommendations() {
           pauseCarousel();
         }
       },
-      true,
+      true
     );
     containerRef.current?.addEventListener(
       "blur",
@@ -96,13 +87,13 @@ export default function Recommendations() {
           playCarousel();
         }
       },
-      true,
+      true
     );
     return () => {
       pauseCarousel();
       containerRef.current?.removeEventListener(
         "transitionend",
-        handleTransitionEnd,
+        handleTransitionEnd
       );
       containerRef.current?.removeEventListener("mouseover", pauseCarousel);
       containerRef.current?.removeEventListener("mouseout", playCarousel);
@@ -116,7 +107,7 @@ export default function Recommendations() {
             pauseCarousel();
           }
         },
-        true,
+        true
       );
       containerRef.current?.removeEventListener(
         "blur",
@@ -128,7 +119,7 @@ export default function Recommendations() {
             playCarousel();
           }
         },
-        true,
+        true
       );
     };
   }, [articleWidth]);
