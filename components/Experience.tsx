@@ -59,7 +59,7 @@ export default function Experience() {
         "TypeScript · HubSpot Marketing Hub · JSON · HubSpot · Git · React.js · Node.js · Healthcare · Google Tag Manager · GatsbyJS",
     },
     {
-      title: "Sr. Front End Developer at Headspace",
+      title: "Sr. Front End Developer at Samsung Next",
       link: "https://www.samsungnext.com/",
       icon: (
         <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
