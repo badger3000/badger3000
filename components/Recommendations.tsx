@@ -6,6 +6,7 @@ import Image from "next/image";
 import TestimonialImg01 from "@/public/images/testimonial-01.jpg";
 import TestimonialImg02 from "@/public/images/testimonial-02.jpg";
 import TestimonialImg05 from "@/public/images/testimonial-05.jpg";
+import TestimonialImg06 from "@/public/images/testimonial-06.jpg";
 
 export default function Recommendations() {
   const items = [
@@ -32,6 +33,14 @@ export default function Recommendations() {
       link: "https://www.linkedin.com/in/lauren-boggio-41baaaba/",
       content:
         "I had the pleasure of working with Kyle as a web developer, and he’s truly fantastic. As a designer, Kyle is incredibly easy to collaborate with. He listens to ideas, offers thoughtful feedback, and brings creative solutions to the table. His attention to detail and commitment to making everything look and function perfectly really stand out. Highly recommend him for any web development project!",
+    },
+    {
+      name: "Srikanth B.",
+      role: "Seasoned Engineering Leader",
+      image: TestimonialImg06,
+      link: "https://www.linkedin.com/in/srikanth-b-6218332/",
+      content:
+        "I highly recommend Kyle Ross for his outstanding work managing our website. His commitment to accountability and ownership is unparalleled, and his expertise in WordPress has significantly improved our site's functionality, security, and ease of maintenance. Kyle is proactive in addressing issues, communicates effectively with stakeholders, and consistently delivers innovative solutions. His contributions have been invaluable to our team.",
     },
   ];
 
