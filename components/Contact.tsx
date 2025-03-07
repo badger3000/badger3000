@@ -76,7 +76,8 @@ export default function Contact() {
         <form
           name="contact"
           method="POST"
-          action="/?success=true"
+          // Removing the query string to prevent page jumps
+          action=""
           data-netlify="true"
           netlify-honeypot="bot-field"
           onSubmit={handleSubmit}
