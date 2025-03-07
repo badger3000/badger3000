@@ -1,82 +1,74 @@
 "use client";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 
 export default function Contact() {
+  // Form state management
   const [formState, setFormState] = useState({
     name: "",
     email: "",
     message: "",
     submitting: false,
-    success: null as boolean | null,
+    success: null,
     errorMessage: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
+  // Form submission tracking
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Handle input changes
+  const handleChange = (e) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // Handle form submission
+  const handleSubmit = (e) => {
+    // DON'T prevent default - let the native form submission happen
+    // e.preventDefault()
+
+    console.log("Form submitted - allowing native submission");
     setFormState({...formState, submitting: true});
 
-    const form = e.target as HTMLFormElement;
-    if (!form) {
-      console.error("No form element found");
-      return;
-    }
-
-    const formData = new FormData(form);
-
-    try {
-      // Convert FormData to a format that URLSearchParams can accept
-      const formDataObj = Object.fromEntries(formData.entries());
-      const params = new URLSearchParams(formDataObj as Record<string, string>);
-      const response = await fetch("/", {
-        method: "POST",
-        headers: {"Content-Type": "application/x-www-form-urlencoded"},
-        body: params.toString(),
-      });
-
-      if (response.ok) {
-        // Reset the form
-        setFormState({
-          name: "",
-          email: "",
-          message: "",
-          submitting: false,
-          success: true,
-          errorMessage: "",
-        });
-      } else {
-        throw new Error("Form submission failed");
-      }
-    } catch (error) {
-      console.error("Form error:", error);
-      setFormState({
-        ...formState,
-        submitting: false,
-        success: false,
-        errorMessage:
-          "There was a problem submitting your form. Please try again.",
-      });
-    }
+    // We'll set a flag to show success message after redirect
+    localStorage.setItem("formSubmitted", "true");
   };
+
+  // Check for form submission on component mount
+  useEffect(() => {
+    const wasSubmitted = localStorage.getItem("formSubmitted") === "true";
+    if (wasSubmitted) {
+      setIsSubmitted(true);
+      localStorage.removeItem("formSubmitted");
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    }
+  }, []);
 
   return (
     <section>
       <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
         Let's Connect
       </h2>
+
+      {/* Success message if form was just submitted */}
+      {isSubmitted && (
+        <div className="mb-4 p-3 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+          Thank you for your message! We'll get back to you soon.
+        </div>
+      )}
+
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
+        {/* Use a direct form submission to Netlify with no preventDefault */}
         <form
           name="contact"
           method="POST"
+          action="/?success=true"
           data-netlify="true"
           netlify-honeypot="bot-field"
           onSubmit={handleSubmit}
@@ -129,19 +121,6 @@ export default function Contact() {
               required
             ></textarea>
           </div>
-
-          {/* Form feedback message */}
-          {formState.success === true && (
-            <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-              Thank you for your message! We'll get back to you soon.
-            </div>
-          )}
-
-          {formState.success === false && (
-            <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-              {formState.errorMessage}
-            </div>
-          )}
 
           <button
             type="submit"
