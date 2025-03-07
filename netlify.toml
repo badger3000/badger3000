@@ -5,14 +5,19 @@ publish = ".next"
 [[plugins]]
 package = "@netlify/plugin-nextjs"
 
-# This function ensures form submissions work with Next.js
+# These redirects are required for Next.js + Netlify Forms
 [[redirects]]
 force = true
 from = "/*"
 status = 200
 to = "/.netlify/functions/next_static"
 
-# Allow Netlify to process the form submission 
+# Make sure Netlify serves the form detection HTML file
+[[redirects]]
+from = "/form-detection"
+to = "/form-detection.html"
+status = 200
+
 [[headers]]
 for = "/*"
 [headers.values]

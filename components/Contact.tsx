@@ -1,28 +1,72 @@
 "use client";
 
-import {useFormState} from "react-dom";
-import {useRef, useState} from "react";
-import {submitContactForm} from "../app/actions";
-
-const initialState = {
-  success: false,
-  message: "",
-};
+import {useState} from "react";
 
 export default function Contact() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [state, formAction] = useFormState(submitContactForm, initialState);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    message: "",
+    submitting: false,
+    success: null as boolean | null,
+    errorMessage: "",
+  });
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // Reset form after successful submission
-  if (state.success && formRef.current) {
-    formRef.current.reset();
-    setIsSubmitting(false);
-  }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormState({...formState, submitting: true});
+
+    const form = e.target as HTMLFormElement;
+    if (!form) {
+      console.error("No form element found");
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    try {
+      // Convert FormData to a format that URLSearchParams can accept
+      const formDataObj = Object.fromEntries(formData.entries());
+      const params = new URLSearchParams(formDataObj as Record<string, string>);
+      const response = await fetch("/", {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: params.toString(),
+      });
+
+      if (response.ok) {
+        // Reset the form
+        setFormState({
+          name: "",
+          email: "",
+          message: "",
+          submitting: false,
+          success: true,
+          errorMessage: "",
+        });
+      } else {
+        throw new Error("Form submission failed");
+      }
+    } catch (error) {
+      console.error("Form error:", error);
+      setFormState({
+        ...formState,
+        submitting: false,
+        success: false,
+        errorMessage:
+          "There was a problem submitting your form. Please try again.",
+      });
+    }
+  };
 
   return (
     <section>
@@ -30,22 +74,18 @@ export default function Contact() {
         Let's Connect
       </h2>
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
-        {/* This hidden form is for Netlify's form detection */}
-        <form name="contact" data-netlify="true" hidden>
-          <input type="hidden" name="form-name" value="contact" />
-          <input type="text" name="name" />
-          <input type="email" name="email" />
-          <textarea name="message"></textarea>
-        </form>
-
-        {/* The actual form users will interact with */}
         <form
-          ref={formRef}
-          action={formAction}
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
           onSubmit={handleSubmit}
-          className="relative"
         >
+          {/* Hidden fields for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
+          <div className="hidden">
+            <input name="bot-field" />
+          </div>
 
           {/* Name Field */}
           <div className="flex bg-white dark:bg-gray-900 p-2 rounded-lg focus-within:ring-2 ring-gray-300 dark:ring-gray-600 mb-4">
@@ -56,6 +96,8 @@ export default function Contact() {
               aria-label="Your name"
               placeholder="Your name..."
               autoComplete="name"
+              value={formState.name}
+              onChange={handleChange}
               required
             />
           </div>
@@ -69,6 +111,8 @@ export default function Contact() {
               aria-label="Your email address"
               placeholder="Your email..."
               autoComplete="email"
+              value={formState.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -80,29 +124,31 @@ export default function Contact() {
               name="message"
               aria-label="Your message"
               placeholder="Your message..."
+              value={formState.message}
+              onChange={handleChange}
               required
             ></textarea>
           </div>
 
           {/* Form feedback message */}
-          {state.message && (
-            <div
-              className={`text-sm mb-4 p-2 rounded ${
-                state.success
-                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                  : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-              }`}
-            >
-              {state.message}
+          {formState.success === true && (
+            <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+              Thank you for your message! We'll get back to you soon.
+            </div>
+          )}
+
+          {formState.success === false && (
+            <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+              {formState.errorMessage}
             </div>
           )}
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={formState.submitting}
             className="btn-sm text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100 dark:hover:bg-gray-100 shadow relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms] disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
+            {formState.submitting ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
