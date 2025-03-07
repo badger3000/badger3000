@@ -3,7 +3,7 @@ import Experience from "@/components/Experience";
 //import Articles from "@/components/Articles";
 // import SideHustles from "@/components/SideHustles";
 import Recommendations from "@/components/Recommendations";
-// import Newsletter from "@/components/Newsletter";
+import Contact from "@/components/Contact";
 
 export const metadata = {
   title: "Kyle Ross | Badger3000",
@@ -20,9 +20,10 @@ export default async function Home() {
       <Experience />
       <Tutorials />
       <Recommendations />
+      <Contact />
       {/* <Articles />
       <SideHustles />
-     <Newsletter /> */}
+     */}
     </>
   );
 }
