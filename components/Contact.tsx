@@ -17,7 +17,9 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
@@ -25,7 +27,7 @@ export default function Contact() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     // DON'T prevent default - let the native form submission happen
     // e.preventDefault()
 
