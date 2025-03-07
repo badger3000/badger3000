@@ -109,7 +109,7 @@ export default function Contact() {
 
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
         {/* Use client-side form submission */}
-        <form name="contact" method="POST" onSubmit={handleSubmit}>
+        <form name="contact" method="POST" netlify onSubmit={handleSubmit}>
           {/* Hidden fields for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
           <div className="hidden">
