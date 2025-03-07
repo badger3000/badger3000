@@ -1,0 +1,21 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
+# This function ensures form submissions work with Next.js
+[[redirects]]
+force = true
+from = "/*"
+status = 200
+to = "/.netlify/functions/next_static"
+
+# Allow Netlify to process the form submission 
+[[headers]]
+for = "/*"
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+Content-Security-Policy = "form-action https:"
