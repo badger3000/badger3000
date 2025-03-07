@@ -1,10 +1,20 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import {useState, useEffect, FormEvent, ChangeEvent} from "react";
+
+// Define form state type
+interface FormState {
+  name: string;
+  email: string;
+  message: string;
+  submitting: boolean;
+  success: boolean | null;
+  errorMessage: string;
+}
 
 export default function Contact() {
-  // Form state management
-  const [formState, setFormState] = useState({
+  // Form state with proper typing
+  const [formState, setFormState] = useState<FormState>({
     name: "",
     email: "",
     message: "",
@@ -13,12 +23,12 @@ export default function Contact() {
     errorMessage: "",
   });
 
-  // Form submission tracking
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  // Track if form was submitted after page refresh
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-  // Handle input changes
+  // Handle input changes with proper typing
   const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormState({
       ...formState,
@@ -27,28 +37,31 @@ export default function Contact() {
   };
 
   // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     // DON'T prevent default - let the native form submission happen
-    // e.preventDefault()
-
+    // This allows Netlify to directly process the form
     console.log("Form submitted - allowing native submission");
     setFormState({...formState, submitting: true});
 
-    // We'll set a flag to show success message after redirect
+    // Set flag to show success message after redirect
     localStorage.setItem("formSubmitted", "true");
   };
 
   // Check for form submission on component mount
   useEffect(() => {
+    // Handle showing success message after form submission and page refresh
     const wasSubmitted = localStorage.getItem("formSubmitted") === "true";
     if (wasSubmitted) {
       setIsSubmitted(true);
       localStorage.removeItem("formSubmitted");
 
       // Clear success message after 5 seconds
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setIsSubmitted(false);
       }, 5000);
+
+      // Clean up timeout
+      return () => clearTimeout(timeout);
     }
   }, []);
 
@@ -58,15 +71,8 @@ export default function Contact() {
         Let's Connect
       </h2>
 
-      {/* Success message if form was just submitted */}
-      {isSubmitted && (
-        <div className="mb-4 p-3 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-          Thank you for your message! We'll get back to you soon.
-        </div>
-      )}
-
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
-        {/* Use a direct form submission to Netlify with no preventDefault */}
+        {/* Use a direct form submission to Netlify */}
         <form
           name="contact"
           method="POST"
@@ -123,6 +129,13 @@ export default function Contact() {
               required
             ></textarea>
           </div>
+
+          {/* Success message appears here after form is submitted and page reloads */}
+          {isSubmitted && (
+            <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+              Thank you for your message! We'll get back to you soon.
+            </div>
+          )}
 
           <button
             type="submit"
