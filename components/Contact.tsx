@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useEffect, FormEvent, ChangeEvent} from "react";
+import {useState, FormEvent, ChangeEvent} from "react";
 
 // Define form state type
 interface FormState {
@@ -23,7 +23,7 @@ export default function Contact() {
     errorMessage: "",
   });
 
-  // Track if form was submitted after page refresh
+  // Success message state
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   // Handle input changes with proper typing
@@ -36,34 +36,70 @@ export default function Contact() {
     });
   };
 
-  // Handle form submission
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    // DON'T prevent default - let the native form submission happen
-    // This allows Netlify to directly process the form
-    console.log("Form submitted - allowing native submission");
-    setFormState({...formState, submitting: true});
-
-    // Set flag to show success message after redirect
-    localStorage.setItem("formSubmitted", "true");
+  // Encode form data for URL-encoded format
+  const encode = (data: Record<string, any>) => {
+    return Object.keys(data)
+      .map(
+        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
+      )
+      .join("&");
   };
 
-  // Check for form submission on component mount
-  useEffect(() => {
-    // Handle showing success message after form submission and page refresh
-    const wasSubmitted = localStorage.getItem("formSubmitted") === "true";
-    if (wasSubmitted) {
-      setIsSubmitted(true);
-      localStorage.removeItem("formSubmitted");
+  // Handle form submission with client-side approach
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form submitted - using client-side submission");
+    setFormState({...formState, submitting: true, success: null});
 
-      // Clear success message after 5 seconds
-      const timeout = setTimeout(() => {
-        setIsSubmitted(false);
-      }, 5000);
+    // Get form data
+    const formDataObj = {
+      "form-name": "contact", // Must match the form name in your hidden form
+      name: formState.name,
+      email: formState.email,
+      message: formState.message,
+    };
 
-      // Clean up timeout
-      return () => clearTimeout(timeout);
-    }
-  }, []);
+    // Submit directly to Netlify
+    fetch("/", {
+      method: "POST",
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: encode(formDataObj),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Form submitted successfully");
+
+          // Reset form and show success message
+          setFormState({
+            name: "",
+            email: "",
+            message: "",
+            submitting: false,
+            success: true,
+            errorMessage: "",
+          });
+
+          setIsSubmitted(true);
+
+          // Clear success message after 5 seconds
+          setTimeout(() => {
+            setIsSubmitted(false);
+          }, 5000);
+        } else {
+          throw new Error(`Form submission failed: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.error("Form error:", error);
+        setFormState({
+          ...formState,
+          submitting: false,
+          success: false,
+          errorMessage:
+            "There was a problem submitting your form. Please try again.",
+        });
+      });
+  };
 
   return (
     <section>
@@ -72,16 +108,8 @@ export default function Contact() {
       </h2>
 
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
-        {/* Use a direct form submission to Netlify */}
-        <form
-          name="contact"
-          method="POST"
-          // Removing the query string to prevent page jumps
-          action=""
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
-        >
+        {/* Use client-side form submission */}
+        <form name="contact" method="POST" onSubmit={handleSubmit}>
           {/* Hidden fields for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
           <div className="hidden">
@@ -131,10 +159,17 @@ export default function Contact() {
             ></textarea>
           </div>
 
-          {/* Success message appears here after form is submitted and page reloads */}
-          {isSubmitted && (
+          {/* Success message */}
+          {(isSubmitted || formState.success === true) && (
             <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
               Thank you for your message! We'll get back to you soon.
+            </div>
+          )}
+
+          {/* Error message */}
+          {formState.success === false && (
+            <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+              {formState.errorMessage}
             </div>
           )}
 
