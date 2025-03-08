@@ -56,23 +56,16 @@ ${message}
     // Send auto-reply to the submitter
     const {data: autoReplyData, error: autoReplyError} =
       await resend.emails.send({
-        from: "Your Website <onboarding@resend.dev>", // Use your verified domain or default Resend domain
+        from:
+          `Kyle Ross | Badger3000 ${process.env.CONTACT_FORM_EMAIL}` ||
+          "Kyle Ross | Badger3000 <onboarding@resend.dev>", // Use your verified domain or default Resend domain
         to: email,
         subject: "Thank you for your message",
-        text: `
-Dear ${name},
-
-Thank you for contacting us. We have received your message and will get back to you as soon as possible.
-
-Best regards,
-Your Name
-      `,
-        // You can also use HTML for nicer formatting
         html: `
 <h2>Thank you for your message</h2>
 <p>Dear ${name},</p>
-<p>Thank you for contacting us. We have received your message and will get back to you as soon as possible.</p>
-<p>Best regards,<br>Your Name</p>
+<p>Thank you for contacting me. I have received your message and will get back to you as soon as possible.</p>
+<p>Best regards,<br>Kyle Ross</p>
       `,
       });
 
