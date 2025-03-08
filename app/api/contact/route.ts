@@ -57,7 +57,7 @@ ${message}
     const {data: autoReplyData, error: autoReplyError} =
       await resend.emails.send({
         from:
-          `Kyle Ross | Badger3000 ${process.env.CONTACT_FORM_EMAIL}` ||
+          process.env.CONTACT_FORM_EMAIL ||
           "Kyle Ross | Badger3000 <onboarding@resend.dev>", // Use your verified domain or default Resend domain
         to: email,
         subject: "Thank you for your message",
