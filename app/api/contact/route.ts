@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
     // Send email to yourself (the site owner)
     const {data: ownerEmailData, error: ownerEmailError} =
       await resend.emails.send({
-        from: "Contact Form <onboarding@resend.dev>", // Use your verified domain or default Resend domain
+        from:
+          process.env.CONTACT_FORM_EMAIL ||
+          "Contact Form <onboarding@resend.dev>", // Use your verified domain or default Resend domain
         to: OWNER_EMAIL,
         subject: `New contact form submission from ${name}`,
         text: `
