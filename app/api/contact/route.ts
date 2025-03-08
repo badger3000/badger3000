@@ -46,7 +46,12 @@ export async function POST(req: NextRequest) {
     // Check if reCAPTCHA verification was successful
     if (!recaptchaResult.success) {
       return NextResponse.json(
-        {error: "reCAPTCHA verification failed"},
+        {
+          error: "reCAPTCHA verification failed",
+          errorCode: "recaptcha-failed",
+          message:
+            "We couldn't verify that you're a human. Please try refreshing the page and submitting again.",
+        },
         {status: 400}
       );
     }
@@ -54,7 +59,12 @@ export async function POST(req: NextRequest) {
     // Check the score (for v3) - adjust threshold as needed
     if (recaptchaResult.score < 0.5) {
       return NextResponse.json(
-        {error: "Suspicious activity detected"},
+        {
+          error: "Suspicious activity detected",
+          errorCode: "suspicious-activity",
+          message:
+            "For security reasons, we couldn't process your submission at this time. Please try again later or contact us through another method.",
+        },
         {status: 400}
       );
     }

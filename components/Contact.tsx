@@ -13,8 +13,13 @@ interface FormData {
   message: string;
 }
 
-// Define submit status type
-type SubmitStatus = "success" | "error" | null;
+// Define submit status type with more specific error states
+type SubmitStatus =
+  | "success"
+  | "error"
+  | "recaptcha-failed"
+  | "suspicious-activity"
+  | null;
 
 // Inner component that uses the reCAPTCHA hook
 function ContactForm() {
@@ -49,7 +54,7 @@ function ContactForm() {
     // Check if executeRecaptcha is available
     if (!executeRecaptcha) {
       console.error("reCAPTCHA has not been loaded");
-      setSubmitStatus("error");
+      setSubmitStatus("recaptcha-failed");
       return;
     }
 
@@ -71,8 +76,20 @@ function ContactForm() {
         }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        // Check for specific error codes from the API
+        if (result.errorCode === "recaptcha-failed") {
+          setSubmitStatus("recaptcha-failed");
+        } else if (result.errorCode === "suspicious-activity") {
+          setSubmitStatus("suspicious-activity");
+        } else {
+          setSubmitStatus("error");
+        }
+        throw new Error(
+          result.message || result.error || "Network response was not ok"
+        );
       }
 
       // Handle success
@@ -81,7 +98,13 @@ function ContactForm() {
       setTimeout(() => setSubmitStatus(null), 5000);
     } catch (error) {
       console.error("Error submitting form:", error);
-      setSubmitStatus("error");
+      // Only set generic error if not already set to a specific error
+      if (
+        submitStatus !== "recaptcha-failed" &&
+        submitStatus !== "suspicious-activity"
+      ) {
+        setSubmitStatus("error");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -146,10 +169,26 @@ function ContactForm() {
             </div>
           )}
 
-          {/* Error message */}
+          {/* Generic error message */}
           {submitStatus === "error" && (
             <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
               There was a problem submitting your form. Please try again.
+            </div>
+          )}
+
+          {/* reCAPTCHA failed message */}
+          {submitStatus === "recaptcha-failed" && (
+            <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+              We couldn't verify that you're a human. Please try refreshing the
+              page and submitting again.
+            </div>
+          )}
+
+          {/* Suspicious activity message */}
+          {submitStatus === "suspicious-activity" && (
+            <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+              For security reasons, we couldn't process your submission at this
+              time. Please try again later or contact us through another method.
             </div>
           )}
 
