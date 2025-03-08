@@ -24,15 +24,6 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>(null);
 
-  // Helper function to encode form data
-  const encode = (data: Record<string, string>): string => {
-    return Object.keys(data)
-      .map(
-        (key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key])
-      )
-      .join("&");
-  };
-
   // Handle form input changes with proper event typing
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -44,28 +35,34 @@ export default function Contact() {
   };
 
   // Handle form submission with proper event typing
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // IMPORTANT: The form-name must match the form's name attribute
-    fetch("/", {
-      method: "POST",
-      headers: {"Content-Type": "application/x-www-form-urlencoded"},
-      body: encode({"form-name": "contact", ...formData}),
-    })
-      .then(() => {
-        setSubmitStatus("success");
-        setFormData({name: "", email: "", message: ""});
-        setTimeout(() => setSubmitStatus(null), 5000);
-      })
-      .catch((error) => {
-        console.error(error);
-        setSubmitStatus("error");
-      })
-      .finally(() => {
-        setIsSubmitting(false);
+    try {
+      // Send data to our API route
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // Handle success
+      setSubmitStatus("success");
+      setFormData({name: "", email: "", message: ""});
+      setTimeout(() => setSubmitStatus(null), 5000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,18 +72,7 @@ export default function Contact() {
       </h2>
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
         {/* Form */}
-        <form
-          name="contact"
-          method="POST"
-          netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
-        >
-          {/* Hidden fields for Netlify */}
-          <input type="hidden" name="form-name" value="contact" />
-          <div className="hidden">
-            <input name="bot-field" />
-          </div>
-
+        <form onSubmit={handleSubmit}>
           {/* Name Field */}
           <div className="flex bg-white dark:bg-gray-900 p-2 rounded-lg focus-within:ring-2 ring-gray-300 dark:ring-gray-600 mb-4">
             <input
@@ -133,7 +119,8 @@ export default function Contact() {
           {/* Success message */}
           {submitStatus === "success" && (
             <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-              Thank you for your message! We'll get back to you soon.
+              Thank you for your message! We've sent you a confirmation email
+              and will get back to you soon.
             </div>
           )}
 
