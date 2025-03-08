@@ -61,6 +61,15 @@ ${message}
           "Kyle Ross | Badger3000 <onboarding@resend.dev>", // Use your verified domain or default Resend domain
         to: email,
         subject: "Thank you for your message",
+        text: `
+Dear ${name},
+
+Thank you for contacting me. I have received your message and will get back to you as soon as possible.
+
+Best regards,
+Kyle Ross
+      `,
+        // You can also use HTML for nicer formatting
         html: `
 <h2>Thank you for your message</h2>
 <p>Dear ${name},</p>
