@@ -1,6 +1,7 @@
 "use client";
 
 import {useState, FormEvent, ChangeEvent} from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 // Define form data interface
 interface FormData {
@@ -23,6 +24,7 @@ export default function Contact() {
   // State for form submission with proper typing
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
 
   // Handle form input changes with proper event typing
   const handleChange = (
@@ -40,13 +42,18 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
+      // Verify reCAPTCHA token
+      if (!recaptchaToken) {
+        throw new Error("reCAPTCHA token is missing");
+      }
+
       // Send data to our API route
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData, recaptchaToken}),
       });
 
       if (!response.ok) {
@@ -63,6 +70,10 @@ export default function Contact() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleRecaptchaChange = (token: string | null): void => {
+    setRecaptchaToken(token);
   };
 
   return (
@@ -114,6 +125,16 @@ export default function Contact() {
               onChange={handleChange}
               required
             ></textarea>
+          </div>
+
+          {/* reCAPTCHA */}
+          <div className="mb-4">
+            <ReCAPTCHA
+              sitekey={
+                process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "default-site-key"
+              }
+              onChange={handleRecaptchaChange}
+            />
           </div>
 
           {/* Success message */}
