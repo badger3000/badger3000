@@ -11,12 +11,50 @@ export async function POST(req: NextRequest) {
   try {
     // Parse the form data from the request
     const formData = await req.json();
-    const {name, email, message} = formData;
+    const {name, email, message, recaptchaToken} = formData;
 
     // Validate required fields
     if (!name || !email || !message) {
       return NextResponse.json(
         {error: "Name, email and message are required"},
+        {status: 400}
+      );
+    }
+
+    // Validate reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json(
+        {error: "reCAPTCHA verification failed"},
+        {status: 400}
+      );
+    }
+
+    // Verify reCAPTCHA token with Google
+    const recaptchaResponse = await fetch(
+      "https://www.google.com/recaptcha/api/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+      }
+    );
+
+    const recaptchaResult = await recaptchaResponse.json();
+
+    // Check if reCAPTCHA verification was successful
+    if (!recaptchaResult.success) {
+      return NextResponse.json(
+        {error: "reCAPTCHA verification failed"},
+        {status: 400}
+      );
+    }
+
+    // Check the score (for v3) - adjust threshold as needed
+    if (recaptchaResult.score < 0.5) {
+      return NextResponse.json(
+        {error: "Suspicious activity detected"},
         {status: 400}
       );
     }
@@ -34,6 +72,7 @@ Name: ${name}
 Email: ${email}
 Message:
 ${message}
+reCAPTCHA Score: ${recaptchaResult.score}
       `,
         // You can also use HTML for nicer formatting
         html: `
@@ -42,6 +81,7 @@ ${message}
 <p><strong>Email:</strong> ${email}</p>
 <p><strong>Message:</strong></p>
 <p>${message.replace(/\n/g, "<br>")}</p>
+<p><strong>reCAPTCHA Score:</strong> ${recaptchaResult.score}</p>
       `,
       });
 

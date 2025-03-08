@@ -1,6 +1,10 @@
 "use client";
 
 import {useState, FormEvent, ChangeEvent} from "react";
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 
 // Define form data interface
 interface FormData {
@@ -12,7 +16,11 @@ interface FormData {
 // Define submit status type
 type SubmitStatus = "success" | "error" | null;
 
-export default function Contact() {
+// Inner component that uses the reCAPTCHA hook
+function ContactForm() {
+  // Get executeRecaptcha function from the hook
+  const {executeRecaptcha} = useGoogleReCaptcha();
+
   // State for form fields with proper typing
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -37,16 +45,30 @@ export default function Contact() {
   // Handle form submission with proper event typing
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+
+    // Check if executeRecaptcha is available
+    if (!executeRecaptcha) {
+      console.error("reCAPTCHA has not been loaded");
+      setSubmitStatus("error");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // Send data to our API route
+      // Execute reCAPTCHA with action name
+      const recaptchaToken = await executeRecaptcha("contact_form_submit");
+
+      // Send data to our API route with the token
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          recaptchaToken,
+        }),
       });
 
       if (!response.ok) {
@@ -141,5 +163,21 @@ export default function Contact() {
         </form>
       </div>
     </section>
+  );
+}
+
+// Wrapper component that provides the reCAPTCHA context
+export default function Contact() {
+  return (
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+      scriptProps={{
+        async: true,
+        defer: true,
+        appendTo: "head",
+      }}
+    >
+      <ContactForm />
+    </GoogleReCaptchaProvider>
   );
 }
