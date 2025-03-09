@@ -1,6 +1,7 @@
 import "./css/style.css";
 
-import { Inter, Inter_Tight } from "next/font/google";
+import {Inter, Inter_Tight} from "next/font/google";
+import {Metadata} from "next";
 import Theme from "./theme-provider";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
@@ -19,13 +20,38 @@ const inter_tight = Inter_Tight({
   display: "swap",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const metadata: Metadata = {
+  manifest: "/manifest.json",
+  themeColor: [
+    {media: "(prefers-color-scheme: light)", color: "white"},
+    {media: "(prefers-color-scheme: dark)", color: "#0f172a"},
+  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Badger3000",
+  },
+  icons: {
+    apple: [{url: "/icons/apple-touch-icon.png", sizes: "180x180"}],
+  },
+};
+
+export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+        />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+      </head>
       {/* suppressHydrationWarning: https://github.com/vercel/next.js/issues/44343 */}
       <body
         className={`${inter.variable} ${inter_tight.variable} font-inter antialiased bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 tracking-tight`}
