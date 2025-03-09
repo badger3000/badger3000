@@ -1,5 +1,5 @@
 import Image from "next/image";
-import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.jpg";
+import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.jpg";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.jpg";
 import SamsungImg from "@/public/images/samsung_next_logo.jpg";
