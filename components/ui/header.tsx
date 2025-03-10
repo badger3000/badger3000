@@ -13,16 +13,15 @@ export default function Header() {
       <ThemeToggle />
       {/* Intro */}
       <div className="mb-10">
-        <Link href="/">
-          <Image
-            className="inline-flex rounded-full shadow-lg transition duration-150 ease-in-out transform hover:scale-105 hover:shadow-md dark:hover:shadow-lg mb-4"
-            src={UserImg}
-            width={48}
-            height={48}
-            alt="Kyle Ross"
-            priority
-          />
-        </Link>
+        <Image
+          className="inline-flex rounded-full shadow-lg  mb-4"
+          src={UserImg}
+          width={48}
+          height={48}
+          alt="Kyle Ross"
+          priority
+        />
+
         <div className="mb-5">
           <h1 className="font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-2xl mb-1">
             Kyle Ross
@@ -38,33 +37,35 @@ export default function Header() {
           Available For Work
         </a> */}
       </div>
-      <div className="group flex justify-center gap-4">
-        <Image
-          className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-          src={HeaderImg04}
-          width={245}
-          height={160}
-          alt="Header 01"
-          priority
-        />
-        <Image
-          className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-          src={HeaderImg05}
-          width={245}
-          height={160}
-          alt="Header 02"
-          priority
-          unoptimized
-        />
-        <Image
-          className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-          src={HeaderImg06}
-          width={245}
-          height={160}
-          alt="Header 03"
-          priority
-        />
-      </div>
+      <Link href="/">
+        <div className="group flex justify-center gap-4">
+          <Image
+            className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
+            src={HeaderImg04}
+            width={245}
+            height={160}
+            alt="Header 01"
+            priority
+          />
+          <Image
+            className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
+            src={HeaderImg05}
+            width={245}
+            height={160}
+            alt="Header 02"
+            priority
+            unoptimized
+          />
+          <Image
+            className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
+            src={HeaderImg06}
+            width={245}
+            height={160}
+            alt="Header 03"
+            priority
+          />
+        </div>
+      </Link>
     </header>
   );
 }
