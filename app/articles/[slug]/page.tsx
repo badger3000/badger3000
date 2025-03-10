@@ -91,16 +91,16 @@ export default async function ArticlePage({params}: any) {
   }
 
   return (
-    <article className="max-w-3xl mx-auto px-4 sm:px-6">
+    <article className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <Link
               href="/articles"
-              className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8"
+              className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8 group"
             >
               <svg
-                className="w-3 h-3 mr-2 rotate-180"
+                className="w-3 h-3 mr-2 rotate-180 group-hover:translate-x-[-2px] transition-transform"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"

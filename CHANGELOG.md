@@ -2,6 +2,12 @@
 
 ## [1.3.2] - 2025-03-09
 
+### Added
+- Added styled-components support
+  - Installed styled-components and its Babel plugin
+  - Configured Next.js for proper SSR handling
+  - Added necessary compiler options
+
 ### Changed
 - Improved articles functionality
   - Renamed blog section to Articles for better clarity
