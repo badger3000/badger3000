@@ -1,6 +1,6 @@
 import Tutorials from "@/components/Tutorials";
 import Experience from "@/components/Experience";
-//import Articles from "@/components/Articles";
+import Articles from "@/components/Articles";
 // import SideHustles from "@/components/SideHustles";
 import Recommendations from "@/components/Recommendations";
 import Contact from "@/components/Contact";
@@ -14,16 +14,15 @@ export const metadata = {
   },
 };
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
+      <Articles />
       <Experience />
       <Tutorials />
       <Recommendations />
       <Contact />
-      {/* <Articles />
-      <SideHustles />
-     */}
+      {/* <SideHustles /> */}
     </>
   );
 }

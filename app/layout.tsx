@@ -5,6 +5,7 @@ import {Metadata} from "next";
 import Theme from "./theme-provider";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import { Providers } from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,19 +21,24 @@ const inter_tight = Inter_Tight({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  manifest: "/manifest.json",
+import { Viewport } from 'next';
+
+export const viewport: Viewport = {
   themeColor: [
-    {media: "(prefers-color-scheme: light)", color: "white"},
-    {media: "(prefers-color-scheme: dark)", color: "#0f172a"},
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
   ],
+};
+
+export const metadata: Metadata = {
+  manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
-    title: "Badger3000",
+    statusBarStyle: 'default',
+    title: 'Badger3000',
   },
   icons: {
-    apple: [{url: "/icons/apple-touch-icon.png", sizes: "180x180"}],
+    apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }],
   },
 };
 
@@ -56,8 +62,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
       <body
         className={`${inter.variable} ${inter_tight.variable} font-inter antialiased bg-gray-50 text-gray-800 dark:bg-gray-950 dark:text-gray-100 tracking-tight`}
       >
-        <Theme>
-          <div className="overflow-hidden supports-[overflow:clip]:overflow-clip">
+        <Providers>
+          <Theme>
+            <div className="overflow-hidden supports-[overflow:clip]:overflow-clip">
             <div className="max-w-[728px] mx-auto">
               <div className="w-full bg-white dark:bg-gray-900 border-x border-gray-100 dark:border-gray-800 box-content">
                 <div className="px-3 md:px-16">
@@ -71,8 +78,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                 </div>
               </div>
             </div>
-          </div>
-        </Theme>
+            </div>
+          </Theme>
+        </Providers>
       </body>
     </html>
   );

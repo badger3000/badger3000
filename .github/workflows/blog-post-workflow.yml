@@ -1,0 +1,101 @@
+name: Latest blog posts workflow
+on:
+  schedule:
+    # Runs every Sunday at midnight
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-readme-with-blog:
+    name: Update README with latest blog posts
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
+      NEXT_PUBLIC_AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
+      SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install @sanity/client feed
+        
+      - name: Generate RSS feed
+        run: |
+          mkdir -p public/rss
+          node -e '
+          const { Feed } = require("feed");
+          const { createClient } = require("@sanity/client");
+          
+          async function generateFeed() {
+            const client = createClient({
+              projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+              dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+              apiVersion: "2024-03-09",
+              useCdn: true,
+              token: process.env.SANITY_API_TOKEN
+            });
+
+            const feed = new Feed({
+              title: "Portfolio Blog",
+              description: "Latest articles and insights",
+              id: process.env.NEXT_PUBLIC_SITE_URL,
+              link: process.env.NEXT_PUBLIC_SITE_URL,
+              language: "en",
+              updated: new Date(),
+              author: {
+                name: process.env.NEXT_PUBLIC_AUTHOR_NAME,
+                link: process.env.NEXT_PUBLIC_SITE_URL
+              }
+            });
+
+            const posts = await client.fetch(`
+              *[_type == "post" && defined(publishedAt) && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...10] {
+                title,
+                "slug": slug.current,
+                publishedAt,
+                excerpt,
+                "url": "${process.env.NEXT_PUBLIC_SITE_URL}/blog/" + slug
+              }
+            `);
+
+            posts.forEach((post) => {
+              feed.addItem({
+                title: post.title,
+                id: post.url,
+                link: post.url,
+                description: post.excerpt,
+                date: new Date(post.publishedAt)
+              });
+            });
+
+            require("fs").writeFileSync("./public/rss/feed.xml", feed.rss2());
+          }
+
+          generateFeed().catch(console.error);
+          '
+          
+      - name: Update README with blog posts
+        uses: gautamkrishnar/blog-post-workflow@master
+        with:
+          feed_list: "${{ env.NEXT_PUBLIC_SITE_URL }}/rss/feed.xml"
+          max_post_count: 5
+          template: "[$title]($url)"
+          disable_sort: false
+          
+      - name: Commit and push if changed
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add -A
+          git commit -m "Update blog posts in README" || exit 0
+          git push
