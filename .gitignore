@@ -3,6 +3,7 @@
 /frontend/node_modules
 package-lock.json
 /node_modules
+.sanity
 
 # Build directory
 /frontend/dist
@@ -14,6 +15,7 @@ package-lock.json
 
 /web
 github-profile-readme.md
+sanityConfig.js
 
 
 # Local Netlify folder
