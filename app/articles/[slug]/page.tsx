@@ -6,11 +6,14 @@ import {notFound} from "next/navigation";
 import {PortableText} from "@portabletext/react";
 import {Metadata} from "next";
 
-// Use 'any' type to bypass TypeScript checking for now
+type Params = {
+  slug: string;
+};
+
 export async function generateMetadata({
   params,
 }: {
-  params: {slug: string};
+  params: Promise<Params>;
 }): Promise<Metadata> {
   // Await params before accessing its properties
   const resolvedParams = await params;
@@ -87,8 +90,7 @@ async function getPost(slug: string) {
   return client.fetch(query, {slug});
 }
 
-// Use 'any' type to bypass TypeScript checking for now
-export default async function ArticlePage({params}: {params: {slug: string}}) {
+export default async function ArticlePage({params}: {params: Promise<Params>}) {
   // Await params before accessing its properties
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
