@@ -77,9 +77,8 @@ async function getPost(slug: string) {
           "url": asset->url,
           "metadata": asset->metadata
         }
-      }
-    },
-    _type == "selfHostedVideo" => {
+      },
+      _type == "selfHostedVideo" => {
         "videoFile": {
           "asset": {
             "_id": videoFile.asset->_id,

@@ -1,7 +1,7 @@
-import { getPosts } from '@/lib/sanity';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import type { SanityPost } from '@/types/sanity';
+import {getPosts} from "@/lib/sanity";
+import {format} from "date-fns";
+import Link from "next/link";
+import type {SanityPost} from "@/types/sanity";
 
 interface ArticlesProps {
   limit?: number;
@@ -10,12 +10,17 @@ interface ArticlesProps {
   className?: string;
 }
 
-export default async function Articles({ limit = 3, showHeading = true, showViewAll = true, className = '' }: ArticlesProps = {}) {
+export default async function Articles({
+  limit = 3,
+  showHeading = true,
+  showViewAll = true,
+  className = "",
+}: ArticlesProps = {}) {
   const posts = await getPosts(limit);
 
   return (
     <section className={className}>
-      {showHeading && (
+      {showHeading && posts?.length > 0 && (
         <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
           Articles
         </h2>
@@ -41,10 +46,15 @@ export default async function Articles({ limit = 3, showHeading = true, showView
             </div>
             <div className="space-y-1.5 mb-2">
               <div className="text-[13px] font-medium text-gray-600 dark:text-gray-400">
-                {post.publishedAt ? format(new Date(post.publishedAt), 'MMM d, yyyy') : 'Recently'}
+                {post.publishedAt
+                  ? format(new Date(post.publishedAt), "MMM d, yyyy")
+                  : "Recently"}
               </div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-100">
-                <Link className="before:absolute before:inset-0" href={`/articles/${post.slug}`}>
+                <Link
+                  className="before:absolute before:inset-0"
+                  href={`/articles/${post.slug}`}
+                >
                   {post.title}
                 </Link>
               </h3>
@@ -55,7 +65,7 @@ export default async function Articles({ limit = 3, showHeading = true, showView
           </article>
         ))}
       </div>
-      {showViewAll && (
+      {showViewAll && posts?.length > 0 && (
         <Link
           href="/articles"
           className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
