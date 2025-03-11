@@ -1,3 +1,4 @@
+import PortableTextComponents from "@/components/PortableText";
 import {client} from "@/lib/sanity";
 import {format} from "date-fns";
 import Image from "next/image";
@@ -78,6 +79,27 @@ async function getPost(slug: string) {
         }
       }
     },
+    _type == "selfHostedVideo" => {
+        "videoFile": {
+          "asset": {
+            "_id": videoFile.asset->_id,
+            "url": videoFile.asset->url,
+            "mimeType": videoFile.asset->mimeType
+          }
+        },
+        "poster": poster {
+          "asset": {
+            "_id": asset->_id,
+            "url": asset->url
+          }
+        },
+        title,
+        autoPlay,
+        loop,
+        muted,
+        controls
+      }
+    },
     mainImage {
       asset-> {
         _id,
@@ -150,39 +172,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <PortableText
               value={post.content}
-              components={{
-                types: {
-                  image: ({value}) => (
-                    <div className="relative h-64 sm:h-96 my-8">
-                      <Image
-                        src={value.asset.url}
-                        alt={value.alt || ""}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, 768px"
-                      />
-                    </div>
-                  ),
-                },
-                marks: {
-                  link: ({children, value}) => (
-                    <Link
-                      href={value.href}
-                      className="text-blue-600 dark:text-blue-400 hover:underline"
-                      target={
-                        value.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      rel={
-                        value.href.startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }
-                    >
-                      {children}
-                    </Link>
-                  ),
-                },
-              }}
+              components={PortableTextComponents}
             />
           </div>
         </div>
