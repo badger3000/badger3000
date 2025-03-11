@@ -44,23 +44,26 @@ export default function Header() {
             src={HeaderImg04}
             width={245}
             height={160}
+            style={{height: "auto"}}
             alt="Header 01"
             priority
           />
-          <Image
+          <video
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-            src={HeaderImg05}
-            width={245}
+            src="/video/cropped-video.webm"
+            width={277}
             height={160}
-            alt="Header 02"
-            priority
-            unoptimized
+            autoPlay
+            loop
+            muted
+            playsInline
           />
           <Image
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
             src={HeaderImg06}
             width={245}
             height={160}
+            style={{height: "auto"}}
             alt="Header 03"
             priority
           />
