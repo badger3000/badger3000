@@ -7,8 +7,14 @@ import {PortableText} from "@portabletext/react";
 import {Metadata} from "next";
 
 // Use 'any' type to bypass TypeScript checking for now
-export async function generateMetadata({params}: any): Promise<Metadata> {
-  const slug = params.slug;
+export async function generateMetadata({
+  params,
+}: {
+  params: {slug: string};
+}): Promise<Metadata> {
+  // Await params before accessing its properties
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
   const post = await getPost(slug);
 
   if (!post) {
@@ -82,8 +88,10 @@ async function getPost(slug: string) {
 }
 
 // Use 'any' type to bypass TypeScript checking for now
-export default async function ArticlePage({params}: any) {
-  const slug = params.slug;
+export default async function ArticlePage({params}: {params: {slug: string}}) {
+  // Await params before accessing its properties
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
   const post = await getPost(slug);
 
   if (!post) {
