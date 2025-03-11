@@ -50,9 +50,10 @@ export default function Header() {
           />
           <video
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-            src="/video/cropped-video.webm"
+            src="/video/cropped-video2.webm"
             width={277}
             height={160}
+            style={{height: "auto"}}
             autoPlay
             loop
             muted
