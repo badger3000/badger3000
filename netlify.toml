@@ -4,7 +4,7 @@ publish = ".next"
 
 [build.environment]
 NEXT_TELEMETRY_DISABLED = "1"
-NODE_VERSION = "18.x"         # Use the Node version that matches your local environment
+
 
 # Set cache headers for better performance
 [[headers]]
