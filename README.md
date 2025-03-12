@@ -7,7 +7,7 @@
 
 <div align="center">
 
-![![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=badger3000&theme=tokyonight)](https://git.io/streak-stats)
+[![GitHub Streak](https://github-readme-streak-stats-eight.vercel.app/?user=badger3000&theme=tokyonight)](https://git.io/streak-stats)
 
 </div>
 
