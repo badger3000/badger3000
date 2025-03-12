@@ -1,21 +1,9 @@
 [build]
-command = "npm run build"
-publish = ".next"
+command = "npx sanity build -y studio"
+publish = "studio/dist"
 
-[build.environment]
-NEXT_TELEMETRY_DISABLED = "1"
-
-
-# Set cache headers for better performance
+# Optional: You can add Sanity-specific headers if needed
 [[headers]]
-for = "/_next/static/*"
+for = "/*"
 [headers.values]
-Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-for = "/images/*"
-[headers.values]
-Cache-Control = "public, max-age=31536000, immutable"
-
-[[plugins]]
-package = "@netlify/plugin-nextjs"
+Cache-Control = "public, max-age=3600"
