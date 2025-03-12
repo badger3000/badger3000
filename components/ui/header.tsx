@@ -79,24 +79,29 @@ export default function Header() {
           />
 
           {isClient ? (
-            <video
-              className={`rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg ${!imagesLoaded.video ? "hidden" : ""}`}
-              width={278}
-              height={160}
-              style={{height: "auto"}}
-              autoPlay
-              loop
-              muted
-              playsInline
-              onLoadedData={() => handleVideoLoad()}
-            >
-              {videoSources && (
-                <>
-                  <source src="/video/cropped-video2.webm" type="video/webm" />
-                  <source src="/video/cropped-video.mp4" type="video/mp4" />
-                </>
-              )}
-            </video>
+            <div className="min-w-[278px] h-[160px] even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg">
+              <video
+                className={`${!imagesLoaded.video ? "hidden" : ""}  rounded-xl`}
+                width={278}
+                height={160}
+                style={{height: "auto"}}
+                autoPlay
+                loop
+                muted
+                playsInline
+                onLoadedData={() => handleVideoLoad()}
+              >
+                {videoSources && (
+                  <>
+                    <source
+                      src="/video/cropped-video2.webm"
+                      type="video/webm"
+                    />
+                    <source src="/video/cropped-video.mp4" type="video/mp4" />
+                  </>
+                )}
+              </video>
+            </div>
           ) : (
             // Server-side placeholder that exactly matches video dimensions
             <div className="min-w-[278px] h-[160px] rounded-xl bg-gray-200 dark:bg-gray-700 animate-pulse flex justify-center items-center even:rotate-2 odd:-rotate-2">
