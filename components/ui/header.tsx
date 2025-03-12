@@ -2,7 +2,6 @@ import ThemeToggle from "./theme-toggle";
 import Image from "next/image";
 import UserImg from "@/public/images/user-image.jpg";
 import HeaderImg04 from "@/public/images/header-image-04.webp";
-import HeaderImg05 from "@/public/images/header-image-05.gif";
 import HeaderImg06 from "@/public/images/header-image-06.webp";
 import Link from "next/link";
 
@@ -50,15 +49,17 @@ export default function Header() {
           />
           <video
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
-            src="/video/cropped-video2.webm"
-            width={277}
+            width={278}
             height={160}
             style={{height: "auto"}}
             autoPlay
             loop
             muted
             playsInline
-          />
+          >
+            <source src="/video/cropped-video2.webm" type="video/webm" />
+            <source src="/video/cropped-video.mp4" type="video/mp4" />
+          </video>
           <Image
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
             src={HeaderImg06}
