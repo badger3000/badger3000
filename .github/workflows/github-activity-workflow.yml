@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: jamesgeorge007/github-activity-readme@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT}}
         with:
           GH_USERNAME: badger3000
           MAX_LINES: 5
