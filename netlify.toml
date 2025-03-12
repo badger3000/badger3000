@@ -2,6 +2,11 @@
 command = "npx sanity build -y studio"
 publish = "dist"
 
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
 # Optional: You can add Sanity-specific headers if needed
 [[headers]]
 for = "/*"
