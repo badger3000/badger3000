@@ -1,6 +1,6 @@
 name: Latest blog posts workflow
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 on:
   schedule:
