@@ -139,23 +139,57 @@ const PortableTextComponents: Partial<PortableTextReactComponents> = {
       let videoId = "";
       let embedUrl = "";
 
-      if (
-        videoValue.provider === "youtube" ||
-        videoValue.url.includes("youtube.com") ||
-        videoValue.url.includes("youtu.be")
-      ) {
-        if (videoValue.url.includes("youtube.com/watch?v=")) {
-          videoId = new URL(videoValue.url).searchParams.get("v") || "";
-        } else if (videoValue.url.includes("youtu.be/")) {
-          videoId = videoValue.url.split("youtu.be/")[1].split("?")[0];
+      // Helper function to safely parse URL
+      const safeParseUrl = (url: string) => {
+        try {
+          return new URL(url);
+        } catch (e) {
+          return null;
         }
-        embedUrl = `https://www.youtube.com/embed/${videoId}`;
-      } else if (
+      };
+
+      // Parse the URL safely
+      const urlObj = safeParseUrl(videoValue.url);
+      if (!urlObj) {
+        return null; // Invalid URL format
+      }
+
+      // YouTube validation and parsing
+      const isYoutubeUrl =
+        urlObj.hostname === "youtube.com" ||
+        urlObj.hostname === "www.youtube.com" ||
+        urlObj.hostname === "youtu.be";
+
+      if (videoValue.provider === "youtube" || isYoutubeUrl) {
+        // Standard YouTube URL
+        if (
+          urlObj.hostname === "youtube.com" ||
+          urlObj.hostname === "www.youtube.com"
+        ) {
+          videoId = urlObj.searchParams.get("v") || "";
+        }
+        // Short YouTube URL
+        else if (urlObj.hostname === "youtu.be") {
+          videoId = urlObj.pathname.substring(1); // Remove leading slash
+        }
+
+        if (videoId) {
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        }
+      }
+      // Vimeo validation and parsing
+      else if (
         videoValue.provider === "vimeo" ||
-        videoValue.url.includes("vimeo.com")
+        urlObj.hostname === "vimeo.com" ||
+        urlObj.hostname === "www.vimeo.com"
       ) {
-        videoId = videoValue.url.split("/").pop() || "";
-        embedUrl = `https://player.vimeo.com/video/${videoId}`;
+        // Vimeo URLs typically have the ID as the last path segment
+        const pathParts = urlObj.pathname.split("/").filter(Boolean);
+        videoId = pathParts[pathParts.length - 1] || "";
+
+        if (videoId) {
+          embedUrl = `https://player.vimeo.com/video/${videoId}`;
+        }
       }
 
       if (!embedUrl) return null;
@@ -179,7 +213,6 @@ const PortableTextComponents: Partial<PortableTextReactComponents> = {
         </div>
       );
     },
-
     selfHostedVideo: ({value}) => {
       const videoValue = value as unknown as SelfHostedVideo;
       if (!videoValue?.videoFile?.asset?.url) {
