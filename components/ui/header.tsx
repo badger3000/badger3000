@@ -79,7 +79,7 @@ export default function Header() {
           />
 
           {isClient ? (
-            <div className="min-w-[278px] h-[160px] even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg">
+            <div className="min-w-[278px] h-[160px] bg-gray-200 dark:bg-gray-700 rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg">
               <video
                 className={`${!imagesLoaded.video ? "hidden" : ""}  rounded-xl`}
                 width={278}
