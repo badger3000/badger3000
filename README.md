@@ -19,4 +19,5 @@
 ## 🎯 Recent GitHub Activity
 
 <!--START_SECTION:activity-->
+1. ❌ Closed PR [#85](https://github.com/badger3000/badger3000/pull/85) in [badger3000/badger3000](https://github.com/badger3000/badger3000)
 <!--END_SECTION:activity-->
