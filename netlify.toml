@@ -1,6 +1,6 @@
 [build]
 command = "npx sanity build -y studio"
-publish = "studio/dist"
+publish = "dist"
 
 # Optional: You can add Sanity-specific headers if needed
 [[headers]]
