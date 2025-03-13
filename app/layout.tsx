@@ -5,7 +5,7 @@ import {Metadata} from "next";
 import Theme from "./theme-provider";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
-import { Providers } from "./providers";
+import {Providers} from "./providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,30 +21,30 @@ const inter_tight = Inter_Tight({
   display: "swap",
 });
 
-import { Viewport } from 'next';
+import {Viewport} from "next";
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
+    {media: "(prefers-color-scheme: light)", color: "white"},
+    {media: "(prefers-color-scheme: dark)", color: "#0f172a"},
   ],
 };
 
 export const metadata: Metadata = {
-  manifest: '/manifest.json',
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
-    title: 'Badger3000',
+    statusBarStyle: "default",
+    title: "Badger3000",
   },
   icons: {
-    apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }],
+    apple: [{url: "/icons/apple-touch-icon.png", sizes: "180x180"}],
   },
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
         <meta
           name="viewport"
@@ -65,19 +65,19 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <Providers>
           <Theme>
             <div className="overflow-hidden supports-[overflow:clip]:overflow-clip">
-            <div className="max-w-[728px] mx-auto">
-              <div className="w-full bg-white dark:bg-gray-900 border-x border-gray-100 dark:border-gray-800 box-content">
-                <div className="px-3 md:px-16">
-                  <div className="flex flex-col min-h-screen">
-                    <Header />
+              <div className="max-w-[728px] mx-auto">
+                <div className="w-full bg-white dark:bg-gray-900 border-x border-gray-100 dark:border-gray-800 box-content">
+                  <div className="px-3 md:px-16">
+                    <div className="flex flex-col min-h-screen">
+                      <Header />
 
-                    <main className="grow py-12 space-y-12">{children}</main>
+                      <main className="grow py-12 space-y-12">{children}</main>
 
-                    <Footer />
+                      <Footer />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
           </Theme>
         </Providers>
