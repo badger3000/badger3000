@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/*
+
+# Host
+Host: https://www.badger3000.com/
+
+# Sitemaps
+Sitemap: https://www.badger3000.com/sitemap.xml
+Sitemap: https://www.badger3000.com/server-sitemap.xml
