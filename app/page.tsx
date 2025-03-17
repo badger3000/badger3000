@@ -1,4 +1,4 @@
-import Tutorials from "@/components/Tutorials";
+// import Tutorials from "@/components/Tutorials";
 import Experience from "@/components/Experience";
 import Articles from "@/components/Articles";
 // import SideHustles from "@/components/SideHustles";
@@ -19,7 +19,7 @@ export default function Home() {
     <>
       <Articles />
       <Experience />
-      <Tutorials />
+      {/* <Tutorials /> */}
       <Recommendations />
       <Contact />
       {/* <SideHustles /> */}

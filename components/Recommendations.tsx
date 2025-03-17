@@ -6,7 +6,7 @@ import Image from "next/image";
 import TestimonialImg01 from "@/public/images/testimonial-01.jpg";
 import TestimonialImg02 from "@/public/images/testimonial-02.jpg";
 import TestimonialImg05 from "@/public/images/testimonial-05.jpg";
-import TestimonialImg06 from "@/public/images/testimonial-06.jpg";
+import TestimonialImg06 from "@/public/images/testimonial-06.webp";
 
 export default function Recommendations() {
   const items = [
