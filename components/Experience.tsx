@@ -1,8 +1,8 @@
 import Image from "next/image";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
-import HexImg from "@/public/images/hex.jpg";
-import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.jpg";
-import SamsungImg from "@/public/images/samsung_next_logo.jpg";
+import HexImg from "@/public/images/hex.webp";
+import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
+import SamsungImg from "@/public/images/samsung_next_logo.webp";
 
 const Svg3 = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16">
