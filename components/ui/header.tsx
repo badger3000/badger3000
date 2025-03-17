@@ -1,7 +1,7 @@
 "use client";
 import ThemeToggle from "./theme-toggle";
 import Image from "next/image";
-import UserImg from "@/public/images/user-image.jpg";
+import UserImg from "@/public/images/user-image.webp";
 import HeaderImg04 from "@/public/images/header-image-04.webp";
 import HeaderImg06 from "@/public/images/header-image-06.webp";
 import Link from "next/link";
