@@ -3,9 +3,9 @@
 import {useState, useEffect, useRef} from "react";
 
 import Image from "next/image";
-import TestimonialImg01 from "@/public/images/testimonial-01.jpg";
-import TestimonialImg02 from "@/public/images/testimonial-02.jpg";
-import TestimonialImg05 from "@/public/images/testimonial-05.jpg";
+import TestimonialImg01 from "@/public/images/testimonial-01.webp";
+import TestimonialImg02 from "@/public/images/testimonial-02.webp";
+import TestimonialImg05 from "@/public/images/testimonial-05.webp";
 import TestimonialImg06 from "@/public/images/testimonial-06.webp";
 
 export default function Recommendations() {
