@@ -4,6 +4,7 @@ import {
   faGithub,
   faLinkedin,
   faCodepen,
+  faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 
 import type {IconProp} from "@fortawesome/fontawesome-svg-core";
@@ -77,6 +78,19 @@ export default function Footer() {
               <FontAwesomeIcon
                 className="stoke-1 hover:fill-white w-8 h-8"
                 icon={faCodepen as IconProp}
+                size="sm"
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              className="w-8 h-8 rounded-full flex items-center justify-center shadow-sm text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100 transition-colors"
+              href="https://www.instagram.com/badger3g/"
+              aria-label="Instagram"
+            >
+              <FontAwesomeIcon
+                className="stoke-1 hover:fill-white w-8 h-8"
+                icon={faInstagram as IconProp}
                 size="sm"
               />
             </a>
