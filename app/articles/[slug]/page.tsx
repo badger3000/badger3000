@@ -126,6 +126,33 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
       <div className="pb-12 md:pb-20">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
+            <h1 className="h1 font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-3xl mb-4">
+              {post.title}
+            </h1>
+            <div className="text-[13px] text-gray-600 dark:text-gray-400 mb-2">
+              {post.publishedAt
+                ? format(new Date(post.publishedAt), "MMMM d, yyyy")
+                : "Recently"}
+            </div>
+          </div>
+
+          {post.mainImage?.asset?.url && (
+            <div className="relative h-64 sm:h-96 mb-8">
+              <Image
+                src={post.mainImage.asset.url}
+                alt={post.title}
+                fill
+                className="object-cover rounded-lg"
+                sizes="(max-width: 768px) 100vw, 768px"
+              />
+            </div>
+          )}
+
+          <div className="prose prose-lg dark:prose-invert max-w-none">
+            <PortableText
+              value={post.content}
+              components={PortableTextComponents}
+            />
             <Link
               href="/articles"
               className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8 group"
@@ -146,33 +173,6 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
               </svg>
               Back to Articles
             </Link>
-            <div className="text-[13px] text-gray-600 dark:text-gray-400 mb-2">
-              {post.publishedAt
-                ? format(new Date(post.publishedAt), "MMMM d, yyyy")
-                : "Recently"}
-            </div>
-            <h1 className="h1 font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-3xl mb-4">
-              {post.title}
-            </h1>
-          </div>
-
-          {post.mainImage?.asset?.url && (
-            <div className="relative h-64 sm:h-96 mb-8">
-              <Image
-                src={post.mainImage.asset.url}
-                alt={post.title}
-                fill
-                className="object-cover rounded-lg"
-                sizes="(max-width: 768px) 100vw, 768px"
-              />
-            </div>
-          )}
-
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            <PortableText
-              value={post.content}
-              components={PortableTextComponents}
-            />
           </div>
         </div>
       </div>

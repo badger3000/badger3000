@@ -5,9 +5,11 @@ import UserImg from "@/public/images/user-image.webp";
 import HeaderImg04 from "@/public/images/header-image-04.webp";
 import HeaderImg06 from "@/public/images/header-image-06.webp";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 import {useState, useEffect} from "react";
 
 export default function Header() {
+  const pathname = usePathname();
   // Define types for our state
   type ImageKey = "video";
   type ImagesLoadedState = Record<ImageKey, boolean>;
@@ -42,15 +44,16 @@ export default function Header() {
       <ThemeToggle />
       {/* Intro */}
       <div className="mb-10">
-        <Image
-          className="inline-flex rounded-full shadow-lg  mb-4"
-          src={UserImg}
-          width={48}
-          height={48}
-          alt="Kyle Ross"
-          priority
-        />
-
+        <Link href="/">
+          <Image
+            className="inline-flex rounded-full shadow-lg  mb-4 hover:scale-105 transition-transform duration-300 ease-in-out"
+            src={UserImg}
+            width={48}
+            height={48}
+            alt="Kyle Ross"
+            priority
+          />
+        </Link>
         <div className="mb-5">
           <h1 className="font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-2xl mb-1">
             Kyle Ross
@@ -66,7 +69,7 @@ export default function Header() {
           Get in Touch
         </a>
       </div>
-      <Link href="/">
+      {pathname === "/" && (
         <div className="group flex justify-center gap-4">
           <Image
             className="rounded-xl even:rotate-2 odd:-rotate-2 group-hover:rotate-0 transition duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] shadow-lg"
@@ -136,7 +139,7 @@ export default function Header() {
             priority
           />
         </div>
-      </Link>
+      )}
     </header>
   );
 }
