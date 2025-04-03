@@ -32,18 +32,10 @@ jobs:
           npm ci
           npm install @sanity/client feed
 
-      - name: Create RSS directory
-        run: mkdir -p public/rss
-
-      - name: Fetch RSS feed from API and save it
-        run: |
-          curl -s ${{ env.NEXT_PUBLIC_SITE_URL }}/api/articles-feed -o public/rss/feed.xml
-          echo "Saved RSS feed to public/rss/feed.xml"
-
       - name: Update README with blog posts
         uses: gautamkrishnar/blog-post-workflow@master
         with:
-          feed_list: "public/rss/feed.xml"
+          feed_list: "${{ env.NEXT_PUBLIC_SITE_URL }}/api/articles-feed"
           max_post_count: 5
           template: "[$title]($url)"
           disable_sort: false

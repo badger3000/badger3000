@@ -5,8 +5,8 @@ import {NextResponse} from "next/server";
 type BlogPost = {
   title: string;
   slug: {current: string};
-  publishedAt: string;
-  excerpt: string;
+  _createdAt: string;
+  excerpt?: string;
   url: string;
 };
 
@@ -17,7 +17,7 @@ const client = createClient({
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: "2024-03-09",
   useCdn: process.env.NODE_ENV === "production",
-  token: process.env.SANITY_API_TOKEN, // Optional: Add if needed for draft content
+  token: process.env.SANITY_API_TOKEN,
 });
 
 export const dynamic = "force-dynamic"; // Ensure fresh content on each request
@@ -30,7 +30,6 @@ export async function GET() {
       id: SITE_URL,
       link: SITE_URL,
       language: "en",
-      image: `${SITE_URL}/images/blog-icon.png`,
       favicon: `${SITE_URL}/favicon.ico`,
       copyright: `© ${new Date().getFullYear()} All rights reserved`,
       updated: new Date(),
@@ -45,10 +44,10 @@ export async function GET() {
 
     // Fetch latest posts from Sanity with strong typing
     const posts = await client.fetch<BlogPost[]>(`
-      *[_type == "articles" && defined(slug.current) && !(_id in path('drafts.**'))] | order(publishedAt desc, _createdAt desc) [0...10] {
+      *[_type == "articles" && defined(slug.current) && !(_id in path('drafts.**'))] | order(_createdAt desc) [0...10] {
         title,
         "slug": slug,
-        publishedAt,
+        _createdAt,
         excerpt,
         "url": "${SITE_URL}/articles/" + slug.current
       }
@@ -58,17 +57,33 @@ export async function GET() {
       throw new Error("Failed to fetch blog posts from Sanity");
     }
 
-    posts.forEach((post) => {
+    // Add a default article if no posts exist (ensures valid RSS)
+    if (posts.length === 0) {
       feed.addItem({
-        title: post.title,
-        id: post.url,
-        link: post.url,
-        description: post.excerpt,
-        date: new Date(post.publishedAt),
+        title: "Welcome to my blog",
+        id: SITE_URL,
+        link: SITE_URL,
+        description: "Stay tuned for upcoming articles",
+        date: new Date(),
       });
-    });
+    } else {
+      // Add all found posts to the feed
+      posts.forEach((post) => {
+        feed.addItem({
+          title: post.title,
+          id: post.url,
+          link: post.url,
+          description: post.excerpt || "Read this article on my blog",
+          date: new Date(post._createdAt),
+        });
+      });
+    }
 
-    return new NextResponse(feed.rss2(), {
+    // Generate the XML and log a preview for debugging
+    const feedXml = feed.rss2();
+    console.log("Generated RSS feed:", feedXml.substring(0, 300) + "...");
+
+    return new NextResponse(feedXml, {
       headers: {
         "Content-Type": "application/xml",
         "Cache-Control": "public, s-maxage=1200, stale-while-revalidate=600",
