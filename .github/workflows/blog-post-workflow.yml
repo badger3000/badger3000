@@ -40,25 +40,19 @@ jobs:
           template: "[$title]($url)"
           disable_sort: false
 
-      - name: Commit and push if changed
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git add -A
-          git diff --staged --quiet || git commit -m "Update blog posts in README"
+      - name: Create Pull Request if main branch is protected
+        if: failure()
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update README with latest blog posts
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: update-readme-blog-posts
+          delete-branch: true
+          title: "Update README with latest blog posts"
+          body: |
+            Update README with the latest blog posts from your website.
 
-          # Try to push directly first (for non-protected branches)
-          git push || (
-            # If direct push fails, create and push to a new branch, then create a PR
-            BRANCH_NAME="update-blog-posts-$(date +%s)"
-            git checkout -b $BRANCH_NAME
-            git push -u origin $BRANCH_NAME
-            
-            # Create PR using GitHub CLI
-            gh pr create --title "Update blog posts in README" \
-                         --body "Automated update of blog posts in README by GitHub Actions" \
-                         --base main \
-                         --head $BRANCH_NAME
-          )
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            This PR was automatically created by the GitHub Actions workflow.
+          base: main
