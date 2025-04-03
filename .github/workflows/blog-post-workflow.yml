@@ -32,65 +32,18 @@ jobs:
           npm ci
           npm install @sanity/client feed
 
-      - name: Generate RSS feed
+      - name: Create RSS directory
+        run: mkdir -p public/rss
+
+      - name: Fetch RSS feed from API and save it
         run: |
-          mkdir -p public/rss
-          node -e '
-          const { Feed } = require("feed");
-          const { createClient } = require("@sanity/client");
-
-          async function generateFeed() {
-            const client = createClient({
-              projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-              dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-              apiVersion: "2024-03-09",
-              useCdn: true,
-              token: process.env.SANITY_API_TOKEN
-            });
-
-            const feed = new Feed({
-              title: "Portfolio Blog",
-              description: "Latest articles and insights",
-              id: process.env.NEXT_PUBLIC_SITE_URL,
-              link: process.env.NEXT_PUBLIC_SITE_URL,
-              language: "en",
-              updated: new Date(),
-              author: {
-                name: process.env.NEXT_PUBLIC_AUTHOR_NAME,
-                link: process.env.NEXT_PUBLIC_SITE_URL
-              }
-            });
-
-            const posts = await client.fetch(`
-              *[_type == "post" && defined(publishedAt) && !(_id in path("drafts.**"))] | order(publishedAt desc) [0...10] {
-                title,
-                "slug": slug.current,
-                publishedAt,
-                excerpt,
-                "url": "${process.env.NEXT_PUBLIC_SITE_URL}/articles/" + slug
-              }
-            `);
-
-            posts.forEach((post) => {
-              feed.addItem({
-                title: post.title,
-                id: post.url,
-                link: post.url,
-                description: post.excerpt,
-                date: new Date(post.publishedAt)
-              });
-            });
-
-            require("fs").writeFileSync("./public/rss/feed.xml", feed.rss2());
-          }
-
-          generateFeed().catch(console.error);
-          '
+          curl -s ${{ env.NEXT_PUBLIC_SITE_URL }}/api/articles-feed -o public/rss/feed.xml
+          echo "Saved RSS feed to public/rss/feed.xml"
 
       - name: Update README with blog posts
         uses: gautamkrishnar/blog-post-workflow@master
         with:
-          feed_list: "${{ env.NEXT_PUBLIC_SITE_URL }}/rss/feed.xml"
+          feed_list: "public/rss/feed.xml"
           max_post_count: 5
           template: "[$title]($url)"
           disable_sort: false
@@ -100,5 +53,20 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add -A
-          git commit -m "Update blog posts in README" || exit 0
-          git push
+          git diff --staged --quiet || git commit -m "Update blog posts in README"
+
+          # Try to push directly first (for non-protected branches)
+          git push || (
+            # If direct push fails, create and push to a new branch, then create a PR
+            BRANCH_NAME="update-blog-posts-$(date +%s)"
+            git checkout -b $BRANCH_NAME
+            git push -u origin $BRANCH_NAME
+            
+            # Create PR using GitHub CLI
+            gh pr create --title "Update blog posts in README" \
+                         --body "Automated update of blog posts in README by GitHub Actions" \
+                         --base main \
+                         --head $BRANCH_NAME
+          )
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
