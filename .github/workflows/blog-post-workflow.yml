@@ -33,15 +33,28 @@ jobs:
           npm install @sanity/client feed
 
       - name: Update README with blog posts
+        id: blog-post
         uses: gautamkrishnar/blog-post-workflow@master
+        continue-on-error: true
         with:
           feed_list: "${{ env.NEXT_PUBLIC_SITE_URL }}/api/articles-feed"
           max_post_count: 5
           template: "[$title]($url)"
           disable_sort: false
 
-      - name: Create Pull Request if main branch is protected
-        if: failure()
+      - name: Manual commit and push
+        id: git-push
+        if: steps.blog-post.outcome == 'success'
+        continue-on-error: true
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update README with latest blog posts"
+          git push && echo "pushed=true" >> $GITHUB_OUTPUT || echo "pushed=false" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request if push failed
+        if: steps.blog-post.outcome == 'success' && steps.git-push.outputs.pushed != 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -55,4 +68,4 @@ jobs:
             Update README with the latest blog posts from your website.
 
             This PR was automatically created by the GitHub Actions workflow.
-          base: main
+          base: master
