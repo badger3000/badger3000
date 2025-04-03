@@ -67,7 +67,7 @@ jobs:
                 "slug": slug.current,
                 publishedAt,
                 excerpt,
-                "url": "${process.env.NEXT_PUBLIC_SITE_URL}/articles/" + slug
+                "url": "${process.env.NEXT_PUBLIC_SITE_URL}/blog/" + slug
               }
             `);
 
