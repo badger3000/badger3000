@@ -1,26 +1,61 @@
 #!/usr/bin/env node
 const fs = require("fs");
-const {exec} = require("child_process");
+const https = require("https");
+const http = require("http");
 const path = require("path");
 
 // Configuration
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const feedEndpoint = `${siteUrl}/api/articles-feed`;
 const readmePath = path.join(process.cwd(), "README.md");
 const maxPosts = 5;
 
-console.log("🔄 Starting manual README update...");
+console.log(
+  `🔍 Updating README.md with latest blog posts from ${feedEndpoint}`
+);
 
-// Function to execute a command and return output
-function runCommand(command) {
+// Function to fetch the RSS feed
+function fetchFeed(url) {
   return new Promise((resolve, reject) => {
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        reject(error);
-        return;
-      }
-      resolve(stdout);
-    });
+    console.log(`Fetching feed from: ${url}`);
+    const client = url.startsWith("https") ? https : http;
+
+    client
+      .get(url, (res) => {
+        if (res.statusCode !== 200) {
+          reject(new Error(`Failed to fetch feed: ${res.statusCode}`));
+          return;
+        }
+
+        let data = "";
+        res.on("data", (chunk) => (data += chunk));
+        res.on("end", () => resolve(data));
+      })
+      .on("error", (err) => {
+        console.error("Connection error:", err.message);
+        reject(err);
+      });
   });
+}
+
+// Function to parse RSS XML and extract items
+function parseRssFeed(xml) {
+  console.log(`Parsing feed XML (${xml.length} bytes)`);
+  console.log("XML sample:", xml.substring(0, 200) + "...");
+
+  const items = [];
+  const itemRegex =
+    /<item>[\s\S]*?<title>(.*?)<\/title>[\s\S]*?<link>(.*?)<\/link>[\s\S]*?<\/item>/g;
+
+  let match;
+  while ((match = itemRegex.exec(xml)) !== null) {
+    items.push({
+      title: match[1].trim(),
+      url: match[2].trim(),
+    });
+  }
+
+  return items.slice(0, maxPosts);
 }
 
 // Function to update README with blog posts
@@ -48,7 +83,8 @@ function updateReadme(posts) {
     })
     .join("\n");
 
-  console.log("Generated posts list:", postsList);
+  console.log("Generated posts list:");
+  console.log(postsList);
 
   // Add newlines for readability
   const newContent = `<!-- BLOG-POST-LIST:START -->\n${postsList}\n<!-- BLOG-POST-LIST:END -->`;
@@ -59,16 +95,6 @@ function updateReadme(posts) {
     newContent
   );
 
-  // Show the difference
-  console.log("Original content between markers:");
-  const originalMatch = content.match(
-    /<!-- BLOG-POST-LIST:START -->[\s\S]*?<!-- BLOG-POST-LIST:END -->/
-  );
-  console.log(originalMatch ? originalMatch[0] : "No match found");
-
-  console.log("\nNew content between markers:");
-  console.log(newContent);
-
   // Write the updated content back to the README
   fs.writeFileSync(readmePath, updatedContent);
   console.log(`✅ Updated README saved to: ${readmePath}`);
@@ -76,28 +102,42 @@ function updateReadme(posts) {
   return true;
 }
 
-// Main script
+// Main execution
 async function main() {
   try {
-    // Create hard-coded posts for testing
-    const testPosts = [
-      {
-        title: "How to Build a Next.js Application with Sanity",
-        url: "https://example.com/articles/nextjs-sanity-guide",
-      },
-      {
-        title: "Optimizing Performance in React Applications",
-        url: "https://example.com/articles/react-performance-tips",
-      },
-    ];
+    // Fetch and parse the feed
+    console.log("📥 Fetching RSS feed...");
+    const xml = await fetchFeed(feedEndpoint);
+    console.log(`✅ Feed fetched (${xml.length} bytes)`);
 
-    console.log("Using test posts for demonstration...");
-    console.log(testPosts);
+    // Parse the feed
+    console.log("🔄 Parsing feed...");
+    const posts = parseRssFeed(xml);
+    console.log(`✅ Found ${posts.length} posts`);
 
-    // Update README with the test posts
-    updateReadme(testPosts);
+    if (posts.length === 0) {
+      console.log("⚠️ No posts found in the feed. Nothing to update.");
+      process.exit(1);
+    }
+
+    // Display posts for debugging
+    console.log("\nPosts found:");
+    posts.forEach((post, i) => {
+      console.log(`${i + 1}. ${post.title} - ${post.url}`);
+    });
+
+    // Update the README
+    console.log("\n📝 Updating README...");
+    if (updateReadme(posts)) {
+      console.log("✅ README updated successfully");
+      process.exit(0);
+    } else {
+      console.log("❌ Failed to update README");
+      process.exit(1);
+    }
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error(`❌ Error: ${error.message}`);
+    process.exit(1);
   }
 }
 
