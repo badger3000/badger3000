@@ -14,4 +14,6 @@
 ## 📝 Latest Posts
 
 <!-- BLOG-POST-LIST:START -->
+[How to Build a Next.js Application with Sanity](https://example.com/articles/nextjs-sanity-guide)
+[Optimizing Performance in React Applications](https://example.com/articles/react-performance-tips)
 <!-- BLOG-POST-LIST:END -->
