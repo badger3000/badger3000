@@ -11,10 +11,10 @@
 
 </div>
 
-## 📝 Latest Posts
-
-<!-- BLOG-POST-LIST:START -->
-
-- [Vintage Skate Collage](https://www.badger3000.com/articles/vintage-skate-collage)
+<details open> 
+ <summary><h2>📝 Latest Posts</h2></summary>
+ <!-- BLOG-POST-LIST:START -->
+[Vintage Skate Collage](https://www.badger3000.com/articles/vintage-skate-collage)
 - [AI will take your developer Job, but don't use AI to get a developer job](https://www.badger3000.com/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job)
 <!-- BLOG-POST-LIST:END -->
+</details>

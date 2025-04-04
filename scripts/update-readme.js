@@ -79,7 +79,7 @@ function updateReadme(posts) {
   // Generate new content for the blog posts section
   const postsList = posts
     .map((post) => {
-      return `[${post.title}](${post.url})`;
+      return `- [${post.title}](${post.url})`;
     })
     .join("\n");
 
