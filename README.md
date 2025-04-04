@@ -16,6 +16,6 @@
  <!-- BLOG-POST-LIST:START -->
 - <a href="https://www.badger3000.com/articles/vintage-skate-collage">Vintage Skate Collage</a>
 <br/>
-- <a href="[https://www.badger3000.com/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job">AI will take your developer Job, but don't use AI to get a developer job</a>
+- <a href="https://www.badger3000.com/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job">AI will take your developer Job, but don't use AI to get a developer job</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
