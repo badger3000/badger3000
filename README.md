@@ -11,7 +11,7 @@
 
 </div>
 
-<details open> 
+<details> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
 - <a href="https://www.badger3000.com/articles/vintage-skate-collage">Vintage Skate Collage</a>
