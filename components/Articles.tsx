@@ -45,11 +45,11 @@ export default async function Articles({
               </svg>
             </div>
             <div className="space-y-1.5 mb-2">
-              <div className="text-[13px] font-medium text-gray-600 dark:text-gray-400">
+              {/* `<div className="text-[13px] font-medium text-gray-600 dark:text-gray-400">
                 {post.publishedAt
                   ? format(new Date(post.publishedAt), "MMM d, yyyy")
                   : "Recently"}
-              </div>
+              </div>` */}
               <h3 className="font-semibold text-gray-800 dark:text-gray-100">
                 <Link
                   className="before:absolute before:inset-0"
