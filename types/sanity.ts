@@ -31,10 +31,11 @@ export type SanityBlock = {
 
 export type SanityPost = {
   _id: string;
+  _type: string;
   title: string;
   slug: string;
   publishedAt?: string;
   excerpt?: string;
-  content?: Array<SanityBlock | (SanityBlock & { asset: SanityImage['asset'] })>;
+  content?: Array<SanityBlock | (SanityBlock & {asset: SanityImage["asset"]})>;
   mainImage?: SanityImage;
 };
