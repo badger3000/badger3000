@@ -65,6 +65,7 @@ export async function generateMetadata({
 async function getPost(slug: string) {
   const query = `*[_type == "articles" && defined(slug.current) && slug.current == $slug && !(_id in path('drafts.**'))][0] {
     _id,
+    _createdAt,
     title,
     "slug": slug.current,
     "excerpt": coalesce(excerpt, "Read this article on web development and technology."),
@@ -130,8 +131,8 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
               {post.title}
             </h1>
             <div className="text-[13px] text-gray-600 dark:text-gray-400 mb-2">
-              {post.publishedAt
-                ? format(new Date(post.publishedAt), "MMMM d, yyyy")
+              {post._createdAt
+                ? format(new Date(post._createdAt), "MMMM d, yyyy")
                 : "Recently"}
             </div>
           </div>
