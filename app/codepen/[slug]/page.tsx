@@ -109,10 +109,11 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
           <div className="prose prose-lg dark:prose-invert max-w-none">
             {post.penUrl && (
               <iframe
-                src={post.penUrl}
-                width="100%"
                 height="600"
-                style={{border: "none"}}
+                width="100%"
+                title={post.title}
+                src={`${post.penUrl}?default-tab=result&theme-id=54001`}
+                loading="lazy"
               />
             )}
             <br />
