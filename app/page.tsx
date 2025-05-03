@@ -17,7 +17,7 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <Articles />
+      <Articles limit={4} />
       <Experience />
       {/* <Tutorials /> */}
       <Recommendations />

@@ -1,7 +1,7 @@
 import {getPosts} from "@/lib/sanity";
-import {format} from "date-fns";
+// import {format} from "date-fns";
 import Link from "next/link";
-import type {SanityPost} from "@/types/sanity";
+// import type {SanityPost} from "@/types/sanity";
 
 interface ArticlesProps {
   limit?: number;
@@ -11,7 +11,7 @@ interface ArticlesProps {
 }
 
 export default async function Articles({
-  limit = 3,
+  limit,
   showHeading = true,
   showViewAll = true,
   className = "",
@@ -53,7 +53,11 @@ export default async function Articles({
               <h3 className="font-semibold text-gray-800 dark:text-gray-100">
                 <Link
                   className="before:absolute before:inset-0"
-                  href={`/articles/${post.slug}`}
+                  href={
+                    post._type === "codepen"
+                      ? `/codepen/${post.slug}`
+                      : `/articles/${post.slug}`
+                  }
                 >
                   {post.title}
                 </Link>

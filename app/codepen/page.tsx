@@ -1,7 +1,7 @@
 import Articles from "@/components/Articles";
 
 export const metadata = {
-  title: "Articles | Kyle Ross",
+  title: "Codepen's | Kyle Ross",
   description:
     "Articles and thoughts about web development, technology, and more.",
 };
@@ -13,7 +13,7 @@ export default async function ArticlesPage() {
         <h1 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
           Articles
         </h1>
-        <Articles showHeading={false} showViewAll={false} />
+        <Articles limit={undefined} showHeading={false} showViewAll={false} />
       </div>
     </div>
   );
