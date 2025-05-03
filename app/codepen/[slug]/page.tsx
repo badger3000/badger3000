@@ -118,10 +118,21 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
           )}
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
-            <PortableText
-              value={post.description}
-              components={PortableTextComponents}
-            />
+            {post.penUrl && (
+              <iframe
+                src={post.penUrl}
+                width="100%"
+                height="600"
+                style={{border: "none"}}
+              />
+            )}
+            <br />
+            {post.description && (
+              <PortableText
+                value={post.description}
+                components={PortableTextComponents}
+              />
+            )}
             <Link
               href="/articles"
               className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8 group"
@@ -140,7 +151,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              Back to all Codepen's
+              Back to all Article's
             </Link>
           </div>
         </div>

@@ -147,7 +147,6 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
               />
             </div>
           )}
-
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <PortableText
               value={post.content}

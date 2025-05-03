@@ -11,7 +11,7 @@ interface ArticlesProps {
 }
 
 export default async function Articles({
-  limit = 3,
+  limit,
   showHeading = true,
   showViewAll = true,
   className = "",
