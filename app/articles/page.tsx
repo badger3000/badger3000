@@ -13,7 +13,7 @@ export default async function ArticlesPage() {
         <h1 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
           Articles
         </h1>
-        <Articles showHeading={false} showViewAll={false} />
+        <Articles showHeading={false} showViewAll={false} showFilter={true} />
       </div>
     </div>
   );
