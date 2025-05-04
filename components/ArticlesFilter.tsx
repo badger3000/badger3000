@@ -2,6 +2,7 @@
 
 import {useState} from "react";
 import React from "react";
+import {motion, AnimatePresence} from "framer-motion";
 
 interface ArticlesFilterProps {
   children: React.ReactNode;
@@ -92,13 +93,42 @@ export default function ArticlesFilter({
         </div>
       </div>
 
-      <div className="space-y-1">{filteredChildren}</div>
+      <div className="space-y-1">
+        <AnimatePresence mode="popLayout">
+          {filteredChildren.map((child, index) => {
+            if (React.isValidElement(child)) {
+              // Make the article itself a motion component
+              const MotionArticle = motion(child.type);
 
-      {filteredChildren.length === 0 && (
-        <p className="text-center text-gray-500 dark:text-gray-400 py-8">
-          No articles found matching your search criteria.
-        </p>
-      )}
+              return (
+                <MotionArticle
+                  key={child.key}
+                  {...(child.props as object)}
+                  layout
+                  initial={{opacity: 0, y: 20}}
+                  animate={{opacity: 1, y: 0}}
+                  exit={{opacity: 0, y: -20}}
+                  transition={{duration: 0.2, delay: index * 0.05}}
+                />
+              );
+            }
+            return child;
+          })}
+        </AnimatePresence>
+      </div>
+
+      <AnimatePresence>
+        {filteredChildren.length === 0 && (
+          <motion.p
+            initial={{opacity: 0, y: 10}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: -10}}
+            className="text-center text-gray-500 dark:text-gray-400 py-8"
+          >
+            No articles found matching your search criteria.
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
