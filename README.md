@@ -14,8 +14,14 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
-- <a href="https://www.badger3000.com/articles/vintage-skate-collage">Vintage Skate Collage</a>
+- <a href="https://www.badger3000.com/codepen/cicada-principle-interactive-demo">Cicada Principle Interactive Demo</a>
 <br/>
-- <a href="https://www.badger3000.com/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job">AI will take your developer Job, but don't use AI to get a developer job</a>
+- <a href="https://www.badger3000.com/codepen/global-technology-index-dashboard">Global Technology Index Dashboard</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/project-budget-planner">Project Budget Planner</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/3d-card-shuffle">3D Card shuffle | ThreeJs & React</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/slide-reveal-card">Slide Reveal Card</a>
 <!-- BLOG-POST-LIST:END -->
 </details>

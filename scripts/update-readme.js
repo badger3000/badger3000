@@ -6,6 +6,7 @@ const path = require("path");
 
 // Configuration
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const productionUrl = "https://www.badger3000.com"; // Your production URL
 const feedEndpoint = `${siteUrl}/api/articles-feed`;
 const readmePath = path.join(process.cwd(), "README.md");
 const maxPosts = 5;
@@ -49,9 +50,23 @@ function parseRssFeed(xml) {
 
   let match;
   while ((match = itemRegex.exec(xml)) !== null) {
+    let title = match[1].trim();
+    let url = match[2].trim();
+
+    // Clean up CDATA sections from title
+    title = title.replace(/<!\[CDATA\[(.*?)\]\]>/, "$1");
+
+    // Replace localhost URL with production URL while preserving path
+    if (url.includes("localhost:3000")) {
+      // Extract the path from the localhost URL
+      const urlPath = url.replace("http://localhost:3000", "");
+      // Combine production URL with the extracted path
+      url = productionUrl + urlPath;
+    }
+
     items.push({
-      title: match[1].trim(),
-      url: match[2].trim(),
+      title: title,
+      url: url,
     });
   }
 
@@ -76,10 +91,12 @@ function updateReadme(posts) {
     return false;
   }
 
-  // Generate new content for the blog posts section
+  // Generate new content for the blog posts section with HTML anchor tags
   const postsList = posts
-    .map((post) => {
-      return `- [${post.title}](${post.url})`;
+    .map((post, index) => {
+      const listItem = `- <a href="${post.url}">${post.title}</a>`;
+      // Add <br/> after each item except the last one
+      return index < posts.length - 1 ? listItem + "\n<br/>" : listItem;
     })
     .join("\n");
 
