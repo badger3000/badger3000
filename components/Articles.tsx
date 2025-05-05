@@ -1,5 +1,5 @@
 import {getPosts} from "@/lib/sanity";
-import EnhancedLink from "./EnhancedLink";
+import Link from "next/link";
 import ArticlesFilter from "./ArticlesFilter";
 
 interface ArticlesProps {
@@ -7,7 +7,7 @@ interface ArticlesProps {
   showHeading?: boolean;
   showViewAll?: boolean;
   className?: string;
-  showFilter?: boolean;
+  showFilter?: boolean; // Add this new prop
 }
 
 export default async function Articles({
@@ -15,10 +15,11 @@ export default async function Articles({
   showHeading = true,
   showViewAll = true,
   className = "",
-  showFilter = false,
+  showFilter = false, // Default to false so existing usage doesn't show the filter
 }: ArticlesProps) {
   const posts = await getPosts(limit);
 
+  // Extract only the data needed for filtering (only when filter is shown)
   const articlesData = showFilter
     ? posts.map((post) => ({
         _id: post._id,
@@ -51,7 +52,7 @@ export default async function Articles({
           </div>
           <div className="space-y-1.5 mb-2">
             <h3 className="font-semibold text-gray-800 dark:text-gray-100">
-              <EnhancedLink
+              <Link
                 className="before:absolute before:inset-0"
                 href={
                   post._type === "codepen"
@@ -60,7 +61,7 @@ export default async function Articles({
                 }
               >
                 {post.title}
-              </EnhancedLink>
+              </Link>
             </h3>
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -88,7 +89,7 @@ export default async function Articles({
       )}
 
       {showViewAll && posts?.length > 0 && (
-        <EnhancedLink
+        <Link
           href="/articles"
           className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
         >
@@ -107,11 +108,8 @@ export default async function Articles({
               d="M9 5l7 7-7 7"
             />
           </svg>
-        </EnhancedLink>
+        </Link>
       )}
     </section>
   );
 }
-
-// Enable ISR for this component's parent page
-export const revalidate = 3600; // Revalidate at most once per hour
