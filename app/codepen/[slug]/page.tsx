@@ -1,11 +1,68 @@
 import PortableTextComponents from "@/components/PortableText";
 import {client} from "@/lib/sanity";
 import {format} from "date-fns";
-import Image from "next/image";
-import Link from "next/link";
 import {notFound} from "next/navigation";
 import {PortableText} from "@portabletext/react";
 import {Metadata} from "next";
+import EnhancedLink from "@/components/EnhancedLink";
+import CodePenEmbedWrapper from "@/components/CodePenEmbedWrapper";
+
+// Define a cache for our posts
+const postCache = new Map();
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+
+// Enhanced getPost function with caching
+async function getPost(slug: string) {
+  // Create a cache key
+  const cacheKey = `codepen-${slug}`;
+
+  // Check if we have a valid cache entry
+  const cachedData = postCache.get(cacheKey);
+  if (cachedData) {
+    const {data, timestamp} = cachedData;
+    // Check if cache is still valid (less than CACHE_DURATION old)
+    if (Date.now() - timestamp < CACHE_DURATION) {
+      return data;
+    }
+  }
+
+  const query = `*[_type == "codepen" && slug.current == $slug][0] {
+    _id,
+    _createdAt,
+    title,
+    "slug": slug.current,
+    description,
+    penUrl,
+    embedCode,
+    "topic": topic->{
+      title,
+      "slug": slug.current,
+      backgroundColor
+    },
+    thumbnail,
+    gridSpan
+  }`;
+
+  // Fetch with Next.js cache directive
+  const post = await client.fetch(
+    query,
+    {slug},
+    {
+      next: {revalidate: 3600}, // Cache for 1 hour on the server
+    }
+  );
+
+  // Update the cache with fresh data
+  postCache.set(cacheKey, {
+    data: post,
+    timestamp: Date.now(),
+  });
+
+  return post;
+}
+
+// Share post data between metadata and component
+let cachedPost: any = null;
 
 type Params = {
   slug: string;
@@ -21,21 +78,22 @@ export async function generateMetadata({
   const slug = resolvedParams.slug;
   const post = await getPost(slug);
 
+  // Store for reuse in the component
+  cachedPost = post;
+
   if (!post) {
     return {
-      title: "Article Not Found | Kyle Ross",
-      description: "The requested article could not be found.",
+      title: "CodePen Not Found | Kyle Ross",
+      description: "The requested CodePen could not be found.",
     };
   }
 
   return {
     title: `${post.title} | Kyle Ross`,
-    description:
-      post.excerpt || "Read this article on web development and technology.",
+    description: post.excerpt || "Check out this CodePen demo.",
     openGraph: {
       title: post.title,
-      description:
-        post.excerpt || "Read this article on web development and technology.",
+      description: post.excerpt || "Check out this CodePen demo.",
       type: "article",
       publishedTime: post.publishedAt,
       authors: ["Kyle Ross"],
@@ -53,39 +111,24 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description:
-        post.excerpt || "Read this article on web development and technology.",
+      description: post.excerpt || "Check out this CodePen demo.",
       images: post.thumbnail?.asset?.url
         ? [post.thumbnail.asset.url]
         : undefined,
     },
   };
 }
-async function getPost(slug: string) {
-  const query = `*[_type == "codepen" && slug.current == $slug][0] {
-    _id,
-    _createdAt,
-    title,
-    "slug": slug.current,
-    description,
-    penUrl,
-    embedCode,
-    "topic": topic->{
-      title,
-      "slug": slug.current,
-      backgroundColor
-    },
-    thumbnail,
-    gridSpan
-  }`;
-  return client.fetch(query, {slug});
-}
 
-export default async function ArticlePage({params}: {params: Promise<Params>}) {
+export default async function CodePenPage({params}: {params: Promise<Params>}) {
   // Await params before accessing its properties
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
-  const post = await getPost(slug);
+
+  // Use cached post if available, otherwise fetch
+  const post = cachedPost || (await getPost(slug));
+
+  // Clear cache after use to prevent memory leaks
+  cachedPost = null;
 
   if (!post) {
     notFound();
@@ -108,13 +151,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
             {post.penUrl && (
-              <iframe
-                height="600"
-                width="100%"
-                title={post.title}
-                src={`https://codepen.io/badger3000/embed/${post.penUrl}?default-tab=result&theme-id=54001`}
-                loading="lazy"
-              />
+              <CodePenEmbedWrapper penUrl={post.penUrl} title={post.title} />
             )}
             <br />
             {post.description && (
@@ -123,7 +160,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                 components={PortableTextComponents}
               />
             )}
-            <Link
+            <EnhancedLink
               href="/articles"
               className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8 group"
             >
@@ -141,8 +178,8 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              Back to all Article's
-            </Link>
+              Back to all Articles
+            </EnhancedLink>
           </div>
         </div>
       </div>
@@ -150,46 +187,5 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
   );
 }
 
-{
-  /* <Layout title={pen.title}>
-  <PageLayout pageTitle={pen.topic.title}>
-    <section>
-      <SinglePageHeader
-        pageTitle={pen?.title || "Untitled"}
-        bgColor={` ${pen?.topic?.backgroundColor?.hex || "#000000"}`}
-        pageImg={pen?.thumbnail
-          ? urlForImage(pen.thumbnail).url()
-          : "/images/placeholder.svg"}
-      />
-      <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
-        {(<PortableText value={pen.description} />)}
-      </article>
-    </section>
-    <!-- <article
-      class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12 text-white my-16"
-    >
-      <div class="flex flex-col items-center">
-        <div class="w-full">
-          {
-            pen.embedCode && (
-              <div class="codepen-embed" set:html={pen.embedCode} />
-            )
-          }
-          <div
-            class="mt-6 min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
-          >
-            <h1>{pen.title}</h1>
-          </div>
-          <div class="content w-[80%] lg:mt-4 text-white">
-            <p>{pen.description}</p>
-          </div>
-
-          <a href={pen.penUrl} target="_blank" rel="noopener noreferrer"
-            >View on CodePen</a
-          >
-        </div>
-      </div>
-    </article> -->
-  </PageLayout>
-</Layout> */
-}
+// Enable ISR for this page
+export const revalidate = 3600; // Revalidate at most once per hour

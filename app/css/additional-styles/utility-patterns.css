@@ -92,3 +92,12 @@ input[type="search"]::-webkit-search-results-decoration {
   scrollbar-width: none;
   /* Firefox */
 }
+
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
