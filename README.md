@@ -14,14 +14,14 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
-- <a href="https://www.badger3000.com/articles/cicada-principle-interactive-demo">Cicada Principle Interactive Demo</a>
+- <a href="https://www.badger3000.com/codepen/cicada-principle-interactive-demo">Cicada Principle Interactive Demo</a>
 <br/>
-- <a href="https://www.badger3000.com/articles/global-technology-index-dashboard">Global Technology Index Dashboard</a>
+- <a href="https://www.badger3000.com/codepen/global-technology-index-dashboard">Global Technology Index Dashboard</a>
 <br/>
-- <a href="https://www.badger3000.com/articles/project-budget-planner">Project Budget Planner</a>
+- <a href="https://www.badger3000.com/codepen/project-budget-planner">Project Budget Planner</a>
 <br/>
-- <a href="https://www.badger3000.com/articles/3d-card-shuffle">3D Card shuffle | ThreeJs & React</a>
+- <a href="https://www.badger3000.com/codepen/3d-card-shuffle">3D Card shuffle | ThreeJs & React</a>
 <br/>
-- <a href="https://www.badger3000.com/articles/slide-reveal-card">Slide Reveal Card</a>
+- <a href="https://www.badger3000.com/codepen/slide-reveal-card">Slide Reveal Card</a>
 <!-- BLOG-POST-LIST:END -->
 </details>

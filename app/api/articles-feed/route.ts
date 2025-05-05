@@ -49,7 +49,10 @@ export async function GET() {
       "slug": slug,
       _createdAt,
       excerpt,
-      "url": "${SITE_URL}/" + (_type == "codepen" ? "codepen/" : "articles/") + slug.current
+       "url": "${SITE_URL}/" + select(
+        _type == "codepen" => "codepen/",
+        _type == "articles" => "articles/"
+      ) + slug.current
     }
   `);
 

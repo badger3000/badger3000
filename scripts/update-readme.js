@@ -56,9 +56,12 @@ function parseRssFeed(xml) {
     // Clean up CDATA sections from title
     title = title.replace(/<!\[CDATA\[(.*?)\]\]>/, "$1");
 
-    // Replace localhost URL with production URL
+    // Replace localhost URL with production URL while preserving path
     if (url.includes("localhost:3000")) {
-      url = url.replace("http://localhost:3000", productionUrl);
+      // Extract the path from the localhost URL
+      const urlPath = url.replace("http://localhost:3000", "");
+      // Combine production URL with the extracted path
+      url = productionUrl + urlPath;
     }
 
     items.push({

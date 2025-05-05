@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>Kyle Ross - Articles</title>
+        <link>http://localhost:3000</link>
+        <description>Latest articles and insights</description>
+        <lastBuildDate>Mon, 05 May 2025 00:14:02 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <copyright>© 2025 All rights reserved</copyright>
+        <item>
+            <title><![CDATA[Cicada Principle Interactive Demo]]></title>
+            <link>http://localhost:3000/articles/cicada-principle-interactive-demo</link>
+            <guid>http://localhost:3000/articles/cicada-principle-interactive-demo</guid>
+            <pubDate>Sat, 03 May 2025 17:21:41 GMT</pubDate>
+            <description><![CDATA[Interactive demo showcases the Cicada Principle in action]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Global Technology Index Dashboard]]></title>
+            <link>http://localhost:3000/articles/global-technology-index-dashboard</link>
+            <guid>http://localhost:3000/articles/global-technology-index-dashboard</guid>
+            <pubDate>Sat, 03 May 2025 17:16:10 GMT</pubDate>
+            <description><![CDATA[This proof of concept demonstrates an interactive data visualization platform]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Project Budget Planner]]></title>
+            <link>http://localhost:3000/articles/project-budget-planner</link>
+            <guid>http://localhost:3000/articles/project-budget-planner</guid>
+            <pubDate>Sat, 03 May 2025 17:14:59 GMT</pubDate>
+            <description><![CDATA[A fully interactive project budget management tool built with React.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[3D Card shuffle | ThreeJs & React]]></title>
+            <link>http://localhost:3000/articles/3d-card-shuffle</link>
+            <guid>http://localhost:3000/articles/3d-card-shuffle</guid>
+            <pubDate>Sat, 03 May 2025 17:09:05 GMT</pubDate>
+            <description><![CDATA[A 3D interactive card stack built with Three.js and React.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Slide Reveal Card]]></title>
+            <link>http://localhost:3000/articles/slide-reveal-card</link>
+            <guid>http://localhost:3000/articles/slide-reveal-card</guid>
+            <pubDate>Sat, 03 May 2025 17:05:20 GMT</pubDate>
+            <description><![CDATA[A hover-interactive card that reveals content through animated transitions. ]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Tilted 3D Card with Parallax]]></title>
+            <link>http://localhost:3000/articles/tilted-3d-card-with-parallax</link>
+            <guid>http://localhost:3000/articles/tilted-3d-card-with-parallax</guid>
+            <pubDate>Sat, 03 May 2025 16:59:15 GMT</pubDate>
+            <description><![CDATA[A 3D interactive card that tilts based on mouse movement.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Animated Chart]]></title>
+            <link>http://localhost:3000/articles/animated-chart</link>
+            <guid>http://localhost:3000/articles/animated-chart</guid>
+            <pubDate>Sat, 03 May 2025 16:50:45 GMT</pubDate>
+            <description><![CDATA[Animated Pie chart. ]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TailwindCSS Mobile Menu]]></title>
+            <link>http://localhost:3000/articles/tailwindcss-mobile-menu</link>
+            <guid>http://localhost:3000/articles/tailwindcss-mobile-menu</guid>
+            <pubDate>Sat, 03 May 2025 16:48:12 GMT</pubDate>
+            <description><![CDATA[Using Tailwindcss for a responsive menu, with animations. ]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Vintage Skate Collage]]></title>
+            <link>http://localhost:3000/articles/vintage-skate-collage</link>
+            <guid>http://localhost:3000/articles/vintage-skate-collage</guid>
+            <pubDate>Tue, 01 Apr 2025 16:28:58 GMT</pubDate>
+            <description><![CDATA[I made this collage sometime around 1991]]></description>
+        </item>
+        <item>
+            <title><![CDATA[AI will take your developer Job, but  don't use AI to get a developer job]]></title>
+            <link>http://localhost:3000/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job</link>
+            <guid>http://localhost:3000/articles/ai-will-take-your-developer-job-but-don-t-use-ai-to-get-a-developer-job</guid>
+            <pubDate>Tue, 01 Apr 2025 00:18:24 GMT</pubDate>
+            <description><![CDATA[Columbia University student created an AI tool to assist candidates during live coding interviews ]]></description>
+        </item>
+    </channel>
+</rss>
