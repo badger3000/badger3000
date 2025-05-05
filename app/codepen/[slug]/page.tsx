@@ -112,7 +112,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                 height="600"
                 width="100%"
                 title={post.title}
-                src={`${post.penUrl}?default-tab=result&theme-id=54001`}
+                src={`https://codepen.io/badger3000/embed/${post.penUrl}?default-tab=result&theme-id=54001`}
                 loading="lazy"
               />
             )}
