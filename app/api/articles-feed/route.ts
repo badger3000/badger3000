@@ -44,14 +44,14 @@ export async function GET() {
 
     // Fetch latest posts from Sanity with strong typing
     const posts = await client.fetch<BlogPost[]>(`
-      *[_type == "articles" && defined(slug.current) && !(_id in path('drafts.**'))] | order(_createdAt desc) [0...10] {
-        title,
-        "slug": slug,
-        _createdAt,
-        excerpt,
-        "url": "${SITE_URL}/articles/" + slug.current
-      }
-    `);
+    *[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(_createdAt desc) [0...10] {
+      title,
+      "slug": slug,
+      _createdAt,
+      excerpt,
+      "url": "${SITE_URL}/" + (_type == "codepen" ? "codepen/" : "articles/") + slug.current
+    }
+  `);
 
     if (!posts || !Array.isArray(posts)) {
       throw new Error("Failed to fetch blog posts from Sanity");
