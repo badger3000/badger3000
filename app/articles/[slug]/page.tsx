@@ -11,6 +11,9 @@ type Params = {
   slug: string;
 };
 
+// This enables ISR - pages will be cached but revalidated in the background
+export const revalidate = 3600; // Revalidate every hour
+
 export async function generateMetadata({
   params,
 }: {
@@ -63,20 +66,24 @@ export async function generateMetadata({
 }
 
 async function getPost(slug: string) {
-  const query = `*[_type == "articles" && defined(slug.current) && slug.current == $slug && !(_id in path('drafts.**'))][0] {
+  // Optimize the GROQ query for better performance
+  const query = `*[_type == "articles" && slug.current == $slug && !(_id in path('drafts.**'))][0] {
     _id,
     _createdAt,
     title,
     "slug": slug.current,
     "excerpt": coalesce(excerpt, "Read this article on web development and technology."),
     publishedAt,
+    // Only select necessary content fields to minimize payload size
     content[] {
       ...,
       _type == "image" => {
         "asset": {
           "_id": asset->_id,
           "url": asset->url,
-          "metadata": asset->metadata
+          "metadata": asset->metadata {
+            dimensions
+          }
         }
       },
       _type == "selfHostedVideo" => {
@@ -104,12 +111,22 @@ async function getPost(slug: string) {
       asset-> {
         _id,
         url,
-        metadata
+        metadata {
+          dimensions
+        }
       }
     }
   }`;
 
-  return client.fetch(query, {slug});
+  // Use caching options for faster responses
+  return client.fetch(
+    query,
+    {slug},
+    {
+      cache: "force-cache", // Use in-memory caching
+      next: {revalidate: 3600}, // This works with ISR
+    }
+  );
 }
 
 export default async function ArticlePage({params}: {params: Promise<Params>}) {
@@ -143,8 +160,11 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                 src={post.mainImage.asset.url}
                 alt={post.title}
                 fill
+                priority
+                fetchPriority="high"
                 className="object-cover rounded-lg"
-                sizes="(max-width: 768px) 100vw, 768px"
+                sizes="(max-width: 640px) 100vw, (max-width: 768px) 85vw, 768px"
+                quality={80}
               />
             </div>
           )}

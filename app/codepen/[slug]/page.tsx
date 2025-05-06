@@ -11,6 +11,9 @@ type Params = {
   slug: string;
 };
 
+// This enables ISR - pages will be cached but revalidated in the background
+export const revalidate = 3600; // Revalidate every hour
+
 export async function generateMetadata({
   params,
 }: {
@@ -62,7 +65,8 @@ export async function generateMetadata({
   };
 }
 async function getPost(slug: string) {
-  const query = `*[_type == "codepen" && slug.current == $slug][0] {
+  // Optimize the GROQ query for better performance
+  const query = `*[_type == "codepen" && slug.current == $slug && !(_id in path('drafts.**'))][0] {
     _id,
     _createdAt,
     title,
@@ -75,10 +79,27 @@ async function getPost(slug: string) {
       "slug": slug.current,
       backgroundColor
     },
-    thumbnail,
+    "thumbnail": thumbnail {
+      asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions
+        }
+      }
+    },
     gridSpan
   }`;
-  return client.fetch(query, {slug});
+
+  // Use caching options for faster responses
+  return client.fetch(
+    query,
+    {slug},
+    {
+      cache: "force-cache", // Use in-memory caching
+      next: {revalidate: 3600}, // This works with ISR
+    }
+  );
 }
 
 export default async function ArticlePage({params}: {params: Promise<Params>}) {
@@ -108,15 +129,19 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
             {post.penUrl && (
-              <iframe
-                height="600"
-                width="100%"
-                title={post.title}
-                src={`https://codepen.io/badger3000/embed/${post.penUrl}?default-tab=result&theme-id=54001`}
-                loading="lazy"
-              />
+              <div className="relative h-[600px] mb-8">
+                <iframe
+                  height="600"
+                  width="100%"
+                  title={post.title}
+                  src={`https://codepen.io/badger3000/embed/${post.penUrl}?default-tab=result&theme-id=54001`}
+                  loading="lazy"
+                  className="absolute top-0 left-0 w-full h-full border-0 rounded-lg shadow-lg"
+                  allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
             )}
-            <br />
             {post.description && (
               <PortableText
                 value={post.description}
@@ -148,48 +173,4 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
       </div>
     </article>
   );
-}
-
-{
-  /* <Layout title={pen.title}>
-  <PageLayout pageTitle={pen.topic.title}>
-    <section>
-      <SinglePageHeader
-        pageTitle={pen?.title || "Untitled"}
-        bgColor={` ${pen?.topic?.backgroundColor?.hex || "#000000"}`}
-        pageImg={pen?.thumbnail
-          ? urlForImage(pen.thumbnail).url()
-          : "/images/placeholder.svg"}
-      />
-      <article class="bg-white p-12 rounded-bl-2xl rounded-br-2xl">
-        {(<PortableText value={pen.description} />)}
-      </article>
-    </section>
-    <!-- <article
-      class="w-full lg:h-full h-[100vh] col-span-16 lg:col-span-12 text-white my-16"
-    >
-      <div class="flex flex-col items-center">
-        <div class="w-full">
-          {
-            pen.embedCode && (
-              <div class="codepen-embed" set:html={pen.embedCode} />
-            )
-          }
-          <div
-            class="mt-6 min-h-[150px] w-[80%] text-center drop-shadow-2xl bg-gradient-to-r from-[#3A2391] to-[#3F1FB8] rounded-lg text-white lg:text-2xl font-semibold p-6 mx-3 lg:mx-0"
-          >
-            <h1>{pen.title}</h1>
-          </div>
-          <div class="content w-[80%] lg:mt-4 text-white">
-            <p>{pen.description}</p>
-          </div>
-
-          <a href={pen.penUrl} target="_blank" rel="noopener noreferrer"
-            >View on CodePen</a
-          >
-        </div>
-      </div>
-    </article> -->
-  </PageLayout>
-</Layout> */
 }
