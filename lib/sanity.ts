@@ -27,11 +27,12 @@ if (!config.dataset) {
 
 export const client = createClient({
   ...config,
-  useCdn:
-    typeof window !== "undefined" && process.env.NODE_ENV === "production",
+  useCdn: true, // Always use CDN for better performance
+  perspective: "published",
 });
 
 export async function getPosts(limit?: number): Promise<SanityPost[]> {
+  // Optimize the query to select only necessary fields for list views
   const query = `*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(publishedAt desc, _createdAt desc) ${limit ? `[0...${limit}]` : ""} {
     _id,
     _type,
@@ -39,8 +40,22 @@ export async function getPosts(limit?: number): Promise<SanityPost[]> {
     "slug": coalesce(slug.current, "no-slug"),
     "publishedAt": coalesce(publishedAt, _createdAt),
     "excerpt": coalesce(excerpt, "Read more..."),
-    content,
+    // Don't fetch full content in list view, just a preview
+    "contentPreview": select(
+      _type == "articles" => content[0].children[0].text,
+      _type == "codepen" => description[0].children[0].text
+    ),
     mainImage {
+      asset-> {
+        _id,
+        url,
+        // Only fetch needed metadata
+        metadata {
+          dimensions
+        }
+      }
+    },
+    thumbnail {
       asset-> {
         _id,
         url,
@@ -51,5 +66,13 @@ export async function getPosts(limit?: number): Promise<SanityPost[]> {
     }
   }`;
 
-  return client.fetch<SanityPost[]>(query);
+  // Use caching options for better performance
+  return client.fetch<SanityPost[]>(
+    query,
+    {},
+    {
+      cache: "force-cache",
+      next: {revalidate: 3600}, // Cache for 1 hour
+    }
+  );
 }
