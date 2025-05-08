@@ -29,6 +29,7 @@ export const client = createClient({
   ...config,
   useCdn: true, // Always use CDN for better performance
   perspective: "published",
+  stega: false, // Disable stega to reduce payload size
 });
 
 export async function getPosts(limit?: number): Promise<SanityPost[]> {

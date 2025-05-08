@@ -12,6 +12,7 @@ type Params = {
 };
 
 // This enables ISR - pages will be cached but revalidated in the background
+export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export async function generateMetadata({
@@ -135,7 +136,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                   width="100%"
                   title={post.title}
                   src={`https://codepen.io/badger3000/embed/${post.penUrl}?default-tab=result&theme-id=54001`}
-                  loading="lazy"
+                  loading="eager"
                   className="absolute top-0 left-0 w-full h-full border-0 rounded-lg shadow-lg"
                   allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -151,6 +152,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
             <Link
               href="/articles"
               className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 mb-8 group"
+              prefetch={true}
             >
               <svg
                 className="w-3 h-3 mr-2 rotate-180 group-hover:translate-x-[-2px] transition-transform"

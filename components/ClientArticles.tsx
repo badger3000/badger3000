@@ -1,34 +1,55 @@
-import {getPosts} from "@/lib/sanity";
+"use client";
+
 import Link from "next/link";
+import {usePosts} from "@/hooks/usePosts";
 import ArticlesFilter from "./ArticlesFilter";
 
-interface ArticlesProps {
+interface ClientArticlesProps {
   limit?: number;
   showHeading?: boolean;
   showViewAll?: boolean;
   className?: string;
-  showFilter?: boolean; // Add this new prop
+  showFilter?: boolean;
 }
 
-export default async function Articles({
+export default function ClientArticles({
   limit,
   showHeading = true,
   showViewAll = true,
   className = "",
-  showFilter = false, // Default to false so existing usage doesn't show the filter
-}: ArticlesProps) {
-  const posts = await getPosts(limit);
+  showFilter = false,
+}: ClientArticlesProps) {
+  const {data: posts, isLoading} = usePosts(limit);
+
+  if (isLoading) {
+    return (
+      <section className={className}>
+        {showHeading && (
+          <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
+            Articles
+          </h2>
+        )}
+        <div className="space-y-1 mb-4">
+          <div className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse"></div>
+          <div className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse"></div>
+          <div className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse"></div>
+          <div className="h-24 bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse"></div>
+        </div>
+      </section>
+    );
+  }
 
   // Extract only the data needed for filtering (only when filter is shown)
-  const articlesData = showFilter
-    ? posts.map((post) => ({
-        _id: post._id,
-        title: post.title,
-        excerpt: post.excerpt,
-        slug: post.slug,
-        _type: post._type,
-      }))
-    : [];
+  const articlesData =
+    showFilter && posts
+      ? posts.map((post) => ({
+          _id: post._id,
+          title: post.title,
+          excerpt: post.excerpt,
+          slug: post.slug,
+          _type: post._type,
+        }))
+      : [];
 
   const articleElements = (
     <>
@@ -54,12 +75,12 @@ export default async function Articles({
             <h3 className="font-semibold text-gray-800 dark:text-gray-100">
               <Link
                 className="before:absolute before:inset-0"
-                prefetch={true}
                 href={
                   post._type === "codepen"
                     ? `/codepen/${post.slug}`
                     : `/articles/${post.slug}`
                 }
+                prefetch={true}
               >
                 {post.title}
               </Link>
@@ -75,7 +96,7 @@ export default async function Articles({
 
   return (
     <section className={className}>
-      {showHeading && posts?.length > 0 && (
+      {showHeading && posts && posts.length > 0 && (
         <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
           Articles
         </h2>
@@ -89,10 +110,11 @@ export default async function Articles({
         <div className="space-y-1 mb-4">{articleElements}</div>
       )}
 
-      {showViewAll && posts?.length > 0 && (
+      {showViewAll && posts && posts.length > 0 && (
         <Link
           href="/articles"
           className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
+          prefetch={true}
         >
           View all articles
           <svg
