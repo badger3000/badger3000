@@ -12,6 +12,7 @@ type Params = {
 };
 
 // This enables ISR - pages will be cached but revalidated in the background
+export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export async function generateMetadata({
@@ -162,9 +163,9 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                 fill
                 priority
                 fetchPriority="high"
-                className="object-cover rounded-lg"
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 85vw, 768px"
                 quality={80}
+                className="object-cover rounded-lg"
               />
             </div>
           )}
