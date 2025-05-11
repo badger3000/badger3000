@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "prebuild": "node scripts/generate-sitemap.cjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:sitemap": "node --experimental-json-modules scripts/test-sitemap.js"
+    "test:sitemap": "node scripts/test-sitemap.cjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",

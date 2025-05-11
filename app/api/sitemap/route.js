@@ -1,12 +1,29 @@
 import {createClient} from "next-sanity";
 
-// Configure Sanity client
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2021-10-21",
-  useCdn: false,
-});
+// Configure Sanity client with better error handling
+const getSanityClient = () => {
+  try {
+    const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+    const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+
+    if (!projectId || !dataset) {
+      console.warn("Missing Sanity credentials");
+      return null;
+    }
+
+    return createClient({
+      projectId,
+      dataset,
+      apiVersion: "2021-10-21",
+      useCdn: false,
+    });
+  } catch (e) {
+    console.error("Failed to create Sanity client:", e);
+    return null;
+  }
+};
+
+const client = getSanityClient();
 
 export async function GET() {
   // Set a timeout for the entire operation

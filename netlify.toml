@@ -4,8 +4,6 @@ publish = ".next"
 
 [build.environment]
 NEXT_TELEMETRY_DISABLED = "1"
-NODE_ENV = "production"
-NEXT_PUBLIC_SANITY_DATASET = "production"
 
 # Increase build memory limit to avoid potential memory issues
 [build.processing]
@@ -18,22 +16,6 @@ external_node_modules = ["@node-rs/bcrypt", "next"]
 included_files = ["next.config.js"]
 # Increase the function timeout to 20 seconds
 timeout = 20
-
-# Handle redirects for SPA-like navigation
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
-conditions = { Role = ["anonymous"] }
-force = false
-query = { path = ":path" }
-
-# Handle API redirects for sitemap
-[[redirects]]
-from = "/server-sitemap.xml"
-to = "/.netlify/functions/server/api/sitemap"
-status = 200
-force = true
 
 # Set cache headers for better performance
 [[headers]]

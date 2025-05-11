@@ -1,6 +1,6 @@
 // Script to test sitemap files
-import {readFileSync, existsSync} from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 
 function testSitemap() {
   try {
@@ -15,18 +15,18 @@ function testSitemap() {
 
     console.log(`Checking sitemap files in: ${publicDir}`);
     console.log(
-      `Main sitemap index: ${existsSync(sitemapPath) ? "✅ Exists" : "❌ Missing"}`
+      `Main sitemap index: ${fs.existsSync(sitemapPath) ? "✅ Exists" : "❌ Missing"}`
     );
     console.log(
-      `Static routes sitemap: ${existsSync(sitemap0Path) ? "✅ Exists" : "❌ Missing"}`
+      `Static routes sitemap: ${fs.existsSync(sitemap0Path) ? "✅ Exists" : "❌ Missing"}`
     );
     console.log(
-      `Server sitemap: ${existsSync(serverSitemapPath) ? "✅ Exists" : "❌ Missing"}`
+      `Server sitemap: ${fs.existsSync(serverSitemapPath) ? "✅ Exists" : "❌ Missing"}`
     );
 
     // Read and analyze static sitemap content
-    if (existsSync(sitemap0Path)) {
-      const sitemap0Content = readFileSync(sitemap0Path, "utf8");
+    if (fs.existsSync(sitemap0Path)) {
+      const sitemap0Content = fs.readFileSync(sitemap0Path, "utf8");
       console.log("\nStatic routes sitemap content sample:");
       console.log(sitemap0Content.substring(0, 500) + "...");
 
@@ -47,8 +47,8 @@ function testSitemap() {
     }
 
     // Read and analyze server sitemap content
-    if (existsSync(serverSitemapPath)) {
-      const serverSitemapContent = readFileSync(serverSitemapPath, "utf8");
+    if (fs.existsSync(serverSitemapPath)) {
+      const serverSitemapContent = fs.readFileSync(serverSitemapPath, "utf8");
       console.log("\nServer sitemap content sample:");
       console.log(serverSitemapContent.substring(0, 500) + "...");
 
