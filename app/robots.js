@@ -11,8 +11,8 @@ const client = createClient({
 export default async function robots() {
   const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
 
-  // Check if we have any published posts
-  const query = `count(*[_type == "post" && defined(publishedAt) && !(_id in path('drafts.**'))])`;
+  // Check if we have any published content
+  const query = `count(*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))])`;
   const count = await client.fetch(query).catch(() => 0);
 
   return {
@@ -21,7 +21,6 @@ export default async function robots() {
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    // Only include sitemap if we have published posts
-    ...(count > 0 && {sitemap: `${baseUrl}/api/sitemap`}),
+    sitemap: [`${baseUrl}sitemap.xml`, `${baseUrl}api/sitemap`],
   };
 }
