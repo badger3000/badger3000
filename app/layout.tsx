@@ -111,6 +111,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
         />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       </head>
       {/* suppressHydrationWarning: https://github.com/vercel/next.js/issues/44343 */}
       <body

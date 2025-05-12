@@ -60,7 +60,10 @@ const client = !shouldUseFallback
 async function generateSitemapXml() {
   try {
     console.log("Generating sitemap XML files...");
-    const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
+    // Ensure baseUrl ends without a trailing slash to prevent double slashes in URLs
+    const baseUrl = (
+      process.env.SITE_URL || "https://www.badger3000.com"
+    ).replace(/\/$/, "");
 
     // Create the public directory if it doesn't exist
     const publicDir = path.join(process.cwd(), "public");
@@ -72,15 +75,48 @@ async function generateSitemapXml() {
     let items = [];
 
     if (!shouldUseFallback && client) {
+      // Use the same query pattern as getPosts function
       const query = `*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(publishedAt desc, _createdAt desc) {
+        _id,
         _type,
-        "slug": slug.current,
+        title,
+        "slug": coalesce(slug.current, "no-slug"),
+        "publishedAt": coalesce(publishedAt, _createdAt),
         _updatedAt
       }`;
 
       try {
-        items = await client.fetch(query);
+        // Add token to ensure authenticated access
+        const token = process.env.SANITY_API_TOKEN;
+        const clientConfig = token ? {token} : {};
+
+        items = await client.fetch(query, {}, clientConfig);
         console.log(`Found ${items.length} content items for sitemap`);
+
+        if (items.length > 0) {
+          console.log(
+            "Content types found:",
+            items
+              .map((item) => item._type)
+              .filter((value, index, self) => self.indexOf(value) === index)
+          );
+          console.log(
+            "First 3 items:",
+            items.slice(0, 3).map((item) => `${item._type}/${item.slug}`)
+          );
+        } else {
+          console.log("No content items found. Debugging connection...");
+
+          // Try a simpler query to test connectivity
+          const countQuery = `count(*[_type in ["articles", "codepen"] && !(_id in path('drafts.**'))])`;
+          const totalCount = await client.fetch(countQuery, {}, clientConfig);
+          console.log(`Total matching documents in dataset: ${totalCount}`);
+
+          // Try an even simpler query
+          const allDocsQuery = `count(*[!(_id in path('drafts.**'))])`;
+          const allDocs = await client.fetch(allDocsQuery, {}, clientConfig);
+          console.log(`Total documents of any type: ${allDocs}`);
+        }
       } catch (err) {
         console.warn("Failed to fetch content items from Sanity:", err.message);
         console.log("Proceeding with empty item list for sitemap");

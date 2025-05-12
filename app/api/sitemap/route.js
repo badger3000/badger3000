@@ -43,17 +43,57 @@ export async function GET() {
 
 async function generateSitemap() {
   try {
-    // Query for both article and codepen content types
+    // Use the same query pattern as getPosts function in sanity.ts
     const query = `*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(publishedAt desc, _createdAt desc) {
+      _id,
       _type,
-      "slug": slug.current,
+      title,
+      "slug": coalesce(slug.current, "no-slug"),
+      "publishedAt": coalesce(publishedAt, _createdAt),
       _updatedAt
     }`;
 
-    const items = await client.fetch(query);
+    // Log for debugging purposes
+    console.log("Executing Sanity query for dynamic sitemap API route...");
 
-    // Create sitemap XML
-    const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
+    let items = [];
+    try {
+      // Add token if available to ensure authenticated access
+      const token = process.env.SANITY_API_TOKEN;
+      const clientConfig = token ? {token} : {};
+
+      items = await client.fetch(query, {}, clientConfig);
+      console.log(`API sitemap: Found ${items.length} content items`);
+
+      if (items.length > 0) {
+        // Log the types of content found
+        const contentTypes = Array.from(
+          new Set(items.map((item) => item._type))
+        );
+        console.log("Content types found:", contentTypes);
+        console.log(
+          "First 3 items:",
+          items.slice(0, 3).map((item) => `${item._type}/${item.slug}`)
+        );
+      } else {
+        console.log(
+          "No content items found in API route. Checking connection..."
+        );
+
+        // Try a simpler query for diagnostics
+        const countQuery = `count(*[_type in ["articles", "codepen"] && !(_id in path('drafts.**'))])`;
+        const totalCount = await client.fetch(countQuery, {}, clientConfig);
+        console.log(`Total matching documents: ${totalCount}`);
+      }
+    } catch (err) {
+      console.error("Error fetching content from Sanity in API route:", err);
+      items = [];
+    }
+
+    // Create sitemap XML - ensure no trailing slash to prevent double slashes in URLs
+    const baseUrl = (
+      process.env.SITE_URL || "https://www.badger3000.com"
+    ).replace(/\/$/, "");
 
     // Build the XML manually
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
@@ -85,7 +125,17 @@ async function generateSitemap() {
     // Add individual content pages
     if (items && items.length > 0) {
       items.forEach((item) => {
-        const sectionPath = item._type === "articles" ? "articles" : "codepen";
+        // Determine the correct section path based on item type
+        let sectionPath = "articles";
+        if (item._type === "codepen") {
+          sectionPath = "codepen";
+        } else if (
+          item._type === "post" ||
+          item._type === "article" ||
+          item._type === "articles"
+        ) {
+          sectionPath = "articles";
+        }
         xml += `  <url>
     <loc>${baseUrl}/${sectionPath}/${item.slug}</loc>
     <lastmod>${new Date(item._updatedAt || new Date()).toISOString()}</lastmod>
@@ -114,7 +164,10 @@ async function generateSitemap() {
 
 // Generate a minimal but valid sitemap for fallback
 function generateFallbackSitemap() {
-  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
+  // Ensure no trailing slash to prevent double slashes in URLs
+  const baseUrl = (
+    process.env.SITE_URL || "https://www.badger3000.com"
+  ).replace(/\/$/, "");
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
   xml += `  <url>

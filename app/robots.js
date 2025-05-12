@@ -24,7 +24,10 @@ const getSanityClient = () => {
 };
 
 export default async function robots() {
-  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
+  // Ensure baseUrl ends without a trailing slash to prevent double slashes in URLs
+  const baseUrl = (
+    process.env.SITE_URL || "https://www.badger3000.com"
+  ).replace(/\/$/, "");
   let count = 0;
 
   try {
@@ -45,6 +48,6 @@ export default async function robots() {
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    sitemap: [`${baseUrl}sitemap.xml`, `${baseUrl}api/sitemap`],
+    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/api/sitemap`],
   };
 }
