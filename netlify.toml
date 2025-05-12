@@ -5,6 +5,19 @@ publish = ".next"
 [build.environment]
 NEXT_TELEMETRY_DISABLED = "1"
 
+# Increase build memory limit to avoid potential memory issues
+[build.processing]
+skip_processing = false
+
+# Increase function execution timeout
+[functions]
+node_bundler = "esbuild"
+external_node_modules = ["@node-rs/bcrypt", "next"]
+included_files = ["next.config.js"]
+
+[functions.timeout]
+# Increase the function timeout to 20 seconds
+timeout = 20
 
 # Set cache headers for better performance
 [[headers]]
@@ -16,6 +29,21 @@ Cache-Control = "public, max-age=31536000, immutable"
 for = "/images/*"
 [headers.values]
 Cache-Control = "public, max-age=31536000, immutable"
+
+# Add specific headers for API routes
+[[headers]]
+for = "/api/*"
+[headers.values]
+Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+X-Content-Type-Options = "nosniff"
+
+# Set proper headers for sitemap files
+[[headers]]
+for = "/*.xml"
+[headers.values]
+Content-Type = "application/xml"
+Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+X-Content-Type-Options = "nosniff"
 
 [[plugins]]
 package = "@netlify/plugin-nextjs"

@@ -1,27 +1,53 @@
 import {createClient} from "next-sanity";
 
-// Configure Sanity client
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  apiVersion: "2021-10-21",
-  useCdn: false,
-});
+// Configure Sanity client with better error handling
+const getSanityClient = () => {
+  try {
+    const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+    const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+
+    if (!projectId || !dataset) {
+      console.warn("Missing Sanity credentials in robots.js");
+      return null;
+    }
+
+    return createClient({
+      projectId,
+      dataset,
+      apiVersion: "2021-10-21",
+      useCdn: false,
+    });
+  } catch (e) {
+    console.error("Failed to create Sanity client in robots.js:", e);
+    return null;
+  }
+};
 
 export default async function robots() {
-  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com/";
+  // Ensure baseUrl ends without a trailing slash to prevent double slashes in URLs
+  const baseUrl = (
+    process.env.SITE_URL || "https://www.badger3000.com"
+  ).replace(/\/$/, "");
+  let count = 0;
 
-  // Check if we have any published posts
-  const query = `count(*[_type == "post" && defined(publishedAt) && !(_id in path('drafts.**'))])`;
-  const count = await client.fetch(query).catch(() => 0);
+  try {
+    const client = getSanityClient();
+    if (client) {
+      // Check if we have any published content
+      const query = `count(*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))])`;
+      count = await client.fetch(query).catch(() => 0);
+    }
+  } catch (error) {
+    console.error("Error in robots.js when querying Sanity:", error);
+  }
 
+  // Always include these sitemaps regardless of content count
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    // Only include sitemap if we have published posts
-    ...(count > 0 && {sitemap: `${baseUrl}/api/sitemap`}),
+    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/api/sitemap`],
   };
 }
