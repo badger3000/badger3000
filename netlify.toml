@@ -15,6 +15,12 @@ skip_processing = false
 node_bundler = "esbuild"
 external_node_modules = ["@node-rs/bcrypt", "next"]
 included_files = ["next.config.js", ".env.local"]
+
+# Set functions timeout appropriately
+[functions.api-sitemap]
+pattern = "*/api/sitemap*"
+included_files = ["scripts/generate-sitemap.cjs"]
+memory = 1024
 timeout = 30
 
 # Configure specific function pattern for sitemap

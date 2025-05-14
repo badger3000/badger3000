@@ -12,7 +12,9 @@
 const fs = require("fs");
 const path = require("path");
 const {DOMParser} = require("xmldom");
-const fetch = require("node-fetch");
+// Use http library instead of node-fetch to avoid ESM issues
+const https = require("https");
+const http = require("http");
 
 const SITE_URL = process.env.SITE_URL || "https://www.badger3000.com";
 const publicDir = path.join(process.cwd(), "public");
@@ -56,6 +58,35 @@ function validateXml(xmlString, filename) {
     );
     return null;
   }
+}
+
+/**
+ * Simple HTTP/HTTPS request function
+ */
+function request(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    const client = url.startsWith("https") ? https : http;
+    const req = client.request(url, options, (res) => {
+      let data = "";
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+      res.on("end", () => {
+        resolve({
+          ok: res.statusCode >= 200 && res.statusCode < 300,
+          status: res.statusCode,
+          headers: res.headers,
+          text: () => Promise.resolve(data),
+        });
+      });
+    });
+
+    req.on("error", (err) => {
+      reject(err);
+    });
+
+    req.end();
+  });
 }
 
 /**
@@ -142,7 +173,7 @@ async function checkApiSitemap() {
     const apiUrl = `${SITE_URL}/api/sitemap`;
     console.log(`Fetching ${apiUrl}`);
 
-    const response = await fetch(apiUrl, {
+    const response = await request(apiUrl, {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
@@ -156,7 +187,7 @@ async function checkApiSitemap() {
       return false;
     }
 
-    const contentType = response.headers.get("content-type");
+    const contentType = response.headers["content-type"];
     if (!contentType || !contentType.includes("application/xml")) {
       console.log(
         `${colors.yellow}⚠️ API endpoint returned incorrect Content-Type: ${contentType}${colors.reset}`
