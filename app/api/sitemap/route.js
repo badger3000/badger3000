@@ -26,17 +26,18 @@ const getSanityClient = () => {
 const client = getSanityClient();
 
 export async function GET() {
-  // Set a timeout for the entire operation
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error("Operation timed out")), 15000)
-  );
-
   try {
-    // Use Promise.race to implement a timeout
-    return await Promise.race([generateSitemap(), timeoutPromise]);
+    // First try to generate the sitemap using Sanity data
+    const sitemap = await Promise.resolve(generateSitemap()).catch((error) => {
+      console.error("Failed to generate primary sitemap:", error);
+      // Fall back to the basic sitemap
+      return generateFallbackSitemap();
+    });
+
+    return sitemap;
   } catch (error) {
-    console.error("Error generating sitemap:", error);
-    // Always return a valid sitemap even on error
+    console.error("Unhandled error in sitemap generation:", error);
+    // Always return a valid sitemap even on complete failure
     return generateFallbackSitemap();
   }
 }
@@ -149,11 +150,14 @@ async function generateSitemap() {
     xml += "</urlset>";
 
     // Return the XML with proper content type and caching headers
+    // Ensure content type is set correctly and not overridden by Next.js
     return new Response(xml, {
       headers: {
-        "Content-Type": "application/xml",
+        "Content-Type": "application/xml; charset=utf-8",
         "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
         "X-Content-Type-Options": "nosniff",
+        // Force content type with additional headers
+        "X-Force-Content-Type": "application/xml",
       },
     });
   } catch (error) {
@@ -192,9 +196,11 @@ function generateFallbackSitemap() {
 
   return new Response(xml, {
     headers: {
-      "Content-Type": "application/xml",
+      "Content-Type": "application/xml; charset=utf-8",
       "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
       "X-Content-Type-Options": "nosniff",
+      // Force content type with additional headers
+      "X-Force-Content-Type": "application/xml",
     },
   });
 }

@@ -127,17 +127,22 @@ async function generateSitemapXml() {
       );
     }
 
-    // Generate sitemap-0.xml (contains static routes)
+    // Generate sitemap-0.xml (contains static routes) - with properly formatted namespaces
     let sitemap0 = '<?xml version="1.0" encoding="UTF-8"?>\n';
     sitemap0 +=
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+      '       xmlns:xhtml="http://www.w3.org/1999/xhtml"\n' +
+      '       xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"\n' +
+      '       xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"\n' +
+      '       xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n' +
+      '       xmlns:news="http://www.sitemaps.org/schemas/sitemap-news/0.9">\n';
 
-    // Add home page
-    sitemap0 += `<url><loc>${baseUrl}</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>\n`;
+    // Add home page - with better formatting
+    sitemap0 += `  <url>\n    <loc>${baseUrl}</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
 
-    // Add static pages
-    sitemap0 += `<url><loc>${baseUrl}/articles</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>\n`;
-    sitemap0 += `<url><loc>${baseUrl}/codepen</loc><lastmod>${new Date().toISOString()}</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>\n`;
+    // Add static pages - with better formatting
+    sitemap0 += `  <url>\n    <loc>${baseUrl}/articles</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    sitemap0 += `  <url>\n    <loc>${baseUrl}/codepen</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
 
     sitemap0 += "</urlset>";
 
