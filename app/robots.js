@@ -41,13 +41,13 @@ export default async function robots() {
     console.error("Error in robots.js when querying Sanity:", error);
   }
 
-  // Always include these sitemaps regardless of content count
+  // Only use one authoritative sitemap source to avoid conflicts
   return {
     rules: {
       userAgent: "*",
       allow: "/",
       disallow: ["/admin/", "/api/"],
     },
-    sitemap: [`${baseUrl}/sitemap.xml`, `${baseUrl}/api/sitemap`],
+    sitemap: [`${baseUrl}/sitemap.xml`],
   };
 }

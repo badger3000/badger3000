@@ -4,20 +4,25 @@ publish = ".next"
 
 [build.environment]
 NEXT_TELEMETRY_DISABLED = "1"
+NODE_OPTIONS = "--max_old_space_size=1024"
 
 # Increase build memory limit to avoid potential memory issues
 [build.processing]
 skip_processing = false
 
-# Increase function execution timeout
+# Configure Netlify Functions
 [functions]
 node_bundler = "esbuild"
 external_node_modules = ["@node-rs/bcrypt", "next"]
-included_files = ["next.config.js"]
+included_files = ["next.config.js", ".env.local"]
+timeout = 30
 
-[functions.timeout]
-# Increase the function timeout to 20 seconds
-timeout = 20
+# Configure specific function pattern for sitemap
+[[redirects]]
+from = "/api/sitemap*"
+to = "/.netlify/functions/api/sitemap"
+status = 200
+force = true
 
 # Set cache headers for better performance
 [[headers]]
@@ -37,9 +42,16 @@ for = "/api/*"
 Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 X-Content-Type-Options = "nosniff"
 
-# Set proper headers for sitemap files
+# Set proper headers for sitemap files - with more specific patterns
 [[headers]]
-for = "/*.xml"
+for = "/sitemap*.xml"
+[headers.values]
+Content-Type = "application/xml"
+Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/server-sitemap.xml"
 [headers.values]
 Content-Type = "application/xml"
 Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"

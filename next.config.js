@@ -29,7 +29,7 @@ const nextConfig = {
   // Increase stability for server-side operations
   serverRuntimeConfig: {
     // Will only be available on the server side
-    timeoutSeconds: 60, // Increase timeout for API routes
+    timeoutSeconds: 120, // Increase timeout for API routes - especially helpful for sitemap generation
   },
   publicRuntimeConfig: {
     // Will be available on both server and client
