@@ -23,31 +23,6 @@ included_files = ["scripts/generate-sitemap.cjs"]
 memory = 1024
 timeout = 30
 
-# Fix for Google "Page with redirect" errors by creating direct redirects
-[[redirects]]
-from = "http://badger3000.com/*"
-to = "https://www.badger3000.com/:splat"
-status = 301
-force = true
-
-[[redirects]]
-from = "https://badger3000.com/*"
-to = "https://www.badger3000.com/:splat"
-status = 301
-force = true
-
-[[redirects]]
-from = "http://www.badger3000.com/*"
-to = "https://www.badger3000.com/:splat"
-status = 301
-force = true
-
-# Configure specific function pattern for sitemap
-[[redirects]]
-from = "/api/sitemap*"
-to = "/.netlify/functions/api/sitemap"
-status = 200
-force = true
 
 # Set cache headers for better performance
 [[headers]]
