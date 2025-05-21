@@ -32,10 +32,20 @@ export async function generateMetadata({
     };
   }
 
+  // Create the canonical URL for this specific article
+  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com";
+  const normalizedBaseUrl = baseUrl.endsWith("/")
+    ? baseUrl.slice(0, -1)
+    : baseUrl;
+  const canonicalUrl = `${normalizedBaseUrl}/articles/${slug}`;
+
   return {
-    title: `${post.title} | Kyle Ross`,
+    title: post.title, // Will be combined with the template from layout.tsx
     description:
       post.excerpt || "Read this article on web development and technology.",
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: post.title,
       description:

@@ -6,7 +6,6 @@ import Theme from "./theme-provider";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import {Providers} from "./providers";
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -29,72 +28,91 @@ export const viewport: Viewport = {
     {media: "(prefers-color-scheme: dark)", color: "#0f172a"},
   ],
 };
+/**
+ * Generates metadata dynamically based on the current route.
+ */
+export async function generateMetadata({
+  params,
+  searchParams,
+}: {
+  params: any;
+  searchParams: {[key: string]: string | string[] | undefined};
+}): Promise<Metadata> {
+  // In the root layout, the canonical URL should just be the base URL
+  // Child pages will override this with their specific paths
+  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com";
+  const normalizedBaseUrl = baseUrl.endsWith("/")
+    ? baseUrl.slice(0, -1)
+    : baseUrl;
+  const canonicalUrl = normalizedBaseUrl;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_URL || "https://www.badger3000.com"),
-  title: {
-    default: "Kyle Ross | Frontend Developer",
-    template: "%s | Kyle Ross",
-  },
-  description:
-    "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
-  manifest: "/manifest.json",
-  alternates: {
-    canonical: "/",
-    types: {
-      "application/rss+xml": [
-        {url: "/rss-feed.xml", title: "Kyle Ross RSS Feed"},
-      ],
+  // Define all metadata dynamically
+  return {
+    metadataBase: new URL(process.env.SITE_URL || "https://www.badger3000.com"),
+    title: {
+      default: "Kyle Ross | Frontend Developer",
+      template: "%s | Kyle Ross",
+      absolute: "Kyle Ross | Badger3000", // Fallback for homepage that won't use template
     },
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    description:
+      "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
+    manifest: "/manifest.json",
+    alternates: {
+      canonical: canonicalUrl, // Dynamic canonical URL based on current route
+      types: {
+        "application/rss+xml": [
+          {url: "/rss-feed.xml", title: "Kyle Ross RSS Feed"},
+        ],
+      },
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: process.env.SITE_URL || "https://www.badger3000.com",
-    title: "Kyle Ross | Frontend Developer",
-    description:
-      "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
-    siteName: "Kyle Ross | Badger3000",
-    images: [
-      {
-        url: "/images/header-image-06.webp",
-        width: 1200,
-        height: 630,
-        alt: "Kyle Ross | Frontend Developer",
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
       },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kyle Ross | Frontend Developer",
-    description:
-      "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
-    images: ["/images/header-image-06.webp"],
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: "Badger3000",
-  },
-  icons: {
-    icon: [
-      {url: "/favicon.ico"},
-      {url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png"},
-      {url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png"},
-    ],
-    apple: [{url: "/icons/apple-touch-icon.png", sizes: "180x180"}],
-  },
-};
+    },
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: process.env.SITE_URL || "https://www.badger3000.com",
+      title: "Kyle Ross | Frontend Developer",
+      description:
+        "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
+      siteName: "Kyle Ross | Badger3000",
+      images: [
+        {
+          url: "/images/header-image-06.webp",
+          width: 1200,
+          height: 630,
+          alt: "Kyle Ross | Frontend Developer",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Kyle Ross | Frontend Developer",
+      description:
+        "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
+      images: ["/images/header-image-06.webp"],
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: "Badger3000",
+    },
+    icons: {
+      icon: [
+        {url: "/favicon.ico"},
+        {url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png"},
+        {url: "/icons/icon-512x512.png", sizes: "512x512", type: "image/png"},
+      ],
+      apple: [{url: "/icons/apple-touch-icon.png", sizes: "180x180"}],
+    },
+  };
+}
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
