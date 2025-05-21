@@ -1,11 +1,5 @@
 import Articles from "@/components/Articles";
 
-export const metadata = {
-  title: "Codepen's | Kyle Ross",
-  description:
-    "Articles and thoughts about web development, technology, and more.",
-};
-
 export default async function ArticlesPage() {
   return (
     <div className="max-w-3xl mx-auto">
