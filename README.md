@@ -14,6 +14,8 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/articles/open-source-youtube-music-desktop-client">Open Source YouTube Music Desktop Client</a>
+<br/>
 - <a href="https://www.badger3000.com/articles/complete-guide-to-mutationobserver-api">Complete Guide to MutationObserver API</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/drag-and-drop-puzzle">Drag and Drop Puzzle</a>
@@ -21,7 +23,5 @@
 - <a href="https://www.badger3000.com/codepen/mutationobserver-magic-show">MutationObserver Magic Show</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/interactive-filter-demo">Interactive Filter Demo</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/cicada-principle-interactive-demo">Cicada Principle Interactive Demo</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
