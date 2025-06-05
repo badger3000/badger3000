@@ -14,14 +14,14 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/codepen/pixel-forge">PIXEL FORGE</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/neuralsync-pro">NeuralSync Pro</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/squircles-showcase">Squircles Showcase</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/container-queries-movie-cards">Container Queries Movie Cards</a>
+<br/>
 - <a href="https://www.badger3000.com/articles/10-modern-css-features-you-want-to-use">10 Modern CSS Features You Want to Use</a>
-<br/>
-- <a href="https://www.badger3000.com/articles/open-source-youtube-music-desktop-client">Open Source YouTube Music Desktop Client</a>
-<br/>
-- <a href="https://www.badger3000.com/articles/complete-guide-to-mutationobserver-api">Complete Guide to MutationObserver API</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/drag-and-drop-puzzle">Drag and Drop Puzzle</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/mutationobserver-magic-show">MutationObserver Magic Show</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
