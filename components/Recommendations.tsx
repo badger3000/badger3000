@@ -7,6 +7,7 @@ import TestimonialImg01 from "@/public/images/testimonial-01.webp";
 import TestimonialImg02 from "@/public/images/testimonial-02.webp";
 import TestimonialImg05 from "@/public/images/testimonial-05.webp";
 import TestimonialImg06 from "@/public/images/testimonial-06.webp";
+import TestimonialImg07 from "@/public/images/testimonial-07.jpg";
 
 export default function Recommendations() {
   const items = [
@@ -41,6 +42,14 @@ export default function Recommendations() {
       link: "https://www.linkedin.com/in/srikanth-b-6218332/",
       content:
         "I highly recommend Kyle Ross for his outstanding work managing our website. His commitment to accountability and ownership is unparalleled, and his expertise in WordPress has significantly improved our site's functionality, security, and ease of maintenance. Kyle is proactive in addressing issues, communicates effectively with stakeholders, and consistently delivers innovative solutions. His contributions have been invaluable to our team.",
+    },
+    {
+      name: "Katrina Krantz",
+      role: "Paid Media, SEO & Content Marketing",
+      image: TestimonialImg07,
+      link: "https://www.linkedin.com/in/katrina-krantz/",
+      content:
+        "Kyle is a very talented engineer, who is always up to date on the latest tech. He managed, built and launched multiple complicated technology projects while at Samsung with great success. He works hard and fast and is a great communicator. I hope to work on more projects with him in the future.",
     },
   ];
 
