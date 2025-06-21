@@ -30,7 +30,7 @@ export default function Experience() {
       date: "2021 - Today",
       location: "Prescott, AZ",
       description:
-        "Independent Consultant - Digital Experience, Web Development, Frontend Development,Marketing",
+        "Independent Consultant · Digital Experience · Web Development · Frontend Development · Digital Marketing",
     },
     {
       title: "Frontend Developer at Hex",
