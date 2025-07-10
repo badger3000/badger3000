@@ -14,6 +14,8 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/articles/the-million-dollar-landing-page-framework-9-elements-that-drive-conversions">The Million-Dollar Landing Page Framework: 9 Elements That Drive Conversions</a>
+<br/>
 - <a href="https://www.badger3000.com/codepen/scroll-and-slide">Scroll & Slide</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/gsap-scroll-triggered-hero-animation">GSAP Scroll-Triggered Hero Animation</a>
@@ -21,7 +23,5 @@
 - <a href="https://www.badger3000.com/codepen/3d-card-hover-effect">3D Card hover effect</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/pixel-forge">PIXEL FORGE</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/neuralsync-pro">NeuralSync Pro</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
