@@ -36,7 +36,7 @@ export default async function ExperiencePage() {
       date: "2021 - Today",
       location: "Prescott, AZ",
       description:
-        "Independent Consultant · Digital Experience · Web Development · Frontend Development · Digital Marketing",
+        "Operate an independent digital consulting studio specializing in comprehensive web development and digital marketing solutions for clients. Designed and developed custom frontend experiences while providing strategic digital marketing guidance to enhance client brand presence and user engagement. Delivered end-to-end digital services from initial concept through implementation, focusing on creating seamless user experiences that drive business results.",
     },
     {
       title: "Frontend Developer at Hex",
@@ -45,7 +45,7 @@ export default async function ExperiencePage() {
       date: "2023 - 2024",
       location: "San Francisco, CA",
       description:
-        "Front-end Coding · Contentful · Lead Generation · JavaScript · GraphQL",
+        "Led the development of a custom page builder integrated with Contentful headless CMS, enabling dynamic content management and streamlined website creation workflows. Architected and implemented JavaScript and GraphQL solutions to seamlessly connect frontend interfaces with backend content systems. Built custom lead generation form integrations that automated prospect capture and enhanced conversion tracking capabilities.",
     },
     {
       title: "Web Developer at Headspace",
@@ -62,7 +62,7 @@ export default async function ExperiencePage() {
       date: "2021 - 2023",
       location: "San Francisco, CA",
       description:
-        "TypeScript · HubSpot Marketing Hub · JSON · HubSpot · Git · React.js · Node.js · Healthcare · Google Tag Manager · GatsbyJS",
+        "Developed modern web applications for the healthcare industry using TypeScript, React.js, and GatsbyJS, ensuring robust and scalable frontend solutions. Integrated HubSpot Marketing Hub and CRM systems to streamline patient engagement and marketing automation workflows. Implemented comprehensive tracking and analytics using Google Tag Manager while maintaining HIPAA compliance standards for healthcare data handling.",
     },
     {
       title: "Lead Web Developer at Ginger",
@@ -73,7 +73,7 @@ export default async function ExperiencePage() {
       date: "2020 - 2023",
       location: "San Francisco, CA",
       description:
-        "HubSpot Marketing Hub · JSON · Git · React.js · Webflow · Web Applications · Information Architecture · Node.js · Google Tag Manager",
+        "Led web development projects primarily using Webflow, creating custom animations and interactive experiences that enhanced user engagement and brand storytelling. Developed complex integrations between Webflow CMS and HubSpot Marketing Hub to streamline content management and marketing automation workflows. Implemented advanced tracking solutions with Google Tag Manager and optimized information architecture to improve site performance and conversion rates.",
     },
     {
       title: "Sr. Front End Developer at Samsung Next",
@@ -84,7 +84,7 @@ export default async function ExperiencePage() {
       date: "2019 - 2020",
       location: "San Francisco, CA",
       description:
-        "HubSpot Marketing Hub · JSON · Git · React.js · WordPress · Web Applications · Information Architecture · Node.js · Google Tag Manager · GatsbyJS",
+        "Led technical solution development and implementation across multiple startup companies, architecting scalable web applications using React.js, GatsbyJS, and Node.js. Designed and executed comprehensive digital strategies that integrated WordPress CMS, HubSpot Marketing Hub, and advanced analytics tracking through Google Tag Manager. Delivered end-to-end technical solutions from information architecture planning through full implementation, helping startups establish robust digital foundations for growth.",
     },
     {
       title: "Sr. Front End Engineer at Initialyze",
@@ -95,7 +95,7 @@ export default async function ExperiencePage() {
       date: "2017 - 2019",
       location: "San Francisco, CA",
       description:
-        "Adobe Experience Manager · JSON · Git · Java · Design System · Information Architecture · Node.js · CSS3 · HTML5 · JavaScript",
+        "Developed customized solutions for Adobe Experience Manager (AEM) CMS, leveraging Java, JavaScript, and modern frontend technologies to create scalable content management experiences. Built and maintained comprehensive design systems using HTML5, CSS3, and component-based architectures that ensured consistent user experiences across multiple digital properties. Architected information architecture solutions and implemented custom AEM components that streamlined content authoring workflows and enhanced site performance.",
     },
     {
       title: "Front End Engineer at Hero Digital, LLC",
@@ -104,7 +104,7 @@ export default async function ExperiencePage() {
       date: "2018 - 2019",
       location: "San Francisco, CA",
       description:
-        "Site Core · 3D Design · Design System · Information Architecture · Node.js · CSS3 · HTML5 · JavaScript",
+        "Engineered advanced frontend solutions for Sitecore CMS platforms, integrating innovative 3D design elements with traditional web technologies to create immersive user experiences. Developed comprehensive design systems using HTML5, CSS3, and JavaScript that standardized component libraries and improved development efficiency across multiple projects. Architected complex information architecture frameworks that optimized content delivery and enhanced user navigation through strategic implementation of modern frontend technologies.",
     },
     {
       title: "Sr. Web Developer at Sony",
@@ -113,7 +113,7 @@ export default async function ExperiencePage() {
       date: "2012 - 2015",
       location: "San Francisco, CA",
       description:
-        "JSON · JavaScript · Scala · Node.js · MongoDB · HTML5 · LESS  · CSS3",
+        "Created custom frontend modules for e-commerce platforms using JavaScript, Scala, and Node.js to seamlessly interface with backend data systems and MongoDB databases. Developed reusable UI components and data visualization modules that displayed multiple data points including inventory, pricing, and customer information in real-time. Built responsive frontend interfaces using HTML5, CSS3, and LESS that efficiently consumed and presented complex e-commerce data across multilingual platforms.",
     },
     {
       title: "Web Developer at Hotwire",
@@ -123,7 +123,8 @@ export default async function ExperiencePage() {
       ),
       date: "2012 - 2012",
       location: "San Francisco, CA",
-      description: "Web Applications · Java · JavaScript · Google Maps API",
+      description:
+        "Integrated custom frontend solutions into an existing Java application for the hotel booking vertical, implementing Google Maps API functionality to enhance location-based search and reservation capabilities. Developed A/B testing frameworks and custom design implementations that optimized booking conversion rates and improved user engagement within the Java application ecosystem. Built responsive JavaScript interfaces that seamlessly connected frontend booking experiences with the underlying Java backend systems and real-time hotel availability data.",
     },
     {
       title: "Interactive Developer at Isobar",
@@ -133,7 +134,8 @@ export default async function ExperiencePage() {
       ),
       date: "2010 - 2012",
       location: "San Francisco, CA",
-      description: "Web Applications · Java · JavaScript · Google Maps API",
+      description:
+        "Developed websites, microsites, and Facebook applications for high-profile advertising campaigns serving global brands including adidas and Coca-Cola, hand-coding HTML, CSS, and JavaScript templates for custom CMS solutions. Collaborated closely with art directors and design teams to create working prototypes and participated in user experience concept testing to ensure optimal campaign performance. Led a key embedded project with Blue Shield of California, working onsite to develop their client portal UI and integrate with proprietary systems, demonstrating adaptability to complex client environments.",
     },
     {
       title: "Interactive Developer a Medicine Agency",
@@ -150,7 +152,7 @@ export default async function ExperiencePage() {
       date: "2008 - 2010",
       location: "San Francisco, CA",
       description:
-        "WordPress · jQuery · Magento · HTML · CSS · JavaScript · Adobe Illustrator · Adobe Creative Suite · Audio Engineering · iPhone Application Development",
+        "Developed responsive websites and e-commerce platforms for an agency specializing in branding, digital promotion, and curated art shows, using WordPress, Magento, and custom JavaScript solutions to enhance clients' online presence and revenue potential. Implemented user experience design best practices that significantly improved engagement metrics while creating custom content management solutions that streamlined client workflows and reduced content update time. Delivered consistent high-quality technical solutions and effective client presentations that maintained strong client satisfaction rates and contributed to both agency growth and client digital success.",
     },
   ];
   return (
