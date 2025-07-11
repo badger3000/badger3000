@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+    <loc>https://www.badger3000.com/codepen/hover-and-modal-slides</loc>
+    <lastmod>2025-07-10T15:40:12.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/slide-notifications</loc>
+    <lastmod>2025-07-10T15:38:55.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/articles/the-million-dollar-landing-page-framework-9-elements-that-drive-conversions</loc>
+    <lastmod>2025-07-09T18:00:02.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/scroll-and-slide</loc>
+    <lastmod>2025-07-08T20:57:56.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/gsap-scroll-triggered-hero-animation</loc>
+    <lastmod>2025-06-21T15:17:15.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/3d-card-hover-effect</loc>
+    <lastmod>2025-06-12T21:41:27.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/pixel-forge</loc>
+    <lastmod>2025-06-05T15:16:26.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/neuralsync-pro</loc>
+    <lastmod>2025-06-05T15:02:24.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/squircles-showcase</loc>
+    <lastmod>2025-06-05T14:49:27.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
     <loc>https://www.badger3000.com/codepen/container-queries-movie-cards</loc>
-    <lastmod>2025-06-04T17:29:32.000Z</lastmod>
+    <lastmod>2025-06-05T15:28:12.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 <url>
     <loc>https://www.badger3000.com/articles/10-modern-css-features-you-want-to-use</loc>
-    <lastmod>2025-06-04T17:12:01.000Z</lastmod>
+    <lastmod>2025-06-04T17:36:20.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
