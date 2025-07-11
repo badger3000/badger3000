@@ -7,19 +7,19 @@
        xmlns:news="http://www.sitemaps.org/schemas/sitemap-news/0.9">
   <url>
     <loc>https://www.badger3000.com</loc>
-    <lastmod>2025-07-11T16:03:04.857Z</lastmod>
+    <lastmod>2025-07-11T17:22:10.367Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.badger3000.com/articles</loc>
-    <lastmod>2025-07-11T16:03:04.858Z</lastmod>
+    <lastmod>2025-07-11T17:22:10.367Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.badger3000.com/codepen</loc>
-    <lastmod>2025-07-11T16:03:04.858Z</lastmod>
+    <lastmod>2025-07-11T17:22:10.367Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
   </url>

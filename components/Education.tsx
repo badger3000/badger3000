@@ -2,7 +2,7 @@ import Image from "next/image";
 import MCTC from "@/public/images/mctc-icon.webp";
 import SFSU from "@/public/images/sfsu.webp";
 
-export default function SideHustles() {
+export default function Education() {
   const items = [
     {
       title: "Web Development",
