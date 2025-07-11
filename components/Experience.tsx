@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.webp";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
@@ -110,6 +111,26 @@ export default function Experience() {
             </div>
           </article>
         ))}
+        <Link
+          href="/experience"
+          className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
+        >
+          View full experience
+          <svg
+            className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
       </div>
     </section>
   );
