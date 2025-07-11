@@ -1,5 +1,6 @@
 import Image from "next/image";
 //import Link from "next/link";
+import Education from "@/components/Education";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.webp";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
@@ -172,7 +173,7 @@ export default async function ExperiencePage() {
           </article>
         </section>
 
-        <section>
+        <section className="mb-6">
           <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
             Work Experience
           </h2>
@@ -213,13 +214,10 @@ export default async function ExperiencePage() {
           </div>
         </section>
 
-        <section className="animate-slide-up">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-1 h-8 bg-brand-500 rounded-full"></div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
-              Skills & Technologies
-            </h2>
-          </div>
+        <section className="mb-6">
+          <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
+            Skills & Technologies
+          </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
               <h3 className="font-bold text-gray-900 mb-4 text-lg">Frontend</h3>
@@ -301,63 +299,8 @@ export default async function ExperiencePage() {
             </div>
           </div>
         </section>
-
-        <section className="animate-slide-up">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-1 h-8 bg-brand-500 rounded-full"></div>
-                <h2 className="text-2xl font-bold text-gray-900">Education</h2>
-              </div>
-              <div className="space-y-4">
-                <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="font-bold text-gray-900 text-lg">
-                    Web Development
-                  </h3>
-                  <p className="text-brand-600 font-semibold">
-                    San Francisco State University
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    San Francisco, CA • Jan 2005 - Dec 2007
-                  </p>
-                </div>
-                <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="font-bold text-gray-900 text-lg">
-                    Graphic Design
-                  </h3>
-                  <p className="text-brand-600 font-semibold">
-                    Minneapolis College
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    Minneapolis, MN • Jan 2000 - Dec 2002
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-1 h-8 bg-brand-500 rounded-full"></div>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Certifications
-                </h2>
-              </div>
-              <div className="space-y-4">
-                <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="font-bold text-gray-900 text-lg">
-                    JavaScript Certification
-                  </h3>
-                  <p className="text-brand-600 font-semibold">TestDome</p>
-                </div>
-                <div className="card-hover bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
-                  <h3 className="font-bold text-gray-900 text-lg">
-                    Web Developer Certification
-                  </h3>
-                  <p className="text-brand-600 font-semibold">TestDome</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <section>
+          <Education />
         </section>
       </div>
     </div>
