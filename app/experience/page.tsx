@@ -4,6 +4,14 @@ import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.webp";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
 import SamsungImg from "@/public/images/samsung_next_logo.webp";
+import MedAgency from "@/public/images/medicine-agency.webp";
+import Hotwire from "@/public/images/hotwire.webp";
+import Sony from "@/public/images/sony_logo.webp";
+import Hero from "@/public/images/herodigitalhq_logo.webp";
+import Initialyze from "@/public/images/initialyze_logo.webp";
+import Ginger from "@/public/images/ginger_io_logo.webp";
+import Isobar from "@/public/images/isobar_logo.webp";
+
 export const metadata = {
   title: "Experience | Kyle Ross",
   description: "Some of my past work experience.",
@@ -56,9 +64,9 @@ export default async function ExperiencePage() {
     },
     {
       title: "Lead Web Developer at Ginger",
-      link: "#",
+      link: "https://www.linkedin.com/company/carebyginger/",
       icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
+        <Image src={Ginger} width={50} height={50} alt="Samsung" priority />
       ),
       date: "2020 - 2023",
       location: "San Francisco, CA",
@@ -78,9 +86,9 @@ export default async function ExperiencePage() {
     },
     {
       title: "Sr. Front End Engineer at Initialyze",
-      link: "https://www.samsungnext.com/",
+      link: "https://www.initialyze.com/",
       icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
+        <Image src={Initialyze} width={50} height={50} alt="Samsung" priority />
       ),
       date: "2017 - 2019",
       location: "San Francisco, CA",
@@ -89,10 +97,8 @@ export default async function ExperiencePage() {
     },
     {
       title: "Front End Engineer at Hero Digital, LLC",
-      link: "https://www.samsungnext.com/",
-      icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
-      ),
+      link: "https://www.linkedin.com/company/herodigitalhq/",
+      icon: <Image src={Hero} width={50} height={50} alt="Samsung" priority />,
       date: "2018 - 2019",
       location: "San Francisco, CA",
       description:
@@ -100,10 +106,8 @@ export default async function ExperiencePage() {
     },
     {
       title: "Sr. Web Developer at Sony",
-      link: "https://www.samsungnext.com/",
-      icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
-      ),
+      link: "https://www.sony.com/en/",
+      icon: <Image src={Sony} width={50} height={50} alt="Samsung" priority />,
       date: "2012 - 2015",
       location: "San Francisco, CA",
       description:
@@ -111,9 +115,19 @@ export default async function ExperiencePage() {
     },
     {
       title: "Web Developer at Hotwire",
-      link: "https://www.samsungnext.com/",
+      link: "https://www.hotwire.com/",
       icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
+        <Image src={Hotwire} width={50} height={50} alt="Samsung" priority />
+      ),
+      date: "2012 - 2012",
+      location: "San Francisco, CA",
+      description: "Web Applications · Java · JavaScript · Google Maps API",
+    },
+    {
+      title: "Interactive Developer at Isobar",
+      link: "https://www.linkedin.com/company/isobar/",
+      icon: (
+        <Image src={Isobar} width={50} height={50} alt="Samsung" priority />
       ),
       date: "2010 - 2012",
       location: "San Francisco, CA",
@@ -121,9 +135,15 @@ export default async function ExperiencePage() {
     },
     {
       title: "Interactive Developer a Medicine Agency",
-      link: "https://www.samsungnext.com/",
+      link: "https://www.linkedin.com/company/medicine-agency/",
       icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
+        <Image
+          src={MedAgency}
+          width={50}
+          height={50}
+          alt="Medicine Agency"
+          priority
+        />
       ),
       date: "2008 - 2010",
       location: "San Francisco, CA",
