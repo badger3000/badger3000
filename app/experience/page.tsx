@@ -158,10 +158,6 @@ export default async function ExperiencePage() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
-        <h1 className="font-inter-tight text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
-          Complete Resume
-        </h1>
-
         <section>
           <article className="p-5">
             <p className="text-lg text-gray-600 dark:text-gray-400">
