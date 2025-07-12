@@ -1,12 +1,3 @@
-import {
-  IconArrowWaveRightUp,
-  IconBoxAlignRightFilled,
-  IconBoxAlignTopLeft,
-  IconClipboardCopy,
-  IconFileBroken,
-  IconSignature,
-  IconTableColumn,
-} from "@tabler/icons-react";
 export default function SkillsTech() {
   return (
     <>
@@ -19,6 +10,38 @@ export default function SkillsTech() {
           Tools & Frameworks
         </h3>
         <div className="flex flex-wrap gap-2">
+          <a
+            href="https://www.warp.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://img.shields.io/badge/warp-01A4FF?style=for-the-badge&logo=warp&logoColor=white"
+              alt="warp"
+            />
+          </a>
+          <a href="https://ohmyz.sh/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://img.shields.io/badge/Zsh-F15A24?style=for-the-badge&logo=Zsh&logoColor=white"
+              alt="oh my zsh"
+            />
+          </a>
+          <a
+            href="https://git-scm.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white"
+              alt="git"
+            />
+          </a>
+          <a href="https://brew.sh/" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://img.shields.io/badge/homebrew-FBB040?style=for-the-badge&logo=homebrew&logoColor=white"
+              alt="homebrew"
+            />
+          </a>
           <a href="https://gsap.com/" target="_blank" rel="noopener noreferrer">
             <img
               src="https://img.shields.io/badge/GSAP-93CF2B?style=for-the-badge&logo=greensock&logoColor=white"
