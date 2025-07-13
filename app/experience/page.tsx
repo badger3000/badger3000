@@ -160,9 +160,6 @@ export default async function ExperiencePage() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
-        <div className="flex justify-end mb-6">
-          <PrintButton />
-        </div>
         <section>
           <article className="p-5">
             <p className="text-lg text-gray-600 dark:text-gray-400">
