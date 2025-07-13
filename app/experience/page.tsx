@@ -2,6 +2,8 @@ import Image from "next/image";
 //import Link from "next/link";
 import Education from "@/components/Education";
 import SkillsTech from "@/components/SkillsTech";
+import PrintButton from "@/components/PrintButton";
+import "./print.css";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.webp";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
@@ -171,7 +173,6 @@ export default async function ExperiencePage() {
             </p>
           </article>
         </section>
-
         <section className="mb-6 ">
           <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
             Work Experience
@@ -219,6 +220,9 @@ export default async function ExperiencePage() {
         <section>
           <Education />
         </section>
+      </div>
+      <div className="flex justify-center mb-6">
+        <PrintButton />
       </div>
     </div>
   );
