@@ -176,7 +176,6 @@ export default async function ExperiencePage() {
             </p>
           </article>
         </section>
-
         <section className="mb-6 ">
           <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
             Work Experience
