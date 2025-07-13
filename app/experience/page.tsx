@@ -2,6 +2,8 @@ import Image from "next/image";
 //import Link from "next/link";
 import Education from "@/components/Education";
 import SkillsTech from "@/components/SkillsTech";
+import PrintButton from "@/components/PrintButton";
+import "./print.css";
 import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
 import HexImg from "@/public/images/hex.webp";
 import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
@@ -158,6 +160,9 @@ export default async function ExperiencePage() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
+        <div className="flex justify-end mb-6">
+          <PrintButton />
+        </div>
         <section>
           <article className="p-5">
             <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -219,6 +224,9 @@ export default async function ExperiencePage() {
         <section>
           <Education />
         </section>
+      </div>
+      <div className="flex justify-center mb-6">
+        <PrintButton />
       </div>
     </div>
   );
