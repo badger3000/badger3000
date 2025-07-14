@@ -1,0 +1,316 @@
+@media print {
+  /* Hide elements that shouldn't appear in print */
+  .no-print,
+  footer,
+  header .light-switch {
+    display: none !important;
+  }
+
+  /* Hide the print button container */
+  .flex.justify-end.mb-6 {
+    display: none !important;
+  }
+
+  /* Reset page margins and setup */
+  @page {
+    margin: 0.4in;
+    size: letter;
+  }
+
+  /* Body and container adjustments */
+  body {
+    font-size: 10pt;
+    line-height: 1.2;
+    color: #000 !important;
+    background: white !important;
+  }
+
+  /* Remove background colors and shadows for print */
+  * {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    border: none !important;
+    outline: none !important;
+  }
+
+  /* Ensure text is black for readability */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  div,
+  span,
+  a {
+    color: #000 !important;
+  }
+
+  /* Header styling for print */
+  h2 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 4pt;
+    page-break-after: avoid;
+  }
+
+  /* Experience items styling */
+  article {
+    margin-bottom: 6pt;
+    page-break-inside: avoid;
+    border: none !important;
+    padding: 2pt 0 !important;
+  }
+
+  /* Company logos - make them smaller for print */
+  article img {
+    width: 16pt !important;
+    height: 16pt !important;
+    margin-right: 6pt;
+  }
+
+  /* Date and location styling */
+  .text-\[13px\] {
+    font-size: 8pt !important;
+  }
+
+  /* Description text */
+  .text-sm {
+    font-size: 9pt !important;
+    line-height: 1.1;
+  }
+
+  /* Links - show URL after link text */
+  a[href]:after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+  }
+
+  /* Remove hover effects */
+  a:hover {
+    text-decoration: none !important;
+  }
+
+  /* Ensure proper spacing between sections */
+  section {
+    margin-bottom: 8pt;
+  }
+
+  /* Compress intro paragraph */
+  .text-lg {
+    font-size: 10pt !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6pt !important;
+  }
+
+  /* Reduce padding on main container */
+  .pb-12,
+  .md\:pb-20 {
+    padding-bottom: 6pt !important;
+  }
+
+  /* Compress space between experience items */
+  .space-y-1 > * + * {
+    margin-top: 2pt !important;
+  }
+
+  /* Make flexbox layout more compact */
+  .sm\:flex {
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  .gap-5 {
+    gap: 8pt !important;
+  }
+
+  /* Reduce margins in job details */
+  .space-y-1\.5 > * + * {
+    margin-top: 1pt !important;
+  }
+
+  .mb-3 {
+    margin-bottom: 2pt !important;
+  }
+
+  /* Further compress margins */
+  .mb-6 {
+    margin-bottom: 4pt !important;
+  }
+
+  /* Page breaks */
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  /* Skills and Education sections - make more compact */
+  .mb-6:last-of-type,
+  .mb-6:nth-last-of-type(2) {
+    margin-bottom: 8pt !important;
+  }
+
+  /* Override the duplicate space-y-1 rule for better specificity */
+  section .space-y-1 > * + * {
+    margin-top: 3pt !important;
+  }
+
+  /* Make Skills/Tech and Education sections more compact */
+  .font-inter-tight {
+    font-size: 12pt !important;
+    margin-bottom: 4pt !important;
+  }
+
+  /* Skills & Technologies section - make images grayscale for unified look */
+  section:nth-of-type(3) img,
+  section:last-of-type img {
+    filter: grayscale(100%) !important;
+    -webkit-filter: grayscale(100%) !important;
+  }
+
+  /* Further compress spacing in Skills/Tech section */
+  section:nth-of-type(3) .space-y-1 > * + *,
+  section:last-of-type .space-y-1 > * + * {
+    margin-top: 1pt !important;
+  }
+
+  /* Remove gradients and background colors */
+  .odd\:bg-gradient-to-tr,
+  .dark\:odd\:bg-gradient-to-tr {
+    background: transparent !important;
+  }
+
+  /* Remove all borders completely */
+  .border-gray-200,
+  .dark\:border-gray-600,
+  .border,
+  .border-t,
+  .border-b,
+  .border-l,
+  .border-r {
+    border: none !important;
+  }
+}
+
+/* Debug mode - apply print styles to screen for testing */
+.print-debug {
+  /* Body and container adjustments */
+  font-size: 10pt !important;
+  line-height: 1.2 !important;
+  color: #000 !important;
+  background: white !important;
+}
+
+.print-debug * {
+  background: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.print-debug h1,
+.print-debug h2,
+.print-debug h3,
+.print-debug h4,
+.print-debug h5,
+.print-debug h6,
+.print-debug p,
+.print-debug div,
+.print-debug span,
+.print-debug a {
+  color: #000 !important;
+}
+
+.print-debug h2 {
+  font-size: 14pt !important;
+  font-weight: bold !important;
+  margin-bottom: 8pt !important;
+}
+
+.print-debug h3 {
+  font-size: 11pt !important;
+  font-weight: bold !important;
+  margin-bottom: 4pt !important;
+}
+
+.print-debug article {
+  margin-bottom: 6pt !important;
+  border: none !important;
+  padding: 2pt 0 !important;
+}
+
+.print-debug article img {
+  width: 16pt !important;
+  height: 16pt !important;
+  margin-right: 6pt !important;
+}
+
+.print-debug .text-\[13px\] {
+  font-size: 8pt !important;
+}
+
+.print-debug .text-sm {
+  font-size: 9pt !important;
+  line-height: 1.1 !important;
+}
+
+.print-debug .text-lg {
+  font-size: 10pt !important;
+  line-height: 1.2 !important;
+  margin-bottom: 6pt !important;
+}
+
+.print-debug section {
+  margin-bottom: 8pt !important;
+}
+
+.print-debug .space-y-1 > * + * {
+  margin-top: 2pt !important;
+}
+
+.print-debug .space-y-1\.5 > * + * {
+  margin-top: 1pt !important;
+}
+
+.print-debug .mb-3 {
+  margin-bottom: 2pt !important;
+}
+
+.print-debug .mb-6 {
+  margin-bottom: 4pt !important;
+}
+
+.print-debug .font-inter-tight {
+  font-size: 12pt !important;
+  margin-bottom: 4pt !important;
+}
+
+.print-debug section:nth-of-type(3) img,
+.print-debug section:last-of-type img {
+  filter: grayscale(100%) !important;
+  -webkit-filter: grayscale(100%) !important;
+}
+
+.print-debug a[href]:after {
+  content: " (" attr(href) ")";
+  font-size: 8pt;
+  color: #666;
+}

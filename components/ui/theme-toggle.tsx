@@ -1,12 +1,12 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import {useTheme} from "next-themes";
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme} = useTheme();
 
   return (
-    <div className="flex justify-end mb-2">
+    <div className="flex justify-end mb-2 light-switch">
       <div className="inline-flex items-center justify-center ml-auto">
         <input
           type="checkbox"

@@ -11,6 +11,10 @@ import projectComponent from "./customTypes/projectComponent";
 import contactForm from "./customTypes/contactForm";
 import codepen from "./customTypes/codepen";
 import Topics from "./parts/Topics";
+import experience from "./parts/experience";
+import education from "./parts/education";
+import skillCategory from "./parts/skillCategory";
+import testimonial from "./parts/testimonials";
 
 export const schemaTypes = [
   pages,
@@ -26,4 +30,8 @@ export const schemaTypes = [
   postCategories,
   codepen,
   Topics,
+  experience,
+  education,
+  skillCategory,
+  testimonial,
 ];
