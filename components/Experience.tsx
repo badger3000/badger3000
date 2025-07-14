@@ -65,7 +65,7 @@ export default async function Experience({
     return (
       <section>
         <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
-          Experience
+          Featured Experience
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           No experience items found.
