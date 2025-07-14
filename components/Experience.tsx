@@ -1,108 +1,136 @@
 import Image from "next/image";
 import Link from "next/link";
-import MadBadgerStudiosImg from "@/public/images/mad_badger_studios_logo.webp";
-import HexImg from "@/public/images/hex.webp";
-import HeadspaceImg from "@/public/images/headspace_meditation_limited_logo.webp";
-import SamsungImg from "@/public/images/samsung_next_logo.webp";
+import {client} from "@/lib/sanity";
 
-const Svg3 = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16">
-    <path
-      fill="#00ADEF"
-      d="M17.995 3.602c-.075 1.725-1.274 4.124-3.674 7.198-2.474 3.15-4.499 4.799-6.223 4.799-1.05 0-1.95-.975-2.7-2.924-.45-1.8-.974-3.524-1.424-5.324-.525-1.95-1.125-2.924-1.725-2.924-.15 0-.6.3-1.424.825L0 4.202c.9-.75 1.8-1.575 2.624-2.325 1.2-1.05 2.1-1.574 2.7-1.65 1.424-.15 2.249.826 2.549 2.85.375 2.175.6 3.6.75 4.124.375 1.8.825 2.774 1.35 2.774.374 0 .974-.6 1.724-1.8.75-1.199 1.125-2.099 1.2-2.698.075-1.05-.3-1.575-1.2-1.575-.45 0-.9.075-1.35.3.9-2.924 2.55-4.274 5.099-4.199 1.8.075 2.624 1.275 2.55 3.599Z"
-    />
-  </svg>
-);
+interface ExperienceItem {
+  _id: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+  description: string;
+  logo?: {
+    asset?: {
+      url: string;
+    };
+  };
+  order?: number;
+  featured?: boolean;
+}
 
-export default function Experience() {
-  const items = [
-    {
-      title: "Owner of Mad Badger Studios LLC",
-      link: "https://madbadgerstudios.com/",
-      icon: (
-        <Image
-          src={MadBadgerStudiosImg}
-          width={50}
-          height={50}
-          alt="Mad Badger Studios LLC"
-          priority
-        />
-      ),
-      date: "2021 - Today",
-      location: "Prescott, AZ",
-      description:
-        "Independent Consultant · Digital Experience · Web Development · Frontend Development · Digital Marketing",
+async function getExperienceItems(featured = true): Promise<ExperienceItem[]> {
+  const query = `*[_type == "experience" ${featured ? "&& featured == true" : ""}] | order(order asc, startDate desc) {
+    _id,
+    title,
+    company,
+    companyUrl,
+    location,
+    startDate,
+    endDate,
+    description,
+    logo {
+      asset-> {
+        url
+      }
     },
+    order,
+    featured
+  }`;
+
+  return client.fetch(
+    query,
+    {},
     {
-      title: "Frontend Developer at Hex",
-      link: "https://hex.tech/",
-      icon: <Image src={HexImg} width={50} height={50} alt="Hex" priority />,
-      date: "2023 - 2024",
-      location: "San Francisco, CA",
-      description:
-        "Front-end Coding · Contentful · Lead Generation · JavaScript · GraphQL",
-    },
-    {
-      title: "Web Developer at Headspace",
-      link: "https://www.headspace.com/",
-      icon: (
-        <Image
-          src={HeadspaceImg}
-          width={50}
-          height={50}
-          alt="Headspace"
-          priority
-        />
-      ),
-      date: "2021 - 2023",
-      location: "San Francisco, CA",
-      description:
-        "TypeScript · HubSpot Marketing Hub · JSON · HubSpot · Git · React.js · Node.js · Healthcare · Google Tag Manager · GatsbyJS",
-    },
-    {
-      title: "Sr. Front End Developer at Samsung Next",
-      link: "https://www.samsungnext.com/",
-      icon: (
-        <Image src={SamsungImg} width={50} height={50} alt="Samsung" priority />
-      ),
-      date: "2019 - 2020",
-      location: "San Francisco, CA",
-      description:
-        "HubSpot Marketing Hub · JSON · Git · React.js · WordPress · Web Applications · Information Architecture · Node.js · Google Tag Manager · GatsbyJS",
-    },
-  ];
+      cache: "force-cache",
+      next: {revalidate: 3600},
+    }
+  );
+}
+
+interface ExperienceProps {
+  limit?: number;
+  showAll?: boolean;
+}
+
+export default async function Experience({
+  limit = 4,
+  showAll = false,
+}: ExperienceProps) {
+  const items = await getExperienceItems(!showAll);
+  const displayItems = limit ? items.slice(0, limit) : items;
+
+  if (!displayItems.length) {
+    return (
+      <section>
+        <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
+          Experience
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          No experience items found.
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section>
       <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
         Experience
       </h2>
-      <div className="space-y-1">
-        {items.map((item, index) => (
+      <div className="space-y-1 mb-4">
+        {displayItems.map((item, index) => (
           <article
-            key={index}
+            key={item._id}
             className="p-5 rounded-xl odd:bg-gradient-to-tr odd:from-gray-100 odd:to-gray-50 dark:odd:bg-gradient-to-tr dark:odd:from-gray-800 dark:odd:to-gray-800/[0.65]"
           >
             <div className="sm:flex gap-5">
               <div className="shrink-0 w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600/[0.65] shadow-sm max-sm:mb-3 sm:mt-5">
-                {item.icon}
+                {item.logo?.asset?.url ? (
+                  <Image
+                    src={item.logo.asset.url}
+                    width={50}
+                    height={50}
+                    alt={item.company}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
+                    <span className="text-xs text-gray-500">
+                      {item.company.charAt(0)}
+                    </span>
+                  </div>
+                )}
               </div>
               <div>
                 <div className="space-y-1.5 mb-3">
                   <div className="text-[13px] italic text-gray-500/70">
-                    {item.date}
+                    {item.startDate && item.endDate
+                      ? `${item.startDate} - ${item.endDate}`
+                      : item.startDate || item.endDate || ""}
                   </div>
                   <h3 className="font-semibold text-gray-800 dark:text-gray-100">
-                    <a
-                      className="hover:underline decoration-2 decoration-gray-300 dark:decoration-gray-600 underline-offset-2"
-                      href={item.link}
-                    >
-                      {item.title}
-                    </a>
+                    {item.companyUrl ? (
+                      <a
+                        className="hover:underline decoration-2 decoration-gray-300 dark:decoration-gray-600 underline-offset-2"
+                        href={item.companyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {item.title} at {item.company}
+                      </a>
+                    ) : (
+                      <span>
+                        {item.title} at {item.company}
+                      </span>
+                    )}
                   </h3>
-                  <div className="text-[13px] font-medium text-gray-600dark:text-gray-400">
-                    {item.location}
-                  </div>
+                  {item.location && (
+                    <div className="text-[13px] font-medium text-gray-600 dark:text-gray-400">
+                      {item.location}
+                    </div>
+                  )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {item.description}
@@ -111,26 +139,29 @@ export default function Experience() {
             </div>
           </article>
         ))}
-        <Link
-          href="/experience"
-          className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
-        >
-          View full experience
-          <svg
-            className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+
+        {!showAll && (
+          <Link
+            href="/experience"
+            className="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 group"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </Link>
+            View full experience
+            <svg
+              className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </Link>
+        )}
       </div>
     </section>
   );
