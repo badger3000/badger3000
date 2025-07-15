@@ -115,13 +115,13 @@ export default {
   preview: {
     select: {
       title: "name",
-      subtitle: "skills.length",
+      skills: "skills",
     },
     prepare(selection) {
-      const {title, subtitle} = selection;
+      const {title, skills} = selection;
       return {
         title,
-        subtitle: `${subtitle || 0} skills`,
+        subtitle: `${skills?.length || 0} skills`,
       };
     },
   },
