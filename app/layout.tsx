@@ -50,12 +50,12 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(process.env.SITE_URL || "https://www.badger3000.com"),
     title: {
-      default: "Kyle Ross | Frontend Developer",
+      default: "Kyle Ross | Digital Technology Consultant",
       template: "%s | Kyle Ross",
       absolute: "Kyle Ross | Badger3000", // Fallback for homepage that won't use template
     },
     description:
-      "Frontend Developer | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
+      "Digital Technology Consultant | Builder of Digital Things | ReactJS, Astro, JavaScript, | Golf Addict",
     manifest: "/manifest.json",
     alternates: {
       canonical: canonicalUrl, // Dynamic canonical URL based on current route
