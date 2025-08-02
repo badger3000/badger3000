@@ -59,7 +59,7 @@ export default function Header() {
             Kyle Ross
           </h1>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            Frontend Developer and Technologist in Prescott, AZ 🇺🇸
+            Digital Technology Consultant in Prescott, AZ 🇺🇸
           </p>
         </div>
         <a
