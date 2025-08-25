@@ -14,6 +14,8 @@
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/codepen/chrome-mirror-ball-real-time-3d-environment-reflections">Chrome Mirror Ball - Real-time 3D Environment Reflections</a>
+<br/>
 - <a href="https://www.badger3000.com/codepen/hover-and-modal-slides">Hover & Modal Slides</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/slide-notifications">Slide Notifications</a>
@@ -21,7 +23,5 @@
 - <a href="https://www.badger3000.com/articles/the-million-dollar-landing-page-framework-9-elements-that-drive-conversions">The Million-Dollar Landing Page Framework: 9 Elements That Drive Conversions</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/scroll-and-slide">Scroll & Slide</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/gsap-scroll-triggered-hero-animation">GSAP Scroll-Triggered Hero Animation</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
