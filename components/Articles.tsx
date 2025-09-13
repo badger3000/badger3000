@@ -21,13 +21,13 @@ export default async function Articles({
 
   // Extract only the data needed for filtering (only when filter is shown)
   const articlesData = showFilter
-    ? posts.map((post) => ({
+    ? posts?.map((post) => ({
         _id: post._id,
         title: post.title,
-        excerpt: post.excerpt,
+        excerpt: post.excerpt || "Read more...",
         slug: post.slug,
         _type: post._type,
-      }))
+      })) || []
     : [];
 
   const articleElements = (
