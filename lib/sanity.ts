@@ -34,46 +34,47 @@ export const client = createClient({
 
 export async function getPosts(limit?: number): Promise<SanityPost[]> {
   // Optimize the query to select only necessary fields for list views
-  const query = `*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(publishedAt desc, _createdAt desc) ${limit ? `[0...${limit}]` : ""} {
+  const query = `*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path('drafts.**'))] | order(_createdAt desc) ${limit ? `[0...${limit}]` : ""} {
     _id,
     _type,
     title,
     "slug": coalesce(slug.current, "no-slug"),
-    "publishedAt": coalesce(publishedAt, _createdAt),
+    "publishedAt": _createdAt,
     "excerpt": coalesce(excerpt, "Read more..."),
     // Don't fetch full content in list view, just a preview
     "contentPreview": select(
       _type == "articles" => content[0].children[0].text,
       _type == "codepen" => description[0].children[0].text
     ),
-    mainImage {
-      asset-> {
-        _id,
-        url,
-        // Only fetch needed metadata
-        metadata {
-          dimensions
+    "mainImage": select(
+      _type == "articles" => main_image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
+        }
+      },
+      _type == "codepen" => thumbnail {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions
+          }
         }
       }
-    },
-    thumbnail {
-      asset-> {
-        _id,
-        url,
-        metadata {
-          dimensions
-        }
-      }
-    }
+    )
   }`;
 
-  // Use caching options for better performance
+  // Use appropriate caching for the environment
   return client.fetch<SanityPost[]>(
     query,
     {},
     {
-      cache: "force-cache",
-      next: {revalidate: 3600}, // Cache for 1 hour
+      cache: process.env.NODE_ENV === 'production' ? "force-cache" : "no-store",
+      next: {revalidate: process.env.NODE_ENV === 'production' ? 3600 : 0},
     }
   );
 }
