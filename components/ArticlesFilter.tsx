@@ -124,9 +124,8 @@ export default function ArticlesFilter({
                   : ""
               }`}
             >
-              <motion.div
-                className="absolute top-5 right-7 text-gray-400 dark:text-gray-600 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-all"
-                whileHover={{rotate: 45, scale: 1.1}}
+              <div
+                className="absolute top-5 right-7 text-gray-400 dark:text-gray-600 group-hover:text-gray-600 dark:group-hover:text-gray-400 group-hover:rotate-45 transition"
                 aria-hidden="true"
               >
                 <svg
@@ -137,7 +136,7 @@ export default function ArticlesFilter({
                 >
                   <path d="M1.018 10 0 8.983l7.572-7.575H1.723L1.736 0H10v8.266H8.577l.013-5.841L1.018 10Z" />
                 </svg>
-              </motion.div>
+              </div>
               <div className="space-y-1.5 mb-2">
                 <h3 className="font-semibold text-gray-800 dark:text-gray-100">
                   <Link
