@@ -50,54 +50,53 @@ export default function ArticlesFilter({
 
   return (
     <div>
-
       <div className="mb-6 space-y-4">
         <motion.input
           type="text"
           placeholder="Search articles..."
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}
-          whileFocus={{ scale: 1.02 }}
-          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          whileFocus={{scale: 1.02}}
+          transition={{type: "spring", stiffness: 300, damping: 25}}
           className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:ring-2 ring-gray-300 dark:ring-gray-600 dark:to-gray-800/[0.65] focus:border-transparent transition-all duration-200"
         />
 
         <div className="flex flex-wrap gap-2">
           <motion.button
             onClick={() => setSelectedType("all")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            whileHover={{scale: 1.05}}
+            whileTap={{scale: 0.95}}
+            transition={{type: "spring", stiffness: 400, damping: 25}}
             className={`btn-sm transition-colors ${
               selectedType === "all"
-                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100 dark:hover:bg-gray-100 shadow relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]"
+                : "bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-750 text-gray-700 dark:text-gray-300 hover:from-gray-200 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.400/.1)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.500/.1)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms] border border-gray-200/50 dark:border-gray-600/30"
             }`}
           >
             All
           </motion.button>
           <motion.button
             onClick={() => setSelectedType("articles")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            whileHover={{scale: 1.05}}
+            whileTap={{scale: 0.95}}
+            transition={{type: "spring", stiffness: 400, damping: 25}}
             className={`btn-sm transition-colors ${
               selectedType === "articles"
-                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100 dark:hover:bg-gray-100 shadow relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]"
+                : "bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-750 text-gray-700 dark:text-gray-300 hover:from-gray-200 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.400/.1)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.500/.1)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms] border border-gray-200/50 dark:border-gray-600/30"
             }`}
           >
             Articles
           </motion.button>
           <motion.button
             onClick={() => setSelectedType("codepen")}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
+            whileHover={{scale: 1.05}}
+            whileTap={{scale: 0.95}}
+            transition={{type: "spring", stiffness: 400, damping: 25}}
             className={`btn-sm transition-colors ${
               selectedType === "codepen"
-                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100"
-                : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                ? "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100 dark:hover:bg-gray-100 shadow relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]"
+                : "bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-750 text-gray-700 dark:text-gray-300 hover:from-gray-200 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.400/.1)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.500/.1)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms] border border-gray-200/50 dark:border-gray-600/30"
             }`}
           >
             CodePen
@@ -111,23 +110,23 @@ export default function ArticlesFilter({
             <motion.article
               key={post._id}
               layout
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{opacity: 0, y: 20}}
+              animate={{opacity: 1, y: 0}}
+              exit={{opacity: 0, y: -20}}
               transition={{
                 duration: 0.3,
                 delay: isInitialLoad ? index * 0.1 : index * 0.05,
-                layout: { type: "spring", bounce: 0.2 }
+                layout: {type: "spring", bounce: 0.2},
               }}
               className={`relative p-5 rounded-xl group ${
                 index % 2 === 1
-                  ? 'bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]'
-                  : ''
+                  ? "bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]"
+                  : ""
               }`}
             >
               <motion.div
                 className="absolute top-5 right-7 text-gray-400 dark:text-gray-600 group-hover:text-gray-600 dark:group-hover:text-gray-400 transition-all"
-                whileHover={{ rotate: 45, scale: 1.1 }}
+                whileHover={{rotate: 45, scale: 1.1}}
                 aria-hidden="true"
               >
                 <svg
@@ -165,10 +164,10 @@ export default function ArticlesFilter({
       <AnimatePresence>
         {filteredArticles.length === 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
+            initial={{opacity: 0, y: 10}}
+            animate={{opacity: 1, y: 0}}
+            exit={{opacity: 0, y: -10}}
+            transition={{duration: 0.3}}
             className="text-center text-gray-500 dark:text-gray-400 py-8"
           >
             No articles found matching your search criteria.

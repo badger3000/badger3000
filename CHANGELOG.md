@@ -1,5 +1,45 @@
 # CHANGELOG.md
 
+## [1.3.3] - 2025-09-13
+
+### Fixed
+- Fixed articles page display issues after Next.js 15.5.3 update
+  - **Root Cause**: Next.js 15.5.3 update changed caching behavior and broke complex React.Children filtering logic
+  - **Articles Display**: Fixed issue where only 4-5 articles were showing instead of all 28 articles and CodePens
+  - **Search & Filter**: Restored broken search functionality and type filtering (All/Articles/CodePen)
+  - **Even/Odd Styling**: Fixed missing alternating background colors for article cards
+  - **Caching Strategy**: Updated caching approach for compatibility with new Next.js version
+
+### Changed
+- **ArticlesFilter Component**: Complete rewrite for better reliability
+  - Replaced complex React.Children filtering with direct data rendering
+  - Improved filtering logic to handle search and type filtering properly
+  - Enhanced performance by eliminating unnecessary React element manipulation
+- **Sanity Query Optimizations**:
+  - Fixed field name mismatches (`main_image` vs `mainImage`) between query and schema
+  - Added conditional image fetching for articles vs CodePens (articles use `main_image`, CodePens use `thumbnail`)
+  - Improved error handling and data validation
+  - Updated caching strategy: no-store in development, force-cache in production
+
+### Added
+- **Smooth Animations**: Restored and enhanced Framer Motion animations
+  - **Article Entrance**: Staggered fade-in and slide-up animations (100ms delay on initial load, 50ms on filtering)
+  - **Interactive Elements**: Scale animations for filter buttons (1.05x hover, 0.95x tap) and search input (1.02x focus)
+  - **State Transitions**: AnimatePresence with popLayout mode for smooth filtering and reordering
+  - **Hover Effects**: Enhanced arrow icon animations (45° rotation + 1.1x scale)
+  - **Performance**: Optimized spring physics with proper damping for natural feel
+- **Better User Experience**:
+  - Visual feedback for all interactive elements
+  - Smooth transitions between different filter states
+  - Improved accessibility with proper animation timing
+
+### Technical Improvements
+- **Next.js 15.5.3 Compatibility**: Updated all components for latest Next.js version
+- **Framer Motion**: Fixed deprecated `motion()` usage, now uses proper motion components
+- **TypeScript**: Improved type safety for article data structures
+- **Error Handling**: Better error boundaries and fallback states
+- **Development Experience**: Disabled aggressive caching in development for better debugging
+
 ## [1.3.2] - 2025-03-09
 
 ### Added
