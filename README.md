@@ -58,14 +58,14 @@ Currently focused on modern JavaScript frameworks, AI integration, and founding 
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/codepen/home-interactive-3d-model">Home Interactive 3D Model</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/dynamic-text-with-css-mix-blend-mode">Dynamic Text with CSS mix-blend-mode</a>
+<br/>
 - <a href="https://www.badger3000.com/codepen/chrome-mirror-ball-real-time-3d-environment-reflections">Chrome Mirror Ball - Real-time 3D Environment Reflections</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/hover-and-modal-slides">Hover & Modal Slides</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/slide-notifications">Slide Notifications</a>
-<br/>
-- <a href="https://www.badger3000.com/articles/the-million-dollar-landing-page-framework-9-elements-that-drive-conversions">The Million-Dollar Landing Page Framework: 9 Elements That Drive Conversions</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/scroll-and-slide">Scroll & Slide</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
