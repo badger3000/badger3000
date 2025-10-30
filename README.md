@@ -58,14 +58,14 @@ Currently focused on modern JavaScript frameworks, AI integration, and founding 
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/codepen/css-grid-tabs-responsive-desktop-mobile-2025">CSS Grid Tabs - Responsive Desktop/Mobile (2025)</a>
+<br/>
+- <a href="https://www.badger3000.com/codepen/custom-cursor-with-video-trigger">Custom Cursor with Video Trigger</a>
+<br/>
 - <a href="https://www.badger3000.com/articles/how-to-sync-your-wordpress-database-from-instawp-to-local-app">How to Sync Your WordPress Database from InstaWP to Local App</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/home-interactive-3d-model">Home Interactive 3D Model</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/dynamic-text-with-css-mix-blend-mode">Dynamic Text with CSS mix-blend-mode</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/chrome-mirror-ball-real-time-3d-environment-reflections">Chrome Mirror Ball - Real-time 3D Environment Reflections</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/hover-and-modal-slides">Hover & Modal Slides</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
