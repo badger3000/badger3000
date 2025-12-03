@@ -31,15 +31,6 @@ const nextConfig = {
   // Use gzip compression
   compress: true,
   poweredByHeader: false,
-  // Increase stability for server-side operations
-  serverRuntimeConfig: {
-    // Will only be available on the server side
-    timeoutSeconds: 120, // Increase timeout for API routes - especially helpful for sitemap generation
-  },
-  publicRuntimeConfig: {
-    // Will be available on both server and client
-    staticFolder: "/static",
-  },
   // Set proper environment variables
   env: {
     SITE_URL: process.env.SITE_URL || "https://www.badger3000.com/",
