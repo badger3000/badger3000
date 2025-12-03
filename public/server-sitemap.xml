@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+    <loc>https://www.badger3000.com/codepen/css-grid-tabs-responsive-desktop-mobile-2025</loc>
+    <lastmod>2025-10-29T14:47:26.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
+    <loc>https://www.badger3000.com/codepen/custom-cursor-with-video-trigger</loc>
+    <lastmod>2025-10-29T14:46:07.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+<url>
     <loc>https://www.badger3000.com/articles/how-to-sync-your-wordpress-database-from-instawp-to-local-app</loc>
-    <lastmod>2025-10-17T21:48:15.000Z</lastmod>
+    <lastmod>2025-10-17T21:58:22.000Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
