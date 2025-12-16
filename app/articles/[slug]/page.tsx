@@ -15,6 +15,19 @@ type Params = {
 export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
+// Generate static params for all article pages at build time
+export async function generateStaticParams() {
+  const query = `*[_type == "articles" && defined(slug.current) && !(_id in path('drafts.**'))]{
+    "slug": slug.current
+  }`;
+
+  const articles = await client.fetch(query, {}, {cache: "force-cache"});
+
+  return articles.map((article: {slug: string}) => ({
+    slug: article.slug,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {

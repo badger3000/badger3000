@@ -15,6 +15,19 @@ type Params = {
 export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
+// Generate static params for all codepen pages at build time
+export async function generateStaticParams() {
+  const query = `*[_type == "codepen" && defined(slug.current) && !(_id in path('drafts.**'))]{
+    "slug": slug.current
+  }`;
+
+  const codepens = await client.fetch(query, {}, {cache: "force-cache"});
+
+  return codepens.map((pen: {slug: string}) => ({
+    slug: pen.slug,
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {
