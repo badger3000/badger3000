@@ -5,7 +5,8 @@ export const metadata = {
   description:
     "Articles and thoughts about web development, technology, and more.",
 };
-
+// Regenerates every 60 seconds (adjust as needed)
+export const revalidate = 60;
 export default async function ArticlesPage() {
   return (
     <div className="max-w-3xl mx-auto">
