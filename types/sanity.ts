@@ -29,6 +29,13 @@ export type SanityBlock = {
   style?: string;
 };
 
+export type SanityBookmark = {
+  _id: string;
+  title: string;
+  url: string;
+  folder: string;
+};
+
 export type SanityPost = {
   _id: string;
   _type: string;

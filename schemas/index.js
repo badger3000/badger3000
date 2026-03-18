@@ -15,6 +15,8 @@ import experience from "./parts/experience";
 import education from "./parts/education";
 import skillCategory from "./parts/skillCategory";
 import testimonial from "./parts/testimonials";
+import bookmark from "./parts/bookmark";
+import bookmarkFolder from "./parts/bookmarkFolder";
 
 export const schemaTypes = [
   pages,
@@ -34,4 +36,6 @@ export const schemaTypes = [
   education,
   skillCategory,
   testimonial,
+  bookmark,
+  bookmarkFolder,
 ];

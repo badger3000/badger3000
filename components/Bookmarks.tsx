@@ -2,12 +2,7 @@
 
 import {useState, useMemo} from "react";
 import {motion, AnimatePresence} from "framer-motion";
-
-interface Bookmark {
-  title: string;
-  url: string;
-  folder: string;
-}
+import type {SanityBookmark} from "@/types/sanity";
 
 const activeButtonClass =
   "text-gray-200 dark:text-gray-800 bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-300 dark:to-gray-100 dark:hover:bg-gray-100 shadow relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white/.2)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.white)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms]";
@@ -15,7 +10,7 @@ const activeButtonClass =
 const inactiveButtonClass =
   "bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-750 text-gray-700 dark:text-gray-300 hover:from-gray-200 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 relative before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.400/.1)_50%,transparent_75%,transparent_100%)] dark:before:bg-[linear-gradient(45deg,transparent_25%,theme(colors.gray.500/.1)_50%,transparent_75%,transparent_100%)] before:bg-[length:250%_250%,100%_100%] before:bg-[position:200%_0,0_0] before:bg-no-repeat before:[transition:background-position_0s_ease] hover:before:bg-[position:-100%_0,0_0] hover:before:duration-[1500ms] border border-gray-200/50 dark:border-gray-600/30";
 
-export default function Bookmarks({bookmarks}: {bookmarks: Bookmark[]}) {
+export default function Bookmarks({bookmarks}: {bookmarks: SanityBookmark[]}) {
   const [search, setSearch] = useState("");
   const [selectedFolder, setSelectedFolder] = useState("all");
 
@@ -105,7 +100,7 @@ export default function Bookmarks({bookmarks}: {bookmarks: Bookmark[]}) {
         <AnimatePresence mode="popLayout">
           {filtered.map((bookmark, index) => (
             <motion.article
-              key={bookmark.url}
+              key={bookmark._id}
               layout
               initial={{opacity: 0, y: 20}}
               animate={{opacity: 1, y: 0}}
