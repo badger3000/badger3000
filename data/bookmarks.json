@@ -1,0 +1,4682 @@
+[
+  {
+    "title": "Astro",
+    "url": "https://astro.build/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "CodePen",
+    "url": "https://codepen.io/your-work",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "DatoCMS",
+    "url": "https://dashboard.datocms.com/personal-account/projects",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Dribbble",
+    "url": "https://dribbble.com/madbadgerstudio",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "DevDocs",
+    "url": "https://devdocs.io/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Figma",
+    "url": "https://www.figma.com/files/recent?fuid=644237781718080840",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Frontend Masters",
+    "url": "https://frontendmasters.com/my-account/settings/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Github",
+    "url": "https://github.com/badger3000",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "MPLS clips",
+    "url": "https://mplsclips.com/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Netlify",
+    "url": "https://app.netlify.com/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Sanity.io",
+    "url": "https://www.sanity.io/manage",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Tailwind CSS",
+    "url": "https://tailwindcss.com/docs/installation",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Vercel",
+    "url": "https://vercel.com/dashboard",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Golf Streaming | Live Golf Stream Online - VIPBox",
+    "url": "https://www.vipbox.lc/golf-live",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Wave: Small Business Software - Wave Financial",
+    "url": "https://www.waveapps.com/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Midjourney Feed",
+    "url": "https://www.midjourney.com/explore",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Jon David Decorative Painting | Prescott, AZ Painters",
+    "url": "https://prosite.prophone.com/m/vC/Jon-David-Decorative-Painting/index?hsid=1216429664",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Venetian Plaster | Prescott, AZ",
+    "url": "https://prosite.prophone.com/m/vC/Jon-David-Decorative-Painting/service-venetian-plaster?hsid=1216429664",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Installation macOS · DNSCrypt/dnscrypt-proxy Wiki · GitHub",
+    "url": "https://github.com/dnscrypt/dnscrypt-proxy/wiki/Installation-macOS",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Building a PDF Library with Gatsby.js",
+    "url": "https://blog.blakesimpson.co.uk/read/96-building-a-pdf-library-with-gatsby-js",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "BEM Naming Cheat Sheet by 9elements",
+    "url": "https://9elements.com/bem-cheat-sheet/?ref=heydesigner",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Build a multi-step form with React Hooks, Formik, Yup and MaterialUI",
+    "url": "https://medium.com/@nphivu414/build-a-multi-step-form-with-react-hooks-formik-yup-and-materialui-fa4f73545598",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "An Easy Guide to Using Live Corners in Adobe Illustrator",
+    "url": "https://www.shutterstock.com/blog/live-corners-rounded-shapes-illustrator",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "The HTML presentation framework | reveal.js",
+    "url": "https://revealjs.com/",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Build your blog with Astro and Sanity | Sanity.io guide",
+    "url": "https://www.sanity.io/guides/sanity-astro-blog",
+    "folder": "Astro"
+  },
+  {
+    "title": "@astrojs/image 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/image/#installation",
+    "folder": "Astro"
+  },
+  {
+    "title": "Using custom fonts 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/fonts/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Migrating from Gatsby 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/migrate-to-astro/from-gatsby/#migrating-layout-files",
+    "folder": "Astro"
+  },
+  {
+    "title": "@astrojs/react 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/react/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Framework Components 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/core-concepts/framework-components/#using-framework-components",
+    "folder": "Astro"
+  },
+  {
+    "title": "Images 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/images/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Astro Framework Alpine Example - StackBlitz",
+    "url": "https://stackblitz.com/edit/github-ona6k9?file=README.md",
+    "folder": "Astro"
+  },
+  {
+    "title": "@astrojs/alpinejs 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/alpinejs/",
+    "folder": "Astro"
+  },
+  {
+    "title": "JEverhart383/astro-wordpress-starter",
+    "url": "https://github.com/JEverhart383/astro-wordpress-starter",
+    "folder": "Astro"
+  },
+  {
+    "title": "Building a Headless WordPress Site with Astro - Builders",
+    "url": "https://wpengine.com/builders/building-headless-wordpress-site-astro/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Scripts and Event Handling 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/client-side-scripts/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Astro Syntax 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/core-concepts/astro-syntax/#fragments",
+    "folder": "Astro"
+  },
+  {
+    "title": "astro-sanity/demo at main · littlesticks/astro-sanity · GitHub",
+    "url": "https://github.com/littlesticks/astro-sanity/tree/main/demo",
+    "folder": "Astro"
+  },
+  {
+    "title": "Env Variables and Modes | Vite",
+    "url": "https://vitejs.dev/guide/env-and-mode.html",
+    "folder": "Astro"
+  },
+  {
+    "title": "Using environment variables 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/environment-variables/",
+    "folder": "Astro"
+  },
+  {
+    "title": "littlesticks/astro-minimal-starter",
+    "url": "https://github.com/littlesticks/astro-minimal-starter",
+    "folder": "Astro"
+  },
+  {
+    "title": "littlesticks/astro-sanity-demo",
+    "url": "https://github.com/littlesticks/astro-sanity-demo",
+    "folder": "Astro"
+  },
+  {
+    "title": "littlesticks/astro-sanity-demo",
+    "url": "https://github.com/littlesticks/astro-sanity-demo/tree/main",
+    "folder": "Astro"
+  },
+  {
+    "title": "API Reference 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/reference/api-reference/#getstaticpaths",
+    "folder": "Astro"
+  },
+  {
+    "title": "astro-sanity - npm",
+    "url": "https://www.npmjs.com/package/astro-sanity",
+    "folder": "Astro"
+  },
+  {
+    "title": "sanity-template-astro-clean/sanity.ts at main · sanity-io/sanity-template-astro-clean · GitHub",
+    "url": "https://github.com/sanity-io/sanity-template-astro-clean/blob/main/app/src/utils/sanity.ts",
+    "folder": "Astro"
+  },
+  {
+    "title": "Template Directives Reference 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/reference/directives-reference/#definevars",
+    "folder": "Astro"
+  },
+  {
+    "title": "Styles &amp; CSS 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/styling/#css-variables",
+    "folder": "Astro"
+  },
+  {
+    "title": "astro-page-transition - npm",
+    "url": "https://www.npmjs.com/package/astro-page-transition",
+    "folder": "Astro"
+  },
+  {
+    "title": "Animated page transitions in Astro with Swup • Navillus",
+    "url": "https://navillus.dev/blog/astro-plus-swup",
+    "folder": "Astro"
+  },
+  {
+    "title": "@astrojs/image 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/image/#image-",
+    "folder": "Astro"
+  },
+  {
+    "title": "Assets (Experimental) 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/assets/",
+    "folder": "Astro"
+  },
+  {
+    "title": "theisel/astro-portabletext: Render Portable Text with Astro",
+    "url": "https://github.com/theisel/astro-portabletext",
+    "folder": "Astro"
+  },
+  {
+    "title": "astro-portabletext - npm",
+    "url": "https://www.npmjs.com/package/astro-portabletext",
+    "folder": "Astro"
+  },
+  {
+    "title": "Navillus-BV/demo-astro-swup: Demo app adding page transition animations to Astro with Swup",
+    "url": "https://github.com/Navillus-BV/demo-astro-swup",
+    "folder": "Astro"
+  },
+  {
+    "title": "View Transitions (Experimental) 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/view-transitions/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Astro Shopify | Astro",
+    "url": "https://astro.build/themes/details/astro-shopify/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Getting Started 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/getting-started/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Astro Landing Page Form: Netlify Serverless Contact Form | Rodney Lab",
+    "url": "https://rodneylab.com/astro-landing-page-form/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Build Forms With API Routes 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/recipes/build-forms-api/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Upgrade to Astro v3 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/guides/upgrade-to/v3/#removed-astrojsimage",
+    "folder": "Astro"
+  },
+  {
+    "title": "Integrations | Astro",
+    "url": "https://astro.build/integrations/?search=images",
+    "folder": "Astro"
+  },
+  {
+    "title": "Making a reusable Astro component from CodePen&#39;s embed HTML 👩‍💻 Sarah Rainsberger",
+    "url": "https://www.rainsberger.ca/posts/reusable-astro-component/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Supercharge your Astro 4.0 site with the new Netlify Adapter",
+    "url": "https://www.netlify.com/blog/astro-netlify-adapter/?utm_source=in-app-notification&utm_medium=referral",
+    "folder": "Astro"
+  },
+  {
+    "title": "Astro 4.0 | Astro",
+    "url": "https://astro.build/blog/astro-4/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Clean Astro + Sanity app | Sanity.io templates",
+    "url": "https://www.sanity.io/templates/astro-sanity-clean",
+    "folder": "Astro"
+  },
+  {
+    "title": "I Think You Should Leave Quote Database - made with Sanity.io",
+    "url": "https://www.sanity.io/projects/ityslquotedb",
+    "folder": "Astro"
+  },
+  {
+    "title": "@astrojs/netlify | Docs",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/netlify/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Installation 🚀 Astro ImageTools Documentation",
+    "url": "https://astro-imagetools-docs.vercel.app/en/installation",
+    "folder": "Astro"
+  },
+  {
+    "title": "Introduction 🚀 Astro ImageTools Documentation",
+    "url": "https://astro-imagetools-docs.vercel.app/en/introduction",
+    "folder": "Astro"
+  },
+  {
+    "title": "bywhitepine/astro-sanity-minimal-starter",
+    "url": "https://github.com/bywhitepine/astro-sanity-minimal-starter",
+    "folder": "Astro"
+  },
+  {
+    "title": "sanity-io/sanity-template-astro-clean: Clean starter template with Astro",
+    "url": "https://github.com/sanity-io/sanity-template-astro-clean",
+    "folder": "Astro"
+  },
+  {
+    "title": "onwidget/astrowind: ⭕️ AstroWind: A free template using Astro 4.0 and Tailwind CSS. Astro starter theme.",
+    "url": "https://github.com/onwidget/astrowind",
+    "folder": "Astro"
+  },
+  {
+    "title": "Deploy An Astro site with Forms, Serverless Functions, and Redirects",
+    "url": "https://www.netlify.com/blog/deploy-an-astro-site-with-forms-serverless-functions-and-redirects/",
+    "folder": "Astro"
+  },
+  {
+    "title": "netlify-templates/astro-quickstart: A bare-bones Astro template to get you deployed to Netlify fast!",
+    "url": "https://github.com/netlify-templates/astro-quickstart",
+    "folder": "Astro"
+  },
+  {
+    "title": "Migrate to advanced markers  |  Maps JavaScript API  |  Google for Developers",
+    "url": "https://developers.google.com/maps/documentation/javascript/advanced-markers/migration",
+    "folder": "Astro"
+  },
+  {
+    "title": "Routing | Docs",
+    "url": "https://docs.astro.build/en/guides/routing/#dynamic-routes",
+    "folder": "Astro"
+  },
+  {
+    "title": "styled-components: Basics",
+    "url": "https://styled-components.com/docs/basics#motivation",
+    "folder": "Styled-components"
+  },
+  {
+    "title": "@astrojs/netlify | Docs",
+    "url": "https://docs.astro.build/en/guides/integrations-guide/netlify/#netlify-image-cdn-support",
+    "folder": "Astro"
+  },
+  {
+    "title": "Can&#39;t disable image processing - Support - Netlify Support Forums",
+    "url": "https://answers.netlify.com/t/cant-disable-image-processing/111601",
+    "folder": "Astro"
+  },
+  {
+    "title": "Contributors to hex-inc/dino-docs",
+    "url": "https://github.com/hex-inc/dino-docs/graphs/contributors",
+    "folder": "Astro"
+  },
+  {
+    "title": "astrolicious/studiocms: A dedicated CMS for Astro Studio. Built from the ground up by the Astro community.",
+    "url": "https://github.com/astrolicious/studiocms",
+    "folder": "Astro"
+  },
+  {
+    "title": "Deploy your Astro Site to Netlify | Docs",
+    "url": "https://docs.astro.build/en/guides/deploy/netlify/",
+    "folder": "Astro"
+  },
+  {
+    "title": "sanity-io/sanity-astro",
+    "url": "https://github.com/sanity-io/sanity-astro",
+    "folder": "Astro"
+  },
+  {
+    "title": "API Reference | Docs",
+    "url": "https://docs.astro.build/en/reference/api-reference/#astrorequest",
+    "folder": "Astro"
+  },
+  {
+    "title": "How to build an Astro.js backend? A step-by-step guide.",
+    "url": "https://blog.back4app.com/astro-js-backend/",
+    "folder": "Astro"
+  },
+  {
+    "title": "Build Modern Websites with Astro",
+    "url": "https://chris-pennington-s-school.teachable.com/courses/enrolled/2159382?",
+    "folder": "Astro"
+  },
+  {
+    "title": "Getting Started with Astro SSR SPA for E-Commerce with HTMX - DEV Community",
+    "url": "https://dev.to/dansasser/supercharge-your-e-commerce-site-with-astro-ssr-spa-template-1578",
+    "folder": "Astro"
+  },
+  {
+    "title": "Coding in Public",
+    "url": "https://sso.teachable.com/secure/1710006/identity/login/password",
+    "folder": "Astro"
+  },
+  {
+    "title": "1 - Introduction | Coding in Public",
+    "url": "https://chris-pennington-s-school.teachable.com/courses/build-modern-websites-with-astro/lectures/50409617",
+    "folder": "Astro"
+  },
+  {
+    "title": "docker rm | Docker Documentation",
+    "url": "https://docs.docker.com/engine/reference/commandline/rm/",
+    "folder": "Docker"
+  },
+  {
+    "title": "Docker-compose for a peertube production instance · GitHub",
+    "url": "https://gist.github.com/kimsible/7a613310c4686b066599b9232afabecc",
+    "folder": "Docker"
+  },
+  {
+    "title": "ERROR: Pool overlaps with other one on this address space · Issue #85 · maxking/docker-mailman · GitHub",
+    "url": "https://github.com/maxking/docker-mailman/issues/85",
+    "folder": "Docker"
+  },
+  {
+    "title": "2095 N Holly Dr | high-desert-home-inspections",
+    "url": "https://app.spectora.com/v/reports/86549f0d-1524-441d-a7b3-8e4c1df06f3b?id_token=e1b9ed58cb81671b404078b201f2d71a",
+    "folder": "Things"
+  },
+  {
+    "title": "home router",
+    "url": "https://192.168.1.1/unauth.cgi",
+    "folder": "Things"
+  },
+  {
+    "title": "A Beginner’s Guide to Wireframing",
+    "url": "https://webdesign.tutsplus.com/articles/a-beginners-guide-to-wireframing--webdesign-7399",
+    "folder": "Things"
+  },
+  {
+    "title": "A Simple Shopify Wholesale Store Without Using Apps (real project vlog) - YouTube",
+    "url": "https://www.youtube.com/watch?v=jBJPAOcALg4",
+    "folder": "Things"
+  },
+  {
+    "title": "Add SSH key and Permission denied (publickey) - Softhints",
+    "url": "https://blog.softhints.com/add-ssh-key-and-permission-denied-publickey/",
+    "folder": "Things"
+  },
+  {
+    "title": "Add Wholesale Area To Your Shopify Store Without The App - 2022 FREE TUTORIAL - YouTube",
+    "url": "https://www.youtube.com/watch?v=wntjDx2TWSA",
+    "folder": "Things"
+  },
+  {
+    "title": "Ahmia — Search Tor Hidden Services",
+    "url": "http://msydqstlz2kzerdg.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Amazon.com: Ubiquiti Unifi Security Gateway (USG): Computers &amp; Accessories",
+    "url": "https://www.amazon.com/gp/product/B00LV8YZLK/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=B00LV8YZLK&linkCode=as2&tag=wr088e-20&linkId=6bb638983409338c6869bad49d28dfe2",
+    "folder": "Things"
+  },
+  {
+    "title": "AtomicHub - Create, sell or collect digital items secured with blockchain",
+    "url": "https://wax.atomichub.io/explorer/asset/1099564900850",
+    "folder": "Things"
+  },
+  {
+    "title": "Beginner JavaScript Notes - Wes Bos",
+    "url": "https://wesbos.com/javascript",
+    "folder": "Things"
+  },
+  {
+    "title": "Blacklight – The Markup",
+    "url": "https://themarkup.org/blacklight",
+    "folder": "Things"
+  },
+  {
+    "title": "Building a Scalable NFT Marketplace on Ethereum with Polygon - DEV Community",
+    "url": "https://dev.to/dabit3/building-scalable-full-stack-apps-on-ethereum-with-polygon-2cfb",
+    "folder": "Things"
+  },
+  {
+    "title": "Cigna member FAQs - Google Docs",
+    "url": "https://docs.google.com/document/d/1dc_BgjZw7nSVKgIIuIWPrMBfVD8mYdWOh5SFaOO5x9w/edit",
+    "folder": "Things"
+  },
+  {
+    "title": "Contact Us | Arizona Department of Revenue",
+    "url": "https://azdor.gov/contact-us",
+    "folder": "Things"
+  },
+  {
+    "title": "Cosmic | Best Headless CMS for Nuxt.js",
+    "url": "https://www.cosmicjs.com/knowledge-base/nuxtjs-cms",
+    "folder": "Things"
+  },
+  {
+    "title": "CTemplar - Most Secure Anonymous Encrypted Email",
+    "url": "http://ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Custom Input Fields with Line Item Properties – Out of the Sandbox",
+    "url": "https://help.outofthesandbox.com/hc/en-us/articles/115007099628-Custom-Input-Fields-with-Line-Item-Properties",
+    "folder": "Things"
+  },
+  {
+    "title": "Custom List - BTTF Time Machine - Off-Colour Scheme Part Replacements | Rebrickable - Build with LEGO",
+    "url": "https://rebrickable.com/users/Simon%20Lenz/lists/168282/?_=1663997921881&page=1#parts",
+    "folder": "Things"
+  },
+  {
+    "title": "Cyber Security Information and News for Everyday People!",
+    "url": "https://securethoughts.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Deploying Mastodon on Digital Ocean - Startup Lab",
+    "url": "https://startuplab.io/post/deploying-mastodon-on-digital-ocean",
+    "folder": "Things"
+  },
+  {
+    "title": "Designated Beneficiary Plan Agreement",
+    "url": "https://client.schwab.com/secure/file/P-5478014",
+    "folder": "Things"
+  },
+  {
+    "title": "Doctors Challenge Contra Costa Public Health Officials: One Doc Gets &#39;Removed,&#39; Two Reprimanded - California Globe",
+    "url": "https://californiaglobe.com/section-2/doctors-challenge-contra-costa-public-health-officials-one-doc-gets-removed-two-reprimanded/",
+    "folder": "Things"
+  },
+  {
+    "title": "Download Matomo Free Web Analytics Tool - #1 Open Source Analytics",
+    "url": "https://matomo.org/download/",
+    "folder": "Things"
+  },
+  {
+    "title": "Explore - Darktea: Dark cup of Gitea (Gitea on the Dark Web)",
+    "url": "http://it7otdanqu7ktntxzm427cba6i53w6wlanlh23v5i3siqmos47pzhvyd.onion/explore/repos",
+    "folder": "Things"
+  },
+  {
+    "title": "Finsweet Class Adder Interactions tool",
+    "url": "https://class-adder-script-writer.finsweet.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Flexible Pricing &amp; Email Delivery Plans - Email API Service | Mailgun",
+    "url": "https://www.mailgun.com/pricing/",
+    "folder": "Things"
+  },
+  {
+    "title": "Fontello - icon fonts generator",
+    "url": "https://fontello.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Free Photo editor online image animation and design : Pixlr",
+    "url": "https://pixlr.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "FXhome: Powerful VFX &amp; video editing software for creators",
+    "url": "https://fxhome.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Galaxy Watch - Build | Samsung Developers",
+    "url": "https://developer.samsung.com/galaxy-watch-develop/techdoc/without-phone-connection-mode.html?v=T000000095",
+    "folder": "Things"
+  },
+  {
+    "title": "Gatsby and Sanity.io CMS Tutorial",
+    "url": "https://www.frontendstumbles.com/gatsby-and-sanity-cms-tutorial/",
+    "folder": "Things"
+  },
+  {
+    "title": "Gatsby Minimum Viable Build with Sanity CMS - DEV Community",
+    "url": "https://dev.to/katiekodes/gatsby-minimum-viable-build-with-sanity-cms-bic",
+    "folder": "Things"
+  },
+  {
+    "title": "Get Prepared Now!: Why A Great Crisis Is Coming &amp; How You Can Survive It - Kindle edition by Snyder, Michael, Fix, Barbara. Self-Help Kindle eBooks @ Amazon.com.",
+    "url": "https://www.amazon.com/Get-Prepared-Now-Crisis-Survive-ebook-dp-B00XNRTREW/dp/B00XNRTREW/ref=mt_other?_encoding=UTF8&me=&qid=",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - adhoclabs/burner-app-starter-kit",
+    "url": "https://github.com/adhoclabs/burner-app-starter-kit",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - Chocobozzz/PeerTube: ActivityPub-federated video streaming platform using P2P directly in your web browser",
+    "url": "https://github.com/Chocobozzz/PeerTube",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - dabit3/polygon-ethereum-nextjs-marketplace: A full stack digital marketplace running on Ethereum with Polygon &amp; Next.js",
+    "url": "https://github.com/dabit3/polygon-ethereum-nextjs-marketplace/",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - Justineo/vue-awesome: Awesome SVG icon component for Vue.js, built-in with Font Awesome icons.",
+    "url": "https://github.com/Justineo/vue-awesome",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - tleb/awesome-mastodon: Curated list of awesome Mastodon-related stuff!",
+    "url": "https://github.com/tleb/awesome-mastodon",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub Codespaces · GitHub",
+    "url": "https://github.com/features/codespaces",
+    "folder": "Things"
+  },
+  {
+    "title": "GitLab Pages | GitLab",
+    "url": "https://docs.gitlab.com/ee/user/project/pages/",
+    "folder": "Things"
+  },
+  {
+    "title": "gPodder: Media aggregator and podcast client",
+    "url": "https://gpodder.github.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "Gridulator: Make pixel grids, lickety-split",
+    "url": "http://www.gridulator.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Grobold Font | dafont.com",
+    "url": "https://www.dafont.com/grobold.font?text=Woke+as+Duck",
+    "folder": "Things"
+  },
+  {
+    "title": "GSAP 3 Migration Guide - Learning Center - GreenSock",
+    "url": "https://greensock.com/3-migration",
+    "folder": "Things"
+  },
+  {
+    "title": "GSAP 3 Migration Guide - Learning Center - GreenSock",
+    "url": "https://greensock.com/3-migration#staggers",
+    "folder": "Things"
+  },
+  {
+    "title": "Harden Your Zoom Settings to Protect Your Privacy and Avoid Trolls | Electronic Frontier Foundation",
+    "url": "https://www.eff.org/deeplinks/2020/04/harden-your-zoom-settings-protect-your-privacy-and-avoid-trolls",
+    "folder": "Things"
+  },
+  {
+    "title": "Home - TV247.US",
+    "url": "https://tv247.us/",
+    "folder": "Things"
+  },
+  {
+    "title": "Hosting your own mastodon instance via docker-compose – vdna.be",
+    "url": "https://vdna.be/blog/index.php/2020/11/hosting-your-own-mastodon-instance-via-docker-compose/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Build a Full Stack NFT Marketplace on Ethereum with Polygon and Next.js - [2021 Tutorial] - YouTube",
+    "url": "https://www.youtube.com/watch?v=GKJBEEXUha0",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Build a Quiz App using NextJS, Chakra UI, and Firebase",
+    "url": "https://www.freecodecamp.org/news/how-to-build-a-quizapp-using-nextjs-chakra-ui-and-firebase/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Deploy Your Jamstack Site to Cloudflare Pages",
+    "url": "https://expskill.com/how-to-deploy-your-jamstack-site-to-cloudflare-pages/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Encrypt Email on iPhone - CTemplar",
+    "url": "http://ctemplarpizuduxk3fkwrieizstx33kg5chlvrh37nz73pv5smsvl6ad.onion/how-to-encrypt-email-on-iphone/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Implement Search Functionality In Your Nuxt App Using Algolia InstantSearch — Smashing Magazine",
+    "url": "https://www.smashingmagazine.com/2021/10/search-functionality-nuxt-app-algolia-instantsearch/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to install Mastodon Social Network with Docker on Ubuntu 18.04 LTS",
+    "url": "https://www.howtoforge.com/how-to-install-mastodon-social-network-with-docker-on-ubuntu-1804/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to install Matomo (Piwik) on DigitalOcean",
+    "url": "https://artofadventuring.com/install-matomo-piwik-digitalocean/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to integrate Algolia with your Headless CMS - Storyblok",
+    "url": "https://www.storyblok.com/tp/headless-algolia-integration",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Setup Tailwind with PurgeCSS and PostCSS? | Tailwind Installation and Usage – BTech Geeks",
+    "url": "https://btechgeeks.com/how-to-setup-tailwind-with-purgecss-and-postcss/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to start sending email — Mailgun API documentation",
+    "url": "https://documentation.mailgun.com/en/latest/quickstart-sending.html#how-to-start-sending-email",
+    "folder": "Things"
+  },
+  {
+    "title": "https://192.168.1.1",
+    "url": "https://192.168.1.1/",
+    "folder": "Things"
+  },
+  {
+    "title": "Instagram using MERN stack : reactjs",
+    "url": "https://www.reddit.com/r/reactjs/comments/hdnsn4/instagram_using_mern_stack/",
+    "folder": "Things"
+  },
+  {
+    "title": "Installing from source - Mastodon documentation",
+    "url": "https://docs.joinmastodon.org/admin/install/",
+    "folder": "Things"
+  },
+  {
+    "title": "Kryptor - Free open source file encryption software",
+    "url": "https://kryptor.co.uk/",
+    "folder": "Things"
+  },
+  {
+    "title": "Liquid objects",
+    "url": "https://shopify.dev/api/liquid/objects",
+    "folder": "Things"
+  },
+  {
+    "title": "Liquid reference",
+    "url": "https://shopify.dev/api/liquid",
+    "folder": "Things"
+  },
+  {
+    "title": "Mastodon Hosting | DigitalOcean Marketplace 1-Click App",
+    "url": "https://marketplace.digitalocean.com/apps/mastodon",
+    "folder": "Things"
+  },
+  {
+    "title": "Math filters",
+    "url": "https://shopify.dev/api/liquid/filters/math-filters",
+    "folder": "Things"
+  },
+  {
+    "title": "McAfee ID Theft Protection - Sign In",
+    "url": "https://idtheftsecurity.mcafee.com/login?RTN=90000177&_locale=en_US",
+    "folder": "Things"
+  },
+  {
+    "title": "Morphing talking bubble",
+    "url": "https://codepen.io/ainalem/full/VwKvZYe",
+    "folder": "Things"
+  },
+  {
+    "title": "NETGEAR Router Orbi",
+    "url": "https://192.168.1.1/index.htm",
+    "folder": "Things"
+  },
+  {
+    "title": "New Tab",
+    "url": "chrome://newtab/",
+    "folder": "Things"
+  },
+  {
+    "title": "newspaper-list-for-publishing.pdf",
+    "url": "https://www.azcc.gov/docs/default-source/corps-files/newspaper-list-for-publishing.pdf",
+    "folder": "Things"
+  },
+  {
+    "title": "nuxt-algolia - npm",
+    "url": "https://www.npmjs.com/package/nuxt-algolia",
+    "folder": "Things"
+  },
+  {
+    "title": "OnionTube",
+    "url": "http://tubemwive7gh35yolhtbuvxc52xncrrurk52u5eblil7cqx3krndvqqd.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Orbi Pro WiFi 6 Mini Quick Start Guide",
+    "url": "https://www.downloads.netgear.com/files/GDC/SXK30/SXK30_QSG_EN.pdf",
+    "folder": "Things"
+  },
+  {
+    "title": "PeerTube/dependencies.md at develop · Chocobozzz/PeerTube",
+    "url": "https://github.com/Chocobozzz/PeerTube/blob/develop/support/doc/dependencies.md",
+    "folder": "Things"
+  },
+  {
+    "title": "Privacy Tools: Encryption Against Mass Surveillance",
+    "url": "https://www.privacytools.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "PrivacyTools - Encryption Against Global Mass Surveillance",
+    "url": "http://privacy2zbidut4m4jyj3ksdqidzkw3uoip2vhvhbvwxbqux5xy5obyd.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Push Items from Heartland Retail to Shopify v2 | Heartland Retail Help Center",
+    "url": "https://support.heartlandretail.us/en/articles/3827524-push-items-from-heartland-retail-to-shopify-v2",
+    "folder": "Things"
+  },
+  {
+    "title": "Reverting a pull request - GitHub Docs",
+    "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/reverting-a-pull-request",
+    "folder": "Things"
+  },
+  {
+    "title": "revolver.news – Blacklight Search Results – The Markup",
+    "url": "https://themarkup.org/blacklight?url=revolver.news",
+    "folder": "Things"
+  },
+  {
+    "title": "Sanity plugin: Netlify Deploy",
+    "url": "https://www.sanity.io/plugins/sanity-plugin-dashboard-widget-netlify",
+    "folder": "Things"
+  },
+  {
+    "title": "Sarvets - Twitch",
+    "url": "https://www.twitch.tv/sarvets",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting Up a Peertube Instance (v1.0.0-beta.11) ·",
+    "url": "https://alexkeating.me/setting-up-a-peertube-instance/",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting up an SMTP Domain Using Mailgun ·",
+    "url": "https://alexkeating.me/setting-up-smtp-server-using-mailgun/",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting up Mastodon for Development",
+    "url": "https://lerks.blog/how-to-set-up-a-mastodon-dev-instance/",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting up Mastodon Using Docker and Docker-Compose – Linux Liaison",
+    "url": "https://linuxliaison.org/setting-up-mastodon-using-docker-and-docker-compose/",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting up your own Mastodon, with Digital Ocean and Docker | by Travis Briggs | Blogging of 2004 — Today!",
+    "url": "https://blog.travisbriggs.com/setting-up-your-own-mastodon-with-digital-ocean-and-docker-29e633d354f2",
+    "folder": "Things"
+  },
+  {
+    "title": "Sign In - Simplecast",
+    "url": "https://auth.simplecast.com/login",
+    "folder": "Things"
+  },
+  {
+    "title": "SMTP Mailgun Throwing Error with Mastodon - Stack Overflow",
+    "url": "https://stackoverflow.com/questions/49567479/smtp-mailgun-throwing-error-with-mastodon",
+    "folder": "Things"
+  },
+  {
+    "title": "Solved: How do I setup bridge mode in the ARRIS BGW210-700 - NETGEAR Communities",
+    "url": "https://community.netgear.com/t5/Orbi/How-do-I-setup-bridge-mode-in-the-ARRIS-BGW210-700/td-p/1875994",
+    "folder": "Things"
+  },
+  {
+    "title": "Sonic.net - Sonic Login",
+    "url": "https://members.sonic.net/account/billing/",
+    "folder": "Things"
+  },
+  {
+    "title": "Surveillance Self-Defense | Tips, Tools and How-tos for Safer Online Communications",
+    "url": "https://ssd.eff.org/en",
+    "folder": "Things"
+  },
+  {
+    "title": "Surya Mattu – The Markup",
+    "url": "https://themarkup.org/people/surya-mattu",
+    "folder": "Things"
+  },
+  {
+    "title": "SVGOMG - SVGO&#39;s Missing GUI",
+    "url": "https://jakearchibald.github.io/svgomg/",
+    "folder": "Things"
+  },
+  {
+    "title": "Ted on CodePen",
+    "url": "https://codepen.io/skateted",
+    "folder": "Things"
+  },
+  {
+    "title": "The 1140px CSS Grid System - Fluid down to mobile",
+    "url": "https://www.ramotion.com/agency/web-design/cssgrid/",
+    "folder": "Things"
+  },
+  {
+    "title": "The Hidden Wiki",
+    "url": "http://xsglq2kdl72b2wmtn5b2b7lodjmemnmcct37owlz5inrhzvyfdnryqid.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "The Hidden Wiki",
+    "url": "http://zqktlwiuavvvqqt4ybvgvi7tyo4hjl5xgfuvpdf6otjiycgwqbym2qad.onion/wiki/Main_Page",
+    "folder": "Things"
+  },
+  {
+    "title": "The Internet&#39;s Own Boy: The Story of Aaron Schwartz - The VidCommons Project",
+    "url": "https://vidcommons.org/videos/watch/9952af68-0b30-4ea0-81ac-a26444541331",
+    "folder": "Things"
+  },
+  {
+    "title": "The secret pact of Standard Oil with the Nazis",
+    "url": "https://www.gabyweber.com/dwnld/artikel/eichmann/ingles/secret_pact_standard_oil.pdf",
+    "folder": "Things"
+  },
+  {
+    "title": "Timeline - SVG Essentials &amp; Animation, v2",
+    "url": "https://frontendmasters.com/courses/svg-essentials-animation/timeline/",
+    "folder": "Things"
+  },
+  {
+    "title": "Tiny grocer – Tiny Grocer",
+    "url": "https://express-theme-pantry.myshopify.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Twitter Clone using ReactJS — The Ultimate Guide | by Atharva Deosthale | Clever Programmer | Oct, 2020 | Medium",
+    "url": "https://medium.com/cleverprogrammer/twitter-clone-using-reactjs-the-ultimate-guide-74e2b2a06fa7",
+    "folder": "Things"
+  },
+  {
+    "title": "Twitter Video Downloader - Download Twitter Videos to MP4",
+    "url": "https://twsaver.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "UI Online Home",
+    "url": "https://uio.edd.ca.gov/UIO/Pages/ExternalUser/ClaimantAccountManagement/UIOnlineHome.aspx?__NodeID=161",
+    "folder": "Things"
+  },
+  {
+    "title": "Vectr - Free Online Vector Graphics Editor",
+    "url": "https://vectr.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "VeraCrypt - Free Open source disk encryption with strong security for the Paranoid",
+    "url": "https://www.veracrypt.fr/en/Home.html",
+    "folder": "Things"
+  },
+  {
+    "title": "Webhooks - Storyblok",
+    "url": "https://www.storyblok.com/docs/guide/in-depth/webhooks",
+    "folder": "Things"
+  },
+  {
+    "title": "Webpage archive",
+    "url": "http://archiveiya74codqgiixo33q62qlrqtkgmcitqx5u2oeqnmn5bpcbiyd.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Websites for your GitLab projects, user account or group | GitLab",
+    "url": "https://about.gitlab.com/stages-devops-lifecycle/pages/",
+    "folder": "Things"
+  },
+  {
+    "title": "Wholesale Quantities In Shopify - Minimum Or Box Quantity - No App - YouTube",
+    "url": "https://www.youtube.com/watch?v=X_5xAl1oaAc",
+    "folder": "Things"
+  },
+  {
+    "title": "Whonix - Software That Can Anonymize Everything You Do Online",
+    "url": "http://www.dds6qkxpwdeubwucdiaord2xgbbeyds25rbsgr73tbfpqpt4a6vjwsyd.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "Zol Neveri on Twitter: &quot;https://t.co/U82Pp0JDa7&quot; / Twitter",
+    "url": "https://twitter.com/ZNeveri/status/1343230710853873672",
+    "folder": "Things"
+  },
+  {
+    "title": "Arizona LLC: List of Approved Newspapers | LLC University®",
+    "url": "https://www.llcuniversity.com/arizona-llc/approved-newspapers/",
+    "folder": "Things"
+  },
+  {
+    "title": "Arizona LLC newspaper publication requirements | LLC University®",
+    "url": "https://www.llcuniversity.com/arizona-llc/publication-requirements/",
+    "folder": "Things"
+  },
+  {
+    "title": "Accept Estimate# 2338",
+    "url": "https://app.servicefusion.com/acceptEstimate?id=RK9RyAtfHo_omT5Enb0vmOWFsvN9lMU3ycr6OzdtOVQ&options=QrF9TVds44THCIfIoZnn7SDjtaA05QoZ7bTt8hGPGeo&key=Yunn__4Xsk6RkmF_sdWXEMd2kJcfffVYulpQICaE9dg&trackerId=bd715822ea92ee39bde3a3eac251ed34&templateId=6OJ5-EFCLKGExsbpVW2JGOIJHYI47GO_CTGiLynO3Zs&po=USfeySugUpCrg01v5fAW7k4JKdmUtQxL2yzRO7W1V_8",
+    "folder": "Things"
+  },
+  {
+    "title": "COD: Satellite and Radar",
+    "url": "https://weather.cod.edu/satrad/",
+    "folder": "Things"
+  },
+  {
+    "title": "Zoom Earth | LIVE weather map, storm tracker, rain radar",
+    "url": "https://zoom.earth/",
+    "folder": "Things"
+  },
+  {
+    "title": "First steps - where do I start, where do I begin? (Setup GPGTools, Create a new key, Your first encrypted email) / Tutorials / Knowledge Base - GPGTools Support",
+    "url": "https://gpgtools.tenderapp.com/kb/how-to/first-steps-where-do-i-start-where-do-i-begin-setup-gpgtools-create-a-new-key-your-first-encrypted-email",
+    "folder": "Things"
+  },
+  {
+    "title": "Adding Favicons In Shopify » Birdhouse Web Design",
+    "url": "https://www.birdhousewebsites.com/adding-favicons-in-shopify/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Set Up Ridgid 6 Gallon Pancake Portable Air Compressor - YouTube",
+    "url": "https://www.youtube.com/watch?v=yhXEL-SIe7A",
+    "folder": "Things"
+  },
+  {
+    "title": "Examples",
+    "url": "https://principles.design/examples/",
+    "folder": "Things"
+  },
+  {
+    "title": "Zoom Earth | LIVE weather map, storm tracker, rain radar",
+    "url": "https://zoom.earth/#view=31.89,-111.21,6.78z/map=live",
+    "folder": "Things"
+  },
+  {
+    "title": "Essential privacy fix: Remove yourself from creepy people search sites",
+    "url": "https://www.komando.com/privacy/people-search-site-removal/840399/",
+    "folder": "Things"
+  },
+  {
+    "title": "Badger3000.com | Trello",
+    "url": "https://trello.com/b/kLnqNiQp/badger3000com",
+    "folder": "Things"
+  },
+  {
+    "title": "badger3000..com",
+    "url": "https://whimsical.com/badger3000-com-TyyWkjG7qzksQqpCtRAjNS",
+    "folder": "Things"
+  },
+  {
+    "title": "Building A Brand Using The Web",
+    "url": "https://boagworld.com/design/building-a-brand/",
+    "folder": "Things"
+  },
+  {
+    "title": "For fast and secure sites | Jamstack",
+    "url": "https://jamstack.org/",
+    "folder": "Things"
+  },
+  {
+    "title": "Picular",
+    "url": "https://picular.co/",
+    "folder": "Things"
+  },
+  {
+    "title": "DaFont - Download fonts",
+    "url": "https://www.dafont.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Free Fonts! Legit Free &amp; Quality » Font Squirrel",
+    "url": "https://www.fontsquirrel.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "The breakpoints we tested in 2021 &amp; 2022, and the ones to test in 2023 | Polypane, The browser for ambitious developers",
+    "url": "https://polypane.app/blog/the-breakpoints-we-tested-in-2021-and-the-ones-to-test-in-2022/",
+    "folder": "Things"
+  },
+  {
+    "title": "LEGO MOC DeLorean Time Machine - Wing Door Fix by TOPACES | Rebrickable - Build with LEGO",
+    "url": "https://rebrickable.com/mocs/MOC-107117/TOPACES/delorean-time-machine-wing-door-fix/#details",
+    "folder": "Things"
+  },
+  {
+    "title": "PeerTube v3 Docker Installation",
+    "url": "https://henrywithu.com/peertube-v3-docker-installation/",
+    "folder": "Things"
+  },
+  {
+    "title": "peertube-theme-bittube-dark-mode/common-client-plugin.js at master · ipbc-dev/peertube-theme-bittube-dark-mode · GitHub",
+    "url": "https://github.com/ipbc-dev/peertube-theme-bittube-dark-mode/blob/master/client/common-client-plugin.js",
+    "folder": "Things"
+  },
+  {
+    "title": "Opening Port 1935 on Peertube Docker Instance - Reclaim Cloud - Reclaim Hosting Community Forums",
+    "url": "https://forums.reclaimhosting.com/t/opening-port-1935-on-peertube-docker-instance/3943",
+    "folder": "Things"
+  },
+  {
+    "title": "Upgrading Peertube and Running the Livechat Plugin | bavatuesdays",
+    "url": "https://bavatuesdays.com/upgrading-peertube-and-running-the-livechat-plugin/",
+    "folder": "Things"
+  },
+  {
+    "title": "Complete Intro to React v8",
+    "url": "https://react-v8.holt.courses/",
+    "folder": "Things"
+  },
+  {
+    "title": "Setting up Peertube to use Backblaze B2 storage | Taylor Jadin",
+    "url": "https://jadin.me/setting-up-peertube-with-b2/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Distort Perspective In Inkscape - YouTube",
+    "url": "https://www.youtube.com/watch?v=Thy_YCi8dXA&list=PLynG8gQD-n8C-WYNovoPzWvxDMb1Ls_7S",
+    "folder": "Things"
+  },
+  {
+    "title": "filler glue factory in videos on Vimeo",
+    "url": "https://vimeo.com/search?q=filler%20glue%20factory%20",
+    "folder": "Things"
+  },
+  {
+    "title": "How to set up SMTP to use business applications or devices with Proton Mail | Proton for business",
+    "url": "https://proton.me/support/smtp-submission",
+    "folder": "Things"
+  },
+  {
+    "title": "Fix “No Access-Control-Allow-Origin header” for S3 and CloudFront – I Failed the Turing Test",
+    "url": "https://vinta.ws/code/fix-no-access-control-allow-origin-header-for-s3-and-cloudfront.html",
+    "folder": "Things"
+  },
+  {
+    "title": "Color Safe - accessible web color combinations",
+    "url": "http://colorsafe.co/",
+    "folder": "Things"
+  },
+  {
+    "title": "Colormind - Generate dashboard template colors",
+    "url": "http://colormind.io/template/paper-dashboard/",
+    "folder": "Things"
+  },
+  {
+    "title": "Colormind - Material Dashboard Color Generator",
+    "url": "http://colormind.io/template/material-dashboard/",
+    "folder": "Things"
+  },
+  {
+    "title": "Issues · Chocobozzz/PeerTube · GitHub",
+    "url": "https://github.com/Chocobozzz/PeerTube/issues/5342",
+    "folder": "Things"
+  },
+  {
+    "title": "Forwarding Emails to Your Inbox Using Amazon SES | by Ashan Fernando | Enlear Academy",
+    "url": "https://enlear.academy/forwarding-emails-to-your-inbox-using-amazon-ses-2d261d60e417",
+    "folder": "Things"
+  },
+  {
+    "title": "Gatsby Image plugin | Gatsby",
+    "url": "https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/#withartdirection",
+    "folder": "Things"
+  },
+  {
+    "title": "Using the Gatsby Image plugin | Gatsby",
+    "url": "https://www.gatsbyjs.com/docs/how-to/images-and-media/using-gatsby-plugin-image/",
+    "folder": "Things"
+  },
+  {
+    "title": "Basic Syntax | Markdown Guide",
+    "url": "https://www.markdownguide.org/basic-syntax/",
+    "folder": "Things"
+  },
+  {
+    "title": "RFC: Gatsby Head API · Discussion #35841 · gatsbyjs/gatsby",
+    "url": "https://github.com/gatsbyjs/gatsby/discussions/35841",
+    "folder": "Things"
+  },
+  {
+    "title": "Desk Height Calculator: Office Ergonomics In a Blink",
+    "url": "https://www.omnicalculator.com/everyday-life/desk-height",
+    "folder": "Things"
+  },
+  {
+    "title": "ColorSpace - 3 Color Gradient",
+    "url": "https://mycolor.space/gradient3?ori=to+left&hex=%23000000&hex2=%234D4E4F&hex3=%237F7F7F&submit=submit",
+    "folder": "Things"
+  },
+  {
+    "title": "ColorSpace - 3 Color Gradient",
+    "url": "https://mycolor.space/gradient3?ori=to+left+bottom&hex=%23000000&hex2=%234D4E4F&hex3=%234E4E4E&submit=submit",
+    "folder": "Things"
+  },
+  {
+    "title": "How to quickly set up a Gatsby.js JAMstack website with a headless CMS",
+    "url": "https://www.sanity.io/blog/how-to-quickly-set-up-a-gatsby-js-jamstack-website-with-a-headless-cms",
+    "folder": "Things"
+  },
+  {
+    "title": "Configuration File · Prettier",
+    "url": "https://prettier.io/docs/en/configuration.html",
+    "folder": "Things"
+  },
+  {
+    "title": "portabletext/react-portabletext: Render Portable Text with React",
+    "url": "https://github.com/portabletext/react-portabletext",
+    "folder": "Things"
+  },
+  {
+    "title": "GitHub - badger612/badger3000: My Personal site",
+    "url": "https://github.com/badger612/badger3000",
+    "folder": "Things"
+  },
+  {
+    "title": "Redirects and rewrites | Netlify Docs",
+    "url": "https://docs.netlify.com/routing/redirects/",
+    "folder": "Things"
+  },
+  {
+    "title": "Environment Variables",
+    "url": "https://www.sanity.io/docs/environment-variables",
+    "folder": "Things"
+  },
+  {
+    "title": "Set up Structure Builder to override the default list view",
+    "url": "https://www.sanity.io/docs/set-up-structure-builder-to-override-the-default-list-view",
+    "folder": "Things"
+  },
+  {
+    "title": "portabletext/react-portabletext: Render Portable Text with React",
+    "url": "https://github.com/portabletext/react-portabletext#readme",
+    "folder": "Things"
+  },
+  {
+    "title": "Sourcing from Sanity | Gatsby",
+    "url": "https://www.gatsbyjs.com/docs/sourcing-from-sanity/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Add Custom Fonts to Gatsby | Gatsby",
+    "url": "https://www.gatsbyjs.com/blog/how-to-add-custom-fonts-to-gatsby/",
+    "folder": "Things"
+  },
+  {
+    "title": "Online @font-face generator — Transfonter",
+    "url": "https://transfonter.org/",
+    "folder": "Things"
+  },
+  {
+    "title": "169 CSS Background Patterns",
+    "url": "https://freefrontend.com/css-background-patterns/",
+    "folder": "Things"
+  },
+  {
+    "title": "Customizing the Portable Text Editor",
+    "url": "https://www.sanity.io/docs/customizing-the-portable-text-editor",
+    "folder": "Things"
+  },
+  {
+    "title": "@portabletext/react - npm",
+    "url": "https://www.npmjs.com/package/@portabletext/react",
+    "folder": "Things"
+  },
+  {
+    "title": "Structure Builder Reference",
+    "url": "https://www.sanity.io/docs/structure-builder-reference",
+    "folder": "Things"
+  },
+  {
+    "title": "Object",
+    "url": "https://www.sanity.io/docs/object-type",
+    "folder": "Things"
+  },
+  {
+    "title": "(2) Inkscape Tutorial : How to Create Vector Portrait Illustration from Photo - YouTube",
+    "url": "https://www.youtube.com/watch?v=Pyfw3FqlWmo",
+    "folder": "Things"
+  },
+  {
+    "title": "Gatsby Image plugin | Gatsby",
+    "url": "https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to spice up your markdown documents - DEV Community 👩‍💻👨‍💻",
+    "url": "https://dev.to/coderallan/how-to-spice-up-your-markdown-documents-2pjg",
+    "folder": "Things"
+  },
+  {
+    "title": "SolidJS · Reactive Javascript Library",
+    "url": "https://www.solidjs.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Builder.io - Drag and drop Visual CMS",
+    "url": "https://www.builder.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "Workspaces — Gitpod",
+    "url": "https://gitpod.io/workspaces",
+    "folder": "Things"
+  },
+  {
+    "title": "How to make Sanity Studio your own",
+    "url": "https://www.gravitywell.co.uk/insights/how-to-make-sanity-studio-your-own/",
+    "folder": "Things"
+  },
+  {
+    "title": "List Previews",
+    "url": "https://www.sanity.io/docs/previews-list-views",
+    "folder": "Things"
+  },
+  {
+    "title": "Iframe Pane | Sanity.io plugin",
+    "url": "https://www.sanity.io/plugins/iframe-pane",
+    "folder": "Things"
+  },
+  {
+    "title": "sanity-io/sanity-plugin-iframe-pane: Display any URL in a View Pane, along with helpful buttons to copy the URL, display a mobile size, reload the iframe or open in a new tab",
+    "url": "https://github.com/sanity-io/sanity-plugin-iframe-pane",
+    "folder": "Things"
+  },
+  {
+    "title": "INC TECHNOLOGY- Website Concept",
+    "url": "https://preview.studio.site/live/V5a76jGLqR",
+    "folder": "Things"
+  },
+  {
+    "title": "Install Astro manually 🚀 Astro Documentation",
+    "url": "https://docs.astro.build/en/install/manual/#4-create-your-first-static-asset",
+    "folder": "Things"
+  },
+  {
+    "title": "Sparrow | Dashboard",
+    "url": "https://app.trysparrow.com/start/",
+    "folder": "Things"
+  },
+  {
+    "title": "sanity-io/sanity-plugin-seo-pane: Run Yoast&#39;s SEO review tools using Sanity data, inside a List View Pane.",
+    "url": "https://github.com/sanity-io/sanity-plugin-seo-pane",
+    "folder": "Things"
+  },
+  {
+    "title": "Getting Started with GSAP + React. - Learning Center - GreenSock",
+    "url": "https://greensock.com/react/",
+    "folder": "Things"
+  },
+  {
+    "title": "Animating React Components With GreenSock — Smashing Magazine",
+    "url": "https://www.smashingmagazine.com/2020/09/animating-react-components-greensock/",
+    "folder": "Things"
+  },
+  {
+    "title": "Animations using React Hooks and GreenSock - LogRocket Blog",
+    "url": "https://blog.logrocket.com/animations-react-hooks-greensock/",
+    "folder": "Things"
+  },
+  {
+    "title": "GreenSock | Docs | GSAP | gsap.to()",
+    "url": "https://greensock.com/docs/v3/GSAP/gsap.to()",
+    "folder": "Things"
+  },
+  {
+    "title": "GSAP 3 Cheat Sheet",
+    "url": "https://greensock.com/cheatsheet/",
+    "folder": "Things"
+  },
+  {
+    "title": "47 GSAP Demo, Code Snippets And Examples Ξ Page 4 Of 6 Ξ ℂ𝕠𝕕𝕖𝕄𝕪𝕌𝕀",
+    "url": "https://codemyui.com/tag/gsap/page/4/",
+    "folder": "Things"
+  },
+  {
+    "title": "Random Palette Generator API Documentation (kareem1999) | RapidAPI",
+    "url": "https://rapidapi.com/kareem1999/api/random-palette-generator/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Build A Random Color Palette Generator With An API?",
+    "url": "https://rapidapi.com/guides/build-color-palette-app",
+    "folder": "Things"
+  },
+  {
+    "title": "https://www.colr.org/json/colors/random/3",
+    "url": "https://www.colr.org/json/colors/random/3",
+    "folder": "Things"
+  },
+  {
+    "title": "colr.org API",
+    "url": "https://www.colr.org/api.html",
+    "folder": "Things"
+  },
+  {
+    "title": "JSONPlaceholder - Free Fake REST API",
+    "url": "https://jsonplaceholder.typicode.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "React | Font Awesome Docs",
+    "url": "https://fontawesome.com/v5/docs/web/use-with/react",
+    "folder": "Things"
+  },
+  {
+    "title": "Letter Run - Awwwards SOTD",
+    "url": "https://www.awwwards.com/sites/letter-run?utm_source=twitter&utm_medium=social&utm_campaign=SOTD_promo&utm_content=letter-run#score",
+    "folder": "Things"
+  },
+  {
+    "title": "COBRApoint",
+    "url": "https://cobrapoint.benaissance.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "4. Size each petal based on its movie&#39;s rating / Shirley Wu | Observable",
+    "url": "https://observablehq.com/@sxywu/4-size-each-petal-based-on-its-movies-rating?collection=@sxywu/introduction-to-d3-js",
+    "folder": "Things"
+  },
+  {
+    "title": "Renew my Passport by Mail",
+    "url": "https://travel.state.gov/content/travel/en/passports/have-passport/renew.html",
+    "folder": "Things"
+  },
+  {
+    "title": "Markdown Cheat Sheet | Markdown Guide",
+    "url": "https://www.markdownguide.org/cheat-sheet/",
+    "folder": "Things"
+  },
+  {
+    "title": "zknt/pixelfed · Quay",
+    "url": "https://quay.io/repository/zknt/pixelfed?tab=info",
+    "folder": "Things"
+  },
+  {
+    "title": "https://nw13.ultipro.com/Login.aspx?ReturnUrl=%2f",
+    "url": "https://nw13.ultipro.com/Login.aspx?ReturnUrl=%2f",
+    "folder": "Things"
+  },
+  {
+    "title": "Responsive iframe Generator — just copy &amp; paste. - Ben Marshall",
+    "url": "https://www.benmarshall.me/responsive-iframe-generator/",
+    "folder": "Things"
+  },
+  {
+    "title": "Responsive iframes — The Right Way (CSS Only)! | Ben Marshall",
+    "url": "https://www.benmarshall.me/responsive-iframes/",
+    "folder": "Things"
+  },
+  {
+    "title": "Extract/Regroup/Order Colors from any Website · Alwane",
+    "url": "https://alwane.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "Bundles – HumanCentric",
+    "url": "https://www.humancentric.com/collections/bundles",
+    "folder": "Things"
+  },
+  {
+    "title": "Yuva Theme | Documentation",
+    "url": "https://shinedezigninfonet.com/yuva-documentation/",
+    "folder": "Things"
+  },
+  {
+    "title": "Awwwards - Website Awards - Best Web Design Trends",
+    "url": "https://www.awwwards.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Using D3.js with React.js: An 8-step comprehensive manual | Grid Dynamics Blog",
+    "url": "https://blog.griddynamics.com/using-d3-js-with-react-js-an-8-step-comprehensive-manual/",
+    "folder": "Things"
+  },
+  {
+    "title": "React &amp;&amp; TypeScript — Frontend Masters",
+    "url": "https://fem-react-typescript.vercel.app/",
+    "folder": "Things"
+  },
+  {
+    "title": "Twind Guide | Twind",
+    "url": "https://twind.dev/handbook/introduction.html#features",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Install Vinyl Plank Flooring as a Beginner | Home Renovation - YouTube",
+    "url": "https://www.youtube.com/watch?v=6KEthELQfro",
+    "folder": "Things"
+  },
+  {
+    "title": "Logoipsum | Free Placeholder Logo For Your Design Mock-up",
+    "url": "https://logoipsum.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Water Waves – Drake",
+    "url": "https://wpriverthemes.com/drake/water-waves/",
+    "folder": "Things"
+  },
+  {
+    "title": "ezgif.com free online animated GIF editor",
+    "url": "https://ezgif.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Create Pixel Art In Inkscape - YouTube",
+    "url": "https://www.youtube.com/watch?v=d9EHPNLt4xo",
+    "folder": "Things"
+  },
+  {
+    "title": "Rotoscoping anything with Grease Pencil | Blender 3 3 - YouTube",
+    "url": "https://www.youtube.com/watch?v=jBIBimeow_o",
+    "folder": "Things"
+  },
+  {
+    "title": "Rotoscoping Tips in Blender - YouTube",
+    "url": "https://www.youtube.com/watch?v=1eQst8SAVRE",
+    "folder": "Things"
+  },
+  {
+    "title": "Create, buy and sell your own pixel art avatar | 8biticon.com",
+    "url": "https://8biticon.com/constructor?token=171717406689819",
+    "folder": "Things"
+  },
+  {
+    "title": "Create advanced animations with smart animate – Figma Help Center",
+    "url": "https://help.figma.com/hc/en-us/articles/360039818874-Create-advanced-animations-with-smart-animate",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Make an Infographic Resume (with Examples and Templates)",
+    "url": "https://resumegenius.com/blog/resume-help/infographic-resume",
+    "folder": "Things"
+  },
+  {
+    "title": "Search Projects | Photos, videos, logos, illustrations and branding on Behance",
+    "url": "https://www.behance.net/",
+    "folder": "Things"
+  },
+  {
+    "title": "Etsy Print on Demand - Printify",
+    "url": "https://printify.com/etsy/",
+    "folder": "Things"
+  },
+  {
+    "title": "What should I keep in mind when selling on Etsy? – Printify",
+    "url": "https://help.printify.com/hc/en-us/articles/4578896595345",
+    "folder": "Things"
+  },
+  {
+    "title": "BEST Way to List on Etsy with Printify | Everything You NEED to KNOW - YouTube",
+    "url": "https://www.youtube.com/watch?v=CnbExTpG1ak",
+    "folder": "Things"
+  },
+  {
+    "title": "Arizona Corporations Commission",
+    "url": "https://ecorp.azcc.gov/BusinessSearch/BusinessInformation?businessID=2550458",
+    "folder": "Things"
+  },
+  {
+    "title": "Etsy - Shop Dashboard",
+    "url": "https://www.etsy.com/your/shops/me/dashboard?ref=seller-platform-mcnav",
+    "folder": "Things"
+  },
+  {
+    "title": "DigitalOcean Control Panel",
+    "url": "https://cloud.digitalocean.com/projects?i=c2f74f",
+    "folder": "Things"
+  },
+  {
+    "title": "UpdraftCentral - Remote Control - UpdraftPlus",
+    "url": "https://updraftplus.com/my-account/updraftcentral-remote-control/",
+    "folder": "Things"
+  },
+  {
+    "title": "Semrush - Online Marketing Can Be Easy",
+    "url": "https://www.semrush.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to send passphrase for ssh-add with GitHub Actions? - Stack Overflow",
+    "url": "https://stackoverflow.com/questions/64953274/how-to-send-passphrase-for-ssh-add-with-github-actions",
+    "folder": "Things"
+  },
+  {
+    "title": "Shane Hummus - YouTube",
+    "url": "https://www.youtube.com/@ShaneHummus/videos",
+    "folder": "Things"
+  },
+  {
+    "title": "Font Awesome",
+    "url": "https://fontawesome.com/search?q=user&o=r",
+    "folder": "Things"
+  },
+  {
+    "title": "Trademark Electronic Search System (TESS)",
+    "url": "https://tmsearch.uspto.gov/bin/gate.exe?f=tess&state=4808:zwd0ga.1.1",
+    "folder": "Things"
+  },
+  {
+    "title": "XML To CSV Converter",
+    "url": "https://www.convertcsv.com/xml-to-csv.htm",
+    "folder": "Things"
+  },
+  {
+    "title": "Rank v5 Pairs",
+    "url": "https://www.midjourney.com/app/rank-pairs/",
+    "folder": "Things"
+  },
+  {
+    "title": "madbadger&#39;s Gallery",
+    "url": "https://www.midjourney.com/app/users/467d4c22-c812-493f-9655-fb7907c59a41/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Install WordPress With Docker Compose | DigitalOcean",
+    "url": "https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose",
+    "folder": "Things"
+  },
+  {
+    "title": "Nepcha - The Privacy-Focused Web Analytics Tool | Nepcha",
+    "url": "https://nepcha.com/#pricing",
+    "folder": "Things"
+  },
+  {
+    "title": "Fully coded design resources for web developers @ Creative Tim",
+    "url": "https://www.creative-tim.com/affiliates/new",
+    "folder": "Things"
+  },
+  {
+    "title": "Webflow Certifications | Webflow University",
+    "url": "https://university.webflow.com/certification-exams",
+    "folder": "Things"
+  },
+  {
+    "title": "Golf Course in Twin Cities, MN | Public Golf Course Near Stillwater, Minneapolis, St. Paul, Twin Cities, MN | Stone Ridge Golf Club",
+    "url": "https://www.stoneridgegc.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "AZ Continued Claims: Enter SSN",
+    "url": "https://azuiinternetweeklyclaim.azdes.gov/",
+    "folder": "Things"
+  },
+  {
+    "title": "A Pen by vicente",
+    "url": "https://codepen.io/vijumx/pen/ExjbZdN",
+    "folder": "Things"
+  },
+  {
+    "title": "Animating Charts with Vanilla JavaScript - YouTube",
+    "url": "https://www.youtube.com/watch?v=ZaG_Hwxli78",
+    "folder": "Things"
+  },
+  {
+    "title": "Animated Chart HTML/CSS",
+    "url": "https://codepen.io/Coding-in-Public/pen/NWyPpbx",
+    "folder": "Things"
+  },
+  {
+    "title": "Pie chart vanilla js + Greensock",
+    "url": "https://codepen.io/pbraswell352/pen/xQBNZd",
+    "folder": "Things"
+  },
+  {
+    "title": "Ben Holmes",
+    "url": "https://bholmes.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "Parallax 3D Button with JS controlled CSS variables",
+    "url": "https://codepen.io/electerious/pen/MjZPVe?editors=0100",
+    "folder": "Things"
+  },
+  {
+    "title": "Parallax 3D Button with JS controlled CSS variables",
+    "url": "https://codepen.io/electerious/pen/MjZPVe?editors=0010",
+    "folder": "Things"
+  },
+  {
+    "title": "DEV Community",
+    "url": "https://dev.to/",
+    "folder": "Things"
+  },
+  {
+    "title": "How to be a Certified Salesforce Commerce Cloud Developer | Udemy",
+    "url": "https://www.udemy.com/course/salesforce-b2c-developer-certification-exam/",
+    "folder": "Things"
+  },
+  {
+    "title": "Trailhead Help",
+    "url": "https://trailhead.salesforce.com/help?article=Salesforce-Certified-B2C-Commerce-Architect-Exam-Guide",
+    "folder": "Things"
+  },
+  {
+    "title": "Popular Affiliate Banner Image Ad Dimensions - WordPress Affiliate Platform",
+    "url": "https://www.tipsandtricks-hq.com/wordpress-affiliate/popular-affiliate-banner-image-ad-dimensions",
+    "folder": "Things"
+  },
+  {
+    "title": "10 Best Banner Ad Conversion Tips for Affiliate Marketing",
+    "url": "https://www.postaffiliatepro.com/blog/affiliate-marketing-best-banner-ads/",
+    "folder": "Things"
+  },
+  {
+    "title": "Introducing the Vercel AI SDK – Vercel",
+    "url": "https://vercel.com/blog/introducing-the-vercel-ai-sdk",
+    "folder": "Things"
+  },
+  {
+    "title": "Workspaces",
+    "url": "https://www.workspaces.xyz/",
+    "folder": "Things"
+  },
+  {
+    "title": "ADPList: Learn from the world&#39;s best mentors for free",
+    "url": "https://adplist.org/",
+    "folder": "Things"
+  },
+  {
+    "title": "impressivewebs/frontend-feeds: An up to date list of RSS feeds for front-end developers.",
+    "url": "https://github.com/impressivewebs/frontend-feeds#the-giants",
+    "folder": "Things"
+  },
+  {
+    "title": "Web Scraping 101: A Million Dollar Project Idea - YouTube",
+    "url": "https://www.youtube.com/watch?v=DJnH0jR8y5Q",
+    "folder": "Things"
+  },
+  {
+    "title": "Login - Way2Go Website",
+    "url": "https://www.goprogram.com/goedcrecipient/#/",
+    "folder": "Things"
+  },
+  {
+    "title": "Free Word Cloud Generator – MonkeyLearn",
+    "url": "https://monkeylearn.com/word-cloud",
+    "folder": "Things"
+  },
+  {
+    "title": "LinkedIn Open Source",
+    "url": "https://linkedin.github.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "linkedin.github.io/career-explorer/",
+    "url": "https://linkedin.github.io/career-explorer/",
+    "folder": "Things"
+  },
+  {
+    "title": "Certificates | TestDome",
+    "url": "https://www.testdome.com/certificates",
+    "folder": "Things"
+  },
+  {
+    "title": "ESPN hidden API Docs",
+    "url": "https://gist.github.com/akeaswaran/b48b02f1c94f873c6655e7129910fc3b",
+    "folder": "Things"
+  },
+  {
+    "title": "Blogs | NotYasho",
+    "url": "https://notyasho.netlify.app/blogs",
+    "folder": "Things"
+  },
+  {
+    "title": "Developer Roadmaps - roadmap.sh",
+    "url": "https://roadmap.sh/",
+    "folder": "Things"
+  },
+  {
+    "title": "Create beautiful images of your code",
+    "url": "https://ray.so/",
+    "folder": "Things"
+  },
+  {
+    "title": "Who&#39;s Still Hiring? Find a Tech Job with Open Roles",
+    "url": "https://stillhiring.today/",
+    "folder": "Things"
+  },
+  {
+    "title": "Design Strategy for Design Portfolios | by Dan Saffer | Jul, 2023 | Medium",
+    "url": "https://odannyboy.medium.com/design-strategy-for-design-portfolios-195f77b5bb14",
+    "folder": "Things"
+  },
+  {
+    "title": "Best Animation packages for React.js , every frontend developer should use it - DEV Community",
+    "url": "https://dev.to/idurar/best-animation-packages-for-reactjs-every-frontend-developer-should-use-it-159b",
+    "folder": "Things"
+  },
+  {
+    "title": "Professional TypeScript Training by Matt Pocock | Total TypeScript",
+    "url": "https://www.totaltypescript.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Getting Started — swup",
+    "url": "https://swup.js.org/getting-started/",
+    "folder": "Things"
+  },
+  {
+    "title": "canvas-confetti - npm",
+    "url": "https://www.npmjs.com/package/canvas-confetti",
+    "folder": "Things"
+  },
+  {
+    "title": "Introducing React Tweet – Vercel",
+    "url": "https://vercel.com/blog/introducing-react-tweet",
+    "folder": "Things"
+  },
+  {
+    "title": "Fireship - Learn to Code Faster",
+    "url": "https://fireship.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "glTF Report",
+    "url": "https://gltf.report/",
+    "folder": "Things"
+  },
+  {
+    "title": "Full Page Background Video Styles | CSS-Tricks - CSS-Tricks",
+    "url": "https://css-tricks.com/full-page-background-video-styles/",
+    "folder": "Things"
+  },
+  {
+    "title": "Create stunning visuals in seconds with AI.",
+    "url": "https://clipdrop.co/",
+    "folder": "Things"
+  },
+  {
+    "title": "Web-Dev | Kyle Ross - Google Sheets",
+    "url": "https://docs.google.com/spreadsheets/d/19Gb6M3B068qH1c6Z5VEOjDkCb9ykj-3_2eFSKXa1kfc/edit?pli=1#gid=1550302166",
+    "folder": "Things"
+  },
+  {
+    "title": "Web-Dev | Kyle Ross - Google Sheets",
+    "url": "https://docs.google.com/spreadsheets/d/19Gb6M3B068qH1c6Z5VEOjDkCb9ykj-3_2eFSKXa1kfc/edit?pli=1#gid=0",
+    "folder": "Things"
+  },
+  {
+    "title": "Common Shortcuts — Blender Manual",
+    "url": "https://docs.blender.org/manual/en/latest/interface/keymap/introduction.html",
+    "folder": "Things"
+  },
+  {
+    "title": "zod - npm",
+    "url": "https://www.npmjs.com/package/zod",
+    "folder": "Things"
+  },
+  {
+    "title": "Forms setup | Netlify Docs",
+    "url": "https://docs.netlify.com/forms/setup/",
+    "folder": "Things"
+  },
+  {
+    "title": "Felte | Home",
+    "url": "https://felte.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "Handshake App Deliverables - Google Docs",
+    "url": "https://docs.google.com/document/d/18kj_gDOAcdGww-yz_XDnRJpRz-n7SPJ8hiLjyVVVfLo/edit",
+    "folder": "Things"
+  },
+  {
+    "title": "Build cross-platform desktop apps with JavaScript, HTML, and CSS | Electron",
+    "url": "https://www.electronjs.org/",
+    "folder": "Things"
+  },
+  {
+    "title": "System Font Stack | CSS-Tricks - CSS-Tricks",
+    "url": "https://css-tricks.com/snippets/css/system-font-stack/",
+    "folder": "Things"
+  },
+  {
+    "title": "Feather – Simply beautiful open source icons",
+    "url": "https://feathericons.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Use The Contentful Rich Text Field with Gatsby | Gatsby",
+    "url": "https://www.gatsbyjs.com/blog/how-to-use-the-contentful-rich-text-field-with-gatsby/",
+    "folder": "Things"
+  },
+  {
+    "title": "Warp: Your terminal, reimagined",
+    "url": "https://www.warp.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "StrikeOut - NFL, NBA, NHL, MLB, MMA Sports HD Streams | Strikeout",
+    "url": "https://strikeout.im/",
+    "folder": "Things"
+  },
+  {
+    "title": "Analyzing HTTP Traffic with Instruments | Apple Developer Documentation",
+    "url": "https://developer.apple.com/documentation/foundation/url_loading_system/analyzing_http_traffic_with_instruments",
+    "folder": "Things"
+  },
+  {
+    "title": "iphone - How to install a certificate in Xcode (preparing for app store submission) - Stack Overflow",
+    "url": "https://stackoverflow.com/questions/4156128/how-to-install-a-certificate-in-xcode-preparing-for-app-store-submission",
+    "folder": "Things"
+  },
+  {
+    "title": "The TRUTH About Print on Demand in 2023 - YouTube",
+    "url": "https://www.youtube.com/watch?v=inSwsLnKzWU",
+    "folder": "Things"
+  },
+  {
+    "title": "How to use email filters | Proton",
+    "url": "https://proton.me/support/email-inbox-filters",
+    "folder": "Things"
+  },
+  {
+    "title": "1Stream - Watch Live Streams of NFL, NBA, Boxing, MMA",
+    "url": "https://1stream.eu/",
+    "folder": "Things"
+  },
+  {
+    "title": "RoyStream - Home",
+    "url": "http://roystream.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "SVG to CSS converter | SVG Backgrounds",
+    "url": "https://www.svgbackgrounds.com/tools/svg-to-css/",
+    "folder": "Things"
+  },
+  {
+    "title": "Aqua Jam 1990 footage 1of2.mov - YouTube",
+    "url": "https://www.youtube.com/watch?v=iBAdb_EyhVc&list=PLF797F1AAAF50788C",
+    "folder": "Things"
+  },
+  {
+    "title": "Nik Stankovic on X: &quot;Lots of people chuckling but nobody suggesting an answer, at least in language that normies can understand. US government doesn&#39;t really print money, because printing money is irresponsible. If US government just printed money, it would go straight to inflation, and not 5% but…&quot; / X",
+    "url": "https://twitter.com/nikstankovic_/status/1786324325647233500",
+    "folder": "Things"
+  },
+  {
+    "title": "Wacom Intuos Pro M not working on new Mac Studio - Mac Os Sonoma 14.4.1 – Wacom",
+    "url": "https://support.wacom.com/hc/en-us/community/posts/22842358886167-Wacom-Intuos-Pro-M-not-working-on-new-Mac-Studio-Mac-Os-Sonoma-14-4-1",
+    "folder": "Things"
+  },
+  {
+    "title": "Is there a driver for macOS 14, Sonoma? – Wacom",
+    "url": "https://support.wacom.com/hc/en-us/articles/17629089706391-Is-there-a-driver-for-macOS-14-Sonoma",
+    "folder": "Things"
+  },
+  {
+    "title": "How should I troubleshoot &quot;Clean My Mac&quot; issues that can disrupt Wacom components and services? – Wacom",
+    "url": "https://support.wacom.com/hc/en-us/articles/9255930218903-How-should-I-troubleshoot-Clean-My-Mac-issues-that-can-disrupt-Wacom-components-and-services",
+    "folder": "Things"
+  },
+  {
+    "title": "Styles overview – Documentation – WordPress.org",
+    "url": "https://wordpress.org/documentation/article/styles-overview/#applying-custom-css",
+    "folder": "Things"
+  },
+  {
+    "title": "🍔 The T4 Stack – T4 App",
+    "url": "https://docs.t4stack.com/tech-stack",
+    "folder": "Things"
+  },
+  {
+    "title": "T4 App - Universal React Starter Kit",
+    "url": "https://t4stack.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Makepad",
+    "url": "https://makepad.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "Live Sports Streaming - Champagne.",
+    "url": "https://champagne.pages.dev/online-streaming--dl/live-sports/",
+    "folder": "Things"
+  },
+  {
+    "title": "Deploy app servers close to your users · Fly",
+    "url": "https://fly.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "(5) Fitness For Entrepreneurs on X: &quot;Exercises to fix muscle knot in between your shoulder https://t.co/XobtiKG0rQ&quot; / X",
+    "url": "https://x.com/DFitpreneur/status/1805074215478980724",
+    "folder": "Things"
+  },
+  {
+    "title": "Create a link to a single edit page in your main document type list | Structure Builder",
+    "url": "https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list",
+    "folder": "Things"
+  },
+  {
+    "title": "internet.dev/pricing",
+    "url": "https://internet.dev/pricing",
+    "folder": "Things"
+  },
+  {
+    "title": "DIY Headcover Edition: How to Make Headcovers Using Stuffed Animals - Golf Bags/Carts/Headcovers - GolfWRX",
+    "url": "https://forums.golfwrx.com/topic/1135262-diy-headcover-edition-how-to-make-headcovers-using-stuffed-animals/",
+    "folder": "Things"
+  },
+  {
+    "title": "Create a Sliding Cards UI With HTML &amp; CSS | Envato Tuts+",
+    "url": "https://webdesign.tutsplus.com/sliding-cards-ui-with-html-css--cms-108768t",
+    "folder": "Things"
+  },
+  {
+    "title": "Follow along Navigation using HTML, CSS, and Javascript | by Divya M C M | Medium",
+    "url": "https://medium.com/@divyamcm/follow-along-navigation-using-html-css-and-javascript-ff513f5fa5f1",
+    "folder": "Things"
+  },
+  {
+    "title": "Follow Along Hover Effect",
+    "url": "https://codepen.io/Ali_kamal/details/ExzXVgw",
+    "folder": "Things"
+  },
+  {
+    "title": "Follow Along Hover effect on Navbar with jQuery",
+    "url": "https://codepen.io/whomukeshchouhan/pen/OzrBvN",
+    "folder": "Things"
+  },
+  {
+    "title": "Follow Along Links Revamped with CSS Custom Properties",
+    "url": "https://codepen.io/daviddarnes/details/wZaXVd",
+    "folder": "Things"
+  },
+  {
+    "title": "Follow Along Dropdown",
+    "url": "https://codepen.io/borntofrappe/pen/gqaeKK",
+    "folder": "Things"
+  },
+  {
+    "title": "Inverted Corners : r/css",
+    "url": "https://www.reddit.com/r/css/comments/14uo95c/inverted_corners/",
+    "folder": "Things"
+  },
+  {
+    "title": "Keyframes.app",
+    "url": "https://keyframes.app/animate",
+    "folder": "Things"
+  },
+  {
+    "title": "Europa: The Last Battle",
+    "url": "https://us.europathelastbattle.net/watchnow-beta-test.html",
+    "folder": "Things"
+  },
+  {
+    "title": "Railway",
+    "url": "https://railway.app/",
+    "folder": "Things"
+  },
+  {
+    "title": "TanStack Query",
+    "url": "https://tanstack.com/query/latest",
+    "folder": "Things"
+  },
+  {
+    "title": "bruno",
+    "url": "https://www.usebruno.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "OnionLinks",
+    "url": "http://s4k4ceiapwwgcm3mkb6e4diqecpo7kvdnfr5gg7sph7jjppqkvwwqtyd.onion/",
+    "folder": "Things"
+  },
+  {
+    "title": "onion_links · GitHub",
+    "url": "https://gist.github.com/0x00009b/8cf0c2b0e147dc0c1114fb32b5d2d7a3",
+    "folder": "Things"
+  },
+  {
+    "title": "daily.dev | Where developers grow together",
+    "url": "https://app.daily.dev/?ua=true",
+    "folder": "Things"
+  },
+  {
+    "title": "Pricing Packages and SaaS Models | Permit.io",
+    "url": "https://www.permit.io/pricing",
+    "folder": "Things"
+  },
+  {
+    "title": "SuperTokens, Open Source User Authentication",
+    "url": "https://supertokens.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Appwrite - Build like a team of hundreds",
+    "url": "https://appwrite.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "7 Best Remote Job Boards to Land Your Next Dev Work in 2024 - DEV Community",
+    "url": "https://dev.to/bigsondev/7-best-remote-job-boards-to-land-your-next-dev-work-in-2024-53l0?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "regex101: build, test, and debug regex",
+    "url": "https://regex101.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "15 Best Remote Job Tools and Websites",
+    "url": "https://webcurate.co/c/remote-job",
+    "folder": "Things"
+  },
+  {
+    "title": "v0 by Vercel",
+    "url": "https://v0.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "badger3000 - v0",
+    "url": "https://v0.dev/badger3000",
+    "folder": "Things"
+  },
+  {
+    "title": "Mastering Lottie animations for React Native apps - LogRocket Blog",
+    "url": "https://blog.logrocket.com/mastering-lottie-animations-react-native-apps/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Wasp",
+    "url": "https://wasp-lang.dev/",
+    "folder": "Things"
+  },
+  {
+    "title": "Scroll-based SVG Filter Animations on Text | Codrops",
+    "url": "https://tympanus.net/codrops/2024/08/22/scroll-based-svg-filter-animations-on-text/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Demos | Codrops",
+    "url": "https://tympanus.net/codrops/demos/",
+    "folder": "Things"
+  },
+  {
+    "title": "30+ app ideas with complete source code - DEV Community",
+    "url": "https://dev.to/copilotkit/30-app-ideas-with-complete-source-code-5f76?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "How to Build: chat with your resume (Next.js, OpenAI, &amp; CopilotKit) - DEV Community",
+    "url": "https://dev.to/copilotkit/how-to-build-the-with-nextjs-openai-1mhb",
+    "folder": "Things"
+  },
+  {
+    "title": "Best Marketplace to Buy and Sell SaaS Startups | Acquire.com",
+    "url": "https://acquire.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Level Up Your Code: How Reviews Make You a Better Programmer | by Harriet | Code Like A Girl",
+    "url": "https://code.likeagirl.io/code-review-best-practices-enhancing-development-efficiency-and-quality-2d4c3f38d601",
+    "folder": "Things"
+  },
+  {
+    "title": "Text Animation | HTML | CSS",
+    "url": "https://devdojo.com/shubhmtiwri00/text-animation-html-css?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "5 AI Projects You Can Build This Weekend (with Python) | by Shaw Talebi | Towards Data Science",
+    "url": "https://towardsdatascience.com/5-ai-projects-you-can-build-this-weekend-with-python-c57724e9c461",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Create A Fully Automated Client Journey Using The Trainerize API - YouTube",
+    "url": "https://www.youtube.com/watch?v=k06RL3EK4Hs",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Create And Sell An Online Coaching Program | Trainerize Product Tutorial - YouTube",
+    "url": "https://www.youtube.com/watch?v=JJqkLx_ruz4",
+    "folder": "Things"
+  },
+  {
+    "title": "Top 10 Contentful Alternatives | Hygraph",
+    "url": "https://hygraph.com/blog/contentful-alternatives?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "A Selection of Creative Menu Patterns &amp; Animations | Codrops",
+    "url": "https://tympanus.net/codrops/2024/09/27/a-selection-of-creative-menu-patterns-animations/",
+    "folder": "Things"
+  },
+  {
+    "title": "kyle-001.mp4 - Google Drive",
+    "url": "https://drive.google.com/file/d/1il4YbiZgBRnPFavPJTN_zC9ZBrbmQbcP/view?pli=1",
+    "folder": "Things"
+  },
+  {
+    "title": "Headless CMS: What It Is and Why It Matters - The Headless CMS Academy | Hygraph",
+    "url": "https://hygraph.com/learn/headless-cms",
+    "folder": "Things"
+  },
+  {
+    "title": "HubSpot forms on steroids with Cloudflare Pages | Theodo",
+    "url": "https://blog.theodo.com/2023/04/hubspot-forms-with-cloudflare/",
+    "folder": "Things"
+  },
+  {
+    "title": "Theodo-US/hubspot-forms-sveltekit",
+    "url": "https://github.com/Theodo-US/hubspot-forms-sveltekit",
+    "folder": "Things"
+  },
+  {
+    "title": "SVGator: Free SVG Animation Creator Online - No Coding",
+    "url": "https://www.svgator.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Animate Intrinsic Size With CSS",
+    "url": "https://dockyard.com/blog/10/18/2024/animate-intrinsic-size-css?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "An Interactive Guide to Flexbox in CSS • Josh W. Comeau",
+    "url": "https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/",
+    "folder": "Things"
+  },
+  {
+    "title": "Create Awesome Git readMe Profile | by Eresh Gorantla | The Startup | Medium",
+    "url": "https://medium.com/swlh/create-awesome-git-readme-profile-84efa0bcda3b",
+    "folder": "Things"
+  },
+  {
+    "title": "alexandresanlim/Badges4-README.md-Profile: :octocat: Improve your README.md profile with these amazing badges.",
+    "url": "https://github.com/alexandresanlim/Badges4-README.md-Profile?source=post_page-----84efa0bcda3b--------------------------------",
+    "folder": "Things"
+  },
+  {
+    "title": "Creating a personal brand: How to sell yourself as a developer - DEV Community",
+    "url": "https://dev.to/buildwebcrumbs/creating-a-personal-brand-how-to-sell-yourself-as-a-developer-52po?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Refactoring and Design Patterns",
+    "url": "https://refactoring.guru/",
+    "folder": "Things"
+  },
+  {
+    "title": "Case Study: Duten’s 2024 Website | Codrops",
+    "url": "https://tympanus.net/codrops/2024/10/17/case-study-dutens-2024-website/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "O&#39;Phannon Ottoman With Storage | Ashley",
+    "url": "https://www.ashleyfurniture.com/p/ophannon_ottoman_with_storage/2940211.html",
+    "folder": "Things"
+  },
+  {
+    "title": "Explorer | Sandbox | Studio",
+    "url": "https://studio.apollographql.com/sandbox/explorer",
+    "folder": "Things"
+  },
+  {
+    "title": "Flowbite Blocks - Tailwind UI Components",
+    "url": "https://flowbite.com/blocks/",
+    "folder": "Things"
+  },
+  {
+    "title": "Supahero - Website hero section library",
+    "url": "https://www.supahero.io/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "EyeOnWater: Making Water Visible.™",
+    "url": "https://eyeonwater.com/dashboard/accounts%40badger3000.com",
+    "folder": "Things"
+  },
+  {
+    "title": "Scroll-Driven… Sections – Frontend Masters Boost",
+    "url": "https://frontendmasters.com/blog/scroll-driven-sections/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Scalable Feeds, Chat, &amp; Video - Powerful APIs and Components by Stream",
+    "url": "https://getstream.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "is-a-dev/register: Grab your own sweet-looking &#39;.is-a.dev&#39; subdomain.",
+    "url": "https://github.com/is-a-dev/register/tree/main",
+    "folder": "Things"
+  },
+  {
+    "title": "New Front-End Features For Designers In 2025 — Smashing Magazine",
+    "url": "https://www.smashingmagazine.com/2024/12/new-front-end-features-for-designers-in-2025/?ref=dailydev#smooth-scrolling-behavior",
+    "folder": "Things"
+  },
+  {
+    "title": "Penpot Pricing | Free and Enterprise Plans",
+    "url": "https://penpot.app/pricing",
+    "folder": "Things"
+  },
+  {
+    "title": "Download free icons, music, stock photos, vectors",
+    "url": "https://icons8.com/lunacy",
+    "folder": "Things"
+  },
+  {
+    "title": "Visily - AI-powered UI design software",
+    "url": "https://www.visily.ai/",
+    "folder": "Things"
+  },
+  {
+    "title": "Quant-UX - Prototype, Test and Learn - 5.0.3",
+    "url": "https://quant-ux.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "A CheatSheet of 128 CheatSheets for Developers - DEV Community",
+    "url": "https://dev.to/devmount/a-cheatsheet-of-128-cheatsheets-for-developers-f4m?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Flexbox Labs",
+    "url": "https://flexboxlabs.netlify.app/grid",
+    "folder": "Things"
+  },
+  {
+    "title": "prazzon (Praise Ogunleye)",
+    "url": "https://github.com/prazzon?tab=overview&from=2020-12-01&to=2020-12-31",
+    "folder": "Things"
+  },
+  {
+    "title": "Street Factory // Mini Golf Samples - Google Slides",
+    "url": "https://docs.google.com/presentation/d/1EwOe6Jh0SGPDY5GSBxyaZ6-F1GEejnsABzv0As6sE7I/edit?pli=1#slide=id.g2c9844daa2f_0_351",
+    "folder": "Things"
+  },
+  {
+    "title": "TinyWebP - Convert Images to WebP",
+    "url": "https://tinywebp.app/",
+    "folder": "Things"
+  },
+  {
+    "title": "Omatsuri",
+    "url": "https://omatsuri.app/",
+    "folder": "Things"
+  },
+  {
+    "title": "Free HTML Website Templates on HTMLrev",
+    "url": "https://htmlrev.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Unicorn icons | Animated icons for your next project",
+    "url": "https://unicornicons.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "11 Free Must-Know Websites for Every Developer - DEV Community",
+    "url": "https://dev.to/kafeel_ahmad/11-free-must-know-websites-for-every-developer-22g6?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Meschacirung/cnblocks: Shadcn marketing blocks",
+    "url": "https://github.com/Meschacirung/cnblocks/",
+    "folder": "Things"
+  },
+  {
+    "title": "Shadcn content Blocks",
+    "url": "https://nsui.irung.me/content",
+    "folder": "Things"
+  },
+  {
+    "title": "Supahero - Website hero section library",
+    "url": "https://www.supahero.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "reCAPTCHA",
+    "url": "https://www.google.com/u/1/recaptcha/admin/site/707094619/settings",
+    "folder": "Things"
+  },
+  {
+    "title": "ESPN - Serving Sports Fans. Anytime. Anywhere.",
+    "url": "https://www.espn.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "[Feature Request] Allow github actions to bypass branch protection rules in certain specific circumstances · community · Discussion #13836",
+    "url": "https://github.com/orgs/community/discussions/13836",
+    "folder": "Things"
+  },
+  {
+    "title": "Introduction - Model Context Protocol",
+    "url": "https://modelcontextprotocol.io/introduction",
+    "folder": "Things"
+  },
+  {
+    "title": "I Tried 20+ No-Code Web Scraping Tools to Make Money — These 3 Are the Absolute Best | by Nitin Sharma | Mar, 2025 | Level Up Coding",
+    "url": "https://levelup.gitconnected.com/i-tried-20-no-code-web-scraping-tools-to-make-money-these-3-are-the-absolute-best-81bae5b0af35",
+    "folder": "Things"
+  },
+  {
+    "title": "Create a clean, modern navigation with HTML &amp; CSS | Frontend Masters",
+    "url": "https://frontendmasters.com/tutorials/kevin-powell/vertical-nav/",
+    "folder": "Things"
+  },
+  {
+    "title": "Build your retro library - 8bitcn/ui",
+    "url": "https://www.8bitcn.com/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Get Your Resume Score | ATS Resume Checker and Grader",
+    "url": "https://www.jobscan.co/resume-score",
+    "folder": "Things"
+  },
+  {
+    "title": "Resume Scanner - Get a Free ATS Resume Scan",
+    "url": "https://resumeworded.com/resume-scanner",
+    "folder": "Things"
+  },
+  {
+    "title": "How To Implement CSS Scroll-Driven Animations",
+    "url": "https://laracasts.com/series/simons-larabits/episodes/6?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Tailwind CSS templates - Cruip",
+    "url": "https://cruip.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "DevSwiss - Offline Toolkit for Developers",
+    "url": "https://devswiss.site/",
+    "folder": "Things"
+  },
+  {
+    "title": "How I use Cursor (+ my best tips)",
+    "url": "https://www.builder.io/blog/cursor-tips?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Awesome Shadcn UI",
+    "url": "https://shadcn.batchtool.com/components",
+    "folder": "Things"
+  },
+  {
+    "title": "Jon David Decorative Painting | Prescott, AZ Painters",
+    "url": "https://prosite.prophone.com/m/vC/Jon-David-Decorative-Painting/?hsid=1216429664",
+    "folder": "Things"
+  },
+  {
+    "title": "Aceternity UI",
+    "url": "https://ui.aceternity.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Self.so - Resume to Website",
+    "url": "https://www.self.so/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "alexandresanlim (Alexandre Sanlim)",
+    "url": "https://github.com/alexandresanlim#",
+    "folder": "Things"
+  },
+  {
+    "title": "Documentary Europa The Last Battle : Free Download, Borrow, and Streaming : Internet Archive",
+    "url": "https://archive.org/details/documentary-europa-the-last-battle_202112",
+    "folder": "Things"
+  },
+  {
+    "title": "A beautiful library with SVG logos - Svgl",
+    "url": "https://svgl.app/",
+    "folder": "Things"
+  },
+  {
+    "title": "Brush Chipping Requests - Prescott Fire Department",
+    "url": "https://prescottfire.org/services/wildfire-risk-management/brush-chipping-requests/",
+    "folder": "Things"
+  },
+  {
+    "title": "SetupFlex | List of Desk Setups to help you get inspiration.",
+    "url": "https://setupflex.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Exporting a Cloth Simulation from Blender to an Interactive Three.js Scene | Codrops",
+    "url": "https://tympanus.net/codrops/2025/08/20/exporting-a-cloth-simulation-from-blender-to-an-interactive-three-js-scene/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Tailwind CSS Color Generator | UI Colors",
+    "url": "https://uicolors.app/generate/e71aef",
+    "folder": "Things"
+  },
+  {
+    "title": "The CSS Handbook, 2025 edition",
+    "url": "https://flaviocopes.com/the-css-handbook-2025-edition/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "oraios/serena: A powerful coding agent toolkit providing semantic retrieval and editing capabilities (MCP server &amp; other integrations)",
+    "url": "https://github.com/oraios/serena",
+    "folder": "Things"
+  },
+  {
+    "title": "TTF Converter | CloudConvert",
+    "url": "https://cloudconvert.com/ttf-converter",
+    "folder": "Things"
+  },
+  {
+    "title": "iPhone dumbphone",
+    "url": "https://stopa.io/post/297?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Add Page ‹ sfm.instawp.site — WordPress",
+    "url": "http://streetfactory.local/wp-admin/post.php?post=88&action=edit",
+    "folder": "Things"
+  },
+  {
+    "title": "21 Git Commands for Software Engineers - by Neo Kim",
+    "url": "https://newsletter.systemdesign.one/p/commands-in-git?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "Keyframes Tokens: Standardizing Animation Across Projects — Smashing Magazine",
+    "url": "https://www.smashingmagazine.com/2025/11/keyframes-tokens-standardizing-animation-across-projects/?ref=dailydev",
+    "folder": "Things"
+  },
+  {
+    "title": "14islands | Creative design &amp; technology agency",
+    "url": "https://www.14islands.com/",
+    "folder": "Things"
+  },
+  {
+    "title": "Font-size clamp() generator",
+    "url": "https://clamp.font-size.app/?config=eyJyb290IjoiMTYiLCJtaW5XaWR0aCI6IjUwMHB4IiwibWF4V2lkdGgiOiI5MDBweCIsIm1pbkZvbnRTaXplIjoiMTZweCIsIm1heEZvbnRTaXplIjoiNDhweCJ9",
+    "folder": "Things"
+  },
+  {
+    "title": "Lynx",
+    "url": "https://lynxjs.org/",
+    "folder": "Things"
+  },
+  {
+    "title": "Building vertical microfrontends on Cloudflare’s platform",
+    "url": "https://blog.cloudflare.com/vertical-microfrontends/?ref=dailydev/",
+    "folder": "Things"
+  },
+  {
+    "title": "Open-Source Crown Game Engine v0.60 Released - Phoronix",
+    "url": "https://www.phoronix.com/news/Crown-Engine-0.60",
+    "folder": "Things"
+  },
+  {
+    "title": "Ideabrowser | #1 Software to Find Startup Ideas Worth Building",
+    "url": "https://www.ideabrowser.com/login",
+    "folder": "Things"
+  },
+  {
+    "title": "Instances | EC2 | us-east-1",
+    "url": "https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Instances:",
+    "folder": "Things"
+  },
+  {
+    "title": "Hyperbrowser",
+    "url": "https://app.hyperbrowser.ai/",
+    "folder": "Things"
+  },
+  {
+    "title": "Serper - Dashboard",
+    "url": "https://serper.dev/dashboard",
+    "folder": "Things"
+  },
+  {
+    "title": "Amazon And Walmart Affiliate Marketing Software For Sellers &amp; Creators",
+    "url": "https://levanta.io/",
+    "folder": "Things"
+  },
+  {
+    "title": "Safety orange (blaze orange) / #ff6700 Hex Color Code, RGB and Paints",
+    "url": "https://encycolorpedia.com/ff6700",
+    "folder": "Things"
+  },
+  {
+    "title": "GCloud - cheatsheet",
+    "url": "https://cloud.google.com/sdk/docs/cheatsheet",
+    "folder": "GCloud"
+  },
+  {
+    "title": "Dashboard – themadbadger – Google Cloud console",
+    "url": "https://console.cloud.google.com/home/dashboard?project=themadbadger",
+    "folder": "GCloud"
+  },
+  {
+    "title": "JoinPeerTube",
+    "url": "https://joinpeertube.org/",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "PeerTube documentation",
+    "url": "https://docs.joinpeertube.org/",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "Framasoft / PeerTube / peertube-plugin-quickstart · GitLab",
+    "url": "https://framagit.org/framasoft/peertube/peertube-plugin-quickstart",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "Framasoft / PeerTube / search-index · GitLab",
+    "url": "https://framagit.org/framasoft/peertube/search-index",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "Client markup | PeerTube documentation",
+    "url": "https://docs.joinpeertube.org/api/custom-client-markup",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "Plugins &amp; Themes API | PeerTube documentation",
+    "url": "https://docs.joinpeertube.org/api/plugins#hooks",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "PeerTube/guide.md at develop · Chocobozzz/PeerTube · GitHub",
+    "url": "https://github.com/Chocobozzz/PeerTube/blob/develop/support/doc/plugins/guide.md",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "PeerTube/guide.md at develop · Chocobozzz/PeerTube · GitHub",
+    "url": "https://github.com/Chocobozzz/PeerTube/blob/develop/support/doc/plugins/guide.md#write-a-plugintheme",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "Monetization | A list of ethical and privacy-respecting ways Peertubers can make money · Issue #1586 · Chocobozzz/PeerTube",
+    "url": "https://github.com/Chocobozzz/PeerTube/issues/1586",
+    "folder": "PeerTube"
+  },
+  {
+    "title": "6-step Tutorial on How to Add Wholesale To Shopify Store – EcomExperts",
+    "url": "https://ecomexperts.io/blogs/liquid-tutorial-shopify/add-wholesale-area-to-your-shopify-store-without-the-app-easy-step-by-step-tutorial",
+    "folder": "Shopify"
+  },
+  {
+    "title": "How to Set Up a Local Shopify Theme Dev Environment",
+    "url": "https://www.shopify.com/partners/blog/95401862-3-simple-steps-for-setting-up-a-local-shopify-theme-development-environment",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Line Item Property – Shopify UI Elements Generator",
+    "url": "https://ui-elements-generator.myshopify.com/pages/line-item-property",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Live Reloading Shopify Themes: Sass Compilation with Theme Kit",
+    "url": "https://www.shopify.com/partners/blog/live-reload-shopify-sass",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Product pages - Get customization information for products - Shopify Community",
+    "url": "https://community.shopify.com/c/shopify-design/product-pages-get-customization-information-for-products/td-p/616503",
+    "folder": "Shopify"
+  },
+  {
+    "title": "raymondspizzeria ~ Home ~ Shopify",
+    "url": "https://raymondspizzeria.myshopify.com/admin",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Re: Product pages - Get customization information for products - Shopify Community",
+    "url": "https://community.shopify.com/c/shopify-design/product-pages-get-customization-information-for-products/m-p/616550/highlight/true#M31",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Cheat Sheet — A resource for building Shopify Themes with Liquid",
+    "url": "https://www.shopify.com/partners/shopify-cheat-sheet",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Scripts API reference · Shopify Help Center",
+    "url": "https://help.shopify.com/en/manual/checkout-settings/script-editor/shopify-scripts",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Scripts API reference · Shopify Help Center",
+    "url": "https://help.shopify.com/en/manual/checkout-settings/script-editor/shopify-scripts#line-item-methods",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify/slate: Slate is a toolkit for developing Shopify themes. It&#39;s designed to assist your workflow and speed up the process of developing, testing, and deploying themes.",
+    "url": "https://github.com/Shopify/slate",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify/theme-check: The Ultimate Shopify Theme Linter",
+    "url": "https://github.com/Shopify/theme-check",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Skate Mental ~ Home ~ Shopify",
+    "url": "https://skatemental.myshopify.com/admin",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Stores - Shopify Partners",
+    "url": "https://partners.shopify.com/1860859/stores",
+    "folder": "Shopify"
+  },
+  {
+    "title": "theme-check/default.yml at main · Shopify/theme-check",
+    "url": "https://github.com/Shopify/theme-check/blob/main/config/default.yml",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Want to update price when get Custom text. - Shopify Community",
+    "url": "https://community.shopify.com/c/shopify-design/want-to-update-price-when-get-custom-text/td-p/1352941",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Configuring theme settings",
+    "url": "https://shopify.dev/docs/themes/settings",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Configuring theme settings",
+    "url": "https://shopify.dev/docs/themes/settings#input-setting-types",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Configuring theme settings",
+    "url": "https://shopify.dev/docs/themes/settings#specialized-input-setting-types",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Developing on Shopify",
+    "url": "https://shopify.dev/concepts/shopify-introduction",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Cheat Sheet — A resource for building Shopify Themes with Liquid",
+    "url": "https://www.shopify.ca/partners/shopify-cheat-sheet",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Themes template files",
+    "url": "https://shopify.dev/docs/themes/theme-templates",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Storefront API reference",
+    "url": "https://shopify.dev/docs/api/storefront",
+    "folder": "Shopify"
+  },
+  {
+    "title": "GraphQL Admin API reference",
+    "url": "https://shopify.dev/docs/api/admin-graphql",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify GraphiQL App — Install",
+    "url": "https://shopify-graphiql-app.shopifycloud.com/login",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Shopify Admin API GraphiQL explorer",
+    "url": "https://shopify.dev/docs/apps/tools/graphiql-admin-api",
+    "folder": "Shopify"
+  },
+  {
+    "title": "How to Work with GraphQL Pagination - Shopify Canada",
+    "url": "https://www.shopify.com/ca/partners/blog/graphql-pagination",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Google Domains - turtle1sland.com - DNS",
+    "url": "https://domains.google.com/registrar/turtle1sland.com/dns",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Cart",
+    "url": "https://shopify.dev/docs/custom-storefronts/building-with-the-storefront-api/cart#considerations",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Solved: Question regarding headless storefront and checkout - Shopify Community",
+    "url": "https://community.shopify.com/c/shopify-discussions/question-regarding-headless-storefront-and-checkout/m-p/1926605",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Solved: Using my custom domain for the checkout page when using Buy Button - Shopify Community",
+    "url": "https://community.shopify.com/c/shopify-discussions/using-my-custom-domain-for-the-checkout-page-when-using-buy/m-p/751372",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Create and update a cart with the Storefront API",
+    "url": "https://shopify.dev/docs/custom-storefronts/building-with-the-storefront-api/cart/manage",
+    "folder": "Shopify"
+  },
+  {
+    "title": "Astro + Sanity | Sanity.io plugin",
+    "url": "https://www.sanity.io/plugins/astro-sanity",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Browsing Content How You Want with Structure Builder | Sanity.io guide",
+    "url": "https://www.sanity.io/guides/getting-started-with-structure-builder",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Conditional fields",
+    "url": "https://www.sanity.io/docs/conditional-fields",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Studio Customization",
+    "url": "https://www.sanity.io/docs/customization",
+    "folder": "Sanity"
+  },
+  {
+    "title": "san",
+    "url": "https://www.sanity.io/docs/image-url",
+    "folder": "Sanity"
+  },
+  {
+    "title": "GROQ Query Cheat Sheet - Sort, Filter &amp; Array Examples",
+    "url": "https://www.sanity.io/docs/query-cheat-sheet",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Slug",
+    "url": "https://www.sanity.io/docs/slug-type",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Integrate Astro and Sanity with our new Astro Integration! 🚀 - YouTube",
+    "url": "https://www.youtube.com/watch?v=NM0FPzVdeUw",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Schema Types",
+    "url": "https://www.sanity.io/docs/schema-types",
+    "folder": "Sanity"
+  },
+  {
+    "title": "How to discover your content’s hidden mental model | Sanity.io guide",
+    "url": "https://www.sanity.io/guides/discover-your-contents-mental-model",
+    "folder": "Sanity"
+  },
+  {
+    "title": "sanity/packages/@sanity/base/src/styles/variables at current · sanity-io/sanity",
+    "url": "https://github.com/sanity-io/sanity/tree/current/packages/%40sanity/base/src/styles/variables",
+    "folder": "Sanity"
+  },
+  {
+    "title": "sanity.json | Configuration",
+    "url": "https://www.sanity.io/docs/sanity-json",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Expo",
+    "url": "https://expo.dev/",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Querying for articles in a category for a dynamic route using Astro",
+    "url": "https://www.sanity.io/answers/querying-for-articles-in-a-category-for-a-dynamic-route-using-astro",
+    "folder": "Sanity"
+  },
+  {
+    "title": "How GROQ Queries Work - Step by Step Guide",
+    "url": "https://www.sanity.io/docs/how-queries-work",
+    "folder": "Sanity"
+  },
+  {
+    "title": "How GROQ Queries Work - Step by Step Guide",
+    "url": "https://www.sanity.io/docs/how-queries-work#e9a260f5e979",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Reference Schema Type - Sanity Studio",
+    "url": "https://www.sanity.io/docs/reference-type",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Pricing | Cursor - The AI-first Code Editor",
+    "url": "https://www.cursor.com/pricing",
+    "folder": "Sanity"
+  },
+  {
+    "title": "Structure Builder cheat sheet",
+    "url": "https://www.sanity.io/docs/structure-builder-cheat-sheet",
+    "folder": "Sanity"
+  },
+  {
+    "title": "The Presentation tool | Visual Editing",
+    "url": "https://www.sanity.io/docs/configuring-the-presentation-tool",
+    "folder": "Sanity"
+  },
+  {
+    "title": "blender.org - Home of the Blender project - Free and Open 3D Creation Software",
+    "url": "https://www.blender.org/",
+    "folder": "Blender"
+  },
+  {
+    "title": "DaVinci Resolve 18 – Fusion | Blackmagic Design",
+    "url": "https://www.blackmagicdesign.com/products/davinciresolve/fusion",
+    "folder": "DaVinci Resolve"
+  },
+  {
+    "title": "DaVinci Resolve 18 | Blackmagic Design",
+    "url": "https://www.blackmagicdesign.com/products/davinciresolve",
+    "folder": "DaVinci Resolve"
+  },
+  {
+    "title": "yangshun/tech-interview-handbook: 💯 Curated coding interview preparation materials for busy software engineers",
+    "url": "https://github.com/yangshun/tech-interview-handbook",
+    "folder": "GitHub"
+  },
+  {
+    "title": "EbookFoundation/free-programming-books: Freely available programming books",
+    "url": "https://github.com/EbookFoundation/free-programming-books",
+    "folder": "GitHub"
+  },
+  {
+    "title": "public-apis/public-apis: A collective list of free APIs",
+    "url": "https://github.com/public-apis/public-apis",
+    "folder": "GitHub"
+  },
+  {
+    "title": "jwasham/coding-interview-university: A complete computer science study plan to become a software engineer.",
+    "url": "https://github.com/jwasham/coding-interview-university",
+    "folder": "GitHub"
+  },
+  {
+    "title": "30-seconds/30-seconds-of-code: Short JavaScript code snippets for all your development needs",
+    "url": "https://github.com/30-seconds/30-seconds-of-code",
+    "folder": "GitHub"
+  },
+  {
+    "title": "rylanharper/gridsome-source-shopify: Shopify source plugin for Gridsome",
+    "url": "https://github.com/rylanharper/gridsome-source-shopify",
+    "folder": "GitHub"
+  },
+  {
+    "title": "jeznacki/js-design.patterns: Most useful design patterns implemented in JavaScript.",
+    "url": "https://github.com/jeznacki/js-design.patterns",
+    "folder": "GitHub"
+  },
+  {
+    "title": "Photo to Cartoon: BeFunky - Cartoon Effects and Filters",
+    "url": "https://www.befunky.com/features/photo-to-cartoon/",
+    "folder": "GitHub"
+  },
+  {
+    "title": "avatar-placeholder · GitHub Topics",
+    "url": "https://github.com/topics/avatar-placeholder",
+    "folder": "GitHub"
+  },
+  {
+    "title": "wp-cli/wp-cli: ⚙️ WP-CLI framework",
+    "url": "https://github.com/wp-cli/wp-cli",
+    "folder": "GitHub"
+  },
+  {
+    "title": "developedbyed/3d-card-effect",
+    "url": "https://github.com/developedbyed/3d-card-effect",
+    "folder": "GitHub"
+  },
+  {
+    "title": "GitHub - immich-app/immich: Self-hosted photo and video backup solution directly from your mobile phone.",
+    "url": "https://github.com/immich-app/immich",
+    "folder": "GitHub"
+  },
+  {
+    "title": "Developer applications",
+    "url": "https://github.com/settings/developers",
+    "folder": "GitHub"
+  },
+  {
+    "title": "Generated Photos | Unique, worry-free model photos",
+    "url": "https://generated.photos/",
+    "folder": "AI"
+  },
+  {
+    "title": "Rytr - Best AI Writer, Content Generator &amp; Writing Assistant",
+    "url": "https://rytr.me/?via=andre-wisdom",
+    "folder": "AI"
+  },
+  {
+    "title": "AI Voice Generator &amp; Realistic Text to Speech Online | Play.ht",
+    "url": "https://play.ht/?via=wisdom",
+    "folder": "AI"
+  },
+  {
+    "title": "Grammarly: Free Online Writing Assistant",
+    "url": "https://www.grammarly.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "All Graphics - Graphicmaker by Designs.ai",
+    "url": "https://designs.ai/graphicmaker/illustrations/All?keyword=Skateboarding+",
+    "folder": "AI"
+  },
+  {
+    "title": "Pravatar - CC0 Avatar Placeholder",
+    "url": "https://pravatar.cc/",
+    "folder": "AI"
+  },
+  {
+    "title": "13 Placeholder Avatar &amp; Image Websites | Ash Allen Design",
+    "url": "https://ashallendesign.co.uk/blog/13-placeholder-avatar-and-image-websites",
+    "folder": "AI"
+  },
+  {
+    "title": "How AI coding companions will change the way developers work | All Things Distributed",
+    "url": "https://www.allthingsdistributed.com/2023/04/how-ai-coding-companions-will-change-the-way-developers-work.html",
+    "folder": "AI"
+  },
+  {
+    "title": "Quickly learn how to use AI tools with in-product tutorials | Google Cloud Blog",
+    "url": "https://cloud.google.com/blog/products/ai-machine-learning/quickly-learn-how-to-use-ai-tools-with-in-product-tutorials?utm_campaign=633f4b17e1c882000198b26c&utm_content=643d508ceba4f800017a6c78&utm_medium=smarpshare&utm_source=linkedin&utm_term=Got+your+eye+on+AI_+Try+these+6+interactive+tutorials",
+    "folder": "AI"
+  },
+  {
+    "title": "character.ai",
+    "url": "https://beta.character.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Midjourney",
+    "url": "https://midjourney.com/home/?callbackUrl=%2Fapp%2F",
+    "folder": "AI"
+  },
+  {
+    "title": "Midjourney Quick Start Guide",
+    "url": "https://docs.midjourney.com/docs/quick-start",
+    "folder": "AI"
+  },
+  {
+    "title": "Midjourney Multi Prompts",
+    "url": "https://docs.midjourney.com/docs/multi-prompts",
+    "folder": "AI"
+  },
+  {
+    "title": "Intro | Code GPT",
+    "url": "https://www.codegpt.co/docs/intro",
+    "folder": "AI"
+  },
+  {
+    "title": "Arizona Corporations Commission",
+    "url": "https://ecorp.azcc.gov/AzAccount",
+    "folder": "AI"
+  },
+  {
+    "title": "Rytr · Best AI Writer, Content Generator &amp; Writing Assistant",
+    "url": "https://app.rytr.me/create",
+    "folder": "AI"
+  },
+  {
+    "title": "Play.ht dashboard",
+    "url": "https://play.ht/app/audio-files?tab=ultra",
+    "folder": "AI"
+  },
+  {
+    "title": "13 open source projects transforming AI and machine learning | InfoWorld",
+    "url": "https://www.infoworld.com/article/3673976/13-open-source-projects-transforming-ai-and-machine-learning.html",
+    "folder": "AI"
+  },
+  {
+    "title": "AI Engine Pro | Meow Apps",
+    "url": "https://meowapps.com/products/ai-engine-pro/",
+    "folder": "AI"
+  },
+  {
+    "title": "Canva Pro",
+    "url": "https://www.canva.com/pro/#pricing",
+    "folder": "AI"
+  },
+  {
+    "title": "Leonardo.ai",
+    "url": "https://leonardo.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "leonardo.ai",
+    "url": "https://app.leonardo.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Future Tools - Find The Exact AI Tool For Your Needs",
+    "url": "https://www.futuretools.io/",
+    "folder": "AI"
+  },
+  {
+    "title": "Scrape and Monitor Data from Any Website with No Code",
+    "url": "https://www.browse.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Pattern maker: create seamless and geometric designs – Repper app",
+    "url": "https://repper.app/",
+    "folder": "AI"
+  },
+  {
+    "title": "Income stream surfers - YouTube",
+    "url": "https://www.youtube.com/@Incomestreamsurfers/videos",
+    "folder": "AI"
+  },
+  {
+    "title": "ChatSonic - A ChatGPT Alternative With Superpowers and GPT-4",
+    "url": "https://writesonic.com/chat",
+    "folder": "AI"
+  },
+  {
+    "title": "AI Code Generator - Amazon CodeWhisperer - AWS",
+    "url": "https://aws.amazon.com/codewhisperer/",
+    "folder": "AI"
+  },
+  {
+    "title": "Durable AI Website Builder and Small Business Software",
+    "url": "https://durable.co/",
+    "folder": "AI"
+  },
+  {
+    "title": "YouTube Video Summaries with Eightify AI ChatGPT",
+    "url": "https://eightify.app/",
+    "folder": "AI"
+  },
+  {
+    "title": "Perplexity AI",
+    "url": "https://www.perplexity.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Runway Pricing | Create Anything You Can Imagine",
+    "url": "https://runwayml.com/pricing/",
+    "folder": "AI"
+  },
+  {
+    "title": "Quick Article Workflow",
+    "url": "https://wordgalaxy.netlify.app/",
+    "folder": "AI"
+  },
+  {
+    "title": "IF - a Hugging Face Space by DeepFloyd",
+    "url": "https://huggingface.co/spaces/DeepFloyd/IF",
+    "folder": "AI"
+  },
+  {
+    "title": "Keymate AI ChatGPT and GPT4 Chatbot Keyboard on iOS, it works with any app!",
+    "url": "https://www.keymate.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Cerebras-GPT: A Family of Open, Compute-efficient, Large Language Models - Cerebras",
+    "url": "https://www.cerebras.net/blog/cerebras-gpt-a-family-of-open-compute-efficient-large-language-models/",
+    "folder": "AI"
+  },
+  {
+    "title": "Profile | Codeium · Free AI Code Completion &amp; Chat",
+    "url": "https://codeium.com/profile",
+    "folder": "AI"
+  },
+  {
+    "title": "Auto-GPT tutorial: How to set up Auto-GPT",
+    "url": "https://lablab.ai/t/auto-gpt-tutorial-how-to-set-up-auto-gpt",
+    "folder": "AI"
+  },
+  {
+    "title": "Significant-Gravitas/Auto-GPT: An experimental open-source attempt to make GPT-4 fully autonomous.",
+    "url": "https://github.com/Significant-Gravitas/Auto-GPT",
+    "folder": "AI"
+  },
+  {
+    "title": "Setup - Auto-GPT",
+    "url": "https://docs.agpt.co/setup/",
+    "folder": "AI"
+  },
+  {
+    "title": "Overview - OpenAI API",
+    "url": "https://platform.openai.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "Wordgalaxy",
+    "url": "https://wordgalaxy.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Wordgalaxy",
+    "url": "https://wordgalaxy.ai/login",
+    "folder": "AI"
+  },
+  {
+    "title": "weaviate/healthsearch-demo: Discover Healthsearch: Unlocking Health with Semantic Search ✨",
+    "url": "https://github.com/weaviate/healthsearch-demo",
+    "folder": "AI"
+  },
+  {
+    "title": "OpenAI Platform",
+    "url": "https://platform.openai.com/tokenizer",
+    "folder": "AI"
+  },
+  {
+    "title": "Futurepedia - The Largest AI Tools &amp; Software Directory",
+    "url": "https://www.futurepedia.io/",
+    "folder": "AI"
+  },
+  {
+    "title": "Luma AI",
+    "url": "https://lumalabs.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Google Earth Studio",
+    "url": "https://www.google.com/earth/studio/",
+    "folder": "AI"
+  },
+  {
+    "title": "Perplexity",
+    "url": "https://www.perplexity.ai/?login-source=floatingSignup",
+    "folder": "AI"
+  },
+  {
+    "title": "Suno AI",
+    "url": "https://www.suno.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "MusicGen - a Hugging Face Space by facebook",
+    "url": "https://huggingface.co/spaces/facebook/MusicGen",
+    "folder": "AI"
+  },
+  {
+    "title": "Insta 3D - a Hugging Face Space by ilumine-AI",
+    "url": "https://huggingface.co/spaces/ilumine-AI/Insta-3D",
+    "folder": "AI"
+  },
+  {
+    "title": "Animated Drawings",
+    "url": "https://sketch.metademolab.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "Replicate",
+    "url": "https://replicate.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "IllusionDiffusion - a Hugging Face Space by AP123",
+    "url": "https://huggingface.co/spaces/AP123/IllusionDiffusion",
+    "folder": "AI"
+  },
+  {
+    "title": "Midjourney Prompt Builder - Artificin",
+    "url": "https://artificin.com/prompt-builder?ref=futuretools.io",
+    "folder": "AI"
+  },
+  {
+    "title": "Pika",
+    "url": "https://pika.art/login",
+    "folder": "AI"
+  },
+  {
+    "title": "Relume | Build Faster, Design Better in Webflow &amp; Figma",
+    "url": "https://www.relume.io/",
+    "folder": "AI"
+  },
+  {
+    "title": "Monster Mash: New Sketch-Based Modeling and Animation Tool",
+    "url": "https://monstermash.zone/",
+    "folder": "AI"
+  },
+  {
+    "title": "Preview Sweet Theme - Be Yours Ecommerce Website Template",
+    "url": "https://themes.shopify.com/themes/be-yours/styles/sweet/preview",
+    "folder": "AI"
+  },
+  {
+    "title": "About - Cedar Lake Ventures",
+    "url": "https://cedarlakeventures.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "CodeGPT Plus",
+    "url": "https://plus.codegpt.co/",
+    "folder": "AI"
+  },
+  {
+    "title": "suno-ai/bark: 🔊 Text-Prompted Generative Audio Model",
+    "url": "https://github.com/suno-ai/bark",
+    "folder": "AI"
+  },
+  {
+    "title": "joaomdmoura/crewAI: Framework for orchestrating role-playing, autonomous AI agents. By fostering collaborative intelligence, CrewAI empowers agents to work together seamlessly, tackling complex tasks.",
+    "url": "https://github.com/joaomdmoura/crewAI",
+    "folder": "AI"
+  },
+  {
+    "title": "Canyon • Applications",
+    "url": "https://app.usecanyon.com/board",
+    "folder": "AI"
+  },
+  {
+    "title": "LimeWire Developer | AI Image, Video &amp; Music Generation APIs",
+    "url": "https://developer.limewire.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "Shakker AI - Premium Stable Diffusion Model Hub",
+    "url": "https://www.shakker.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Perplexity",
+    "url": "https://www.perplexity.ai/library",
+    "folder": "AI"
+  },
+  {
+    "title": "Cursor",
+    "url": "https://www.cursor.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "Beautiful, Editable, Effortless Graphic Design",
+    "url": "https://molypix.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Build a Landing Page with AI and Next.js",
+    "url": "https://strapi.io/blog/build-a-landing-page-with-ai-and-nextjs?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "Web Tools #572 - CSS/HTML Tools, ChatGPT, Jamstack, Eleventy, CMS",
+    "url": "https://mailchi.mp/webtoolsweekly/web-tools-572?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "What is Retrieval Augmented Generation (RAG)? | Databricks",
+    "url": "https://www.databricks.com/glossary/retrieval-augmented-generation-rag",
+    "folder": "AI"
+  },
+  {
+    "title": "How to Run Llama-3.1🦙 Locally Using Python🐍 and Hugging Face 🤗 - DEV Community",
+    "url": "https://dev.to/debapriyadas/cloning-and-running-llama-31-model-from-hugging-face-using-python-3m80?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "Ilus AI - illustration Generator",
+    "url": "https://ilus.ai/?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "Home | aider",
+    "url": "https://aider.chat/",
+    "folder": "AI"
+  },
+  {
+    "title": "Free Logo Maker | Create Your Logo in 5 Minutes",
+    "url": "https://www.fiverr.com/logo-maker/",
+    "folder": "AI"
+  },
+  {
+    "title": "Creatie | Intuitive, affordable, AI-powered product design software",
+    "url": "https://creatie.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Yes, Claude Code can decompile itself. Here&#39;s the source code.",
+    "url": "https://ghuntley.com/tradecraft/?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "InstantCoder - a Hugging Face Space by osanseviero",
+    "url": "https://huggingface.co/spaces/osanseviero/InstantCoder",
+    "folder": "AI"
+  },
+  {
+    "title": "Claude Code",
+    "url": "https://www.ssp.sh/brain/claude-code/?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "FlexApp - Build Mobile Apps With AI, Not Code",
+    "url": "https://flexapp.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "Genspark - Genspark Super Agent: The Ultimate All-in-One AI Companion",
+    "url": "https://www.genspark.ai/",
+    "folder": "AI"
+  },
+  {
+    "title": "How to Build Your Own MCP Server",
+    "url": "https://www.builder.io/blog/mcp-server?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "9 MCP Projects for AI Engineers - by Avi Chawla",
+    "url": "https://blog.dailydoseofds.com/p/9-mcp-projects-for-ai-engineers?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "How to Make an AI Influencer in 2025 (and Earn Money from It Step-by-Step) | by Anangsha Alammyan | The Startup | Jun, 2025 | Medium",
+    "url": "https://medium.com/swlh/how-to-create-ai-influencer-make-money-b555d49ce389",
+    "folder": "AI"
+  },
+  {
+    "title": "Powerful Workflow Automation Software &amp; Tools - n8n",
+    "url": "https://n8n.io/",
+    "folder": "AI"
+  },
+  {
+    "title": "prompt-eng-interactive-tutorial/Anthropic 1P at master · anthropics/prompt-eng-interactive-tutorial",
+    "url": "https://github.com/anthropics/prompt-eng-interactive-tutorial/tree/master/Anthropic%201P",
+    "folder": "AI"
+  },
+  {
+    "title": "unicorn.studio — No-code WebGL Tool",
+    "url": "https://www.unicorn.studio/",
+    "folder": "AI"
+  },
+  {
+    "title": "claude-code-workflows/design-review at main · OneRedOak/claude-code-workflows",
+    "url": "https://github.com/OneRedOak/claude-code-workflows/tree/main/design-review",
+    "folder": "AI"
+  },
+  {
+    "title": "10 AI Frameworks and Libraries Every Developer Should Learn in 2025 | by javinpaul | Javarevisited | Jul, 2025 | Medium",
+    "url": "https://medium.com/javarevisited/10-ai-frameworks-and-libraries-every-developer-should-learn-in-2025-e939c04cc610?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "Pricing - Thesys Generative UI API",
+    "url": "https://www.thesys.dev/pricing",
+    "folder": "AI"
+  },
+  {
+    "title": "OpenAI Cookbook",
+    "url": "https://cookbook.openai.com/",
+    "folder": "AI"
+  },
+  {
+    "title": "anthropics/claude-cookbooks: A collection of notebooks/recipes showcasing some fun and effective ways of using Claude.",
+    "url": "https://github.com/anthropics/claude-cookbooks",
+    "folder": "AI"
+  },
+  {
+    "title": "Anthropic",
+    "url": "https://github.com/anthropics",
+    "folder": "AI"
+  },
+  {
+    "title": "7 AI Coding Techniques That Could Save You 10+ Hours This Week | HackerNoon",
+    "url": "https://hackernoon.com/7-ai-coding-techniques-that-could-save-you-10-hours-this-week?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "How to create custom Skills | Claude Help Center",
+    "url": "https://support.claude.com/en/articles/12512198-how-to-create-custom-skills",
+    "folder": "AI"
+  },
+  {
+    "title": "Cut LLM Costs with CompactifAI | Multiverse Computing",
+    "url": "https://ai.multiversecomputing.com/multiverse-computing-request-demo/?utm_source=carbon&utm_medium=paid-display&utm_campaign=carbon_paid-display_compactifai-awareness_reach_us_nov_2025&utm_content=display-ad&utm_adgroup=2_prosp",
+    "folder": "AI"
+  },
+  {
+    "title": "AI Coding Workflow - by Neo Kim and Louis-François Bouchard",
+    "url": "https://newsletter.systemdesign.one/p/ai-coding-workflow?ref=dailydev",
+    "folder": "AI"
+  },
+  {
+    "title": "Experiential Marketing Producer - Street Factory",
+    "url": "https://streetfactorymedia.com/careers-producer/",
+    "folder": "AI"
+  },
+  {
+    "title": "VoxYZ — 6 AI Agents, One Company",
+    "url": "https://www.voxyz.space/",
+    "folder": "AI"
+  },
+  {
+    "title": "The Serena JetBrains Plugin — Serena Documentation",
+    "url": "https://oraios.github.io/serena/02-usage/025_jetbrains_plugin.html",
+    "folder": "AI"
+  },
+  {
+    "title": "OpenClaw Control",
+    "url": "https://openclaw.tail8fbbe9.ts.net/chat?session=agent%3Amain%3Amain",
+    "folder": "AI"
+  },
+  {
+    "title": "What Is Affiliate Marketing? A 2023 Guide To Getting Started",
+    "url": "https://www.shopify.com/blog/affiliate-marketing",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "Affiliate Marketing for Beginners (Ultimate Guide) - Neil Patel",
+    "url": "https://neilpatel.com/what-is-affiliate-marketing/",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "Ezoic | Intelligent Technology For Exceptional Content",
+    "url": "https://www.ezoic.com/",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "Answer Socrates",
+    "url": "https://answersocrates.com/",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "Keyword Tool ⚠️ Google Keyword Planner【Search FREE】",
+    "url": "https://keywordtool.io/",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "Flim",
+    "url": "https://beta.flim.ai/",
+    "folder": "Affiliate Marketing"
+  },
+  {
+    "title": "AZ Continued Claims: Welcome",
+    "url": "https://azuiinternetweeklyclaim.azdes.gov/Welcome.aspx",
+    "folder": "AZ"
+  },
+  {
+    "title": "Container - Tailwind CSS",
+    "url": "https://tailwindcss.com/docs/container",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Animated Hamburger Menu Icon | Buttons, Widget, Icons",
+    "url": "https://tailwindcomponents.com/component/animated-hamburger-menu-icon",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Tailwind CSS Device Mockups - Flowbite",
+    "url": "https://flowbite.com/docs/components/device-mockups/",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Animated Hamburger Icon, Mobile Menu &amp; Responsive Navbar with Tailwind CSS - YouTube",
+    "url": "https://www.youtube.com/watch?v=0TxMHYCMALE",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "tailwind-css-course/lesson04 at main · gitdagray/tailwind-css-course · GitHub",
+    "url": "https://github.com/gitdagray/tailwind-css-course/tree/main/lesson04",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Handling Hover, Focus, and Other States - Tailwind CSS",
+    "url": "https://tailwindcss.com/docs/hover-focus-and-other-states#using-with-your-own-classes",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "tailwindlabs/tailwindcss-forms: A plugin that provides a basic reset for form styles that makes form elements easy to override with utilities.",
+    "url": "https://github.com/tailwindlabs/tailwindcss-forms",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Forms - Tailwind CSS",
+    "url": "https://v1.tailwindcss.com/components/forms",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "@tailwindcss/forms examples",
+    "url": "https://tailwindcss-forms.vercel.app/",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "GitHub - sambauers/tailwindcss-3d: Add 3D transforms to your TailwindCSS project",
+    "url": "https://github.com/sambauers/tailwindcss-3d",
+    "folder": "Tailwinds"
+  },
+  {
+    "title": "Micro animations in Figma - YouTube",
+    "url": "https://www.youtube.com/watch?v=oOJ5StJr-pU",
+    "folder": "Figma"
+  },
+  {
+    "title": "Create an Interactive TAB NAVIGATION Prototype ft. Smart Animate (Project Files Available) - YouTube",
+    "url": "https://www.youtube.com/watch?v=i8XuDEGNq6A",
+    "folder": "Figma"
+  },
+  {
+    "title": "How to export Figma to HTML - Anima Blog",
+    "url": "https://www.animaapp.com/blog/design-to-code/how-to-export-figma-to-html/",
+    "folder": "Figma"
+  },
+  {
+    "title": "How to Convert Any Website Into a Figma Design",
+    "url": "https://www.makeuseof.com/how-to-convert-website-html-into-figma-design/",
+    "folder": "Figma"
+  },
+  {
+    "title": "Advanced prototyping playground | Figma Community",
+    "url": "https://www.figma.com/community/file/1234939241273272375/Advanced-prototyping-playground",
+    "folder": "Figma"
+  },
+  {
+    "title": "Fontjoy - Generate font pairings in one click",
+    "url": "https://fontjoy.com/",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "10 Excellent Font Pairing Tools For Designers | Dribbble",
+    "url": "https://dribbble.com/resources/font-pairing-tools",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Choose the best font combinations for your designs - Font Pairer by Designs.ai",
+    "url": "https://designs.ai/fonts/",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Mixfont | A modern font generator",
+    "url": "https://www.mixfont.com/",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Mixfont | A modern font generator",
+    "url": "https://www.mixfont.com/Roboto-Mono+Yeseva-One",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Arya Font Family : Download Free for Desktop &amp; Webfont",
+    "url": "https://www.cufonfonts.com/font/arya",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Lorem Ipsum - All the facts - Lipsum generator",
+    "url": "https://lipsum.com/",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Font Awesome",
+    "url": "https://fontawesome.com/",
+    "folder": "Font Pairing"
+  },
+  {
+    "title": "Sketchup Certification - Part 1 - YouTube",
+    "url": "https://www.youtube.com/watch?v=o7D0NZn-JLk",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "Sketchup Certification",
+    "url": "https://www.thinkparametric.com/courses/sketchup-certification?utm_source=youtube&utm_medium=short_course&utm_campaign=sketchup_certification",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "100+ SketchUp Courses &amp; Certifications [2023] | Learn Online | Class Central",
+    "url": "https://www.classcentral.com/subject/sketchup",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "100+ SketchUp Courses &amp; Certifications [2023] | Learn Online | Class Central",
+    "url": "https://www.classcentral.com/subject/sketchup?certificate=true",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "Build your design ideas with SketchUp Pro",
+    "url": "https://www.linkedin.com/learning/sketchup-2021-essential-training/build-your-design-ideas-with-sketchup-pro?autoplay=true",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "SketchUp: Online Courses, Training and Tutorials on LinkedIn Learning",
+    "url": "https://www.linkedin.com/learning/topics/sketchup?software=SketchUp",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "Sketchup House Design 6 EXT INT + Enscape 2.4 Realtime Rendering - YouTube",
+    "url": "https://www.youtube.com/watch?v=jTEcM9WCtJo",
+    "folder": "SketchUp"
+  },
+  {
+    "title": "Coolors - The super fast color palettes generator!",
+    "url": "https://coolors.co/",
+    "folder": "Colors"
+  },
+  {
+    "title": "Create a Palette - Coolors",
+    "url": "https://coolors.co/f991cc-e2afde-d3c2ce-d3d2c7-e2e1b9",
+    "folder": "Colors"
+  },
+  {
+    "title": "15 Best Golf Affiliate Programs of 2023 (Top Offers)",
+    "url": "https://diggitymarketing.com/best-affiliate-programs/golf/",
+    "folder": "Affliated Programs"
+  },
+  {
+    "title": "Etsy - Shop Dashboard",
+    "url": "https://www.etsy.com/your/shops/me/dashboard?ref=hdr-mcpa",
+    "folder": "Etsy"
+  },
+  {
+    "title": "IkersonLTD - Etsy",
+    "url": "https://www.etsy.com/shop/IkersonLTD?ref=simple-shop-header-name&listing_id=1202045319",
+    "folder": "Etsy"
+  },
+  {
+    "title": "Golf Affiliate Program at GlobalGolf.com",
+    "url": "https://www.globalgolf.com/affiliates/",
+    "folder": "Fairway Finders"
+  },
+  {
+    "title": "TGW (The Golf Warehouse) Affiliate Program: Find the Best Rates in 2023 · Affilimate",
+    "url": "https://affilimate.com/programs/the-golf-affiliate-program/",
+    "folder": "Fairway Finders"
+  },
+  {
+    "title": "Greenskeeper.org - Golf Community Social Network 18+ Years - Golf Course Reviews - Know Before You Go - Greenskeeper.org Free Online Golf Community",
+    "url": "https://greenskeeper.org/",
+    "folder": "Fairway Finders"
+  },
+  {
+    "title": "Home - The Left Rough",
+    "url": "https://theleftrough.com/",
+    "folder": "Fairway Finders"
+  },
+  {
+    "title": "Free Keyword Generator Tool: Find 100+ Keyword Ideas in Seconds",
+    "url": "https://ahrefs.com/keyword-generator",
+    "folder": "SEO"
+  },
+  {
+    "title": "XML Sitemap",
+    "url": "https://www.golfdistillery.com/post-sitemap.xml",
+    "folder": "SEO"
+  },
+  {
+    "title": "How I ranked On Google In Under 8 Hours Using AI SEO - YouTube",
+    "url": "https://www.youtube.com/watch?v=lg6Z9q_6TDw",
+    "folder": "SEO"
+  },
+  {
+    "title": "How to Create 40+ Affiliate Blog Posts in 1 Hour - YouTube",
+    "url": "https://www.youtube.com/watch?v=btKVJBOx1z4",
+    "folder": "SEO"
+  },
+  {
+    "title": "Free SERP Checker: Fast, Accurate Google Rank Checker",
+    "url": "https://ahrefs.com/serp-checker",
+    "folder": "SEO"
+  },
+  {
+    "title": "Raptive — Powering creator independence",
+    "url": "https://raptive.com/",
+    "folder": "SEO"
+  },
+  {
+    "title": "SiteMaps",
+    "url": "https://css-tricks.com/sitemap_index.xml",
+    "folder": "Bookmarks"
+  },
+  {
+    "title": "Rank Math SEO – WordPress plugin | WordPress.org",
+    "url": "https://wordpress.org/plugins/seo-by-rank-math/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Variations – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/reference-guides/block-api/block-variations/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "gutenberg/packages/block-library/src/embed/variations.js at trunk · WordPress/gutenberg",
+    "url": "https://github.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/embed/variations.js",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Working with Javascript for the Block Editor – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/getting-started/fundamentals/javascript-in-the-block-editor/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Get started with wp-scripts – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/getting-started/devenv/get-started-with-wp-scripts/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "How to Hex: Monthly Demo | Hex",
+    "url": "http://localhost:8000/how-to-hex/june/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "An introduction to block-based mega menus – WordPress Developer Blog",
+    "url": "https://developer.wordpress.org/news/2024/02/29/an-introduction-to-block-based-mega-menus/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "How To Create A WordPress Mega Menu in Gutenberg - Wpmet",
+    "url": "https://wpmet.com/mega-menu-in-gutenberg/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Using WordPress as a Data-Entry Site to Power a Central API",
+    "url": "https://wordpress.com/blog/2024/12/17/using-wordpress-as-a-data-entry-site-to-power-a-central-api/?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "How to Offload WordPress Media to Improve Website Speed",
+    "url": "https://www.wpbeginner.com/wp-tutorials/how-to-offload-wordpress-media-to-improve-website-speed/?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Hide your WordPress website from Matt Mullenweg | Report on WP 6.7 HTTP Requests",
+    "url": "https://aurisecreative.com/blog/2024/12/hide-your-wordpress-website-from-matt-mullenweg/?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "After More than 5 Years of Maintaining WordPress Websites, Here’s What I’ve Learned - DEV Community",
+    "url": "https://dev.to/andgoedu/after-more-than-5-years-of-maintaining-wordpress-websites-heres-what-ive-learned-3in5?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Current WordPress Projects – Nick Diego",
+    "url": "https://nickdiego.com/projects/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Use a MySQL Database · Fly Docs",
+    "url": "https://fly.io/docs/app-guides/mysql-on-fly/#main-content-start",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Run a WordPress App · Fly Docs",
+    "url": "https://fly.io/docs/languages-and-frameworks/wordpress/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Enqueueing assets in the Editor – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/how-to-guides/enqueueing-assets-in-the-editor/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "HStack – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/reference-guides/components/h-stack/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Hello Elementor | WordPress Theme | WordPress.org",
+    "url": "https://wordpress.org/themes/hello-elementor/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Headless WordPress With Nextjs &amp; GraphQL | Scientyfic World",
+    "url": "https://scientyficworld.org/headless-wordpress-with-nextjs-graphql/?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Invisible North | Creativity for the Future of Brand Experience",
+    "url": "https://invisiblenorth.com/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Element: animate() method - Web APIs | MDN",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/animate",
+    "folder": "JS"
+  },
+  {
+    "title": "Pie chart animated with Greensock GSAP",
+    "url": "https://codepen.io/pbraswell352/pen/yxqKxv?editors=1000",
+    "folder": "JS"
+  },
+  {
+    "title": "animated-pie-chart-javascript/index.js at main · coding-in-public/animated-pie-chart-javascript",
+    "url": "https://github.com/coding-in-public/animated-pie-chart-javascript/blob/main/index.js",
+    "folder": "JS"
+  },
+  {
+    "title": "The Future of JavaScript: Trends and Predictions",
+    "url": "https://www.brandfordtech.com/posts/the-future-of-javascript-trends-and-predictions",
+    "folder": "JS"
+  },
+  {
+    "title": "Demystifying Array Methods - DEV Community",
+    "url": "https://dev.to/noriller/demystifying-array-methods-2bml",
+    "folder": "JS"
+  },
+  {
+    "title": "Example — swup",
+    "url": "https://swup.js.org/getting-started/example/",
+    "folder": "JS"
+  },
+  {
+    "title": "3D Rotate-able SVG Cube",
+    "url": "https://codepen.io/MRokas/pen/aNBjdQ",
+    "folder": "JS"
+  },
+  {
+    "title": "Three.js/GSAP Practice",
+    "url": "https://codepen.io/jfirestorm44/pen/RwRPJda?editors=0010",
+    "folder": "JS"
+  },
+  {
+    "title": "three.js/examples/webgl_animation_multiple.html at master · mrdoob/three.js · GitHub",
+    "url": "https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html",
+    "folder": "JS"
+  },
+  {
+    "title": "Loading 3D models – three.js docs",
+    "url": "https://threejs.org/docs/index.html#manual/en/introduction/Loading-3D-models",
+    "folder": "JS"
+  },
+  {
+    "title": "three.js examples",
+    "url": "https://threejs.org/examples/",
+    "folder": "JS"
+  },
+  {
+    "title": "Three.js – JavaScript 3D Library",
+    "url": "https://threejs.org/",
+    "folder": "JS"
+  },
+  {
+    "title": "isotope-layout - npm",
+    "url": "https://www.npmjs.com/package/isotope-layout",
+    "folder": "JS"
+  },
+  {
+    "title": "Isotope · Filter &amp; sort magical layouts",
+    "url": "https://isotope.metafizzy.co/#package-managers",
+    "folder": "JS"
+  },
+  {
+    "title": "Isotope · Filter &amp; sort magical layouts",
+    "url": "https://isotope.metafizzy.co/",
+    "folder": "JS"
+  },
+  {
+    "title": "Getting started",
+    "url": "https://lucia-auth.com/getting-started/",
+    "folder": "JS"
+  },
+  {
+    "title": "webdevcody/next-drizzle-lucia-sqlite-template",
+    "url": "https://github.com/webdevcody/next-drizzle-lucia-sqlite-template",
+    "folder": "JS"
+  },
+  {
+    "title": "badger3000&#39;s Dashboard | badger3000",
+    "url": "https://app.turso.tech/badger3000",
+    "folder": "JS"
+  },
+  {
+    "title": "Docs | Next.js",
+    "url": "https://nextjs.org/docs",
+    "folder": "JS"
+  },
+  {
+    "title": "Radix UI",
+    "url": "https://www.radix-ui.com/",
+    "folder": "JS"
+  },
+  {
+    "title": "howler.js - JavaScript audio library for the modern web",
+    "url": "https://howlerjs.com/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Theatre.js - animation toolbox for the web",
+    "url": "https://www.theatrejs.com/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Awesome Shadcn UI",
+    "url": "https://shadcn.batchtool.com/templates?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Hendrixer/headless-nextjs",
+    "url": "https://github.com/Hendrixer/headless-nextjs/tree/main",
+    "folder": "JS"
+  },
+  {
+    "title": "The Best Three.js Resources in One Place | ThreejsResources.com",
+    "url": "https://threejsresources.com/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Motion - A modern animation library for JavaScript and React",
+    "url": "https://motion.dev/",
+    "folder": "JS"
+  },
+  {
+    "title": "motiondivision/motion: A modern animation library for React and JavaScript",
+    "url": "https://github.com/motiondivision/motion",
+    "folder": "JS"
+  },
+  {
+    "title": "Standards first web framework - Nue",
+    "url": "https://nuejs.org/",
+    "folder": "JS"
+  },
+  {
+    "title": "Payload: The Next.js Headless CMS and App Framework",
+    "url": "https://payloadcms.com/",
+    "folder": "JS"
+  },
+  {
+    "title": "Advanced JavaScript Cheat Sheet | Zero To Mastery",
+    "url": "https://zerotomastery.io/cheatsheets/javascript-cheatsheet-the-advanced-concepts/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Firecrawl",
+    "url": "https://www.firecrawl.dev/app?authSuccess=true&?status=Success!&status_description=You%20are%20now%20signed%20in.",
+    "folder": "JS"
+  },
+  {
+    "title": "Animating Letters with Shaders: Interactive Text Effect with Three.js &amp; GLSL | Codrops",
+    "url": "https://tympanus.net/codrops/2025/03/24/animating-letters-with-shaders-interactive-text-effect-with-three-js-glsl/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "WebGPU Scanning Effect with Depth Maps | Codrops",
+    "url": "https://tympanus.net/codrops/2025/03/31/webgpu-scanning-effect-with-depth-maps/",
+    "folder": "JS"
+  },
+  {
+    "title": "Paper.js",
+    "url": "http://paperjs.org/",
+    "folder": "JS"
+  },
+  {
+    "title": "ScrollObserver | Anime.js | JavaScript Animation Engine",
+    "url": "https://animejs.com/documentation/scroll",
+    "folder": "JS"
+  },
+  {
+    "title": "Awesome Shadcn UI",
+    "url": "https://shadcn.batchtool.com/templates",
+    "folder": "JS"
+  },
+  {
+    "title": "Hero Blocks for Shadcn UI - Shadcnblocks.com",
+    "url": "https://www.shadcnblocks.com/group/hero",
+    "folder": "JS"
+  },
+  {
+    "title": "React Bits - Animated UI Components For React",
+    "url": "https://reactbits.dev/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Logo Carousel · Cult UI",
+    "url": "https://www.cult-ui.com/docs/components/logo-carousel",
+    "folder": "JS"
+  },
+  {
+    "title": "DynamicIsland · Cult UI",
+    "url": "https://www.cult-ui.com/docs/components/dynamic-island",
+    "folder": "JS"
+  },
+  {
+    "title": "Introduction | Landing page components &amp; templates that you can copy &amp; paste",
+    "url": "https://pageui.shipixen.com/docs/introduction",
+    "folder": "JS"
+  },
+  {
+    "title": "The Million-Dollar Landing Page Framework: 9 Elements That Drive Conversions | Badger3000 Articles",
+    "url": "http://localhost:3333/studio/structure/articles;f43c669a-a620-4233-af02-b762f8bf06a0%2Ctemplate%3Darticles",
+    "folder": "JS"
+  },
+  {
+    "title": "I just completed the &quot;Content-driven web application foundations&quot; course on Sanity Learn",
+    "url": "https://www.sanity.io/learn/course/content-driven-web-application-foundations/share/gM1QXDmR5?utm_campaign=course_completed&utm_medium=social&utm_source=linkedin",
+    "folder": "JS"
+  },
+  {
+    "title": "Motion Highlights #11 | Codrops",
+    "url": "https://tympanus.net/codrops/2025/07/24/motion-highlights-11/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Sitepins - Git-based Headless CMS",
+    "url": "https://sitepins.com/",
+    "folder": "JS"
+  },
+  {
+    "title": "Anime.js | JavaScript Animation Engine",
+    "url": "https://animejs.com/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "wavesurfer.js | audio waveform player JavaScript library",
+    "url": "https://wavesurfer.xyz/",
+    "folder": "JS"
+  },
+  {
+    "title": "Atropos Documentation",
+    "url": "https://atroposjs.com/docs",
+    "folder": "JS"
+  },
+  {
+    "title": "Creative Web Development with Three.js and Blender – 3D Portfolio for Beginners - YouTube",
+    "url": "https://www.youtube.com/watch?v=yhtdkuw9mbM",
+    "folder": "JS"
+  },
+  {
+    "title": "Masonry",
+    "url": "https://masonry.desandro.com/",
+    "folder": "JS"
+  },
+  {
+    "title": "Isotope · Filter &amp; sort magical layouts",
+    "url": "https://isotope.metafizzy.co/#initialize-in-html",
+    "folder": "JS"
+  },
+  {
+    "title": "Creative Hub | Codrops",
+    "url": "https://tympanus.net/codrops/hub/",
+    "folder": "JS"
+  },
+  {
+    "title": "How to Create a Pixel-to-Voxel Video Drop Effect with Three.js and Rapier | Codrops",
+    "url": "https://tympanus.net/codrops/2026/01/05/how-to-create-a-pixel-to-voxel-video-drop-effect-with-three-js-and-rapier/?ref=dailydev",
+    "folder": "JS"
+  },
+  {
+    "title": "Coding in Public - YouTube",
+    "url": "https://www.youtube.com/@CodinginPublic/videos",
+    "folder": "Education"
+  },
+  {
+    "title": "Web Developer",
+    "url": "https://app.careerpuck.com/job-board/census/job/bc856d16-453d-4fc1-a803-40540042fcd2",
+    "folder": "Jobs"
+  },
+  {
+    "title": "Website Content - Google Drive",
+    "url": "https://drive.google.com/drive/u/1/folders/1ATg-BMtiP6GEJ6tcbpAzo7UxZGVmq5fl",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Log In ‹ Street Factory — WordPress",
+    "url": "https://streetfactorymedia.com/wp-login.php?redirect_to=https%3A%2F%2Fstreetfactorymedia.com%2Fwp-admin%2F&reauth=1",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Cloudways | Next-Gen Cloud Hosting Platform",
+    "url": "https://unified.cloudways.com/login",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Automate Deployment on Cloudways using DeployBOT (dploy.io)",
+    "url": "https://www.cloudways.com/blog/automate-deployment-using-deploybot/",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Web Design and Development news, Resources and Tutorials Archive -",
+    "url": "https://www.cloudways.com/blog/dev-design/",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "2025 SF Website Copy Doc - Google Docs",
+    "url": "https://docs.google.com/document/d/1fPw93d5rW0CB8zGMOegllPyQE1HkxoSWnCcHCGJhSi4/edit?tab=t.0",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "https://better-lottery-416644.framer.app/",
+    "url": "http://streetfactory.local/wp-admin/post.php?post=52&action=edit",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Edit Work “DoorDash” ‹ Street Factory — WordPress",
+    "url": "https://stage.streetfactorymedia.com/wp-admin/post.php?post=485&action=edit",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "curtains.js | Home",
+    "url": "https://www.curtainsjs.com/",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "The Book of Shaders",
+    "url": "https://thebookofshaders.com/",
+    "folder": "streetfactory"
+  },
+  {
+    "title": "Upwork Project Catalog Tutorial: How to Create Projects to Get More Job Offers as a Freelancer - YouTube",
+    "url": "https://www.youtube.com/watch?v=m61ONCplFn4",
+    "folder": "upwork"
+  },
+  {
+    "title": "Experts | Webflow University",
+    "url": "https://university.webflow.com/lesson/webflow-experts",
+    "folder": "WebFlow"
+  },
+  {
+    "title": "Understrap",
+    "url": "https://understrap.com/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Roots | Modern WordPress Development",
+    "url": "https://roots.io/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "The Ultimate Guide to WordPress Performance Optimization",
+    "url": "https://keganquimby.com/wordpress-performance-optimization/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "The WordPress Hooks Bootcamp: How to Use Actions, Filters, and Custom Hooks",
+    "url": "https://kinsta.com/blog/wordpress-hooks/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "WordPress Template Hierarchy Explained • WPShout",
+    "url": "https://wpshout.com/wordpress-template-hierarchy/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Header Requirements | Plugin Developer Handbook | WordPress Developer Resources",
+    "url": "https://developer.wordpress.org/plugins/plugin-basics/header-requirements/",
+    "folder": "WordPress"
+  },
+  {
+    "title": "What&#39;s Coming in WordPress 6.7 (Features and Screenshots)",
+    "url": "https://www.wpbeginner.com/news/whats-coming-in-wordpress-6-7-features-and-screenshots/?ref=dailydev",
+    "folder": "WordPress"
+  },
+  {
+    "title": "Ionic + React - Tutorial for Beginners - YouTube",
+    "url": "https://www.youtube.com/watch?v=_03VKmdrxV8",
+    "folder": "StartUp"
+  },
+  {
+    "title": "Create an Ionic React App: Framework and Documentation",
+    "url": "https://ionicframework.com/docs/react",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "Ionic CLI Framework: Command-Line Interface to Develop Apps",
+    "url": "https://ionicframework.com/docs/cli",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "Capacitor Community",
+    "url": "https://github.com/capacitor-community/",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "ionic-team/capacitor-plugins: Official plugins for Capacitor ⚡️",
+    "url": "https://github.com/ionic-team/capacitor-plugins",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "ionic capacitor run | Ionic Documentation",
+    "url": "https://ionicframework.com/docs/cli/commands/capacitor-run",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "Ionic Capacitor Sync Command: Copy + Update Android/iOS Projects",
+    "url": "https://ionicframework.com/docs/cli/commands/capacitor-sync",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "ion-content: Scrollable Component for Ionic App Content",
+    "url": "https://ionicframework.com/docs/api/content#fullscreen-content",
+    "folder": "Ionic React"
+  },
+  {
+    "title": "Certificates, Identifiers &amp; Profiles - Apple Developer",
+    "url": "https://developer.apple.com/account/resources/certificates/list",
+    "folder": "FistBump"
+  },
+  {
+    "title": "Capacitor by Ionic - Cross-platform apps with web technology",
+    "url": "https://capacitorjs.com/",
+    "folder": "FistBump"
+  },
+  {
+    "title": "Account - Apple Developer",
+    "url": "https://developer.apple.com/account",
+    "folder": "FistBump"
+  },
+  {
+    "title": "UI Components | User Interface Application Building Components",
+    "url": "https://ionicframework.com/docs/components",
+    "folder": "FistBump"
+  },
+  {
+    "title": "ion-button: Style Buttons with Custom CSS Properties",
+    "url": "https://ionicframework.com/docs/api/button",
+    "folder": "FistBump"
+  },
+  {
+    "title": "ios - Missing file libarclite_iphoneos.a (Xcode 14.3) - Stack Overflow",
+    "url": "https://stackoverflow.com/questions/75574268/missing-file-libarclite-iphoneos-a-xcode-14-3",
+    "folder": "FistBump"
+  },
+  {
+    "title": "handshake-client-admin-dev - S3 bucket",
+    "url": "https://us-east-1.console.aws.amazon.com/s3/buckets/handshake-client-admin-dev?region=us-east-1&tab=objects",
+    "folder": "FistBump"
+  },
+  {
+    "title": "Capacitor: Everything You&#39;ve Ever Wanted to Know - Ionic Blog",
+    "url": "https://ionic.io/blog/capacitor-everything-youve-ever-wanted-to-know",
+    "folder": "FistBump"
+  },
+  {
+    "title": "S3 | Global",
+    "url": "https://us-east-1.console.aws.amazon.com/s3/buckets/handshake-client-admin-dev?region=us-east-1&tab=objects#",
+    "folder": "FistBump"
+  },
+  {
+    "title": "Introduction / Welcome to Svelte • Svelte Tutorial",
+    "url": "https://learn.svelte.dev/tutorial/welcome-to-svelte",
+    "folder": "Svelt"
+  },
+  {
+    "title": "Ultimate Contentful Modelling Contentful Guide... including Menus! - YouTube",
+    "url": "https://www.youtube.com/watch?v=D3WV6IDKW2k",
+    "folder": "Contentful"
+  },
+  {
+    "title": "@contentful/rich-text-react-renderer - npm",
+    "url": "https://www.npmjs.com/package/@contentful/rich-text-react-renderer",
+    "folder": "Contentful"
+  },
+  {
+    "title": "Content preview URLs - get field value of linked model - APIs / Content Preview API - Contentful Community",
+    "url": "https://www.contentfulcommunity.com/t/content-preview-urls-get-field-value-of-linked-model/2941",
+    "folder": "Contentful"
+  },
+  {
+    "title": "Gatsby Contentful Rich Text Changes | Medium",
+    "url": "https://edpike365.medium.com/gatsby-contentful-rich-text-migrate-to-gatsby-source-contentful-version-4-in-early-2021-321904587470",
+    "folder": "Contentful"
+  },
+  {
+    "title": "slick - the last carousel you&#39;ll ever need",
+    "url": "https://kenwheeler.github.io/slick/",
+    "folder": "ReactJS"
+  },
+  {
+    "title": "React 19: New Features and Updates - GeeksforGeeks",
+    "url": "https://www.geeksforgeeks.org/react-19-new-features-and-updates/",
+    "folder": "ReactJS"
+  },
+  {
+    "title": "shadcn/ui",
+    "url": "https://ui.shadcn.com/",
+    "folder": "ReactJS"
+  },
+  {
+    "title": "What is React InstantSearch? | Algolia",
+    "url": "https://www.algolia.com/doc/guides/building-search-ui/what-is-instantsearch/react/",
+    "folder": "ReactJS"
+  },
+  {
+    "title": "NBC USA | FSL",
+    "url": "https://freestreams-live.my/nbc-usa/",
+    "folder": "streams"
+  },
+  {
+    "title": "Sky Sport Select 1 NZ HD Live Stream Online - Stream 588 - Daddylivehd.sx",
+    "url": "https://thedaddy.to/stream/stream-588.php",
+    "folder": "streams"
+  },
+  {
+    "title": "DaddyLiveHD - Live Sports Streaming Free - DaddyLiveHD.sx - DLHD",
+    "url": "https://daddylive.mp/",
+    "folder": "streams"
+  },
+  {
+    "title": "CrackStreams | NFLStreams | Get Every streams",
+    "url": "https://crackstreams.ms/",
+    "folder": "streams"
+  },
+  {
+    "title": "MethStreams - MMA, NFL, NBA Your Way for CrackStreams",
+    "url": "https://methstreams.ms/",
+    "folder": "streams"
+  },
+  {
+    "title": "NFL Live Stream Free | NFL Free Streams | reddit NFL Streams",
+    "url": "https://freestreams-live1a.pk/nfl-live-stream46/",
+    "folder": "streams"
+  },
+  {
+    "title": "A Complete Guide To CSS Grid | CSS-Tricks",
+    "url": "https://css-tricks.com/snippets/css/complete-guide-grid/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Learn CSS Grid Mastery Game",
+    "url": "https://gridcritters.com/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Play Grid Attack – CSS Game to learn CSS Grid",
+    "url": "https://codingfantasy.com/games/css-grid-attack",
+    "folder": "CSS"
+  },
+  {
+    "title": "Grid Garden - A game for learning CSS grid",
+    "url": "https://cssgridgarden.com/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Grid and Flexbox for Responsive Design with Jen Kramer - Frontend Masters",
+    "url": "https://grid-flexbox.css.education/ch2.html",
+    "folder": "CSS"
+  },
+  {
+    "title": "You Probably Don&#39;t Need Media Queries Anymore - DEV Community",
+    "url": "https://dev.to/kathryngrayson/you-probably-dont-need-media-queries-anymore-a4j",
+    "folder": "CSS"
+  },
+  {
+    "title": "Approaches For A CSS Masonry Layout | CSS-Tricks",
+    "url": "https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Responsive Masonry Layout with TailwindCSS in 2 Steps - DEV Community",
+    "url": "https://dev.to/kdrbek/responsive-masonry-layout-with-tailwindcss-in-2-steps-4kkj",
+    "folder": "CSS"
+  },
+  {
+    "title": "CSS Generator for Wavy Circles",
+    "url": "https://css-generators.com/wavy-circle/",
+    "folder": "CSS"
+  },
+  {
+    "title": "RippleUI | TailwindCSS Components",
+    "url": "https://www.ripple-ui.com/?ref=dailydev",
+    "folder": "CSS"
+  },
+  {
+    "title": "How to use Tailwinds `safelist` to handle dynamic classes - Accreditly",
+    "url": "https://accreditly.io/articles/how-to-use-tailwinds-safelist-to-handle-dynamic-classes",
+    "folder": "CSS"
+  },
+  {
+    "title": "Solved by CSS Scroll-Driven Animations: hide a header when scrolling down, show it again when scrolling up. – Bram.us",
+    "url": "https://www.bram.us/2024/09/29/solved-by-css-scroll-driven-animations-hide-a-header-when-scrolling-up-show-it-again-when-scrolling-down/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Slide Through Unlimited Dimensions With CSS Scroll Timelines | CSS-Tricks",
+    "url": "https://css-tricks.com/slide-through-unlimited-dimensions-with-css-scroll-timelines/",
+    "folder": "CSS"
+  },
+  {
+    "title": "Tailwind Bento Grid Example &amp; Tutorial - ThemeSelection",
+    "url": "https://themeselection.com/tailwind-bento-grid/?ref=dailydev",
+    "folder": "CSS"
+  },
+  {
+    "title": "Tailwind CSS Cards - Flowbite",
+    "url": "https://flowbite.com/docs/components/card/",
+    "folder": "CSS"
+  },
+  {
+    "title": "The Deep Card Conundrum – Frontend Masters Blog",
+    "url": "https://frontendmasters.com/blog/the-deep-card-conundrum/?ref=dailydev",
+    "folder": "CSS"
+  },
+  {
+    "title": "A Tour of Web3&#39;s Ethereum.",
+    "url": "https://theprimeagen.github.io/web3-smart-contracts/",
+    "folder": "WEB3"
+  },
+  {
+    "title": "0bin - encrypted pastebin",
+    "url": "https://paste.ec/raw/Mqr37L16#ps0Dt31yVfzYMNXZKLXcEue7IgKkyuN8Va3ba1qBPaE",
+    "folder": "WEB3"
+  },
+  {
+    "title": "crytic/evm-opcodes: Ethereum opcodes and instruction reference",
+    "url": "https://github.com/crytic/evm-opcodes",
+    "folder": "WEB3"
+  },
+  {
+    "title": "1.947 Gwei | Ethereum Gas Tracker | Etherscan",
+    "url": "https://etherscan.io/gastracker",
+    "folder": "WEB3"
+  },
+  {
+    "title": "Your First Contract – Getting our feet wet – A Tour of Web3&#39;s Ethereum.",
+    "url": "https://theprimeagen.github.io/web3-smart-contracts/your-first-contract#lets-test",
+    "folder": "WEB3"
+  },
+  {
+    "title": "Swapy – Easy Drag-to-Swap Solution",
+    "url": "https://swapy.tahazsh.com/",
+    "folder": "WEB3"
+  },
+  {
+    "title": "Course | NVIDIA",
+    "url": "https://learn.nvidia.com/courses/course?course_id=course-v1:DLI+S-FX-15+V1&unit=block-v1:DLI+S-FX-15+V1+type@vertical+block@3418773a2e2946ce9ed7a25dc8466309",
+    "folder": "WEB3"
+  },
+  {
+    "title": "Hendrixer/intro-nextjs-v3",
+    "url": "https://github.com/Hendrixer/intro-nextjs-v3",
+    "folder": "FrontEndMasters"
+  },
+  {
+    "title": "Introduction to Node.js, v3 Course | Learn Server Side JavaScript to Create CLIs and Web Apps | Frontend Masters",
+    "url": "https://frontendmasters.com/courses/node-js-v3/",
+    "folder": "FrontEndMasters"
+  },
+  {
+    "title": "Hendrixer/fullstack-ai-nextjs",
+    "url": "https://github.com/Hendrixer/fullstack-ai-nextjs",
+    "folder": "FrontEndMasters"
+  },
+  {
+    "title": "Fullstack App with Next.js, v3 Course | Build a Fullstack Web App Leveraging AI | Frontend Masters",
+    "url": "https://frontendmasters.com/courses/fullstack-app-next-v3/",
+    "folder": "FrontEndMasters"
+  },
+  {
+    "title": "Intermediate Next.js",
+    "url": "https://clumsy-humor-894.notion.site/Intermediate-Next-js-0f91d69bdb5046c3920caf325222eb97",
+    "folder": "FrontEndMasters"
+  },
+  {
+    "title": "Street Factory 2025 Capabilities Deck - Google Slides",
+    "url": "https://docs.google.com/presentation/d/1Fh-HtQPb8HAdcH4-_NuBq5O4wyumGGGM5g79qE6bZdI/edit#slide=id.g327b1b275ec_0_0",
+    "folder": "Street Factory"
+  },
+  {
+    "title": "Street Factory // Mini Golf Samples - Google Slides",
+    "url": "https://docs.google.com/presentation/d/1EwOe6Jh0SGPDY5GSBxyaZ6-F1GEejnsABzv0As6sE7I/edit?pli=1#slide=id.g2c9844daa2f_0_328",
+    "folder": "Street Factory"
+  },
+  {
+    "title": "SERFF Filing Access - Arizona",
+    "url": "https://filingaccess.serff.com/sfa/search/filingSummary.xhtml?filingId=134109211",
+    "folder": "homeowners-insurence"
+  },
+  {
+    "title": "SERFF Filing Access - Arizona",
+    "url": "https://filingaccess.serff.com/sfa/search/filingSearchResults.xhtml",
+    "folder": "homeowners-insurence"
+  },
+  {
+    "title": "SERFF Filing Access - Arizona",
+    "url": "https://filingaccess.serff.com/sfa/search/filingSummary.xhtml?filingId=134101337",
+    "folder": "homeowners-insurence"
+  },
+  {
+    "title": "SERFF Filing Access - Arizona",
+    "url": "https://filingaccess.serff.com/sfa/home/AZ",
+    "folder": "homeowners-insurence"
+  },
+  {
+    "title": "Filing a Complaint | DIFI",
+    "url": "https://difi.az.gov/consumers/help-problem/filing-complaint",
+    "folder": "homeowners-insurence"
+  },
+  {
+    "title": "Site Tools &gt; Rlogin",
+    "url": "https://www.mysitearea.com/rlogin",
+    "folder": "SFM"
+  },
+  {
+    "title": "Component Reference – Block Editor Handbook | Developer.WordPress.org",
+    "url": "https://developer.wordpress.org/block-editor/reference-guides/components/",
+    "folder": "SFM"
+  },
+  {
+    "title": "REJOUICE® | The Growth Accelerator",
+    "url": "https://www.rejouice.com/",
+    "folder": "Steet Factory"
+  },
+  {
+    "title": "Database: madbadger-rate-limiting - Upstash",
+    "url": "https://console.upstash.com/redis/6efab7b0-f546-4f8d-abe5-510e8772fe1d?teamid=0",
+    "folder": "madbadgerstudios"
+  },
+  {
+    "title": "Vercel",
+    "url": "https://vercel.com/badger3000s-projects",
+    "folder": "madbadgerstudios"
+  },
+  {
+    "title": "R2 object storage | Overview | Madbadgerstudios928@gmail.com&#39;s Account | Cloudflare",
+    "url": "https://dash.cloudflare.com/3cf28947361f6b5ac0d1050372668ba1/r2/overview",
+    "folder": "madbadgerstudios"
+  },
+  {
+    "title": "badger3000/madbadgerstudios: Main site for Mad Badger Studios",
+    "url": "https://github.com/badger3000/madbadgerstudios",
+    "folder": "madbadgerstudios"
+  },
+  {
+    "title": "Home – Mad Badger studios – Stripe [Test]",
+    "url": "https://dashboard.stripe.com/acct_1SV1IwEO31yPrFDg/test/dashboard",
+    "folder": "madbadgerstudios"
+  },
+  {
+    "title": "P0128 (radiator fan always on, no AC, temp gauge at 160) - PLEASE READ BEFORE STARTING A NEW THREAD | Chevy Colorado &amp; GMC Canyon",
+    "url": "https://www.coloradofans.com/threads/p0128-radiator-fan-always-on-no-ac-temp-gauge-at-160-please-read-before-starting-a-new-thread.430356/",
+    "folder": "coloarado"
+  },
+  {
+    "title": "The Complete Guide to CLAUDE.md",
+    "url": "https://www.builder.io/blog/claude-md-guide?ref=dailydev",
+    "folder": "Claude"
+  },
+  {
+    "title": "MoltHub",
+    "url": "https://clawdhub.com/",
+    "folder": "Claude"
+  },
+  {
+    "title": "Index - Moltbot",
+    "url": "https://docs.molt.bot/",
+    "folder": "Claude"
+  },
+  {
+    "title": "EyeOnWater: Making Water Visible.™",
+    "url": "https://eyeonwater.com/login",
+    "folder": "Prescott-links"
+  },
+  {
+    "title": "OpenClaw Control",
+    "url": "https://openclaw.tail8fbbe9.ts.net/nodes",
+    "folder": "openclaw"
+  }
+]
