@@ -1,4 +1,13 @@
-import { loadConfig, saveConfig, fetchFolders } from "./sanity-api.js";
+import { loadConfig, saveConfig } from "./sanity-api.js";
+
+// ── Message helper — routes API calls through the background worker ──────────
+async function api(action, data = {}) {
+  const response = await chrome.runtime.sendMessage({ action, data });
+  if (response?.error) {
+    throw new Error(response.error);
+  }
+  return response.result;
+}
 
 const form = document.getElementById("settings-form");
 const projectIdInput = document.getElementById("projectId");
@@ -65,7 +74,8 @@ testBtn.addEventListener("click", async () => {
   testBtn.disabled = true;
 
   try {
-    const folders = await fetchFolders(config);
+    // Pass config explicitly so we test the current form values, not saved ones
+    const folders = await api("fetchFolders", { config });
     showStatus(
       `Connected! Found ${folders.length} bookmark folder${folders.length !== 1 ? "s" : ""}.`,
       "success"

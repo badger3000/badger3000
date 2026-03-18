@@ -3,8 +3,21 @@
   "name": "Badger Bookmarks",
   "version": "1.0.0",
   "description": "Save bookmarks to Sanity CMS with one click",
-  "permissions": ["activeTab", "storage"],
+  "permissions": ["activeTab", "storage", "declarativeNetRequest"],
   "host_permissions": ["https://*.api.sanity.io/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "strip_origin",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

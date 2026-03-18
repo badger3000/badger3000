@@ -1,11 +1,13 @@
-import {
-  loadConfig,
-  fetchFolders,
-  createFolder,
-  createBookmark,
-  checkBookmarkExists,
-  folderSlug,
-} from "./sanity-api.js";
+import { loadConfig } from "./sanity-api.js";
+
+// ── Message helper — routes API calls through the background worker ──────────
+async function api(action, data = {}) {
+  const response = await chrome.runtime.sendMessage({ action, data });
+  if (response?.error) {
+    throw new Error(response.error);
+  }
+  return response.result;
+}
 
 // ── DOM refs ─────────────────────────────────────────────────────────────────
 const noConfigView = document.getElementById("no-config");
@@ -23,11 +25,9 @@ const statusEl = document.getElementById("status");
 const openSettingsBtn = document.getElementById("open-settings");
 const openSettingsLink = document.getElementById("open-settings-link");
 
-let config = null;
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
-  config = await loadConfig();
+  const config = await loadConfig();
 
   if (!config) {
     noConfigView.classList.remove("hidden");
@@ -53,7 +53,7 @@ async function init() {
   // Check if already bookmarked
   if (tab?.url) {
     try {
-      const exists = await checkBookmarkExists(config, tab.url);
+      const exists = await api("checkBookmarkExists", { url: tab.url });
       if (exists) {
         showStatus("This page is already bookmarked.", "exists");
       }
@@ -68,7 +68,7 @@ init();
 // ── Load folders into select ─────────────────────────────────────────────────
 async function loadFolders() {
   try {
-    const folders = await fetchFolders(config);
+    const folders = await api("fetchFolders");
     folderSelect.innerHTML = "";
 
     const placeholder = document.createElement("option");
@@ -134,7 +134,7 @@ form.addEventListener("submit", async (e) => {
     let folderId;
 
     if (isNewFolder) {
-      folderId = await createFolder(config, newName);
+      folderId = await api("createFolder", { folderName: newName });
       // Add the new folder to the dropdown for future use in this session
       const opt = document.createElement("option");
       opt.value = folderId;
@@ -149,7 +149,7 @@ form.addEventListener("submit", async (e) => {
       folderId = folderSelect.value;
     }
 
-    await createBookmark(config, { title, url, folderId });
+    await api("createBookmark", { title, url, folderId });
 
     showStatus("Bookmark saved!", "success");
     saveBtn.textContent = "Saved!";

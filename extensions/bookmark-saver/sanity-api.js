@@ -17,6 +17,23 @@ function headers(config) {
 }
 
 /**
+ * Parse a Sanity API error response into a readable message.
+ */
+async function parseError(res, fallback) {
+  try {
+    const body = await res.json();
+    const msg = body?.error?.description || body?.message || body?.error || "";
+    if (msg) return `${fallback}: ${msg}`;
+  } catch {
+    // response wasn't JSON
+  }
+  if (res.status === 403) {
+    return `${fallback}: Permission denied. Your token may need Editor (write) permissions — Viewer tokens can only read.`;
+  }
+  return `${fallback}: ${res.status} ${res.statusText}`;
+}
+
+/**
  * Deterministic slug from a folder name.
  * Must match the pattern in import-bookmarks.mjs / migrate-bookmark-folders.mjs
  */
@@ -52,7 +69,7 @@ export async function fetchFolders(config) {
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch folders: ${res.status} ${res.statusText}`);
+    throw new Error(await parseError(res, "Failed to fetch folders"));
   }
 
   const data = await res.json();
@@ -82,9 +99,7 @@ export async function createFolder(config, folderName) {
   });
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to create folder: ${res.status} ${res.statusText}`
-    );
+    throw new Error(await parseError(res, "Failed to create folder"));
   }
 
   return id;
@@ -118,9 +133,7 @@ export async function createBookmark(config, { title, url, folderId }) {
   });
 
   if (!res.ok) {
-    throw new Error(
-      `Failed to save bookmark: ${res.status} ${res.statusText}`
-    );
+    throw new Error(await parseError(res, "Failed to save bookmark"));
   }
 
   return { id, success: true };
