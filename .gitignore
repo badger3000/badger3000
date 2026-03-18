@@ -8,6 +8,7 @@
 # Build directory
 /frontend/dist
 dist
+tsconfig.tsbuildinfo
 .DS_Store
 .env
 .env.local
