@@ -3,6 +3,7 @@ import {defineConfig} from "sanity";
 import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
 import {schemaTypes} from "./schemas";
+import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
 
 // Check for both naming conventions to support both Next.js and Sanity Studio
 const projectId =
@@ -30,6 +31,8 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+
+  structure: bookmarkStructure,
 
   basePath: "/studio",
 });
