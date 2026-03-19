@@ -1,5 +1,5 @@
 import {createClient} from "next-sanity";
-import type {SanityPost} from "@/types/sanity";
+import type {SanityPost, SanityBookmark} from "@/types/sanity";
 
 if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
   throw new Error("Missing NEXT_PUBLIC_SANITY_PROJECT_ID");
@@ -75,6 +75,24 @@ export async function getPosts(limit?: number): Promise<SanityPost[]> {
     {
       cache: process.env.NODE_ENV === 'production' ? "force-cache" : "no-store",
       next: {revalidate: process.env.NODE_ENV === 'production' ? 3600 : 0},
+    }
+  );
+}
+
+export async function getBookmarks(): Promise<SanityBookmark[]> {
+  const query = `*[_type == "bookmark" && !(_id in path('drafts.**'))] | order(title asc) {
+    _id,
+    title,
+    url,
+    "folder": folder->name
+  }`;
+
+  return client.fetch<SanityBookmark[]>(
+    query,
+    {},
+    {
+      cache: process.env.NODE_ENV === "production" ? "force-cache" : "no-store",
+      next: {revalidate: process.env.NODE_ENV === "production" ? 3600 : 0},
     }
   );
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <!-- Shown when credentials are not configured -->
+    <div id="no-config" class="view hidden">
+      <div class="empty-state">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <p>Configure your Sanity credentials to get started.</p>
+        <button id="open-settings" class="btn btn-primary">Open Settings</button>
+      </div>
+    </div>
+
+    <!-- Main bookmark form -->
+    <div id="main" class="view hidden">
+      <form id="bookmark-form">
+        <label for="title">Title</label>
+        <input type="text" id="title" required spellcheck="false" />
+
+        <label for="url">URL</label>
+        <input type="url" id="url" required spellcheck="false" />
+
+        <label for="folder">Folder</label>
+        <div class="folder-row">
+          <select id="folder">
+            <option value="" disabled selected>Loading folders...</option>
+          </select>
+          <button type="button" id="new-folder-btn" class="btn-icon-sm" title="New folder">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div id="new-folder-row" class="new-folder-row hidden">
+          <input
+            type="text"
+            id="new-folder-name"
+            placeholder="New folder name..."
+            spellcheck="false"
+          />
+          <button type="button" id="cancel-new-folder" class="btn-icon-sm" title="Cancel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+
+        <button type="submit" id="save-btn" class="btn btn-primary btn-full">
+          Save Bookmark
+        </button>
+      </form>
+
+      <div id="status" class="status hidden"></div>
+
+      <div class="footer">
+        <button id="open-settings-link" class="link-btn">Settings</button>
+      </div>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
