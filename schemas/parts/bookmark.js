@@ -32,6 +32,12 @@ export default {
       name: "titleAsc",
       by: [{field: "title", direction: "asc"}],
     },
+    {
+      title: "Folder",
+      name: "folderAsc",
+      by: [{field: "folder.name", direction: "asc"}],
+      extendedProjection: "folder->name",
+    },
   ],
   preview: {
     select: {

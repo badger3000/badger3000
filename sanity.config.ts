@@ -3,6 +3,7 @@ import {defineConfig} from "sanity";
 import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
 import {schemaTypes} from "./schemas";
+import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
 
 // Check for both naming conventions to support both Next.js and Sanity Studio
 const projectId =
@@ -25,7 +26,7 @@ export default defineConfig({
   projectId,
   dataset,
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [structureTool({structure: bookmarkStructure}), visionTool()],
 
   schema: {
     types: schemaTypes,
