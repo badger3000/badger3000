@@ -26,13 +26,11 @@ export default defineConfig({
   projectId,
   dataset,
 
-  plugins: [structureTool(), visionTool()],
+  plugins: [structureTool({structure: bookmarkStructure}), visionTool()],
 
   schema: {
     types: schemaTypes,
   },
-
-  structure: bookmarkStructure,
 
   basePath: "/studio",
 });
