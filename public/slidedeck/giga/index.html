@@ -1286,72 +1286,73 @@
               style="
                 display: grid;
                 grid-template-columns: 1fr 1fr;
+                grid-auto-rows: 1fr;
                 gap: 10px;
                 width: 100%;
               "
             >
-              <div style="display: flex; flex-direction: column; gap: 10px">
-                <div class="ai-row">
-                  <p>
-                    <strong>Site audit before building:</strong> Before writing
-                    a single line of Webflow, I audited gigaenergy.com's source
-                    code with Claude — identifying the WebFont.js render-block,
-                    the broken <code class="inline">initSwiper()</code> bug, the
-                    missing UTM persistence layer, and dual analytics
-                    fragmentation. This informed every build decision.
-                  </p>
-                </div>
-                <div class="ai-row">
-                  <p>
-                    <strong>Copy drafting and refinement:</strong> Initial
-                    headline variants generated in Claude with a specific
-                    buyer-psychographics prompt, then manually refined. 3
-                    variants tested in team review before committing to the
-                    build. Time saved: ~40 minutes of blank-page copy drafting.
-                  </p>
-                </div>
-                <div class="ai-row">
-                  <p>
-                    <strong>Schema markup generation:</strong> Organization,
-                    Product, and FAQPage schema blocks generated and validated
-                    against schema.org spec with AI assistance. Dropped into
-                    Webflow Project Settings head. Ensures AI search systems
-                    (Perplexity, ChatGPT, Claude) can confidently cite Giga's
-                    specs.
-                  </p>
-                </div>
+              <div class="ai-row">
+                <p>
+                  <strong>Landing page generation with Google Stitch:</strong>
+                  Google Stitch was used to generate the landing page mockup
+                  directly from the strategy and copy brief — producing a
+                  fully structured, responsive build in a single pass. Both a
+                  <a href="web-desktop.html" target="_blank" style="color: var(--brand-light);">desktop</a>
+                  and
+                  <a href="web-mobile.html" target="_blank" style="color: var(--brand-light);">mobile</a>
+                  version were output, serving as the functional prototype
+                  delivered to the client.
+                </p>
               </div>
-              <div style="display: flex; flex-direction: column; gap: 10px">
-                <div class="ai-row">
-                  <p>
-                    <strong>UTM persistence script:</strong> The full
-                    first-touch UTM capture → localStorage → HubSpot hidden
-                    fields script was written with AI pair-programming. Tested
-                    against multi-page journey scenarios before deployment.
-                    Directly fixes the attribution gap identified in the audit.
-                  </p>
-                </div>
-                <div class="ai-row">
-                  <p>
-                    <strong>A/B test hypothesis writing:</strong> Hypothesis
-                    format (Because we observed X, we believe changing Y will
-                    result in Z, measured by W) was drafted in Claude using
-                    actual page scroll data patterns from comparable B2B
-                    industrial pages. Ensures the test is designed to answer a
-                    real question, not just generate data.
-                  </p>
-                </div>
-                <div class="ai-row">
-                  <p>
-                    <strong>llms.txt for AI discoverability:</strong> A
-                    structured <code class="inline">llms.txt</code> file was
-                    drafted and will be deployed via Cloudflare Worker so AI
-                    crawlers receive a structured company brief before parsing
-                    marketing-voice content. Positions Giga for citation in
-                    AI-mediated searches like "who builds AI data center
-                    infrastructure fastest."
-                  </p>
-                </div>
+              <div class="ai-row">
+                <p>
+                  <strong>UTM persistence script:</strong> The full
+                  first-touch UTM capture → localStorage → HubSpot hidden
+                  fields script was written with AI pair-programming. Tested
+                  against multi-page journey scenarios before deployment.
+                  Directly fixes the attribution gap identified in the audit.
+                </p>
+              </div>
+              <div class="ai-row">
+                <p>
+                  <strong>Copy drafting and refinement:</strong> Initial
+                  headline variants generated in Claude with a specific
+                  buyer-psychographics prompt, then manually refined. 3
+                  variants tested in team review before committing to the
+                  build. Time saved: ~40 minutes of blank-page copy drafting.
+                </p>
+              </div>
+              <div class="ai-row">
+                <p>
+                  <strong>A/B test hypothesis writing:</strong> Hypothesis
+                  format (Because we observed X, we believe changing Y will
+                  result in Z, measured by W) was drafted in Claude using
+                  actual page scroll data patterns from comparable B2B
+                  industrial pages. Ensures the test is designed to answer a
+                  real question, not just generate data.
+                </p>
+              </div>
+              <div class="ai-row">
+                <p>
+                  <strong>Schema markup generation:</strong> Organization,
+                  Product, and FAQPage schema blocks generated and validated
+                  against schema.org spec with AI assistance. Dropped into
+                  Webflow Project Settings head. Ensures AI search systems
+                  (Perplexity, ChatGPT, Claude) can confidently cite Giga's
+                  specs.
+                </p>
+              </div>
+              <div class="ai-row">
+                <p>
+                  <strong>llms.txt for AI discoverability:</strong> Webflow
+                  can't serve arbitrary files at root paths, so the file is
+                  hosted as a raw GitHub Gist and wired up via a 301 redirect
+                  in Webflow's hosting settings
+                  (<code class="inline">/llms.txt</code> → Gist raw URL).
+                  Ensures AI crawlers receive a structured company brief before
+                  parsing marketing-copy pages — no additional infrastructure
+                  required.
+                </p>
               </div>
             </div>
           </div>
