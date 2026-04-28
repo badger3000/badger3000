@@ -31,6 +31,15 @@ const nextConfig = {
   // Use gzip compression
   compress: true,
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: '/slidedeck/giga',
+        destination: '/slidedeck/giga/index.html',
+        permanent: false,
+      },
+    ];
+  },
   // Set proper environment variables
   env: {
     SITE_URL: process.env.SITE_URL || "https://www.badger3000.com/",
