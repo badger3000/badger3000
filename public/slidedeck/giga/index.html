@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>3-Phase Padmount Landing Page — Strategy · Mad Badger Studios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.css"
+    />
+    <style>
+      /* ─── Design tokens — updated for readability ─── */
+      :root {
+        --bg: #0f1117;
+        --surface: #161921;
+        --surface-2: #1d2029;
+        --border: rgba(255, 255, 255, 0.09);
+        --brand: #2563eb;
+        --brand-light: #60a5fa;
+        --brand-dim: rgba(37, 99, 235, 0.15);
+        --accent: #00e5a0;
+        --accent-dim: rgba(0, 229, 160, 0.12);
+        --text: #e8eaf0;
+        --text-2: #a8adbe;
+        --text-3: #636878;
+        --white: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ─── Topbar ─── */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 24px;
+        height: 48px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+      .topbar-title {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-2);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .slide-counter {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        color: var(--text-3);
+      }
+      .slide-counter span {
+        color: var(--brand-light);
+      }
+      .export-note {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+      }
+
+      /* ─── Reveal.js viewport & base overrides ─── */
+      /* Push reveal viewport below the topbar */
+      .reveal-viewport {
+        background: var(--bg);
+        padding-top: 48px;
+        box-sizing: border-box;
+      }
+
+      .reveal {
+        font-family: "DM Sans", sans-serif;
+        color: var(--text);
+        font-size: 16px;
+      }
+
+      /* Kill reveal's default section padding/text-align and impose our design */
+      .reveal .slides section {
+        padding: 0 !important;
+        text-align: left !important;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        display: block !important;
+        line-height: normal;
+        letter-spacing: normal;
+      }
+
+      /* Blue corner triangle on every slide */
+      .reveal .slides section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 18px 18px 0;
+        border-color: transparent var(--brand) transparent transparent;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      /* Reset reveal typography overrides */
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal p,
+      .reveal ul,
+      .reveal ol {
+        margin: 0;
+        padding: 0;
+      }
+      .reveal ul,
+      .reveal ol {
+        list-style: none;
+      }
+
+      /* Controls */
+      .reveal .controls {
+        color: var(--brand-light);
+      }
+      .reveal .controls button {
+        color: var(--brand-light);
+        opacity: 0.5;
+      }
+      .reveal .controls button.enabled {
+        opacity: 1;
+      }
+
+      /* Progress bar */
+      .reveal .progress {
+        height: 2px;
+        color: var(--brand);
+      }
+
+      /* Slide number */
+      .reveal .slide-number {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        color: var(--text-3);
+        background: transparent;
+        padding: 8px 16px;
+      }
+
+      /* ─── Layout ─── */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        height: 100%;
+      }
+      .col-content {
+        padding: 48px 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 20px;
+      }
+      .col-dark {
+        background: var(--bg);
+        border-right: 1px solid var(--border);
+      }
+      .full-pad {
+        padding: 52px 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 22px;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ─── Typography ─── */
+      .eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--brand-light);
+      }
+      .eyebrow.green {
+        color: var(--accent);
+      }
+      .eyebrow.muted {
+        color: var(--text-3);
+      }
+      .slide-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--brand-light);
+      }
+
+      h1.display {
+        font-family: "DM Serif Display", serif;
+        font-size: 50px;
+        line-height: 1.05;
+        color: var(--white);
+        font-weight: 400;
+      }
+      h2.slide-h {
+        font-family: "DM Serif Display", serif;
+        font-size: 30px;
+        line-height: 1.15;
+        color: var(--white);
+        font-weight: 400;
+      }
+      p.body {
+        font-size: 14px;
+        line-height: 1.7;
+        color: var(--text-2);
+        font-weight: 300;
+      }
+      p.body strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+      p.body em {
+        color: var(--accent);
+        font-style: normal;
+      }
+
+      .divider {
+        width: 32px;
+        height: 1px;
+        background: var(--brand);
+      }
+      .divider.full {
+        width: 100%;
+        background: var(--border);
+      }
+
+      /* ─── Tags ─── */
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 2px;
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+      }
+      .tag.blue {
+        background: var(--brand-dim);
+        color: var(--brand-light);
+        border: 1px solid rgba(37, 99, 235, 0.25);
+      }
+      .tag.green {
+        background: var(--accent-dim);
+        color: var(--accent);
+        border: 1px solid rgba(0, 229, 160, 0.2);
+      }
+      .tag.grey {
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text-2);
+        border: 1px solid var(--border);
+      }
+
+      /* ─── Cards ─── */
+      .card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: 0.02em;
+      }
+      .card-body {
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.55;
+        font-weight: 300;
+      }
+      .card.highlight {
+        border-color: rgba(37, 99, 235, 0.4);
+        background: var(--brand-dim);
+      }
+      .card.highlight .card-title {
+        color: var(--brand-light);
+      }
+      .card.green-hl {
+        border-color: rgba(0, 229, 160, 0.3);
+        background: var(--accent-dim);
+      }
+      .card.green-hl .card-title {
+        color: var(--accent);
+      }
+
+      /* ─── List items ─── */
+      .list-item {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .list-item .dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--brand-light);
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
+      .list-item .dot.green {
+        background: var(--accent);
+      }
+      .list-item p {
+        font-size: 13.5px;
+        color: var(--text-2);
+        line-height: 1.55;
+        font-weight: 300;
+      }
+      .list-item p strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* ─── Funnel steps ─── */
+      .funnel {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+      }
+      .funnel-step {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 9px 14px;
+        border: 1px solid var(--border);
+        margin-bottom: -1px;
+        background: var(--bg);
+      }
+      .funnel-step.hl {
+        border-color: var(--brand);
+        background: var(--brand-dim);
+        z-index: 1;
+      }
+      .funnel-step-num {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        color: var(--text-3);
+        width: 16px;
+        flex-shrink: 0;
+      }
+      .funnel-step-label {
+        font-size: 12px;
+        color: var(--text);
+        font-weight: 500;
+        flex: 1;
+      }
+      .funnel-step-why {
+        font-size: 11px;
+        color: var(--text-2);
+        font-weight: 300;
+        max-width: 200px;
+        text-align: right;
+        line-height: 1.35;
+      }
+
+      /* ─── Metrics table ─── */
+      .mtable {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .mtable th {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-3);
+        padding: 8px 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+      .mtable td {
+        font-size: 13px;
+        color: var(--text-2);
+        padding: 9px 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+        line-height: 1.45;
+      }
+      .mtable td:first-child {
+        color: var(--text);
+        font-weight: 500;
+        min-width: 110px;
+      }
+      .mtable td.good {
+        color: var(--accent);
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+      }
+      .mtable tr:last-child td {
+        border-bottom: none;
+      }
+      .mtable tr.hl td {
+        background: var(--brand-dim);
+      }
+      .mtable tr.hl td:first-child {
+        color: var(--brand-light);
+      }
+
+      /* ─── A/B test ─── */
+      .ab-wrap {
+        border: 1px solid var(--border);
+        width: 100%;
+      }
+      .ab-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .ab-side {
+        padding: 14px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .ab-side:first-child {
+        border-right: 1px solid var(--border);
+      }
+      .ab-label {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .ab-label.a {
+        color: var(--text-3);
+      }
+      .ab-label.b {
+        color: var(--brand-light);
+      }
+      .ab-desc {
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.5;
+      }
+      .ab-foot {
+        padding: 12px 18px;
+        border-top: 1px solid var(--border);
+        background: var(--bg);
+        font-size: 12px;
+        color: var(--text-2);
+        line-height: 1.55;
+        font-style: italic;
+      }
+      .ab-foot strong {
+        color: var(--text);
+        font-style: normal;
+      }
+
+      /* ─── AI callout row ─── */
+      .ai-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        background: var(--brand-dim);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 2px;
+      }
+      .ai-row p {
+        font-size: 13px;
+        color: var(--text-2);
+        line-height: 1.6;
+      }
+      .ai-row p strong {
+        color: var(--brand-light);
+        font-weight: 500;
+      }
+
+      /* ─── Title slide ─── */
+      .title-left {
+        padding: 52px 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background: var(--bg);
+        border-right: 1px solid var(--border);
+        height: 100%;
+      }
+      .title-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px 44px;
+        gap: 24px;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+      }
+      .title-right::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 80% 50%,
+            rgba(37, 99, 235, 0.1) 0%,
+            transparent 70%
+          ),
+          repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 39px,
+            rgba(255, 255, 255, 0.03) 39px,
+            rgba(255, 255, 255, 0.03) 40px
+          ),
+          repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 39px,
+            rgba(255, 255, 255, 0.03) 39px,
+            rgba(255, 255, 255, 0.03) 40px
+          );
+        pointer-events: none;
+      }
+
+      /* Inline code style used in slide 9 */
+      code.inline {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 1px 5px;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- ══════════════ SLIDE 1 — Title ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div class="title-left">
+              <div style="display: flex; flex-direction: column; gap: 18px">
+                <div class="eyebrow">Case Study · Marketing Engineer</div>
+                <h1 class="display">3-Phase<br />Padmount<br />Landing Page</h1>
+                <div class="divider"></div>
+                <p class="body">
+                  Conversion-optimized for procurement professionals sourcing
+                  power distribution equipment. Strategy, structure,
+                  measurement, and iteration plan.
+                </p>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <div class="divider full"></div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                  <span class="tag blue">Kyle Ross</span>
+                  <span class="tag grey">April 2026</span>
+                </div>
+              </div>
+            </div>
+            <div class="title-right">
+              <div
+                style="
+                  position: relative;
+                  z-index: 1;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 22px;
+                "
+              >
+                <div class="eyebrow green">Agenda</div>
+                <div style="display: flex; flex-direction: column; gap: 11px">
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>01 —</strong> The Buyer</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>02 —</strong> The Page's One Job</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>03 —</strong> Page Structure &amp; Rationale</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>04 —</strong> What Got Cut and Why</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>05 —</strong> Measuring Success</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>06 —</strong> First A/B Test</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>07 —</strong> Funnel &amp; Distribution</p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p><strong>08 —</strong> AI &amp; Tooling in the Build</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 2 — The Buyer ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div
+              class="col-content col-dark"
+              style="padding: 44px 40px; gap: 18px"
+            >
+              <div class="slide-label">01 · The Buyer</div>
+              <div
+                style="
+                  margin-top: 16px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <h2 class="slide-h">Who is actually<br />reading this page?</h2>
+                <p class="body">
+                  A
+                  <strong
+                    >procurement lead, electrical engineer, or project
+                    manager</strong
+                  >
+                  at a data center operator, utility, or industrial contractor.
+                  They arrived with a specific project in mind.
+                </p>
+                <p class="body">
+                  They already know what a padmount transformer is. They're not
+                  learning — they're
+                  <em>evaluating Giga specifically</em> against alternatives
+                  they already have on a shortlist.
+                </p>
+                <div class="divider"></div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                  <span class="tag blue">High purchase intent</span>
+                  <span class="tag blue">Long eval cycle</span>
+                  <span class="tag blue">Multi-stakeholder sign-off</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-content" style="padding: 36px 32px; gap: 10px">
+              <div class="eyebrow muted" style="margin-bottom: 4px">
+                Buyer Mindset Map
+              </div>
+              <div class="card">
+                <div class="card-title">
+                  What they need to answer immediately
+                </div>
+                <div class="card-body">
+                  Can Giga hit my kV/kVA range? Do they have inventory or custom
+                  options? Can they deliver on my timeline?
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">What builds confidence to act</div>
+                <div class="card-body">
+                  Named customer logos, testimonials from similar buyers, US
+                  manufacturing, compliance certifications, clear specs.
+                </div>
+              </div>
+              <div class="card highlight">
+                <div class="card-title">The conversion blocker</div>
+                <div class="card-body">
+                  They will not submit a form if they can't answer "can Giga
+                  actually build what I need?" within the first scroll. Every
+                  word above the fold must serve this question.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">What they don't care about</div>
+                <div class="card-body">
+                  Brand storytelling, company founding narrative, or any content
+                  that isn't directly relevant to their spec requirements and
+                  procurement timeline.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 3 — Page's One Job ══════════════ -->
+        <section>
+          <div class="full-pad" style="align-items: flex-start">
+            <div class="slide-label">02 · The Page's One Job</div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-top: 10px;
+              "
+            >
+              <div class="eyebrow">The single conversion goal</div>
+              <h2 class="slide-h" style="font-size: 36px; line-height: 1.1">
+                Get a qualified procurement buyer<br />to click "Build a Quote."
+              </h2>
+            </div>
+            <div class="divider"></div>
+            <p class="body" style="max-width: 680px">
+              Not educate. Not entertain. Not build brand affinity. One action —
+              from a buyer who already has a project in mind. Every section
+              either earns that click or gets removed. There is no neutral
+              content on a conversion page.
+            </p>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+                width: 100%;
+                margin-top: 4px;
+              "
+            >
+              <div class="card">
+                <div class="card-title">Answer the spec question first</div>
+                <div class="card-body">
+                  Up to 46 kV &amp; 10,000 kVA. In-stock and custom. Hero
+                  headline leads with this — not brand, not story.
+                </div>
+              </div>
+              <div class="card highlight">
+                <div class="card-title">Earn trust before asking</div>
+                <div class="card-body">
+                  Social proof (logos, testimonials from similar buyers),
+                  US-based in-house manufacturing, certifications — all arrive
+                  before the primary CTA.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Low-friction entry point</div>
+                <div class="card-body">
+                  The build uses a quote request form as a <em>prototype</em> of
+                  this CTA. In production, "Build a Quote" becomes a
+                  step-through configurator — kVA range → voltage class →
+                  timeline → submit — reducing commitment anxiety versus a cold
+                  contact form. The form captures identical data and is a
+                  functional stand-in for this mockup.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 4 — Page Structure ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div
+              class="col-content col-dark"
+              style="padding: 40px 36px; gap: 16px"
+            >
+              <div class="slide-label">03 · Page Structure</div>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <h2 class="slide-h">Trust → Qualify<br />→ Convert</h2>
+                <p class="body">
+                  Each section answers the exact question the buyer is asking at
+                  that moment in the scroll. The order is deliberate — trust
+                  must be established before specs are evaluated, and specs must
+                  be confirmed before a quote is requested.
+                </p>
+                <div class="divider"></div>
+                <p class="body">
+                  Sections that don't serve one of these three states were
+                  removed from the build.
+                </p>
+              </div>
+            </div>
+            <div class="col-content" style="padding: 32px 30px; gap: 0">
+              <div class="funnel">
+                <div class="funnel-step hl">
+                  <div class="funnel-step-num">01</div>
+                  <div class="funnel-step-label">
+                    Hero — Spec claim + Primary CTA
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "Can Giga build what I need?"
+                  </div>
+                </div>
+                <div class="funnel-step">
+                  <div class="funnel-step-num">02</div>
+                  <div class="funnel-step-label">
+                    Social proof — Customer logos
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "Do companies like mine use Giga?"
+                  </div>
+                </div>
+                <div class="funnel-step">
+                  <div class="funnel-step-num">03</div>
+                  <div class="funnel-step-label">
+                    Specs grid — kV / kVA / configurations
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "Do they have my exact spec?"
+                  </div>
+                </div>
+                <div class="funnel-step">
+                  <div class="funnel-step-num">04</div>
+                  <div class="funnel-step-label">
+                    Manufacturing — US-made, in-house
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "Are these reliable, not resold?"
+                  </div>
+                </div>
+                <div class="funnel-step">
+                  <div class="funnel-step-num">05</div>
+                  <div class="funnel-step-label">
+                    Testimonials — Named buyers, real quotes
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "Have they delivered before?"
+                  </div>
+                </div>
+                <div class="funnel-step">
+                  <div class="funnel-step-num">06</div>
+                  <div class="funnel-step-label">
+                    Features — Lead time, custom, certs
+                  </div>
+                  <div class="funnel-step-why">
+                    Answers: "What's the buying process like?"
+                  </div>
+                </div>
+                <div class="funnel-step hl">
+                  <div class="funnel-step-num">07</div>
+                  <div class="funnel-step-label">
+                    CTA — "Build a Quote" + Secondary contact
+                  </div>
+                  <div class="funnel-step-why">
+                    Action: configured quote or direct outreach
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 5 — What Got Cut ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div
+              class="col-content col-dark"
+              style="padding: 40px 36px; gap: 16px"
+            >
+              <div class="slide-label">04 · What Got Cut</div>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <h2 class="slide-h">Content judgment<br />under constraints</h2>
+                <p class="body">
+                  The copy pack had more material than the page needs. Every cut
+                  was made by asking:
+                  <em
+                    >does a procurement buyer need this to feel confident
+                    requesting a quote?</em
+                  >
+                </p>
+                <p class="body">
+                  If the answer was no, or if it duplicated a stronger element
+                  already on the page, it was removed. Noise reduces conversion.
+                </p>
+              </div>
+            </div>
+            <div class="col-content" style="padding: 36px 32px; gap: 10px">
+              <div class="eyebrow muted" style="margin-bottom: 4px">
+                Cut decisions
+              </div>
+              <div class="card">
+                <div class="card-title">✕ &nbsp;Company origin story</div>
+                <div class="card-body">
+                  The buyer is sourcing equipment, not evaluating a vendor
+                  relationship. Founding narrative has zero purchase-decision
+                  relevance for this audience.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">
+                  ✕ &nbsp;Bitcoin mining product mentions
+                </div>
+                <div class="card-body">
+                  On a padmount page targeting data center operators, bitcoin
+                  mining context erodes trust. Wrong signal for the audience.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">✕ &nbsp;Blog / resource links</div>
+                <div class="card-body">
+                  Exit links on a landing page bleed conversion. Resources
+                  belong in nurture, not on the quote-request path.
+                </div>
+              </div>
+              <div class="card green-hl">
+                <div class="card-title">
+                  ✓ &nbsp;What stayed: the spec range
+                </div>
+                <div class="card-body">
+                  46 kV / 10,000 kVA / 3-phase in the hero. This is the primary
+                  qualifier — the buyer needs to see it instantly to know
+                  they're in the right place.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 6 — Measuring Success ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div
+              class="col-content col-dark"
+              style="padding: 40px 36px; gap: 16px"
+            >
+              <div class="slide-label">05 · Measuring Success</div>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <h2 class="slide-h">What good looks<br />like at 30/60/90</h2>
+                <p class="body">
+                  This is a high-intent B2B page. Volume will be low, deal size
+                  is high. Optimizing for
+                  <strong>qualified quote request rate</strong> matters more
+                  than raw conversion rate. One mis-qualified lead is noise; one
+                  true SQL is significant pipeline.
+                </p>
+                <div class="divider"></div>
+                <div style="display: flex; flex-direction: column; gap: 8px">
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>GA4</strong> — quote_request event, scroll depth,
+                      time on page
+                    </p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>HubSpot</strong> — form submissions, lead source
+                      attribution, SQL conversion rate from page
+                    </p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>Hotjar / MS Clarity</strong> — scroll heatmaps,
+                      click maps, session recordings on drop-off
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-content" style="padding: 32px 28px; gap: 10px">
+              <div class="eyebrow muted" style="margin-bottom: 4px">
+                Success benchmarks
+              </div>
+              <table class="mtable">
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Day 30</th>
+                    <th>Day 60</th>
+                    <th>Day 90 (Good)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="hl">
+                    <td>Quote request rate</td>
+                    <td>Baseline set</td>
+                    <td>3–5%</td>
+                    <td class="good">&gt; 5%</td>
+                  </tr>
+                  <tr>
+                    <td>Scroll depth</td>
+                    <td>Measure</td>
+                    <td>&gt; 60% reach CTA</td>
+                    <td class="good">&gt; 70%</td>
+                  </tr>
+                  <tr>
+                    <td>Bounce rate</td>
+                    <td>Measure</td>
+                    <td>&lt; 55%</td>
+                    <td class="good">&lt; 45%</td>
+                  </tr>
+                  <tr>
+                    <td>Time on page</td>
+                    <td>Measure</td>
+                    <td>&gt; 90s avg</td>
+                    <td class="good">&gt; 2 min</td>
+                  </tr>
+                  <tr>
+                    <td>HubSpot → SQL</td>
+                    <td>Track</td>
+                    <td>Track trend</td>
+                    <td class="good">&gt; 20% of leads</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="ai-row" style="margin-top: 6px">
+                <p>
+                  <strong>Attribution note:</strong> UTM persistence script
+                  ensures all paid traffic sources are captured in HubSpot even
+                  if buyer navigates to other pages before converting.
+                  First-touch model for campaign ROI reporting.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 7 — A/B Test ══════════════ -->
+        <section>
+          <div class="full-pad" style="gap: 20px">
+            <div class="slide-label">06 · First A/B Test</div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 8px;
+              "
+            >
+              <h2 class="slide-h">The first test after 30 days of traffic</h2>
+              <p class="body" style="max-width: 700px">
+                With a month of data, the first question is whether the hero is
+                qualifying or confusing the buyer. The headline is the
+                highest-leverage element — it determines whether the rest of the
+                page gets read at all.
+              </p>
+            </div>
+            <div class="ab-wrap">
+              <div class="ab-grid">
+                <div class="ab-side">
+                  <div class="ab-label a">Control — A</div>
+                  <div class="ab-desc">
+                    <strong style="color: var(--text)"
+                      >Spec-led headline:</strong
+                    ><br />"Custom 3-Phase Padmount Transformers. Up to 46 kV
+                    &amp; 10,000 kVA. In-stock and made-to-order."
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 6px;
+                      flex-wrap: wrap;
+                      margin-top: 4px;
+                    "
+                  >
+                    <span class="tag grey">Technical</span>
+                    <span class="tag grey">Qualification-first</span>
+                  </div>
+                </div>
+                <div class="ab-side">
+                  <div class="ab-label b">Variant — B</div>
+                  <div class="ab-desc">
+                    <strong style="color: var(--text)"
+                      >Speed + spec headline:</strong
+                    ><br />"The transformer your project needs, built and
+                    delivered faster. Up to 46 kV &amp; 10,000 kVA, US-made."
+                  </div>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 6px;
+                      flex-wrap: wrap;
+                      margin-top: 4px;
+                    "
+                  >
+                    <span class="tag blue">Outcome-led</span>
+                    <span class="tag blue">Urgency signal</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ab-foot">
+                <strong>Hypothesis:</strong> Because procurement buyers are
+                often under timeline pressure, a headline that leads with
+                delivery speed and US manufacturing alongside the spec claim
+                will increase quote request rate versus a pure spec headline —
+                measured by click-through to the quote builder over a 4-week
+                window at statistical significance (p &lt; 0.05, minimum 200
+                sessions per variant).
+              </div>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 10px;
+                margin-top: 2px;
+              "
+            >
+              <div class="card">
+                <div class="card-title">Implementation</div>
+                <div class="card-body">
+                  Cloudflare Worker URL split — no Webflow plugin required.
+                  Variant assignment via cookie for consistent experience. GTM
+                  fires variant ID to GA4 on load.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Primary metric</div>
+                <div class="card-body">
+                  Click-through rate on "Build a Quote" CTA. Secondary: time on
+                  page and scroll depth to spec section.
+                </div>
+              </div>
+              <div class="card highlight">
+                <div class="card-title">If B wins</div>
+                <div class="card-body">
+                  Next test: subheadline — does adding "7-week delivery" as a
+                  proof point lift conversion further, or does it create
+                  skepticism?
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 8 — Funnel & Distribution ══════════════ -->
+        <section>
+          <div class="two-col">
+            <div
+              class="col-content col-dark"
+              style="padding: 40px 36px; gap: 16px"
+            >
+              <div class="slide-label">07 · Funnel &amp; Distribution</div>
+              <div
+                style="
+                  margin-top: 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <h2 class="slide-h">
+                  How this page connects<br />to the broader funnel
+                </h2>
+                <p class="body">
+                  A landing page without a traffic and nurture strategy is a
+                  tree falling in an empty forest. This page needs three
+                  connected systems to generate sustained pipeline.
+                </p>
+                <div class="divider"></div>
+                <div style="display: flex; flex-direction: column; gap: 9px">
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>Paid traffic:</strong> LinkedIn Sponsored Content
+                      targeting data center procurement and electrical
+                      engineering job titles. Google Search on commercial-intent
+                      queries: "padmount transformer quote," "3-phase
+                      transformer manufacturer USA."
+                    </p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>SEO:</strong> Long-tail product pages targeting
+                      spec queries ("46 kV padmount transformer," "10000 kVA
+                      3-phase custom"). This page as primary target for
+                      transactional intent terms.
+                    </p>
+                  </div>
+                  <div class="list-item">
+                    <div class="dot"></div>
+                    <p>
+                      <strong>Retargeting:</strong> LinkedIn Insight Tag +
+                      Google remarketing for visitors who hit the page but don't
+                      convert. 7-day window, spec-specific ad creative.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-content" style="padding: 36px 30px; gap: 10px">
+              <div class="eyebrow muted" style="margin-bottom: 4px">
+                Non-converters: What happens next
+              </div>
+              <div class="card">
+                <div class="card-title">Immediate — Retargeting ads</div>
+                <div class="card-body">
+                  Any visitor who scrolls &gt;50% but doesn't convert enters a
+                  LinkedIn/Google retargeting audience. Ad creative mirrors the
+                  spec range they viewed. 7-day window before frequency cap.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Form submitted, not ready to buy</div>
+                <div class="card-body">
+                  HubSpot workflow enrolls in a 4-email technical nurture
+                  sequence: spec guide → manufacturing explainer → customer case
+                  study → direct "ready to quote?" outreach from AE.
+                </div>
+              </div>
+              <div class="card highlight">
+                <div class="card-title">SEO long game</div>
+                <div class="card-body">
+                  This page targets "padmount transformer manufacturer" and
+                  "custom 3-phase transformer USA." Supporting blog content
+                  ("how to spec a padmount transformer") feeds internal links to
+                  this page, building topical authority over 6–12 months.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Attribution</div>
+                <div class="card-body">
+                  UTM persistence script stores first-touch campaign data in
+                  localStorage → populates HubSpot hidden fields on form submit
+                  → W-shaped attribution in HubSpot reporting credits first
+                  touch, lead creation, and opportunity creation.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════ SLIDE 9 — AI & Tooling ══════════════ -->
+        <section>
+          <div class="full-pad" style="gap: 20px">
+            <div class="slide-label">08 · AI &amp; Tooling in the Build</div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 8px;
+              "
+            >
+              <h2 class="slide-h">
+                How AI accelerated this work — specifically
+              </h2>
+              <p class="body" style="max-width: 700px">
+                AI wasn't used as a novelty. It was used as an operating system
+                for speed and quality. Here's exactly where it entered the
+                workflow.
+              </p>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                width: 100%;
+              "
+            >
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <div class="ai-row">
+                  <p>
+                    <strong>Site audit before building:</strong> Before writing
+                    a single line of Webflow, I audited gigaenergy.com's source
+                    code with Claude — identifying the WebFont.js render-block,
+                    the broken <code class="inline">initSwiper()</code> bug, the
+                    missing UTM persistence layer, and dual analytics
+                    fragmentation. This informed every build decision.
+                  </p>
+                </div>
+                <div class="ai-row">
+                  <p>
+                    <strong>Copy drafting and refinement:</strong> Initial
+                    headline variants generated in Claude with a specific
+                    buyer-psychographics prompt, then manually refined. 3
+                    variants tested in team review before committing to the
+                    build. Time saved: ~40 minutes of blank-page copy drafting.
+                  </p>
+                </div>
+                <div class="ai-row">
+                  <p>
+                    <strong>Schema markup generation:</strong> Organization,
+                    Product, and FAQPage schema blocks generated and validated
+                    against schema.org spec with AI assistance. Dropped into
+                    Webflow Project Settings head. Ensures AI search systems
+                    (Perplexity, ChatGPT, Claude) can confidently cite Giga's
+                    specs.
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <div class="ai-row">
+                  <p>
+                    <strong>UTM persistence script:</strong> The full
+                    first-touch UTM capture → localStorage → HubSpot hidden
+                    fields script was written with AI pair-programming. Tested
+                    against multi-page journey scenarios before deployment.
+                    Directly fixes the attribution gap identified in the audit.
+                  </p>
+                </div>
+                <div class="ai-row">
+                  <p>
+                    <strong>A/B test hypothesis writing:</strong> Hypothesis
+                    format (Because we observed X, we believe changing Y will
+                    result in Z, measured by W) was drafted in Claude using
+                    actual page scroll data patterns from comparable B2B
+                    industrial pages. Ensures the test is designed to answer a
+                    real question, not just generate data.
+                  </p>
+                </div>
+                <div class="ai-row">
+                  <p>
+                    <strong>llms.txt for AI discoverability:</strong> A
+                    structured <code class="inline">llms.txt</code> file was
+                    drafted and will be deployed via Cloudflare Worker so AI
+                    crawlers receive a structured company brief before parsing
+                    marketing-voice content. Positions Giga for citation in
+                    AI-mediated searches like "who builds AI data center
+                    infrastructure fastest."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- /.slides -->
+    </div>
+    <!-- /.reveal -->
+
+    <div class="topbar">
+      <span class="topbar-title"
+        >Giga Energy · 3-Phase Padmount LP · Strategy Deck</span
+      >
+      <div class="topbar-right">
+        <span class="export-note"
+          >← → arrow keys or click dots to navigate</span
+        >
+        <span class="slide-counter"><span id="cur">1</span> / 9</span>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@6.0.1/dist/reveal.js"></script>
+    <script>
+      Reveal.initialize({
+        width: 1100,
+        height: 618,
+        margin: 0.05,
+        transition: "slide",
+        transitionSpeed: "fast",
+        hash: true,
+        progress: true,
+        controls: true,
+        controlsLayout: "bottom-right",
+        controlsTutorial: false,
+        slideNumber: false,
+        center: true,
+        navigationMode: "linear",
+        keyboard: true,
+        touch: true,
+        overview: true,
+      });
+
+      const curEl = document.getElementById("cur");
+      function updateCounter() {
+        curEl.textContent = Reveal.getIndices().h + 1;
+      }
+      Reveal.on("ready", updateCounter);
+      Reveal.on("slidechanged", updateCounter);
+    </script>
+  </body>
+</html>
