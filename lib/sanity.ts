@@ -9,11 +9,17 @@ if (!process.env.NEXT_PUBLIC_SANITY_DATASET) {
   throw new Error("Missing NEXT_PUBLIC_SANITY_DATASET");
 }
 
+// In local dev, preview unpublished draft content (requires a token and
+// disables the CDN, which only serves published documents). In production we
+// always read the published perspective via the CDN.
+const previewDrafts =
+  process.env.NODE_ENV !== "production" && !!process.env.SANITY_API_TOKEN;
+
 const config = {
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: "2024-03-09",
-  useCdn: true,
+  useCdn: !previewDrafts,
   token: process.env.SANITY_API_TOKEN,
 };
 
@@ -27,8 +33,7 @@ if (!config.dataset) {
 
 export const client = createClient({
   ...config,
-  useCdn: true, // Always use CDN for better performance
-  perspective: "published",
+  perspective: previewDrafts ? "drafts" : "published",
   stega: false, // Disable stega to reduce payload size
 });
 
