@@ -150,10 +150,21 @@ export default {
       name: "authorProfileUrl",
       type: "url",
       group: "authorCitation",
-      description: "Link to the author's original post or profile page",
+      description: "Link to the author's profile page",
       validation: (Rule) =>
         Rule.uri({
           scheme: ["http", "https", "mailto", "tel"],
+        }),
+    },
+    {
+      title: "Original Article URL",
+      name: "originalArticleUrl",
+      type: "url",
+      group: "authorCitation",
+      description: "Link to the original article post",
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ["http", "https"],
         }),
     },
     {

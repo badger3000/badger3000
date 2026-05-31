@@ -143,6 +143,7 @@ async function getPost(slug: string) {
     },
     authorName,
     authorProfileUrl,
+    originalArticleUrl,
     disclaimer
   }`;
 
@@ -171,14 +172,6 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
     <article className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
         <div className="max-w-3xl mx-auto">
-          {post.authorName && (
-            <AuthorCitation
-              authorName={post.authorName}
-              authorProfileUrl={post.authorProfileUrl}
-              disclaimer={post.disclaimer}
-            />
-          )}
-
           <div className="text-center mb-8">
             <h1 className="h1 font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-3xl mb-4">
               {post.title}
@@ -189,6 +182,15 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                 : "Recently"}
             </div>
           </div>
+
+          {post.authorName && (
+            <AuthorCitation
+              authorName={post.authorName}
+              authorProfileUrl={post.authorProfileUrl}
+              originalArticleUrl={post.originalArticleUrl}
+              disclaimer={post.disclaimer}
+            />
+          )}
 
           {post.mainImage?.asset?.url && (
             <div className="relative h-64 sm:h-96 mb-8">
