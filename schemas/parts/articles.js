@@ -7,6 +7,10 @@ export default {
       title: "Card Layout",
       name: "cardLayout",
     },
+    {
+      title: "Author Citation",
+      name: "authorCitation",
+    },
   ],
   fields: [
     {
@@ -132,6 +136,34 @@ export default {
           {title: "25%", value: "lg:bg-25%"},
         ],
       },
+    },
+    // Author Citation Fields
+    {
+      title: "Author Name",
+      name: "authorName",
+      type: "string",
+      group: "authorCitation",
+      description: "Name of the original author (leave empty if this is your own article)",
+    },
+    {
+      title: "Author Profile URL",
+      name: "authorProfileUrl",
+      type: "url",
+      group: "authorCitation",
+      description: "Link to the author's original post or profile page",
+      validation: (Rule) =>
+        Rule.uri({
+          scheme: ["http", "https", "mailto", "tel"],
+        }),
+    },
+    {
+      title: "Disclaimer",
+      name: "disclaimer",
+      type: "text",
+      group: "authorCitation",
+      rows: 3,
+      description:
+        "Custom disclaimer text to display with the author citation. Leave empty for default.",
     },
   ],
 };

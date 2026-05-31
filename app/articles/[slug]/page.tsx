@@ -6,6 +6,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import {PortableText} from "@portabletext/react";
 import {Metadata} from "next";
+import AuthorCitation from "@/components/AuthorCitation";
 
 type Params = {
   slug: string;
@@ -28,7 +29,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({
+export async function generateMetadata ({
   params,
 }: {
   params: Promise<Params>;
@@ -139,7 +140,10 @@ async function getPost(slug: string) {
           dimensions
         }
       }
-    }
+    },
+    authorName,
+    authorProfileUrl,
+    disclaimer
   }`;
 
   // Use caching options for faster responses
@@ -167,6 +171,14 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
     <article className="max-w-3xl mx-auto">
       <div className="pb-12 md:pb-20">
         <div className="max-w-3xl mx-auto">
+          {post.authorName && (
+            <AuthorCitation
+              authorName={post.authorName}
+              authorProfileUrl={post.authorProfileUrl}
+              disclaimer={post.disclaimer}
+            />
+          )}
+
           <div className="text-center mb-8">
             <h1 className="h1 font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-3xl mb-4">
               {post.title}
