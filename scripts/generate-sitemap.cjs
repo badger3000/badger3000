@@ -137,12 +137,23 @@ async function generateSitemapXml() {
       '       xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"\n' +
       '       xmlns:news="http://www.sitemaps.org/schemas/sitemap-news/0.9">\n';
 
+    // Static pages change when content changes, so use the newest content
+    // update instead of the build time (keeps lastmod trustworthy for Google)
+    const latestUpdate = items
+      .map((item) => item._updatedAt)
+      .filter(Boolean)
+      .sort()
+      .pop();
+    const staticLastmod = latestUpdate
+      ? `\n    <lastmod>${new Date(latestUpdate).toISOString()}</lastmod>`
+      : "";
+
     // Add home page - with better formatting
-    sitemap0 += `  <url>\n    <loc>${baseUrl}</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    sitemap0 += `  <url>\n    <loc>${baseUrl}</loc>${staticLastmod}\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
 
     // Add static pages - with better formatting
-    sitemap0 += `  <url>\n    <loc>${baseUrl}/articles</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
-    sitemap0 += `  <url>\n    <loc>${baseUrl}/codepen</loc>\n    <lastmod>${new Date().toISOString()}</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    sitemap0 += `  <url>\n    <loc>${baseUrl}/articles</loc>${staticLastmod}\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+    sitemap0 += `  <url>\n    <loc>${baseUrl}/codepen</loc>${staticLastmod}\n    <changefreq>daily</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
 
     sitemap0 += "</urlset>";
 
