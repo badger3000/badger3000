@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const fs = require("fs");
-const https = require("https");
-const http = require("http");
-const path = require("path");
+import fs from "fs";
+import https from "https";
+import http from "http";
+import path from "path";
 
 // Configuration
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";

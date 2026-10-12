@@ -19,12 +19,12 @@ jobs:
       NEXT_PUBLIC_AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
       SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
@@ -34,7 +34,7 @@ jobs:
         run: node scripts/update-readme.js
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update README with latest blog posts
