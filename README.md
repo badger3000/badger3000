@@ -45,16 +45,6 @@ Currently focused on modern JavaScript frameworks, AI integration, and founding 
 
 ---
 
-## 📈 GitHub Stats
-
-<div align="center">
-
-[![GitHub Streak](https://github-readme-streak-stats-eight.vercel.app/?user=badger3000&theme=tokyonight&hide_border=true&background=0D1117)](https://git.io/streak-stats)
-
-</div>
-
----
-
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
