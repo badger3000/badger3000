@@ -11,7 +11,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const {DOMParser} = require("xmldom");
+const {DOMParser} = require("@xmldom/xmldom");
 // Use http library instead of node-fetch to avoid ESM issues
 const https = require("https");
 const http = require("http");
@@ -39,13 +39,13 @@ console.log(`${colors.blue}Testing sitemaps for ${SITE_URL}${colors.reset}\n`);
 function validateXml(xmlString, filename) {
   try {
     const parser = new DOMParser({
-      errorHandler: {
-        error: function (err) {
-          throw new Error(`XML Error in ${filename}: ${err}`);
-        },
-        fatalError: function (err) {
-          throw new Error(`Fatal XML Error in ${filename}: ${err}`);
-        },
+      onError: function (level, msg) {
+        if (level === "error") {
+          throw new Error(`XML Error in ${filename}: ${msg}`);
+        }
+        if (level === "fatalError") {
+          throw new Error(`Fatal XML Error in ${filename}: ${msg}`);
+        }
       },
     });
 
