@@ -58,14 +58,14 @@ Currently focused on modern JavaScript frameworks, AI integration, and founding 
 <details open> 
  <summary><h2>📝 Latest Posts</h2></summary>
  <!-- BLOG-POST-LIST:START -->
+- <a href="https://www.badger3000.com/articles/i-built-a-5-tool-ai-stack-where-each-tool-does-something-the-others-cannot-here-is-the-full-build">I Built a 5 Tool AI Stack Where Each Tool Does Something the Others Cannot. Here Is the Full Build.</a>
+<br/>
+- <a href="https://www.badger3000.com/articles/your-llm-is-burning-through-tokens-karpathy-found-a-way-to-save-90">Your LLM Is Burning Through Tokens - Karpathy Found a Way to Save 90% </a>
+<br/>
 - <a href="https://www.badger3000.com/codepen/gsap-locomotive-scrolling-landing-page">GSAP + Locomotive Scrolling Landing Page</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/spotlight-navigation-poc-gsap-enhanced">Spotlight Navigation POC - GSAP Enhanced</a>
 <br/>
 - <a href="https://www.badger3000.com/codepen/css-grid-tabs-responsive-desktop-mobile-2025">CSS Grid Tabs - Responsive Desktop/Mobile (2025)</a>
-<br/>
-- <a href="https://www.badger3000.com/codepen/custom-cursor-with-video-trigger">Custom Cursor with Video Trigger</a>
-<br/>
-- <a href="https://www.badger3000.com/articles/how-to-sync-your-wordpress-database-from-instawp-to-local-app">How to Sync Your WordPress Database from InstaWP to Local App</a>
 <!-- BLOG-POST-LIST:END -->
 </details>
