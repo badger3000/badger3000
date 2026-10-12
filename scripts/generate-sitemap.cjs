@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
-const {createClient} = require("next-sanity");
+const {createClient} = require("@sanity/client");
 
 // Load environment variables from .env files
 dotenv.config({path: ".env.local"});
