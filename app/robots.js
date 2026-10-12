@@ -46,7 +46,7 @@ export default async function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/admin/", "/api/"],
+      disallow: ["/admin/", "/api/", "/studio/"],
     },
     sitemap: [`${baseUrl}/sitemap.xml`],
   };

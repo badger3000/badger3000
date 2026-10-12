@@ -10,6 +10,8 @@ import {useState, useEffect} from "react";
 
 export default function Header() {
   const pathname = usePathname();
+  // Only the home page uses the name as its h1; other pages provide their own
+  const NameTag = pathname === "/" ? "h1" : "p";
   // Define types for our state
   type ImageKey = "video";
   type ImagesLoadedState = Record<ImageKey, boolean>;
@@ -55,9 +57,9 @@ export default function Header() {
           />
         </Link>
         <div className="mb-5">
-          <h1 className="font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-2xl mb-1">
+          <NameTag className="font-inter-tight font-bold text-gray-800 dark:text-gray-100 text-2xl mb-1">
             Kyle Ross
-          </h1>
+          </NameTag>
           <p className="text-sm text-gray-600 dark:text-gray-400">
             Digital Technology Consultant in Prescott, AZ 🇺🇸
           </p>

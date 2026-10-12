@@ -12,6 +12,34 @@ type Params = {
   slug: string;
 };
 
+type ImageAsset = {
+  url: string;
+  metadata?: {dimensions?: {width?: number; height?: number}};
+};
+
+const BASE_URL = (process.env.SITE_URL || "https://www.badger3000.com").replace(
+  /\/$/,
+  ""
+);
+
+// Prefer the hand-written excerpt; otherwise summarize the article body
+function getDescription(post: {excerpt?: string; bodyText?: string}) {
+  if (post.excerpt) return post.excerpt;
+  const text = (post.bodyText || "").replace(/\s+/g, " ").trim();
+  if (!text) return "An article by Kyle Ross.";
+  return text.length > 155 ? `${text.slice(0, 152).trimEnd()}...` : text;
+}
+
+// Use the main image, falling back to the first image in the article body
+function getShareImage(post: {
+  mainImage?: {asset?: ImageAsset};
+  content?: Array<{_type: string; asset?: ImageAsset}>;
+}): ImageAsset | undefined {
+  if (post.mainImage?.asset?.url) return post.mainImage.asset;
+  return post.content?.find((block) => block._type === "image" && block.asset?.url)
+    ?.asset;
+}
+
 // This enables ISR - pages will be cached but revalidated in the background
 export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
@@ -47,32 +75,30 @@ export async function generateMetadata ({
   }
 
   // Create the canonical URL for this specific article
-  const baseUrl = process.env.SITE_URL || "https://www.badger3000.com";
-  const normalizedBaseUrl = baseUrl.endsWith("/")
-    ? baseUrl.slice(0, -1)
-    : baseUrl;
-  const canonicalUrl = `${normalizedBaseUrl}/articles/${slug}`;
+  const canonicalUrl = `${BASE_URL}/articles/${slug}`;
+  const description = getDescription(post);
+  const shareImage = getShareImage(post);
 
   return {
     title: post.title, // Will be combined with the template from layout.tsx
-    description:
-      post.excerpt || "Read this article on web development and technology.",
+    description,
     alternates: {
       canonical: canonicalUrl,
     },
     openGraph: {
       title: post.title,
-      description:
-        post.excerpt || "Read this article on web development and technology.",
+      description,
+      url: canonicalUrl,
       type: "article",
-      publishedTime: post.publishedAt,
+      publishedTime: post.publishedAt || post._createdAt,
+      modifiedTime: post._updatedAt,
       authors: ["Kyle Ross"],
-      images: post.mainImage?.asset?.url
+      images: shareImage
         ? [
             {
-              url: post.mainImage.asset.url,
-              width: post.mainImage.asset.metadata?.dimensions?.width || 1200,
-              height: post.mainImage.asset.metadata?.dimensions?.height || 630,
+              url: shareImage.url,
+              width: shareImage.metadata?.dimensions?.width || 1200,
+              height: shareImage.metadata?.dimensions?.height || 630,
               alt: post.title,
             },
           ]
@@ -81,11 +107,8 @@ export async function generateMetadata ({
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description:
-        post.excerpt || "Read this article on web development and technology.",
-      images: post.mainImage?.asset?.url
-        ? [post.mainImage.asset.url]
-        : undefined,
+      description,
+      images: shareImage ? [shareImage.url] : undefined,
     },
   };
 }
@@ -95,9 +118,11 @@ async function getPost(slug: string) {
   const query = `*[_type == "articles" && slug.current == $slug && !(_id in path('drafts.**'))][0] {
     _id,
     _createdAt,
+    _updatedAt,
     title,
     "slug": slug.current,
-    "excerpt": coalesce(excerpt, "Read this article on web development and technology."),
+    excerpt,
+    "bodyText": pt::text(content),
     publishedAt,
     // Only select necessary content fields to minimize payload size
     content[] {
@@ -168,8 +193,34 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
     notFound();
   }
 
+  const publishedDate = post.publishedAt || post._createdAt;
+  const shareImage = getShareImage(post);
+  const canonicalUrl = `${BASE_URL}/articles/${slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: getDescription(post),
+    datePublished: publishedDate,
+    dateModified: post._updatedAt || publishedDate,
+    author: {
+      "@type": "Person",
+      name: post.authorName || "Kyle Ross",
+      url: post.authorProfileUrl || BASE_URL,
+    },
+    image: shareImage ? [shareImage.url] : undefined,
+    mainEntityOfPage: {"@type": "WebPage", "@id": canonicalUrl},
+    url: canonicalUrl,
+  };
+
   return (
     <article className="max-w-3xl mx-auto">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="pb-12 md:pb-20">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
@@ -177,8 +228,8 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
               {post.title}
             </h1>
             <div className="text-[13px] text-gray-600 dark:text-gray-400 mb-2">
-              {post._createdAt
-                ? format(new Date(post._createdAt), "MMMM d, yyyy")
+              {publishedDate
+                ? format(new Date(publishedDate), "MMMM d, yyyy")
                 : "Recently"}
             </div>
           </div>
