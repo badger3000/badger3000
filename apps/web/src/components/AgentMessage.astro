@@ -15,10 +15,14 @@ interface Props {
 const { line = "" } = Astro.props;
 ---
 
-<div class="turn">
+<div class="turn" data-chat-turn>
   <span class="avatar" aria-hidden="true">🦡</span>
   <div class="body">
     <p class="line" data-slot="line">{line}</p>
+    {/* pen `A Pending` — the loading state while /api/chat is in flight. */}
+    <span class="typing" data-typing aria-label="Badger3000 is thinking">
+      <i></i><i></i><i></i>
+    </span>
     <div class="cards" data-chat-cards></div>
   </div>
 </div>
@@ -52,6 +56,42 @@ const { line = "" } = Astro.props;
     font-size: 15px;
     line-height: 1.5;
     color: var(--a-ink);
+  }
+
+  /* The pending indicator replaces the line; both live in the same 20px band so
+     nothing shifts when the answer lands. */
+  .typing {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    height: 20px;
+  }
+  .typing i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--a-faint);
+    animation: dot-pulse 1.2s var(--ease-linear) infinite;
+  }
+  .typing i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .typing i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .turn[data-pending] .line {
+    display: none;
+  }
+  .turn[data-pending] .typing {
+    display: flex;
+  }
+
+  .turn[data-enter] {
+    animation: turn-in var(--duration-fast) var(--ease-smooth-out) both;
+  }
+  .turn[data-enter] .cards :global([data-chat-card]) {
+    animation: turn-in var(--duration-fast) var(--ease-smooth-out) both;
+    animation-delay: calc(var(--i, 0) * var(--duration-stagger));
   }
   .cards {
     display: flex;

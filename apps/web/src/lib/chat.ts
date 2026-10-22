@@ -82,6 +82,13 @@ const fill = (node: ParentNode, slot: string, value: string | undefined) => {
   if (target) target.textContent = value ?? "";
 };
 
+/** Flag a node as newly added so it animates in — and only it. */
+const markEnter = (node: HTMLElement | undefined, index = 0) => {
+  if (!node) return;
+  node.setAttribute("data-enter", "");
+  node.style.setProperty("--i", String(index));
+};
+
 const init = () => {
   const log = document.querySelector<HTMLElement>("[data-chat-log]");
   const form = document.querySelector<HTMLFormElement>("[data-chat-form]");
@@ -94,10 +101,17 @@ const init = () => {
   const root = document.querySelector<HTMLElement>("[data-chat-root]");
 
   let turns = read();
+  /**
+   * How many turns have already been painted. Only nodes past this point get the
+   * enter animation, so a restored thread does not replay every turn's motion on
+   * load — and a re-render never re-animates what is already on screen.
+   */
+  let painted = 0;
 
-  const renderCards = (cards: Card[]): DocumentFragment => {
+  const renderCards = (cards: Card[], animate: boolean): DocumentFragment => {
     const fragment = document.createDocumentFragment();
     for (const card of cards) {
+      const index = fragment.childElementCount;
       const node = cardTemplate?.content.cloneNode(true) as HTMLElement | undefined;
       if (!node) continue;
       node.querySelector("[data-chat-card]")?.setAttribute("data-kind", card.kind);
@@ -127,32 +141,47 @@ const init = () => {
           title.rel = "noopener";
         }
       }
+      // Cards stagger inside the turn, one token apart.
+      if (animate) node.querySelector("[data-chat-card]")?.setAttribute("data-enter", "");
+      node.style.setProperty("--i", String(index));
       fragment.append(node);
     }
     return fragment;
   };
 
   const paint = () => {
+    const animate = painted > 0;
     log.replaceChildren();
     for (const turn of turns) {
       if (turn.role === "user") {
         const node = bubbleTemplate?.content.cloneNode(true) as HTMLElement | undefined;
         if (!node) continue;
         fill(node, "content", turn.text);
+        if (animate && turns.indexOf(turn) >= painted) markEnter(node);
         log.append(node);
         continue;
       }
 
       const node = messageTemplate?.content.cloneNode(true) as HTMLElement | undefined;
       if (!node) continue;
-      fill(node, "line", turn.pending ? "…" : turn.text);
+      fill(node, "line", turn.pending ? "" : turn.text);
+      if (turn.pending) {
+        node.setAttribute("data-pending", "");
+        node.setAttribute("aria-busy", "true");
+        node.querySelector("[data-typing]")?.setAttribute("aria-live", "polite");
+      }
       const slot = node.querySelector("[data-chat-cards]");
       if (slot) {
-        if (turn.cards?.length && !turn.pending) slot.replaceChildren(renderCards(turn.cards));
-        else slot.remove();
+        if (turn.cards?.length && !turn.pending) {
+          slot.replaceChildren(renderCards(turn.cards, animate && turns.indexOf(turn) >= painted));
+        } else {
+          slot.remove();
+        }
       }
+      if (animate && turns.indexOf(turn) >= painted) markEnter(node);
       log.append(node);
     }
+    painted = turns.length;
     root?.setAttribute("data-has-thread", String(turns.length > 0));
     log.scrollIntoView?.({ block: "end" });
   };
@@ -200,9 +229,11 @@ const init = () => {
     void ask(field?.value ?? "");
   });
 
-  // A re-render replaces the form, so its listener goes with it.
+  // A re-render replaces the form, so its listener goes with it. `painted` resets
+  // so a restored thread arrives settled rather than replaying every turn.
   turns = consumeClear() ? [] : read();
   if (!turns.length) write([]);
+  painted = 0;
   paint();
 };
 

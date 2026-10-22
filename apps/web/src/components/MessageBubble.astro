@@ -21,11 +21,16 @@ const { content = "" } = Astro.props;
   .bubble {
     align-self: flex-end;
     max-width: 46ch;
-    padding: 10px 15px;
-    border-radius: 15px;
+    padding: 11px 16px;
+    border-radius: 16px;
     background: var(--a-ink);
     color: var(--a-surface);
     font-size: 14px;
     line-height: 1.45;
+  }
+  /* Set by the chat island on a turn that has just been added, so a restored
+     thread does not replay every animation on load. */
+  .bubble[data-enter] {
+    animation: turn-in var(--duration-fast) var(--ease-smooth-out) both;
   }
 </style>
