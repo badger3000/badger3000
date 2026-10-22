@@ -3,8 +3,11 @@ command = "npm run build"
 publish = ".next"
 
 [build.environment]
-# `engines.node` in package.json requires >=22.12 (sanity 6 / @sanity/client 8).
-NODE_VERSION = "22"
+# Active LTS (Krypton) until 2028-04-30. Netlify's default may be an EOL line
+# (Node 20 went EOL 2026-04-30 and no longer gets security patches), so pin
+# explicitly. Matches .nvmrc; `engines.node` is >=22.12 (the floor required by
+# sanity 6 / @sanity/client 8).
+NODE_VERSION = "24"
 NEXT_TELEMETRY_DISABLED = "1"
 NODE_OPTIONS = "--max_old_space_size=1024"
 
