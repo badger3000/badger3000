@@ -1,0 +1,106 @@
+/*
+ * BADGER3000 design tokens — ported from design/badger3000v2.pen (Design Tokens board).
+ * Two tiers: raw primitives -> semantic tokens. Skins switch via [data-theme].
+ * Components only ever use var(--a-*). Add a skin = one more [data-theme] block.
+ */
+
+:root {
+  /* ---- TIER 1: primitives ---- */
+  --p-0: #ffffff;
+  --p-25: #fafaf8;
+  --p-50: #f4f3ef;
+  --p-100: #eae7e0;
+  --p-200: #ded9ce;
+  --p-300: #c9c4b8;
+  --p-400: #9c988e;
+  --p-500: #6e6b64;
+  --p-600: #4d4b45;
+  --p-700: #302f2c;
+  --p-800: #201f1d;
+  --p-850: #1a1a18;
+  --p-900: #141412;
+  --p-950: #0e0e0c;
+  --p-coral: #e4572e;
+  --p-coral-700: #c0461f;
+  --p-coral-soft-l: #fbede7;
+  --p-coral-soft-d: #3a241c;
+  --p-d-line: #2b2b28;
+  --p-d-line-2: #36352f;
+  /* forest-skin primitives */
+  --g-bg: #f5f7f4;
+  --g-surface: #ffffff;
+  --g-sidebar: #ebefea;
+  --g-ink: #16221d;
+  --g-muted: #55635c;
+  --g-faint: #93a099;
+  --g-line: #e2e8e2;
+  --g-line-2: #d2dad3;
+  --g-accent: #1c7c59;
+  --g-accent-soft: #e2f0e8;
+
+  /* ---- TIER 2: semantic (light — default skin) ---- */
+  --a-bg: var(--p-25);
+  --a-surface: var(--p-0);
+  --a-sidebar: var(--p-50);
+  --a-ink: var(--p-850);
+  --a-muted: var(--p-500);
+  --a-faint: var(--p-400);
+  --a-line: var(--p-100);
+  --a-line-2: var(--p-200);
+  --a-accent: var(--p-coral);
+  --a-accent-soft: var(--p-coral-soft-l);
+  --a-on-accent: #ffffff;
+
+  /* type */
+  --af-display: "Instrument Serif", ui-serif, serif;
+  --af-ui: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --af-mono: "Geist Mono", ui-monospace, monospace;
+}
+
+/* ---- dark skin ---- */
+[data-theme="dark"] {
+  --a-bg: var(--p-900);
+  --a-surface: var(--p-850);
+  --a-sidebar: var(--p-950);
+  --a-ink: var(--p-25);
+  --a-muted: var(--p-400);
+  --a-faint: var(--p-500);
+  --a-line: var(--p-d-line);
+  --a-line-2: var(--p-d-line-2);
+  --a-accent: var(--p-coral);
+  --a-accent-soft: var(--p-coral-soft-d);
+}
+
+/* ---- forest skin ---- */
+[data-theme="forest"] {
+  --a-bg: var(--g-bg);
+  --a-surface: var(--g-surface);
+  --a-sidebar: var(--g-sidebar);
+  --a-ink: var(--g-ink);
+  --a-muted: var(--g-muted);
+  --a-faint: var(--g-faint);
+  --a-line: var(--g-line);
+  --a-line-2: var(--g-line-2);
+  --a-accent: var(--g-accent);
+  --a-accent-soft: var(--g-accent-soft);
+}
+
+/* base reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  background: var(--a-bg);
+  color: var(--a-ink);
+  font-family: var(--af-ui);
+  -webkit-font-smoothing: antialiased;
+}
