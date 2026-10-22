@@ -139,7 +139,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
   switch (intent) {
     case "projects": {
       const rows = await client.fetch<ProjectRow[]>(groq`*[_type == "projects"] | order(order asc) [0...8] {
-        title, "topic": topic->title, tech, "url": web_url
+        "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url
       }`);
       return {
         cards: rows.map((row) => ({
@@ -221,7 +221,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
 
     case "skills": {
       const rows = await client.fetch<SkillGroupRow[]>(groq`*[_type == "skillCategory"] | order(order asc) {
-        name, "skills": skills[] { name, badgeLabel }
+        "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])
       }`);
       const total = rows.reduce((sum, row) => sum + row.skills.length, 0);
       return {
@@ -240,7 +240,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
 
     case "testimonials": {
       const rows = await client.fetch<TestimonialRow[]>(groq`*[_type == "testimonial"] | order(order asc) [0...5] {
-        name, role, company, content, profileUrl
+        "name": coalesce(name, "Anonymous"), role, company, content, profileUrl
       }`);
       return {
         cards: rows.map((row) => ({
@@ -273,8 +273,8 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "golf": {
-      const rows = await client.fetch<GolfRow[]>(groq`*[_type == "golfScores"] | order(date desc) [0...10] {
-        course, date, score
+      const rows = await client.fetch<GolfRow[]>(groq`*[_type == "golfScores" && defined(score)] | order(date desc) [0...10] {
+        "course": coalesce(course, "Unknown course"), date, score
       }`);
       const scores = rows.map((row) => row.score);
       const best = scores.length ? Math.min(...scores) : 0;

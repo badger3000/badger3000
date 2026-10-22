@@ -14,23 +14,47 @@
  * (`allowImportingTsExtensions`).
  */
 import { parse } from "groq-js";
-import { existsSync } from "node:fs";
+import type { SanityClient } from "@sanity/client";
+import { queries, createQuerySet } from "../src/lib/sanity/queries.ts";
+import { createSanityClient, isComplete } from "../src/lib/sanity/factory.ts";
+
+// This app has no @types/node (nothing else needs it), so type the slice of
+// `process` this script uses rather than add a dependency for one file.
+const { process } = globalThis as unknown as {
+  process: {
+    argv: string[];
+    env: Record<string, string | undefined>;
+    exit(code?: number): never;
+    loadEnvFile?(path: string): void;
+  };
+};
 
 // Astro loads .env itself; this script runs under plain node, so load the same
-// files by hand — before importing the client, which reads env at module scope.
-// Only names are ever printed; values are never echoed.
+// files by hand. It can't import `astro:env`, so it builds its own client from
+// `process.env` with the same pure factory the app uses. Only names are ever
+// printed; values are never echoed.
 for (const file of [".env", ".env.local", ".env.development"]) {
-  if (existsSync(file) && typeof process.loadEnvFile === "function") {
-    try {
-      process.loadEnvFile(file);
-    } catch {
-      // A malformed or unreadable .env is reported below as missing config.
-    }
+  try {
+    process.loadEnvFile?.(file);
+  } catch {
+    // Absent, malformed or unreadable: reported below as missing config.
   }
 }
 
-const { queries, querySet } = await import("../src/lib/sanity/queries.ts");
-const { dataset, isConfigured, projectId } = await import("../src/lib/sanity/client.ts");
+const env = process.env;
+const config = {
+  // The legacy names are still accepted until the Next app is cut over.
+  projectId: env.PUBLIC_SANITY_PROJECT_ID ?? env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: env.PUBLIC_SANITY_DATASET ?? env.NEXT_PUBLIC_SANITY_DATASET,
+  apiVersion: env.PUBLIC_SANITY_API_VERSION,
+  token: env.SANITY_API_TOKEN,
+  useCdn: env.PUBLIC_SANITY_USE_CDN !== "false",
+  perspective: env.SANITY_PREVIEW === "drafts" ? ("drafts" as const) : ("published" as const),
+};
+const { projectId, dataset } = config;
+const isConfigured = isComplete(config);
+let client: SanityClient | undefined;
+const querySet = createQuerySet((query) => (client ??= createSanityClient(config)).fetch(query));
 
 type QueryName = keyof typeof querySet;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };

@@ -16,6 +16,7 @@
  */
 import type { Intent } from "./intents.ts";
 import { CHAT_MODEL_TIER } from "astro:env/server";
+import { bindings } from "./bindings.ts";
 
 /** The Tier-1 phrasing. Always works, needs no model, costs nothing. */
 export function fallback(intent: Intent, count: number, facts: string[]): string {
@@ -157,22 +158,20 @@ export function isGrounded(line: string, facts: string[]): boolean {
 }
 
 interface AiBinding {
-  run(model: string, input: { messages: { role: string; content: string }[] }): Promise<{ response?: string }>;
+  run(
+    model: string,
+    input: { messages: { role: string; content: string }[] },
+    options?: { signal?: AbortSignal },
+  ): Promise<{ response?: string }>;
 }
 
-/** Workers bindings, or null off-Workers (a Node preview, for instance). */
-async function bindings(): Promise<Record<string, unknown> | null> {
-  try {
-    const workers = await import("cloudflare:workers");
-    return workers.env as unknown as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
+/** The template answers in ~0 ms; the model gets this long to beat it. */
+const TIMEOUT_MS = 2500;
 
 /**
  * Returns the model's line, or null to fall back. Bounded by a timeout: a slow
- * model must not make the chat feel broken.
+ * model must not make the chat feel broken. The timeout aborts the call, so a
+ * late answer stops running (and billing) instead of finishing unseen.
  */
 export async function compose(
   intent: Intent,
@@ -190,18 +189,25 @@ export async function compose(
     return null;
   }
 
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
     const result = await Promise.race([
-      ai.run(MODEL, {
-        messages: [
-          { role: "system", content: SYSTEM },
-          {
-            role: "user",
-            content: `Facts to introduce:\n- ${facts.slice(0, 8).join("\n- ")}\n\nOne sentence, addressed to the visitor.`,
-          },
-        ],
-      }),
-      new Promise<null>((resolve) => setTimeout(() => resolve(null), 4000)),
+      ai.run(
+        MODEL,
+        {
+          messages: [
+            { role: "system", content: SYSTEM },
+            {
+              role: "user",
+              content: `Facts to introduce:\n- ${facts.slice(0, 8).join("\n- ")}\n\nOne sentence, addressed to the visitor.`,
+            },
+          ],
+        },
+        { signal: controller.signal },
+      ),
+      // Still raced on the same signal, in case a binding ignores it.
+      new Promise<null>((resolve) => controller.signal.addEventListener("abort", () => resolve(null))),
     ]);
 
     const text = result && "response" in result ? (result as { response?: string }).response : null;
@@ -232,5 +238,7 @@ export async function compose(
     // does any model outage. Either way the deterministic line answers.
     console.info("[chat] model unavailable — using deterministic phrasing:", error);
     return null;
+  } finally {
+    clearTimeout(timer);
   }
 }
