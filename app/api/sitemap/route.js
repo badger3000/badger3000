@@ -3,8 +3,8 @@ import {createClient} from "next-sanity";
 // Configure Sanity client with better error handling
 const getSanityClient = () => {
   try {
-    const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-    const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+    const projectId = process.env.PUBLIC_SANITY_PROJECT_ID ?? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+    const dataset = process.env.PUBLIC_SANITY_DATASET ?? process.env.NEXT_PUBLIC_SANITY_DATASET;
 
     if (!projectId || !dataset) {
       console.warn("Missing Sanity credentials");

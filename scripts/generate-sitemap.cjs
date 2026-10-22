@@ -9,8 +9,10 @@ dotenv.config({path: ".env.local"});
 dotenv.config();
 
 // Get Sanity credentials from environment variables
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const projectId =
+  process.env.PUBLIC_SANITY_PROJECT_ID ?? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset =
+  process.env.PUBLIC_SANITY_DATASET ?? process.env.NEXT_PUBLIC_SANITY_DATASET;
 
 console.log("Environment check:");
 console.log(
@@ -18,11 +20,11 @@ console.log(
   process.env.SITE_URL || "https://www.badger3000.com/"
 );
 console.log(
-  "- NEXT_PUBLIC_SANITY_PROJECT_ID:",
+  "- PUBLIC_SANITY_PROJECT_ID:",
   projectId ? "✅ Found" : "❌ Missing"
 );
 console.log(
-  "- NEXT_PUBLIC_SANITY_DATASET:",
+  "- PUBLIC_SANITY_DATASET:",
   dataset ? "✅ Found" : "❌ Missing"
 );
 
@@ -32,7 +34,7 @@ let shouldUseFallback = false;
 // Validate Sanity credentials
 if (!projectId) {
   console.error(
-    "Error: NEXT_PUBLIC_SANITY_PROJECT_ID is not defined in environment variables"
+    "Error: PUBLIC_SANITY_PROJECT_ID is not defined in environment variables"
   );
   console.log("Proceeding with fallback sitemap generation...");
   shouldUseFallback = true;
@@ -40,7 +42,7 @@ if (!projectId) {
 
 if (!dataset) {
   console.error(
-    "Error: NEXT_PUBLIC_SANITY_DATASET is not defined in environment variables"
+    "Error: PUBLIC_SANITY_DATASET is not defined in environment variables"
   );
   console.log("Proceeding with fallback sitemap generation...");
   shouldUseFallback = true;
