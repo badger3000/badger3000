@@ -22,7 +22,8 @@ const nextConfig = {
   },
   // Improve overall performance with compiler options
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole:
+      process.env.NODE_ENV === "production" ? {exclude: ["error", "warn"]} : false,
   },
   // Performance optimizations
   experimental: {

@@ -76,10 +76,16 @@ function ContactForm() {
         }),
       });
 
-      const result = await response.json();
+      // A non-JSON response (e.g. a platform error page) should still show an error
+      let result: {errorCode?: string; message?: string; error?: string} = {};
+      try {
+        result = await response.json();
+      } catch {
+        // ignore parse errors and fall through to the status check
+      }
 
       if (!response.ok) {
-        // Check for specific error codes from the API
+        // Map specific error codes from the API to their messages
         if (result.errorCode === "recaptcha-failed") {
           setSubmitStatus("recaptcha-failed");
         } else if (result.errorCode === "suspicious-activity") {
@@ -87,9 +93,11 @@ function ContactForm() {
         } else {
           setSubmitStatus("error");
         }
-        throw new Error(
-          result.message || result.error || "Network response was not ok"
+        console.error(
+          "Error submitting form:",
+          result.message || result.error || response.status
         );
+        return;
       }
 
       // Handle success
@@ -98,13 +106,7 @@ function ContactForm() {
       setTimeout(() => setSubmitStatus(null), 5000);
     } catch (error) {
       console.error("Error submitting form:", error);
-      // Only set generic error if not already set to a specific error
-      if (
-        submitStatus !== "recaptcha-failed" &&
-        submitStatus !== "suspicious-activity"
-      ) {
-        setSubmitStatus("error");
-      }
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }

@@ -19,7 +19,7 @@ skip_processing = false
 [functions]
 node_bundler = "esbuild"
 external_node_modules = ["next"]
-included_files = ["next.config.mjs", ".env.local"]
+included_files = ["next.config.mjs"]
 
 # Set functions timeout appropriately
 [functions.api-sitemap]
