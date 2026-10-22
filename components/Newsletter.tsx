@@ -2,7 +2,7 @@ export default function Newsletter() {
   return (
     <section>
       <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
-        Let's Connect
+        Let&apos;s Connect
       </h2>
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
         <form>

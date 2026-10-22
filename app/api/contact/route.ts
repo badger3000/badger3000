@@ -1,14 +1,24 @@
 import {NextRequest, NextResponse} from "next/server";
 import {Resend} from "resend";
 
-// Initialize Resend with your API key
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Your email address (where you want to receive submissions)
 const OWNER_EMAIL = process.env.OWNER_EMAIL || "your-email@example.com";
 
+// Instantiated lazily: `new Resend()` throws when the API key is missing, and
+// route modules are evaluated during `next build`, so building without
+// RESEND_API_KEY in the environment would otherwise fail the whole build.
+let resendClient: Resend | null = null;
+function getResend() {
+  if (!resendClient) {
+    resendClient = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendClient;
+}
+
 export async function POST(req: NextRequest) {
   try {
+    const resend = getResend();
+
     // Parse the form data from the request
     const formData = await req.json();
     const {name, email, message, recaptchaToken} = formData;

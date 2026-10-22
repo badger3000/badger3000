@@ -1,7 +1,23 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
+@import "tailwindcss";
+/* Tailwind v4 resolves `@import` as CSS imports, so local files need an
+   explicit relative path (bare specifiers are treated as packages). */
+@import "./additional-styles/utility-patterns.css";
+@import "./additional-styles/theme.css";
 
-/* Additional styles */
-@import "additional-styles/utility-patterns.css";
-@import "additional-styles/theme.css";
-@import "tailwindcss/utilities";
+/* Tailwind v4 replaces the JS config with CSS-first configuration. */
+
+/* Dark mode is toggled via a `class` on <html> by next-themes. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* `next/font` already owns the `--font-inter` / `--font-inter-tight` custom
+   properties in app/layout.tsx. `@theme inline` makes the utilities emit their
+   value literally (`.font-inter { font-family: Inter, sans-serif }`) instead of
+   referencing `var(--font-inter)`. Tailwind's own copies are emitted inside
+   `@layer theme`, and next/font's are unlayered, so next/font still wins the
+   cascade for anything that does read the variable. */
+@theme inline {
+  --font-inter: "Inter", sans-serif;
+  --font-inter-tight: "Inter Tight", sans-serif;
+}
+
+@plugin "@tailwindcss/forms";

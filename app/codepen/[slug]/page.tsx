@@ -191,7 +191,7 @@ export default async function ArticlePage({params}: {params: Promise<Params>}) {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-              Back to all Article's
+              Back to all Articles
             </Link>
           </div>
         </div>

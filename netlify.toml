@@ -3,6 +3,8 @@ command = "npm run build"
 publish = ".next"
 
 [build.environment]
+# `engines.node` in package.json requires >=22.12 (sanity 6 / @sanity/client 8).
+NODE_VERSION = "22"
 NEXT_TELEMETRY_DISABLED = "1"
 NODE_OPTIONS = "--max_old_space_size=1024"
 
@@ -13,8 +15,8 @@ skip_processing = false
 # Configure Netlify Functions
 [functions]
 node_bundler = "esbuild"
-external_node_modules = ["@node-rs/bcrypt", "next"]
-included_files = ["next.config.js", ".env.local"]
+external_node_modules = ["next"]
+included_files = ["next.config.mjs", ".env.local"]
 
 # Set functions timeout appropriately
 [functions.api-sitemap]

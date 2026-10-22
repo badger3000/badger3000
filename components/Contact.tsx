@@ -113,7 +113,7 @@ function ContactForm() {
   return (
     <section id="contact">
       <h2 className="font-inter-tight text-lg font-semibold text-gray-800 dark:text-gray-100 mb-6">
-        Let's Connect
+        Let&apos;s Connect
       </h2>
       <div className="p-5 rounded-xl bg-gradient-to-tr from-gray-100 to-gray-50 dark:bg-gradient-to-tr dark:from-gray-800 dark:to-gray-800/[0.65]">
         {/* Form */}
@@ -164,8 +164,8 @@ function ContactForm() {
           {/* Success message */}
           {submitStatus === "success" && (
             <div className="text-sm mb-4 p-2 rounded bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
-              Thank you for your message! We've sent you a confirmation email
-              and will get back to you soon.
+              Thank you for your message! We&apos;ve sent you a confirmation
+              email and will get back to you soon.
             </div>
           )}
 
@@ -179,16 +179,17 @@ function ContactForm() {
           {/* reCAPTCHA failed message */}
           {submitStatus === "recaptcha-failed" && (
             <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-              We couldn't verify that you're a human. Please try refreshing the
-              page and submitting again.
+              We couldn&apos;t verify that you&apos;re a human. Please try
+              refreshing the page and submitting again.
             </div>
           )}
 
           {/* Suspicious activity message */}
           {submitStatus === "suspicious-activity" && (
             <div className="text-sm mb-4 p-2 rounded bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
-              For security reasons, we couldn't process your submission at this
-              time. Please try again later or contact us through another method.
+              For security reasons, we couldn&apos;t process your submission at
+              this time. Please try again later or contact us through another
+              method.
             </div>
           )}
 

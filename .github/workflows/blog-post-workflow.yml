@@ -26,7 +26,9 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # Matches `engines.node` in package.json (>=22.12) required by
+          # sanity 6 / @sanity/client 8.
+          node-version: "22"
           cache: "npm"
 
       - name: Execute blog post updater script
