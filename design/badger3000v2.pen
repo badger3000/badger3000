@@ -13509,84 +13509,6 @@
             },
             {
               "type": "frame",
-              "id": "Dhy96",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "joMpA",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "TZjQh",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "hwIMj",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "X4Ptr",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "KOL04",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "p81H9",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
               "id": "zhqXz",
               "name": "Browse",
               "context": "main · archive",
@@ -15470,6 +15392,84 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "Dhy96",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "joMpA",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "TZjQh",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "hwIMj",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "X4Ptr",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "KOL04",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "p81H9",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -16268,84 +16268,6 @@
                           "fill": "$a-muted"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "NKfXa",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "DUPib",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "kTutI",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "ROgia",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "N4E5s",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "bNqbN",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "yYqKp",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
                     }
                   ]
                 }
@@ -18517,6 +18439,84 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "NKfXa",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "DUPib",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "kTutI",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "ROgia",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "N4E5s",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "bNqbN",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "yYqKp",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -19315,84 +19315,6 @@
                           "fill": "$a-muted"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "s9oLXc",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "RyS3R",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "DjUxh",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "W5sP2u",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "g2XPRU",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "Tex0r",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "v7GqL",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
                     }
                   ]
                 }
@@ -20490,6 +20412,84 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "s9oLXc",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RyS3R",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "DjUxh",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "W5sP2u",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "g2XPRU",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "Tex0r",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "v7GqL",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -21288,84 +21288,6 @@
                           "fill": "$a-muted"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "dnPOa",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "JjT40",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "IjTiC",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "EmYGM",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "YA4tV",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "rqktE",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "NNR9U",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
                     }
                   ]
                 }
@@ -23181,6 +23103,84 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "dnPOa",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "JjT40",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "IjTiC",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "EmYGM",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "YA4tV",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "rqktE",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "NNR9U",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -23979,84 +23979,6 @@
                           "fill": "$a-muted"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "tPrHX",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "Sn8ko",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "bv7V0",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "xYHVk",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "PY8BG",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "UtZRb",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "sr4AA",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
                     }
                   ]
                 }
@@ -25754,6 +25676,84 @@
                   ]
                 }
               ]
+            },
+            {
+              "type": "frame",
+              "id": "tPrHX",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Sn8ko",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "bv7V0",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "xYHVk",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "PY8BG",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "UtZRb",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "sr4AA",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -26559,84 +26559,6 @@
             },
             {
               "type": "frame",
-              "id": "BjvLM",
-              "name": "Footer",
-              "context": "footer",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1
-              },
-              "padding": [
-                13,
-                22
-              ],
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "ncxlK",
-                  "name": "c",
-                  "fill": "$a-faint",
-                  "content": "© 2025 Kyle Ross",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "frame",
-                  "id": "F2g71Y",
-                  "name": "socials",
-                  "gap": 14,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "nFEcR",
-                      "name": "github",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "github",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "g3Bng",
-                      "name": "linkedin",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "linkedin",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "a9HPW",
-                      "name": "codepen",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "codepen",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    },
-                    {
-                      "type": "icon",
-                      "id": "cLAO7",
-                      "name": "mail",
-                      "width": 16,
-                      "height": 16,
-                      "icon": "mail",
-                      "library": "lucide",
-                      "fill": "$a-muted"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
               "id": "gDdal",
               "name": "Browse",
               "context": "main · archive",
@@ -27419,6 +27341,84 @@
                           ]
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "BjvLM",
+              "name": "Footer",
+              "context": "footer",
+              "width": "fill_container",
+              "stroke": "$a-line",
+              "strokeWidth": {
+                "top": 1
+              },
+              "padding": [
+                13,
+                22
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ncxlK",
+                  "name": "c",
+                  "fill": "$a-faint",
+                  "content": "© 2025 Kyle Ross",
+                  "fontFamily": "$af-ui",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "F2g71Y",
+                  "name": "socials",
+                  "gap": 14,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "nFEcR",
+                      "name": "github",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "github",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "g3Bng",
+                      "name": "linkedin",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "linkedin",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "a9HPW",
+                      "name": "codepen",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "codepen",
+                      "library": "lucide",
+                      "fill": "$a-muted"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "cLAO7",
+                      "name": "mail",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "mail",
+                      "library": "lucide",
+                      "fill": "$a-muted"
                     }
                   ]
                 }
@@ -39224,8 +39224,8 @@
     {
       "type": "frame",
       "id": "Jy3WM",
-      "x": 5420,
-      "y": 3363,
+      "x": 5100,
+      "y": 3579,
       "name": "Design Tokens",
       "clip": true,
       "width": 1040,
@@ -53725,6 +53725,8 @@
                       "ref": "c2P43y",
                       "name": "Composer",
                       "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
                       "descendants": {
                         "WWLn2": {
                           "content": "Ask me anything about Kyle…"
