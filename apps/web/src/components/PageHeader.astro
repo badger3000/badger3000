@@ -12,7 +12,7 @@ import CountBadge from "./CountBadge.astro";
 
 interface Props {
   title: string;
-  count?: number;
+  count?: number | string;
   /** Singular form for the count's accessible label. */
   countLabel?: string;
   sub?: string;

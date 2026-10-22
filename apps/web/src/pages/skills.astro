@@ -1,0 +1,87 @@
+---
+/**
+ * Browse — Skills. Pen `NH0XZ`.
+ *
+ *   PageHead (Skills + count) · Grid: 2 across of category cards
+ *   card: surface, radius 14, gap 10, padding 18
+ *         label mono 10.5 `$a-faint` + badge row gap 8 of `ShieldsBadge`
+ *
+ * The pen has no filters on this screen, so there are none here either — the
+ * whole archive is four cards.
+ */
+import Browse from "../layouts/Browse.astro";
+import AskBadger from "../components/AskBadger.astro";
+import ShieldsBadge from "../components/ShieldsBadge.astro";
+import { getSkills, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [categories, counts, settings] = await Promise.all([getSkills(), getCounts(), getSettings()]);
+const total = categories.reduce((sum, category) => sum + category.skills.length, 0);
+---
+
+<Browse
+  title="Skills"
+  description="The tools and platforms Kyle reaches for."
+  active="skills"
+  counts={counts}
+  settings={settings}
+  count={total}
+  countLabel="skills"
+  sub="The tools and platforms Kyle reaches for."
+>
+  <Fragment slot="actions"><AskBadger /></Fragment>
+
+  <ul class="grid">
+    {
+      categories.map((category) => (
+        <li class="group">
+          <h2 class="label">{category.name}</h2>
+          <div class="badges">
+            {category.skills.map((skill) => (
+              <ShieldsBadge name={skill.name} color={skill.badgeColor} value={skill.badgeLabel} />
+            ))}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Browse>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .label {
+    margin: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--a-faint);
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

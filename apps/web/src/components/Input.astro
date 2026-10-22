@@ -15,16 +15,25 @@ interface Props {
   value?: string;
   label: string;
   width?: number | string;
+  type?: "text" | "search";
   class?: string;
 }
 
-const { name = "q", placeholder = "Search…", icon = "search", value, label, width = 240, class: className } =
-  Astro.props;
+const {
+  name = "q",
+  placeholder = "Search…",
+  icon = "search",
+  value,
+  label,
+  width = 240,
+  type = "text",
+  class: className,
+} = Astro.props;
 ---
 
 <label class:list={["input", className]} style={`width:${typeof width === "number" ? `${width}px` : width}`}>
   <Icon name={icon} size={15} class="ico" />
-  <input type="search" name={name} placeholder={placeholder} value={value} aria-label={label} />
+  <input type={type} name={name} placeholder={placeholder} value={value} aria-label={label} />
   <slot name="trailing" />
 </label>
 

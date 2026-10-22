@@ -1,0 +1,78 @@
+---
+/**
+ * Browse — Bookmarks. Pen `fjLXc`.
+ *
+ *   PageHead (Bookmarks + count) · Grid: 2 across of folder cards
+ *
+ * The dataset holds 888 bookmarks, so the search is the only thing between a
+ * visitor and a wall of links — it filters folders and rows together.
+ */
+import Browse from "../layouts/Browse.astro";
+import FilterBar from "../components/FilterBar.astro";
+import BookmarkFolder from "../components/BookmarkFolder.astro";
+import { getBookmarks, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [bookmarks, counts, settings] = await Promise.all([getBookmarks(), getCounts(), getSettings()]);
+
+// Folders first, loose links last.
+const folders = new Map<string, typeof bookmarks>();
+for (const bookmark of bookmarks) {
+  const key = bookmark.folder ?? "Unsorted";
+  folders.set(key, [...(folders.get(key) ?? []), bookmark]);
+}
+const sorted = [...folders.entries()].sort(([a], [b]) => a.localeCompare(b));
+---
+
+<Browse
+  title="Bookmarks"
+  description="Things Kyle saved and thought worth keeping."
+  active="bookmarks"
+  counts={counts}
+  settings={settings}
+  count={bookmarks.length}
+  countLabel="bookmarks"
+  sub="Things Kyle saved and thought worth keeping."
+>
+  <div data-browse>
+    <FilterBar searchPlaceholder="Search bookmarks…" searchLabel="Search bookmarks" />
+
+    <div class="grid">
+      {
+        sorted.map(([name, items]) => (
+          <div
+            data-item
+            data-search={`${name} ${items.map((b) => `${b.title} ${b.url}`).join(" ")}`.toLowerCase()}
+          >
+            <BookmarkFolder name={name} bookmarks={items} />
+          </div>
+        ))
+      }
+    </div>
+    <p class="empty" data-empty hidden>No bookmark matches that search.</p>
+  </div>
+</Browse>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+    margin-top: 22px;
+  }
+  .empty {
+    margin: 22px 0 0;
+    font-size: 13px;
+    color: var(--a-faint);
+  }
+
+  @media (max-width: 1080px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  import "../lib/browse.ts";
+</script>

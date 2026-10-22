@@ -1,0 +1,62 @@
+---
+/**
+ * Browse — Testimonials. Pen `xTK4z`.
+ *
+ *   PageHead (Testimonials + count) · Masonry: 3 columns of quote cards
+ *
+ * The pen draws the columns by hand (`c0`/`c1`/`c2`); CSS columns give the same
+ * masonry with content that reflows.
+ */
+import Browse from "../layouts/Browse.astro";
+import AskBadger from "../components/AskBadger.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import { getTestimonials, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [testimonials, counts, settings] = await Promise.all([
+  getTestimonials(),
+  getCounts(),
+  getSettings(),
+]);
+---
+
+<Browse
+  title="Testimonials"
+  description="What the people Kyle has worked with say."
+  active="testimonials"
+  counts={counts}
+  settings={settings}
+  count={testimonials.length}
+  countLabel="testimonials"
+  sub="What the people Kyle has worked with say."
+>
+  <Fragment slot="actions"><AskBadger /></Fragment>
+
+  <ul class="masonry">
+    {testimonials.map((testimonial) => <li><TestimonialCard testimonial={testimonial} /></li>)}
+  </ul>
+</Browse>
+
+<style>
+  .masonry {
+    columns: 3;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .masonry li {
+    break-inside: avoid;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 1080px) {
+    .masonry {
+      columns: 2;
+    }
+  }
+  @media (max-width: 720px) {
+    .masonry {
+      columns: 1;
+    }
+  }
+</style>

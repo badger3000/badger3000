@@ -1,0 +1,87 @@
+---
+/**
+ * Browse — the shell every archive screen shares (pen frames `TpGPU`/`zhqXz`/
+ * `MZ8uYY`…: `main · archive` → `div.container` with padding [28, 40]).
+ *
+ * Every browse screen in the pen is the same shape — sidebar, top bar, a page
+ * header, then content — so the padding, the gap and the mobile chrome are
+ * declared once here instead of seven times.
+ */
+import Base from "./Base.astro";
+import AppShell from "./AppShell.astro";
+import PageHeader from "../components/PageHeader.astro";
+import type { SiteSettings } from "../lib/sanity/types.ts";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Sidebar nav id. */
+  active?: string;
+  counts?: Record<string, number | undefined>;
+  settings?: SiteSettings | null;
+  /** Shown in the CountBadge beside the title; omit for no badge. */
+  count?: number | string;
+  countLabel?: string;
+  sub?: string;
+  /** Pen's Experience container is gap 20, the rest gap 22. */
+  gap?: number;
+}
+
+const {
+  title,
+  description,
+  active,
+  counts,
+  settings,
+  count,
+  countLabel,
+  sub,
+  gap = 22,
+} = Astro.props;
+---
+
+<Base title={`${title} — Badger3000`} description={description}>
+  <AppShell
+    active={active}
+    counts={counts}
+    settings={settings}
+    mobileBar="page"
+    mobileTitle={title}
+    mobileCount={typeof count === "number" ? count : undefined}
+    mobileTab="explore"
+    mobileBottom="tabs"
+  >
+    <main class="archive" id="main">
+      <div class="inner" style={`gap:${gap}px`}>
+        <PageHeader {title} {count} {countLabel} {sub}>
+          <Fragment slot="actions"><slot name="actions" /></Fragment>
+        </PageHeader>
+        <slot />
+      </div>
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .archive {
+    background: var(--a-bg);
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 40px;
+  }
+  /* The filterable block is one child of .inner, so it needs the container's
+     rhythm on the inside as well. */
+  .inner > :global([data-browse]) {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  @media (max-width: 720px) {
+    .inner {
+      padding: 16px;
+    }
+  }
+</style>

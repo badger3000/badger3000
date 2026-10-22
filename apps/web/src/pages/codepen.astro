@@ -1,0 +1,99 @@
+---
+/**
+ * Browse — Experiments (CodePen work). Pen `fDntQ`.
+ *
+ *   PageHead (Experiments + count + "Live code sketches and UI explorations.")
+ *   Filters · Grid: 3 across, card = dark window cover 132 · bd 14 → tag,
+ *   title 17/600, excerpt, meta
+ *
+ * The pen's filter labels (WebGL / CSS / SVG / React) are placeholders; the
+ * chips come from the topics the documents actually carry.
+ */
+import Browse from "../layouts/Browse.astro";
+import AskBadger from "../components/AskBadger.astro";
+import FilterBar from "../components/FilterBar.astro";
+import ContentCard from "../components/ContentCard.astro";
+import { getExperiments, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [experiments, topics, counts, settings] = await Promise.all([
+  getExperiments(),
+  getTopics(),
+  getCounts(),
+  getSettings(),
+]);
+
+const month = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+
+const usedTopics = new Set(experiments.map((e) => e.topic));
+const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
+---
+
+<Browse
+  title="Experiments"
+  description="Live code sketches and UI explorations."
+  active="experiments"
+  counts={counts}
+  settings={settings}
+  count={experiments.length}
+  countLabel="experiments"
+  sub="Live code sketches and UI explorations."
+>
+  <Fragment slot="actions"><AskBadger /></Fragment>
+
+  <FilterBar topics={chips} searchPlaceholder="Search…" searchLabel="Search experiments" />
+
+  <div data-browse>
+    <ul class="grid" data-grid>
+      {
+        experiments.map((pen) => (
+          <li data-item data-search={[pen.title, pen.topic ?? "", pen.excerpt ?? ""].join(" ").toLowerCase()}>
+            <ContentCard
+              id={pen.id}
+              href={pen.penUrl ?? `/codepen/${pen.slug}`}
+              title={pen.title}
+              excerpt={pen.excerpt}
+              topic={pen.topic}
+              meta={pen.createdAt ? month(pen.createdAt) : null}
+              titleSize={17}
+              coverHeight={132}
+              cover="window"
+            />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="empty" data-empty hidden>Nothing matches that search.</p>
+  </div>
+</Browse>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .empty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-faint);
+  }
+
+  @media (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  import "../lib/browse.ts";
+</script>

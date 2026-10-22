@@ -85,6 +85,7 @@ export const experimentsQuery = groq`*[_type == "codepen" && defined(slug.curren
   "topic": topic->title,
   penUrl,
   cardLayout,
+  "createdAt": _createdAt,
   "thumbnail": thumbnail ${IMAGE}
 }`;
 

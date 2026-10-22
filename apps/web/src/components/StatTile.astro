@@ -1,0 +1,52 @@
+---
+/**
+ * StatTile — pen master `Saf7N`.
+ * context: div · StatTile — props: icon, value, label
+ *
+ * `$a-bg` · radius 12 · gap 4 · padding 16 · icon 16 `$a-accent`
+ * value 30 `$a-ink` · label 12.5 `$a-muted`
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  icon: string;
+  value: string | number;
+  label: string;
+  class?: string;
+}
+
+const { icon, value, label, class: className } = Astro.props;
+---
+
+<div class:list={["tile", className]}>
+  <span class="ico"><Icon name={icon} size={16} /></span>
+  <span class="value">{value}</span>
+  <span class="label">{label}</span>
+</div>
+
+<style>
+  .tile {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+    border-radius: 12px;
+    background: var(--a-bg);
+  }
+  .ico {
+    display: grid;
+    place-items: center;
+    color: var(--a-accent);
+  }
+  .value {
+    font-family: var(--af-display);
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--a-ink);
+  }
+  .label {
+    font-size: 12.5px;
+    color: var(--a-muted);
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+/**
+ * Browse — Articles. Pen `Wmn35`.
+ *
+ *   PageHead (Articles + count + sub + Ask Badger + search) · Filters
+ *   Featured: one 300px gradient FeatureCard beside a SecondaryCard
+ *   Grid: 3 across, card = cover 116 · bd 14 → tag, title 15.5/600, excerpt, meta
+ *
+ * Two data notes: there is no read-time field, so the meta line is the publish
+ * date alone; and the "Featured" treatment has no flag in the schema, so the
+ * newest article takes it rather than inventing one.
+ */
+import Browse from "../layouts/Browse.astro";
+import AskBadger from "../components/AskBadger.astro";
+import FilterBar from "../components/FilterBar.astro";
+import ContentCard from "../components/ContentCard.astro";
+import Tag from "../components/Tag.astro";
+import { getArticles, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [articles, topics, counts, settings] = await Promise.all([
+  getArticles(),
+  getTopics(),
+  getCounts(),
+  getSettings(),
+]);
+
+const month = (iso: string) =>
+  new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" });
+
+const [featured, ...rest] = articles;
+const usedTopics = new Set(articles.map((a) => a.topic));
+const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
+const index = (a: (typeof articles)[number]) =>
+  [a.title, a.topic ?? ""].join(" ").toLowerCase();
+---
+
+<Browse
+  title="Articles"
+  description="Essays on building for the web — and the occasional detour."
+  active="articles"
+  counts={counts}
+  settings={settings}
+  count={articles.length}
+  countLabel="articles"
+  sub="Essays on building for the web — and the occasional detour."
+>
+  <Fragment slot="actions"><AskBadger /></Fragment>
+
+  <FilterBar topics={chips} searchPlaceholder="Search writing…" searchLabel="Search articles" />
+
+  <div data-browse>
+    {
+      featured && (
+        <section class="featured" aria-label="Featured article">
+          <a class="feature" href={`/articles/${featured.slug}`}>
+            <span class="fbody">
+              <span class="kicker">Featured</span>
+              <span class="ftitle">{featured.title}</span>
+              {featured.excerpt && <span class="fex">{featured.excerpt}</span>}
+              <span class="fmeta">{month(featured.publishedAt)}</span>
+            </span>
+          </a>
+          {rest[0] && (
+            <div class="secondary">
+              <ContentCard
+                id={rest[0].id}
+                href={`/articles/${rest[0].slug}`}
+                title={rest[0].title}
+                excerpt={rest[0].excerpt}
+                topic={rest[0].topic}
+                meta={month(rest[0].publishedAt)}
+                titleSize={17}
+                coverHeight={132}
+              />
+            </div>
+          )}
+        </section>
+      )
+    }
+
+    <ul class="grid" data-grid>
+      {
+        rest.slice(1).map((article) => (
+          <li data-item data-search={index(article)}>
+            <ContentCard
+              id={article.id}
+              href={`/articles/${article.slug}`}
+              title={article.title}
+              excerpt={article.excerpt}
+              topic={article.topic}
+              meta={month(article.publishedAt)}
+            />
+          </li>
+        ))
+      }
+    </ul>
+    <p class="empty" data-empty hidden>Nothing matches that search.</p>
+  </div>
+</Browse>
+
+<style>
+  .featured {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 16px;
+  }
+  .feature {
+    display: flex;
+    overflow: hidden;
+    min-height: 300px;
+    padding: 24px;
+    border-radius: 16px;
+    background: linear-gradient(220deg, #f6c6ad 0%, #e4572e 100%);
+    color: #fff;
+    text-decoration: none;
+  }
+  .feature:hover {
+    filter: brightness(0.98);
+  }
+  .fbody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .kicker {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    color: #ffffffcc;
+  }
+  .ftitle {
+    max-width: 20ch;
+    font-family: var(--af-display);
+    font-size: 34px;
+    line-height: 1.1;
+  }
+  .fex {
+    max-width: 52ch;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: #ffffffe0;
+  }
+  .fmeta {
+    margin-top: auto;
+    font-size: 11.5px;
+    color: #ffffffaa;
+  }
+  .secondary {
+    min-width: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .empty {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-faint);
+  }
+
+  @media (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .featured {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .feature {
+      min-height: 220px;
+    }
+    .ftitle {
+      font-size: 26px;
+    }
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  import "../lib/browse.ts";
+</script>

@@ -1,0 +1,126 @@
+---
+/**
+ * TimelineEntry — one role in the experience timeline (pen `xfWnk` → `tl` rows).
+ *
+ *   row: surface, radius 14, padding [4, 18] · gap 14 · padding [16, 0]
+ *   logo 44/11 · role 15.5/600 `$a-ink` + dates 11.5 `$a-faint` (gap 10)
+ *   org 13 `$a-muted` · description 13 `$a-muted`
+ *
+ * `logo` is usually null in the dataset, so the mark is a monogram in a tint
+ * derived from the entry — same placeholder idea as the card gradients.
+ */
+import { tintFor } from "../lib/palette.ts";
+import type { ExperienceEntry, EducationEntry } from "../lib/sanity/types.ts";
+
+interface Props {
+  entry: ExperienceEntry | EducationEntry;
+  href?: string | null;
+  class?: string;
+}
+
+const { entry, href, class: className } = Astro.props;
+
+// The two entry types share a shape on screen: a heading, dates, an organisation
+// and a description. Normalise once rather than narrowing in the markup.
+const heading = "title" in entry ? entry.title : entry.degree;
+const org =
+  "company" in entry
+    ? [entry.company, entry.location].filter(Boolean).join("  ·  ")
+    : entry.institution;
+const dates = [entry.startDate, entry.endDate ?? "Present"].filter(Boolean).join(" — ");
+const logo = entry.logo?.asset?.url;
+const monogram = heading.trim().charAt(0);
+const searchSeed = heading;
+---
+
+<div class:list={["row", className]}>
+  {
+    logo ? (
+      <img class="logo" src={logo} alt="" width={44} height={44} loading="lazy" />
+    ) : (
+      <span class="logo mark" style={`background:${tintFor(searchSeed)}`} aria-hidden="true">
+        {monogram}
+      </span>
+    )
+  }
+  <div class="tx">
+    <div class="top">
+      {
+        href ? (
+          <a class="role" href={href} target="_blank" rel="noopener">
+            {heading}
+          </a>
+        ) : (
+          <span class="role">{heading}</span>
+        )
+      }
+      {dates && <span class="dates">{dates}</span>}
+    </div>
+    {org && <span class="org">{org}</span>}
+    {entry.description && <p class="desc">{entry.description}</p>}
+  </div>
+</div>
+
+<style>
+  .row {
+    display: flex;
+    gap: 14px;
+    padding: 4px 18px;
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .logo {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin-top: 16px;
+    border-radius: 11px;
+    object-fit: cover;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .tx {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 3px;
+    padding: 16px 0;
+  }
+  .top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .role {
+    font-size: 15.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--a-ink);
+    text-decoration: none;
+  }
+  a.role:hover {
+    color: var(--a-accent);
+  }
+  .dates {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--a-faint);
+  }
+  .org {
+    font-size: 13px;
+    color: var(--a-muted);
+  }
+  .desc {
+    max-width: 62ch;
+    margin: 4px 0 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--a-muted);
+  }
+</style>

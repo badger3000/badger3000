@@ -1,0 +1,208 @@
+---
+/**
+ * Browse — Golf. Pen `oH8H5`.
+ *
+ *   PageHead (Golf scores + "17 rounds" badge + Ask Badger)
+ *   Stats: dl · stats — StatTile × 4
+ *   ChartCard: "LAST 12 ROUNDS" + 12 bars
+ *   Table: tr · GolfRow ← golfScore{course,date,score}
+ *     COURSE · DATE · SCORE · VS PAR
+ *
+ * Two columns are missing from the data and are omitted rather than faked:
+ * **Handicap** has no field anywhere in the schema, and **VS PAR** needs a par
+ * per course, which `golfScores` does not record. Best round, average and rounds
+ * logged are all computed from what is there.
+ */
+import Browse from "../layouts/Browse.astro";
+import AskBadger from "../components/AskBadger.astro";
+import StatTile from "../components/StatTile.astro";
+import { getGolfScores, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [scores, counts, settings] = await Promise.all([getGolfScores(), getCounts(), getSettings()]);
+
+const total = scores.length;
+const best = total ? Math.min(...scores.map((s) => s.score)) : 0;
+const average = total ? Math.round(scores.reduce((sum, s) => sum + s.score, 0) / total) : 0;
+const recent = scores.slice(0, 12);
+const tallest = Math.max(...recent.map((s) => s.score), 1);
+const lowest = Math.min(...recent.map((s) => s.score));
+const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+---
+
+<Browse
+  title="Golf scores"
+  description="The other obsession. Lower is better."
+  active="golf"
+  counts={counts}
+  settings={settings}
+  count={total ? `${total} rounds` : undefined}
+  sub="The other obsession. Lower is better — most days, anyway."
+>
+  <Fragment slot="actions"><AskBadger /></Fragment>
+
+  <dl class="stats">
+    <div data-item data-search="best round lowest">
+      <dt class="sr">Best round</dt>
+      <dd><StatTile icon="flag" value={best} label="Best round" /></dd>
+    </div>
+    <div data-item data-search="average mean">
+      <dt class="sr">Average</dt>
+      <dd><StatTile icon="activity" value={average} label="Average" /></dd>
+    </div>
+    <div data-item data-search="rounds logged total">
+      <dt class="sr">Rounds logged</dt>
+      <dd><StatTile icon="list" value={total} label="Rounds logged" /></dd>
+    </div>
+  </dl>
+
+  <section class="chart" data-item data-search="last twelve rounds chart bars">
+    <h2 class="cl">Last 12 rounds</h2>
+    <div class="bars">
+      {
+        recent.map((round) => (
+          <div class="col">
+            <span class="s">{round.score}</span>
+            <span
+              class="bar"
+              style={`height:${Math.max(12, Math.round(((round.score - lowest + 4) / (tallest - lowest + 4)) * 100))}%`}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="table-wrap" data-item data-search="table rounds all">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th class="date">Date</th>
+          <th class="score">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          scores.map((round) => (
+            <tr>
+              <td class="course">{round.course}</td>
+              <td class="date">{date(round.date)}</td>
+              <td class="score">{round.score}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Browse>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 0;
+  }
+  .stats > div {
+    display: contents;
+  }
+  .stats dd {
+    margin: 0;
+  }
+
+  .chart {
+    padding: 18px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .cl {
+    margin: 0 0 12px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--a-faint);
+  }
+  .bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 140px;
+  }
+  .col {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .s {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--a-faint);
+  }
+  .bar {
+    width: 100%;
+    min-height: 8px;
+    border-radius: 6px;
+    background: var(--a-line-2);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  th {
+    padding: 12px 16px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--a-faint);
+    background: var(--a-bg);
+  }
+  td {
+    padding: 13px 16px;
+    border-top: 1px solid var(--a-line);
+  }
+  .course {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--a-ink);
+  }
+  .date {
+    width: 150px;
+    font-size: 12px;
+    color: var(--a-muted);
+  }
+  .score {
+    width: 70px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+</style>
+
+<script>
+  import "../lib/browse.ts";
+</script>

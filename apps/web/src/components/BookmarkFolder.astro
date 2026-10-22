@@ -1,0 +1,142 @@
+---
+/**
+ * BookmarkFolder — pen `t5zUMA` on Browse — Bookmarks.
+ *
+ *   surface · radius 14 · gap 2 · padding 16
+ *   header: folder 16 `$a-accent` + name 13.5/600 `$a-ink` + count 11 `$a-faint`, gap 8
+ *   row: favicon 20/6 · title 13/500 `$a-ink` · domain 11 `$a-faint`
+ *        + arrow 13 `$a-faint` · padding [8, 2] · gap 10
+ *
+ * The dataset has no favicons, so the tile is an initial on a tint derived from
+ * the hostname.
+ */
+import Icon from "./Icon.astro";
+import { tintFor } from "../lib/palette.ts";
+import type { Bookmark } from "../lib/sanity/types.ts";
+
+interface Props {
+  name: string;
+  bookmarks: Bookmark[];
+  class?: string;
+}
+
+const { name, bookmarks, class: className } = Astro.props;
+
+const hostOf = (url: string): string => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+};
+---
+
+<section class:list={["folder", className]}>
+  <h2 class="fh">
+    <span class="ico"><Icon name="folder" size={16} /></span>
+    <span class="fname">{name}</span>
+    <span class="count">{bookmarks.length}</span>
+  </h2>
+
+  <ul class="rows">
+    {
+      bookmarks.map((bookmark) => {
+        const host = hostOf(bookmark.url);
+        return (
+          <li>
+            <a class="row" href={bookmark.url} target="_blank" rel="noopener">
+              <span class="fav" style={`background:${tintFor(host)}`} aria-hidden="true">
+                {host.charAt(0).toUpperCase()}
+              </span>
+              <span class="t">{bookmark.title}</span>
+              <span class="d">{host}</span>
+              <Icon name="arrow-up-right" size={13} class="out" />
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>
+
+<style>
+  .folder {
+    padding: 16px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .fh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 2px 2px 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .fh :global(.ico) {
+    color: var(--a-accent);
+  }
+  .fname {
+    flex: 1;
+    color: var(--a-ink);
+  }
+  .count {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--a-faint);
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 2px;
+    color: inherit;
+    text-decoration: none;
+  }
+  .fav {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .t {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--a-ink);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .d {
+    flex: 1;
+    overflow: hidden;
+    font-size: 11px;
+    color: var(--a-faint);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .row :global(.out) {
+    flex: none;
+    color: var(--a-faint);
+  }
+  .row:hover :global(.out) {
+    color: var(--a-accent);
+  }
+</style>

@@ -1,0 +1,65 @@
+---
+/**
+ * FilterBar — the `nav · topic filters` row every browse screen carries.
+ *
+ * Chips come from the topics that actually have items (the pen's labels —
+ * "Web App / Open Source / Client Work" — are placeholders), and the search box
+ * matches the pen's 200px `search` frame in the page header.
+ */
+import FilterChip from "./FilterChip.astro";
+import Input from "./Input.astro";
+import type { Topic } from "../lib/sanity/types.ts";
+
+interface Props {
+  topics?: Topic[];
+  searchPlaceholder?: string;
+  searchLabel?: string;
+  /** Slot for a control on the right, e.g. a sort. */
+  class?: string;
+}
+
+const { topics = [], searchPlaceholder, searchLabel, class: className } = Astro.props;
+---
+
+<div class:list={["toolbar", className]}>
+  <nav class="chips" aria-label="Filter by topic">
+    <FilterChip label="All" value="all" active />
+    {topics.map((topic) => <FilterChip label={topic.title} value={topic.slug ?? topic.title} />)}
+  </nav>
+  {
+    searchPlaceholder && (
+      <Input
+        type="search"
+        label={searchLabel ?? searchPlaceholder}
+        placeholder={searchPlaceholder}
+        width={200}
+        class="search"
+      />
+    )
+  }
+</div>
+
+<style>
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+
+  @media (max-width: 720px) {
+    .toolbar {
+      justify-content: stretch;
+    }
+    .search {
+      width: 100%;
+    }
+  }
+</style>

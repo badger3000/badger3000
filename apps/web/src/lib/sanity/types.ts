@@ -56,7 +56,8 @@ export interface Experiment {
   excerpt: string;
   topic: string | null;
   penUrl: string | null;
-  thumbnail: SanityImage | null;
+  /** Document creation — the only date the schema has. */
+  createdAt: string | null;
   cardLayout: CardLayout | null;
 }
 
