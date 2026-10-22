@@ -14,10 +14,11 @@ npm run build      # static build into dist/
 npm run check      # astro check (TypeScript over .astro files)
 npm run preview    # serve dist/ locally
 npm run deploy     # build + wrangler deploy
+npm run deploy:dry # build + wrangler deploy --dry-run (validates config offline)
 npm run cf:dev     # wrangler dev (serves the deployed worker's assets locally)
 ```
 
-Node **24** (matches the repo `.nvmrc`; Astro 7 requires >= 22.23.4).
+Node **24** (matches the repo `.nvmrc`; Astro 7 requires >= 22.23.4). Every script above runs through `scripts/node-guard.mjs`, which picks a supported Node itself — `npm run build` works even when `node` is v22.23.0. Run `nvm use` only for bare commands such as `npx astro …`.
 
 ## Deploying
 
@@ -39,6 +40,8 @@ src/
     Button.astro          pen master CTvHL
   pages/                  routes (home + 404 today)
   styles/tokens.css       pen "Design Tokens" board: --p-* -> --a-*, 3 skins
+scripts/
+  node-guard.mjs          re-runs npm scripts on a Node Astro accepts
 public/
   _headers                cache + security headers honoured by Cloudflare
 ```

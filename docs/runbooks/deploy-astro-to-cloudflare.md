@@ -15,7 +15,14 @@ Any change under `apps/web`. Until the cutover (PRD phase 7) this deploys alongs
 
 ## Prerequisites
 
-- **Node 24** (`nvm use` picks it up from `.nvmrc`; Astro 7 needs >= 22.23.4).
+- **Node 24** (`.nvmrc`; Astro 7 needs >= 22.23.4). You don't have to switch manually — every `apps/web` script goes through `scripts/node-guard.mjs`, which finds a supported interpreter (nvm / Volta / Homebrew / PATH, preferring `.nvmrc`) and re-runs the command with it:
+
+  ```bash
+  $ npm run build
+  node-guard: v22.23.0 does not satisfy ">=22.23.4" — using v24.22.1 from ~/.nvm/versions/node/v24.22.1/bin/node
+  ```
+
+  Outside those scripts (a bare `npx astro …`, an editor task) still run `nvm use`.
 - `npx wrangler login` once per machine — `npx wrangler whoami` must print an account.
 - `npm install` in `apps/web`. If npm reports packages "not yet covered by allowScripts", run `npm install-scripts approve esbuild fsevents workerd` once; the resulting `allowScripts` block in `apps/web/package.json` is what keeps CI installs non-interactive.
 
@@ -47,6 +54,7 @@ Then open the URL and click through the three skins (light / dark / forest) and 
 
 ## Troubleshooting
 
+- **`Node.js vX is not supported by Astro`** — you ran `astro` outside the npm scripts (so the guard never ran). Use `npm run build` / `npm run dev`, or `nvm use` first.
 - **`You are not authenticated`** — `npx wrangler login`.
 - **npm skips esbuild/workerd/sharp install scripts** — see prerequisites.
 - **404 on a route with no trailing slash** — that is `html_handling`; confirm the page is `dist/<route>/index.html`.
