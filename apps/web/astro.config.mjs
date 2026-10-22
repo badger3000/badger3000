@@ -32,6 +32,10 @@ export default defineConfig({
       PUBLIC_SANITY_PROJECT_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true, default: "production" }),
       PUBLIC_SANITY_API_VERSION: envField.string({ context: "client", access: "public", default: "2024-03-09" }),
+      // The badger3000 dataset is private (aclMode: private), so the CDN cannot
+      // read it without a token. Off by default; turn on only for a public
+      // dataset.
+      PUBLIC_SANITY_USE_CDN: envField.boolean({ context: "client", access: "public", default: false }),
       // Server-only: draft preview locally. Never shipped, and not needed for
       // a published-content build.
       SANITY_API_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),

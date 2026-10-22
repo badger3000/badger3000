@@ -20,8 +20,6 @@ export interface Project {
   id: string;
   title: string;
   slug: string;
-  /** pen: `Monogram ← project.title[0]` */
-  monogram: string;
   /** pen: `Tag ← project.topic` (the topic is a reference, dereferenced here) */
   topic: string | null;
   topicSlug: string | null;
@@ -58,6 +56,7 @@ export interface Skill {
   name: string;
   badgeType: string | null;
   badgeLabel: string | null;
+  /** CSS-ready, `#`-prefixed — the projection normalises the stored bare hex. */
   badgeColor: string | null;
 }
 
@@ -119,6 +118,7 @@ export interface EducationEntry {
 export interface Topic {
   title: string;
   slug: string | null;
+  /** Hex string; the projection unwraps the stored colour object. */
   backgroundColor: string | null;
 }
 

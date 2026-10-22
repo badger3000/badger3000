@@ -14,8 +14,23 @@
  * (`allowImportingTsExtensions`).
  */
 import { parse } from "groq-js";
-import { queries, querySet } from "../src/lib/sanity/queries.ts";
-import { dataset, isConfigured, projectId } from "../src/lib/sanity/client.ts";
+import { existsSync } from "node:fs";
+
+// Astro loads .env itself; this script runs under plain node, so load the same
+// files by hand — before importing the client, which reads env at module scope.
+// Only names are ever printed; values are never echoed.
+for (const file of [".env", ".env.local", ".env.development"]) {
+  if (existsSync(file) && typeof process.loadEnvFile === "function") {
+    try {
+      process.loadEnvFile(file);
+    } catch {
+      // A malformed or unreadable .env is reported below as missing config.
+    }
+  }
+}
+
+const { queries, querySet } = await import("../src/lib/sanity/queries.ts");
+const { dataset, isConfigured, projectId } = await import("../src/lib/sanity/client.ts");
 
 type QueryName = keyof typeof querySet;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };
@@ -53,7 +68,8 @@ if (!parseOnly && failures.length === 0) {
         "Parsed OK, but no Sanity credentials to fetch with:",
         `  PUBLIC_SANITY_PROJECT_ID = ${projectId ?? "(unset)"}`,
         `  PUBLIC_SANITY_DATASET    = ${dataset ?? "(unset)"}`,
-        "Copy apps/web/.env.example to apps/web/.env, or pass --parse to skip.",
+        "Set it in apps/web/.env (see .env.example), export it in the shell, or",
+        "pass --parse to skip the network check.",
       ].join("\n"),
     );
     process.exit(1);

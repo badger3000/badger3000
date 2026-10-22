@@ -22,6 +22,7 @@ function env(key: string, legacy?: string): string | undefined {
 export const projectId = env("PUBLIC_SANITY_PROJECT_ID", "NEXT_PUBLIC_SANITY_PROJECT_ID");
 export const dataset = env("PUBLIC_SANITY_DATASET", "NEXT_PUBLIC_SANITY_DATASET");
 export const apiVersion = env("PUBLIC_SANITY_API_VERSION") ?? "2024-03-09";
+export const useCdn = env("PUBLIC_SANITY_USE_CDN") === "true";
 export const token = env("SANITY_API_TOKEN");
 
 export const isConfigured = Boolean(projectId && dataset);
@@ -29,7 +30,11 @@ export const isConfigured = Boolean(projectId && dataset);
 /**
  * Drafts are only readable with a token, and the CDN never serves them, so the
  * two decisions are linked: a token in development means "show me drafts".
- * Production always reads published content over the CDN.
+ *
+ * `useCdn` defaults to **off** because the `badger3000` dataset is private
+ * (`aclMode: private`), and the CDN only reads public datasets without a token.
+ * A private dataset needs `SANITY_API_TOKEN` on any read — including a
+ * production build, so set it in Cloudflare's build environment.
  */
 const previewDrafts = Boolean(token) && !astroEnv?.PROD && process.env.NODE_ENV !== "production";
 
@@ -37,8 +42,8 @@ const MISSING = [
   "Missing Sanity configuration.",
   "Set these in apps/web/.env (copy .env.example) or the shell:",
   "  PUBLIC_SANITY_PROJECT_ID — your Sanity project id",
-  "  PUBLIC_SANITY_DATASET    — dataset name (default: production)",
-  "  SANITY_API_TOKEN         — optional, only for draft preview in development",
+  "  PUBLIC_SANITY_DATASET    — dataset name (this project uses 'badger3000')",
+  "  SANITY_API_TOKEN         — required for a private dataset, and for drafts in development",
 ].join("\n");
 
 let client: SanityClient | undefined;
@@ -51,8 +56,8 @@ export function getClient(): SanityClient {
     projectId,
     dataset,
     apiVersion,
-    useCdn: !previewDrafts,
-    token: previewDrafts ? token : undefined,
+    useCdn: useCdn && !previewDrafts,
+    token,
     perspective: previewDrafts ? "drafts" : "published",
     stega: false,
   });

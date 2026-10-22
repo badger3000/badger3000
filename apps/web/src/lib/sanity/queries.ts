@@ -45,7 +45,9 @@ export const projectsQuery = groq`*[_type == "projects" && defined(slug.current)
   "id": _id,
   title,
   "slug": slug.current,
-  "monogram": title[0],
+  // No monogram here: title[0] is null in GROQ (strings are not indexable).
+  // The pen binds the monogram to project.title[0]; the card takes
+  // title.charAt(0) instead.
   "topic": topic->title,
   "topicSlug": topic->slug.current,
   "tech": tech[],
@@ -77,11 +79,24 @@ export const experimentsQuery = groq`*[_type == "codepen" && defined(slug.curren
   "thumbnail": thumbnail ${IMAGE}
 }`;
 
-/** Browse — Skills (pen NH0XZ); `skills[]` is an inline array, so flatten it. */
+/**
+ * Browse — Skills (pen NH0XZ); `skills[]` is an inline array, so flatten it.
+ * `badgeColor` is stored bare ("777BB4"), but the pen binds it straight to a
+ * `fill`, so it leaves here CSS-ready.
+ */
 export const skillsQuery = groq`*[_type == "skillCategory"] | order(order asc) {
   name,
   order,
-  "skills": skills[] { name, badgeType, badgeLabel, badgeColor }
+  "skills": skills[] {
+    name,
+    badgeType,
+    badgeLabel,
+    "badgeColor": select(
+      badgeColor == null => null,
+      string::startsWith(badgeColor, "#") => badgeColor,
+      true => "#" + badgeColor
+    )
+  }
 }`;
 
 /** Browse — Testimonials (pen xTK4z). */
@@ -136,11 +151,11 @@ export const educationQuery = groq`*[_type == "education"] | order(startDate des
   "logo": logo ${IMAGE}
 }`;
 
-/** Browse filters: `FilterChip ← topics[]`. */
+/** Browse filters: `FilterChip ← topics[]`. `backgroundColor` is a colour object. */
 export const topicsQuery = groq`*[_type == "topics"] | order(title asc) {
   title,
   "slug": slug.current,
-  backgroundColor
+  "backgroundColor": backgroundColor.hex
 }`;
 
 /** `AvatarUser ← settings.name`, and the profile card in the sidebar. */
