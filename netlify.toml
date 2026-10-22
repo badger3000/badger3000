@@ -4,6 +4,7 @@ publish = ".next"
 
 [build.environment]
 NEXT_TELEMETRY_DISABLED = "1"
+NODE_VERSION = "22"
 NODE_OPTIONS = "--max_old_space_size=1024"
 
 # Increase build memory limit to avoid potential memory issues
