@@ -11,17 +11,20 @@
     "build": "node scripts/node-guard.mjs -- astro build",
     "check": "node scripts/node-guard.mjs -- astro check",
     "preview": "node scripts/node-guard.mjs -- astro preview",
+    "sanity:check": "node scripts/sanity-check.ts",
     "deploy": "npm run build && npm run deploy:worker",
     "deploy:worker": "node scripts/node-guard.mjs -- wrangler deploy",
     "deploy:dry": "npm run build && node scripts/node-guard.mjs -- wrangler deploy --dry-run",
     "cf:dev": "node scripts/node-guard.mjs -- wrangler dev"
   },
   "dependencies": {
+    "@sanity/client": "^8.10.1",
     "astro": "^7.4.2",
     "lucide-static": "^1.61.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "groq-js": "^2.0.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.152.0"
   },

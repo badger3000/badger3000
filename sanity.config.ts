@@ -5,18 +5,20 @@ import {visionTool} from "@sanity/vision";
 import {schemaTypes} from "./schemas";
 import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
 
-// Check for both naming conventions to support both Next.js and Sanity Studio
+// One env name set for both stacks; see docs/adr/0010-public-env-prefix.md.
 const projectId =
   process.env.SANITY_STUDIO_API_PROJECT_ID ||
+  process.env.PUBLIC_SANITY_PROJECT_ID ||
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset =
   process.env.SANITY_STUDIO_API_DATASET ||
+  process.env.PUBLIC_SANITY_DATASET ||
   process.env.NEXT_PUBLIC_SANITY_DATASET;
 
 // Check for missing environment variables during initialization
 if (!projectId || !dataset) {
   throw new Error(
-    `Missing required environment variables. Check if NEXT_PUBLIC_SANITY_PROJECT_ID and NEXT_PUBLIC_SANITY_DATASET are set.`
+    `Missing required environment variables. Check if PUBLIC_SANITY_PROJECT_ID and PUBLIC_SANITY_DATASET are set.`
   );
 }
 export default defineConfig({

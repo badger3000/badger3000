@@ -1,12 +1,18 @@
 import {createClient} from "next-sanity";
 import type {SanityPost, SanityBookmark} from "@/types/sanity";
 
-if (!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
-  throw new Error("Missing NEXT_PUBLIC_SANITY_PROJECT_ID");
+// One env name set for both stacks: the Astro app (apps/web) owns the
+// `PUBLIC_*` names, and the legacy `NEXT_PUBLIC_*` spellings stay readable
+// until the cutover. See docs/adr/0010-public-env-prefix.md.
+const projectId = process.env.PUBLIC_SANITY_PROJECT_ID ?? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const dataset = process.env.PUBLIC_SANITY_DATASET ?? process.env.NEXT_PUBLIC_SANITY_DATASET;
+
+if (!projectId) {
+  throw new Error("Missing PUBLIC_SANITY_PROJECT_ID");
 }
 
-if (!process.env.NEXT_PUBLIC_SANITY_DATASET) {
-  throw new Error("Missing NEXT_PUBLIC_SANITY_DATASET");
+if (!dataset) {
+  throw new Error("Missing PUBLIC_SANITY_DATASET");
 }
 
 // In local dev, preview unpublished draft content (requires a token and
@@ -16,19 +22,19 @@ const previewDrafts =
   process.env.NODE_ENV !== "production" && !!process.env.SANITY_API_TOKEN;
 
 const config = {
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId,
+  dataset,
   apiVersion: "2024-03-09",
   useCdn: !previewDrafts,
   token: process.env.SANITY_API_TOKEN,
 };
 
 if (!config.projectId) {
-  throw new Error("Missing NEXT_PUBLIC_SANITY_PROJECT_ID");
+  throw new Error("Missing PUBLIC_SANITY_PROJECT_ID");
 }
 
 if (!config.dataset) {
-  throw new Error("Missing NEXT_PUBLIC_SANITY_DATASET");
+  throw new Error("Missing PUBLIC_SANITY_DATASET");
 }
 
 export const client = createClient({

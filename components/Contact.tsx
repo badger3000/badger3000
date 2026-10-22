@@ -210,7 +210,7 @@ function ContactForm() {
 export default function Contact() {
   return (
     <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+      reCaptchaKey={(process.env.PUBLIC_RECAPTCHA_SITE_KEY ?? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) || ""}
       scriptProps={{
         async: true,
         defer: true,

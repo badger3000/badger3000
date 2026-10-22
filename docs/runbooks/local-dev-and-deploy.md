@@ -16,11 +16,13 @@ Setting up the site on a new machine, or shipping a change.
 ## Prerequisites
 
 - Node.js and npm (`package-lock.json`).
-- `.env.local` with:
-  - `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `SANITY_API_TOKEN` where a script writes or reads drafts;
-  - `SITE_URL`;
-  - `RESEND_API_KEY`, `OWNER_EMAIL`, `CONTACT_FORM_EMAIL`, `RECAPTCHA_SECRET_KEY`, `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` for the contact form.
+- `.env.local` (see [`.env.example`](../.env.example) for the full list and comments):
+  - `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, and `SANITY_API_TOKEN` where a script writes or reads drafts;
+  - `PUBLIC_SITE_URL`;
+  - `RESEND_API_KEY`, `OWNER_EMAIL`, `CONTACT_FORM_EMAIL`, `RECAPTCHA_SECRET_KEY`, `PUBLIC_RECAPTCHA_SITE_KEY` for the contact form.
 - The same variables in Netlify's site settings.
+
+The `NEXT_PUBLIC_*` spellings still work (each site reads `PUBLIC_X ?? NEXT_PUBLIC_X`) while Next serves production — see [ADR 0010](../adr/0010-public-env-prefix.md). `grep -r NEXT_PUBLIC_` should go quiet at the cutover.
 
 ## Steps
 

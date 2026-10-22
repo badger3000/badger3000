@@ -10,7 +10,7 @@ type BlogPost = {
   url: string;
 };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const SITE_URL = (process.env.PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL) || "http://localhost:3000";
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
@@ -37,7 +37,7 @@ export async function GET() {
         rss2: `${SITE_URL}/api/articles-feed`,
       },
       author: {
-        name: process.env.NEXT_PUBLIC_AUTHOR_NAME || "Portfolio Author",
+        name: (process.env.PUBLIC_AUTHOR_NAME ?? process.env.NEXT_PUBLIC_AUTHOR_NAME) || "Portfolio Author",
         link: SITE_URL,
       },
     });

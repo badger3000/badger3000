@@ -2,3 +2,8 @@ node_modules/
 dist/
 .astro/
 .wrangler/
+
+# Secrets. Keep the template: `.env.example` is the documented name list.
+.env
+.env.*
+!.env.example
