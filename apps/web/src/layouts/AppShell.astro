@@ -124,6 +124,8 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
 </style>
 
 <script>
+  import "../lib/shell.ts";
+
   /**
    * Scroll memory for the inner scroll container. Astro restores `window.scrollY`
    * on history navigation, which does nothing here because the page itself never

@@ -7,7 +7,8 @@
  *                                      · search button 34/10
  *
  * Desktop keeps Sidebar + TopBar; this only exists below 720px, which is the
- * only way to reach the nav there.
+ * only way to reach the nav there. The menu, back and search buttons are
+ * delegated from `lib/shell.ts`.
  */
 import Icon from "./Icon.astro";
 
@@ -148,17 +149,3 @@ const { variant = "menu", title = "Badger3000", count, initials = "KR" } = Astro
     text-decoration: none;
   }
 </style>
-
-<script>
-  /**
-   * The pen's mobile bar has a search button but no field; the page owns the
-   * only search input, so the button focuses that instead of being decorative.
-   */
-  document.addEventListener("click", (event) => {
-    if (!(event.target as HTMLElement).closest("[data-search-focus]")) return;
-    const field = document.querySelector<HTMLInputElement>('input[name="q"]');
-    if (!field) return;
-    field.scrollIntoView({ block: "center" });
-    field.focus({ preventScroll: true });
-  });
-</script>

@@ -8,6 +8,8 @@
  * Doubles as the `<template>` the chat island clones, so this file is the single
  * definition of an agent turn.
  */
+import Button from "./Button.astro";
+
 interface Props {
   line?: string;
 }
@@ -24,6 +26,10 @@ const { line = "" } = Astro.props;
       <i></i><i></i><i></i>
     </span>
     <div class="cards" data-chat-cards></div>
+    {/* SuggestionChips the answer offers next (`suggestions`), cloned in. */}
+    <div class="suggestions" data-chat-suggestions></div>
+    {/* Shown only when the answer failed in a way worth re-asking. */}
+    <div class="retry" data-chat-retry hidden><Button variant="secondary" label="Try again" /></div>
   </div>
 </div>
 
@@ -97,5 +103,16 @@ const { line = "" } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+  .suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .retry {
+    align-self: flex-start;
+  }
+  .retry[hidden] {
+    display: none;
   }
 </style>
