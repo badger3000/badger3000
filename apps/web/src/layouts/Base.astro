@@ -49,16 +49,29 @@ const {
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
     />
 
-    <!-- Restore the stored skin before first paint (no flash of the wrong theme). -->
+    <!--
+      Restore the stored skin before first paint (no flash of the wrong theme),
+      and carry it onto every incoming page. A swap copies the new document's
+      `data-theme="light"` onto <html>, so the skin is set on that document
+      before the swap, while the view transition is still capturing it. This
+      script sits in <head> unchanged on every page, so the router keeps it and
+      it runs once per document.
+    -->
     <script is:inline>
       (() => {
-        try {
-          const stored = localStorage.getItem("badger-theme");
-          const theme = stored === "dark" || stored === "forest" || stored === "light" ? stored : "light";
-          document.documentElement.dataset.theme = theme;
-        } catch {
-          /* private mode / storage disabled — stay on light */
-        }
+        const read = () => {
+          try {
+            const stored = localStorage.getItem("badger-theme");
+            return stored === "dark" || stored === "forest" || stored === "light" ? stored : "light";
+          } catch {
+            return "light"; /* private mode / storage disabled */
+          }
+        };
+        document.documentElement.dataset.theme = read();
+        document.addEventListener("astro:before-swap", (event) => {
+          event.newDocument.documentElement.dataset.theme =
+            document.documentElement.dataset.theme || read();
+        });
       })();
     </script>
   </head>
