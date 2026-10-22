@@ -19,7 +19,7 @@ import { getClient } from "./client.ts";
  * idea in four lines, so the Astro app does not pull in `next-sanity` (or any
  * other Sanity wrapper) just for it. Swap in the real package if you want it.
  */
-const groq = (strings: TemplateStringsArray, ...values: unknown[]) =>
+export const groq = (strings: TemplateStringsArray, ...values: unknown[]) =>
   String.raw({ raw: strings }, ...values);
 
 /**

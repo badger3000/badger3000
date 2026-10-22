@@ -9,12 +9,17 @@
  * `bHb5v` Prompt) and last, pushed to the bottom with `margin-top: auto`, on
  * mobile (pen `as8tT` Composer Wrap). No duplicate markup, no second form.
  *
- * The composer posts to `/api/chat`, which is PRD phase 4.
+ * The composer posts to `/api/chat`, and the island in `lib/chat.ts` intercepts
+ * the submit so the thread updates without a page load. The greeting and chips
+ * give way to the thread once there is one (`data-has-thread`).
  */
 import Base from "../layouts/Base.astro";
 import AppShell from "../layouts/AppShell.astro";
 import Composer from "../components/Composer.astro";
 import SuggestionChip from "../components/SuggestionChip.astro";
+import MessageBubble from "../components/MessageBubble.astro";
+import AgentMessage from "../components/AgentMessage.astro";
+import ChatCard from "../components/ChatCard.astro";
 import { getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [counts, settings] = await Promise.all([getCounts(), getSettings()]);
@@ -29,7 +34,9 @@ const chips = [
 
 <Base title="Badger3000 — Kyle Ross's AI">
   <AppShell counts={counts} settings={settings} mobileBar="menu" mobileTab="chat" mobileBottom="footer">
-    <main class="hero" id="main">
+    <main class="hero" id="main" data-chat-root>
+      <section class="thread" aria-label="Conversation" aria-live="polite" data-chat-log></section>
+
       <span class="hero-avatar" aria-hidden="true">🦡</span>
 
       <div class="greet">
@@ -41,17 +48,52 @@ const chips = [
       </div>
 
       <div class="dock">
-        <Composer />
+        <Composer chat />
       </div>
 
       <div class="chips">
         {chips.map((chip) => <SuggestionChip label={chip.label} prompt={chip.prompt} />)}
       </div>
     </main>
+
+    {/* The chat island clones these, so each turn is defined once by a component. */}
+    <template data-chat-bubble><MessageBubble /></template>
+    <template data-chat-message><AgentMessage /></template>
+    <template data-chat-card><ChatCard /></template>
   </AppShell>
 </Base>
 
 <style>
+  /* The thread sits above the greeting and takes the page once there is one. */
+  .thread {
+    display: none;
+    order: 0;
+    flex-direction: column;
+    gap: 24px;
+    width: 720px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  :global([data-has-thread="true"]) .thread {
+    display: flex;
+    flex: 1;
+  }
+  :global([data-has-thread="true"]) .hero-avatar,
+  :global([data-has-thread="true"]) .greet,
+  :global([data-has-thread="true"]) .chips {
+    display: none;
+  }
+  :global(.chat-tag) {
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    white-space: nowrap;
+  }
+
   /* Desktop: a centred column, composer between greeting and chips. */
   .hero {
     display: flex;
@@ -121,6 +163,9 @@ const chips = [
       padding: 16px 22px 0;
       text-align: center;
     }
+    .thread {
+      gap: 18px;
+    }
     .hero-avatar {
       width: 66px;
       height: 66px;
@@ -156,3 +201,6 @@ const chips = [
     }
   }
 </style>
+<script>
+  import "../lib/chat.ts";
+</script>

@@ -16,12 +16,20 @@ interface Props {
   placeholder?: string;
   label?: string;
   class?: string;
+  /** Marks the form the chat island intercepts. */
+  chat?: boolean;
 }
 
-const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class: className } = Astro.props;
+const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class: className, chat } =
+  Astro.props;
 ---
 
-<form class:list={["composer", className]} action="/api/chat" method="post">
+<form
+  class:list={["composer", className]}
+  action="/api/chat"
+  method="post"
+  data-chat-form={chat ? "" : undefined}
+>
   <label class="sr" for="composer-q">{label}</label>
   <input
     id="composer-q"

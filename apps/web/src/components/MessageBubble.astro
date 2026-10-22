@@ -1,0 +1,31 @@
+---
+/**
+ * MessageBubble — pen master `x5CCM`.
+ * context: div · MessageBubble — props: content (role=user)
+ *
+ * `$a-ink` · radius 15 · padding [10, 15] · 14 `$a-surface`, right-aligned.
+ *
+ * Also used as the build-time `<template>` the chat island clones, so this file
+ * is the single definition of a user bubble.
+ */
+interface Props {
+  content?: string;
+}
+
+const { content = "" } = Astro.props;
+---
+
+<div class="bubble" data-slot="content">{content}</div>
+
+<style>
+  .bubble {
+    align-self: flex-end;
+    max-width: 46ch;
+    padding: 10px 15px;
+    border-radius: 15px;
+    background: var(--a-ink);
+    color: var(--a-surface);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+</style>

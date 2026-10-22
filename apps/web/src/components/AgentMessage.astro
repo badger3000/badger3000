@@ -1,0 +1,61 @@
+---
+/**
+ * AgentMessage — pen master `CVVRV`.
+ * context: div · AgentMessage — props: line, children(cards)
+ *
+ *   avatar 26/9 · Body gap 12 · Line 15 `$a-ink` · the card slot
+ *
+ * Doubles as the `<template>` the chat island clones, so this file is the single
+ * definition of an agent turn.
+ */
+interface Props {
+  line?: string;
+}
+
+const { line = "" } = Astro.props;
+---
+
+<div class="turn">
+  <span class="avatar" aria-hidden="true">🦡</span>
+  <div class="body">
+    <p class="line" data-slot="line">{line}</p>
+    <div class="cards" data-chat-cards></div>
+  </div>
+</div>
+
+<style>
+  .turn {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    max-width: 620px;
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 9px;
+    background: var(--a-ink);
+    font-size: 14px;
+  }
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .line {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--a-ink);
+  }
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+</style>

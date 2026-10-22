@@ -1,13 +1,18 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "badger3000-web",
-  "compatibility_date": "2025-10-01",
-  // Workers Static Assets: serve the built Astro site. No Worker script yet —
-  // this is an assets-only Worker. When SSR / /api/chat is added, install
-  // @astrojs/cloudflare and let the adapter own "main" + "assets" instead.
-  "assets": {
-    "directory": "./dist",
-    "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
-  }
+  "compatibility_date": "2026-03-01",
+  // @astrojs/cloudflare owns "main" and "assets" — the hand-written assets block
+  // is gone now that there is a Worker script (ADR 0009, phase 4).
+  //
+  // Pages stay prerendered (`output: "static"`); /api/chat opts out with
+  // `export const prerender = false`. That is the ISR-equivalent: immutable
+  // edge-cached assets for content, one invocation for the agent.
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Workers AI — ADR 0008. The one-line "compose" step. The endpoint degrades to
+  // deterministic phrasing when this binding is missing, so a free plan is fine.
+  "ai": { "binding": "AI" },
+
+  "observability": { "enabled": true }
 }

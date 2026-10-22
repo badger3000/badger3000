@@ -1,0 +1,123 @@
+---
+/**
+ * ChatCard — one answer card from `/api/chat` (ADR 0008 step 4).
+ *
+ * There is no pen master for these: the Chat Architecture board specifies the
+ * payload (`{ intent, text, cards[] }`) and the client's job is to render it.
+ * The shell follows the card language already in the design — surface, radius
+ * 14, `--a-line` — so answer cards sit beside the browse cards.
+ *
+ * **Every slot is always rendered**, even when empty, because this component is
+ * also the `<template>` the chat island clones: a slot that is absent from the
+ * build cannot be filled at runtime. `:empty` keeps the empty ones out of the
+ * layout, so the author still writes `<ChatCard title={…} />` and nothing else.
+ */
+import Tag from "./Tag.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  kind?: string;
+  title?: string;
+  subtitle?: string;
+  body?: string;
+  meta?: string;
+  href?: string;
+  tags?: string[];
+}
+
+const { kind = "bio", title = "", subtitle, body, meta, href, tags = [] } = Astro.props;
+
+const ICONS: Record<string, string> = {
+  project: "folder-git-2",
+  article: "newspaper",
+  experiment: "code-xml",
+  role: "briefcase",
+  education: "graduation-cap",
+  skillGroup: "sparkles",
+  testimonial: "quote",
+  bookmark: "bookmark",
+  golf: "flag",
+  bio: "user",
+  contact: "mail",
+};
+---
+
+<article class="card" data-chat-card data-kind={kind}>
+  <span class="ico"><Icon name={ICONS[kind] ?? "sparkles"} size={15} /></span>
+  <div class="body">
+    <a class="title" data-slot="title" href={href}>{title}</a>
+    <span class="subtitle" data-slot="subtitle">{subtitle}</span>
+    <p class="body-text" data-slot="body">{body}</p>
+    <span class="tags" data-slot="tags">
+      {tags.map((tag) => <Tag label={tag} />)}
+    </span>
+    <span class="meta" data-slot="meta">{meta}</span>
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 9px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+  }
+  .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  /* Empty slots take no space until the island fills them. */
+  .body > :empty {
+    display: none;
+  }
+  .title {
+    align-self: flex-start;
+    font-size: 14.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--a-ink);
+    text-decoration: none;
+  }
+  a.title[href]:hover {
+    color: var(--a-accent);
+  }
+  .subtitle {
+    font-size: 12.5px;
+    color: var(--a-muted);
+  }
+  .body-text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 2px;
+  }
+  .meta {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+  .card[data-kind="skillGroup"] .body {
+    gap: 7px;
+  }
+</style>

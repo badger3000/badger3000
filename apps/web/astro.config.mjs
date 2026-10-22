@@ -1,22 +1,23 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
+import cloudflare from "@astrojs/cloudflare";
 
 /**
- * Phase 1 is static output: no adapter, so the build is a plain bundle of HTML
- * + assets and `wrangler deploy` uploads it to a Workers Static Assets worker.
+ * Static-first **with** the Cloudflare adapter (phase 4).
  *
- * When /api/chat lands (PRD phase 4) come back here and:
- *   1. npm i @astrojs/cloudflare wrangler   (adapter v14 wants wrangler >= 4.125)
- *   2. import cloudflare from "@astrojs/cloudflare";
- *      adapter: cloudflare(),
- *   3. output: "server"  (or keep "static" and add `export const prerender = false`
- *      on the endpoint routes only, which keeps content pages prerendered)
- *   4. delete the hand-written "assets" block in wrangler.jsonc — the adapter
- *      generates the worker entry and its assets config itself.
+ * Every page is still prerendered; only routes that opt out —
+ * `export const prerender = false`, today just `/api/chat` — run on the Worker.
+ * The adapter owns `main` and `assets` in wrangler.jsonc, so the hand-written
+ * assets block there is gone.
+ *
+ * Output stays "static" rather than "server" on purpose: content pages keep
+ * shipping as immutable edge-cached assets and only the agent endpoint costs an
+ * invocation (ADR 0009).
  */
 export default defineConfig({
   site: "https://badger3000.com",
   trailingSlash: "ignore",
+  adapter: cloudflare(),
 
   /**
    * Astro-native env: `PUBLIC_` is the only prefix exposed to the browser, so
@@ -39,6 +40,22 @@ export default defineConfig({
       // Server-only: draft preview locally. Never shipped, and not needed for
       // a published-content build.
       SANITY_API_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
+      /**
+       * The Workers AI "compose" tier, per ADR 0008. **Off by default**, which
+       * is a change of mind from the ADR and worth saying out loud: measured
+       * against the live catalog, a 3B model could not produce a single grounded
+       * line — it decorated every answer ("partnered with Headspace to promote
+       * mindfulness", "an 8-round stretch") and every one was caught and thrown
+       * away. So the deterministic phrasing is the real answer path, the model
+       * is opt-in, and the grounding check below stays as the safety net if you
+       * switch it on or move to a larger model.
+       */
+      CHAT_MODEL_TIER: envField.enum({
+        context: "server",
+        access: "public",
+        values: ["off", "on"],
+        default: "off",
+      }),
     },
   },
   build: {
