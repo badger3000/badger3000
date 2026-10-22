@@ -1,23 +1,45 @@
 ---
 /**
- * Footer — pen frame `A0w4T`.
- * context: footer
+ * Footer — pen master `RGuEe` (promoted from the home screen's frame `A0w4T`).
+ *   gap 16, padding [13, 22] · copy `$a-faint` · socials gap 16 at 14px `$a-faint`
+ *
+ * The master has no `context` string, and its socials are brand icons. lucide
+ * dropped brand glyphs and simple-icons no longer ships LinkedIn or CodePen, so
+ * the links are text at the same colour and rhythm rather than half-fidelity
+ * icons. The `compact` variant is the mobile footer (pen `RQ1cQ`): padding
+ * [6, 16], gap 8, and no CodePen.
  */
 import type { SiteSettings } from "../lib/sanity/types.ts";
 
 interface Props {
   year?: number;
   links?: SiteSettings["links"];
+  /** Mobile footer: tighter padding, no CodePen. */
+  compact?: boolean;
+  /** Browse routes show the tab bar below 720px instead of the footer. */
+  hideOnMobile?: boolean;
 }
 
-const { year = new Date().getFullYear(), links = [] } = Astro.props;
+const {
+  year = new Date().getFullYear(),
+  links = [],
+  compact = false,
+  hideOnMobile = false,
+} = Astro.props;
+
+const fallback = [
+  { siteName: "GitHub", webUrl: "https://github.com/kbadger" },
+  { siteName: "LinkedIn", webUrl: "https://www.linkedin.com/in/kbadger" },
+  ...(compact ? [] : [{ siteName: "CodePen", webUrl: "https://codepen.io/kbadger" }]),
+];
+const socials = links.length ? links : fallback;
 ---
 
-<footer class="footer">
+<footer class="footer" class:list={{ compact, "hide-on-mobile": hideOnMobile }}>
   <span class="copy">© {year} Kyle Ross</span>
   <nav class="socials" aria-label="Elsewhere">
     {
-      links.map((link) => (
+      socials.map((link) => (
         <a href={link.webUrl ?? "#"} target="_blank" rel="me noopener">
           {link.siteName}
         </a>
@@ -32,20 +54,27 @@ const { year = new Date().getFullYear(), links = [] } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 16px;
     padding: 13px 22px;
     border-top: 1px solid var(--a-line);
     font-size: 12px;
     color: var(--a-faint);
   }
+  .footer.compact {
+    padding: 6px 16px;
+    gap: 8px;
+  }
   .socials {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
+  }
+  .compact .socials {
+    gap: 12px;
   }
   .socials a {
-    color: var(--a-muted);
+    color: var(--a-faint);
     text-decoration: none;
   }
   .socials a:hover {
@@ -53,9 +82,12 @@ const { year = new Date().getFullYear(), links = [] } = Astro.props;
   }
 
   @media (max-width: 720px) {
-    .footer {
+    .footer:not(.compact) {
       flex-direction: column;
       gap: 8px;
+    }
+    .hide-on-mobile {
+      display: none;
     }
   }
 </style>

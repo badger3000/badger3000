@@ -1,0 +1,93 @@
+---
+/**
+ * MobileTabBar — pen frame `nPhhS` (Mobile — Browse Projects).
+ * context: nav · mobile tabs
+ *
+ *   `$a-surface` · padding [10, 34, 16, 34] · items gap 3, icon 21, label 10.5
+ *   active: `$a-accent` at weight 600 · inactive: `$a-faint` at weight 500
+ *
+ * The pen's four tabs are Chat, Explore, Saved, Profile. Explore and Saved have
+ * routes; Chat is the agent home; **Profile has no page yet**, so it opens the
+ * drawer, which is where the design puts the profile block. Sizing for a home
+ * indicator is left to the viewport (`env(safe-area-inset-bottom)`).
+ */
+import Icon from "./Icon.astro";
+
+export type Tab = "chat" | "explore" | "saved" | "profile";
+
+interface Props {
+  active?: Tab;
+}
+
+const { active = "explore" } = Astro.props;
+
+const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
+  { id: "chat", label: "Chat", icon: "message-circle", href: "/" },
+  { id: "explore", label: "Explore", icon: "compass", href: "/projects" },
+  { id: "saved", label: "Saved", icon: "bookmark", href: "/bookmarks" },
+  { id: "profile", label: "Profile", icon: "user" },
+];
+---
+
+<nav class="tabbar" aria-label="Primary">
+  {
+    tabs.map((tab) => {
+      const isActive = tab.id === active;
+      const inner = (
+        <>
+          <Icon name={tab.icon} size={21} />
+          <span class="tlabel">{tab.label}</span>
+        </>
+      );
+      return tab.href ? (
+        <a class="tab" href={tab.href} aria-current={isActive ? "page" : undefined}>
+          {inner}
+        </a>
+      ) : (
+        <button type="button" class="tab" data-drawer-open aria-current={isActive ? "page" : undefined}>
+          {inner}
+        </button>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .tabbar {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .tabbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex: none;
+      padding: 10px 34px calc(16px + env(safe-area-inset-bottom));
+      background: var(--a-surface);
+    }
+  }
+
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--a-faint);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tab[aria-current="page"] {
+    color: var(--a-accent);
+    font-weight: 600;
+  }
+  .tlabel {
+    line-height: 1.2;
+  }
+</style>

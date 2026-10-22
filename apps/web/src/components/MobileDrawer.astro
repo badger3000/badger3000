@@ -1,0 +1,367 @@
+---
+/**
+ * MobileDrawer — pen frame `uaeM2` (Mobile — Menu).
+ * context: nav · mobile drawer
+ *
+ *   320 wide · `$a-sidebar` · gap 16 · padding [18, 16]
+ *   Brand 32/10 + close 34/10 · New surface/12/pad 12 · EXPLORE mono 10.5
+ *   Nav gap 2, items radius 10, gap 12, padding 11, icon 17, label 14, count mono 11
+ *   Appearance (pad [4, 2]): seg surface/9/gap 2/pad 2, options radius 7 gap 5
+ *     pad [6, 10], icon 13 + label 12 — the pen shows Light and Dark only, so
+ *     forest stays desktop-only rather than being invented here.
+ *   Profile surface/12/gap 10/pad 9
+ *
+ * It is a real `<dialog>`: Esc closes it, focus is trapped, and `::backdrop` is
+ * the pen's scrim (`#0C0C0A`) without a second element to manage.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  counts?: Record<string, number | undefined>;
+  active?: string;
+  profile?: { name: string; location: string };
+}
+
+const { counts = {}, active, profile } = Astro.props;
+
+const nav = [
+  { id: "projects", label: "Projects", icon: "folder-git-2", href: "/projects" },
+  { id: "articles", label: "Articles", icon: "newspaper", href: "/articles" },
+  { id: "experiments", label: "Experiments", icon: "code-xml", href: "/codepen" },
+  { id: "experience", label: "Experience", icon: "briefcase", href: "/experience" },
+  { id: "education", label: "Education", icon: "graduation-cap", href: "/experience#education" },
+  { id: "skills", label: "Skills", icon: "sparkles", href: "/skills" },
+  { id: "testimonials", label: "Testimonials", icon: "quote", href: "/testimonials" },
+  { id: "bookmarks", label: "Bookmarks", icon: "bookmark", href: "/bookmarks" },
+  { id: "golf", label: "Golf scores", icon: "flag", href: "/golf" },
+];
+
+const initials = (profile?.name ?? "Kyle Ross")
+  .split(" ")
+  .map((part) => part.charAt(0))
+  .slice(0, 2)
+  .join("");
+---
+
+<dialog class="drawer" data-drawer aria-label="Menu">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">🦡</span>
+    <span class="brandtext">
+      <strong>Badger3000</strong>
+      <span>Kyle's AI</span>
+    </span>
+    <button type="button" class="close" data-drawer-close aria-label="Close menu">
+      <Icon name="x" size={17} />
+    </button>
+  </div>
+
+  <a class="new" href="/">
+    <Icon name="plus" size={17} />
+    <span>New conversation</span>
+  </a>
+
+  <span class="grp">Explore</span>
+  <nav class="nav" aria-label="Explore content">
+    {
+      nav.map((item) => (
+        <a class="item" href={item.href} aria-current={item.id === active ? "page" : undefined}>
+          <span class="ico"><Icon name={item.icon} size={17} /></span>
+          <span class="label">{item.label}</span>
+          {counts[item.id] !== undefined && <span class="count">{counts[item.id]}</span>}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="spacer" />
+
+  <div class="appearance">
+    <span class="a-label">Appearance</span>
+    <div class="seg" role="group" aria-label="Theme" data-theme-segment>
+      <button type="button" class="opt" data-theme-option="light">
+        <Icon name="sun" size={13} />
+        <span>Light</span>
+      </button>
+      <button type="button" class="opt" data-theme-option="dark">
+        <Icon name="moon" size={13} />
+        <span>Dark</span>
+      </button>
+    </div>
+  </div>
+
+  {
+    profile && (
+      <div class="profile">
+        <span class="avatar" aria-hidden="true">{initials}</span>
+        <span class="ptext">
+          <strong>{profile.name}</strong>
+          {profile.location && <span>{profile.location}</span>}
+        </span>
+        <Icon name="settings" size={15} class="dim" />
+      </div>
+    )
+  }
+</dialog>
+
+<style>
+  .drawer {
+    width: min(320px, 86vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0 auto 0 0;
+    padding: 18px 16px;
+    border: 0;
+    background: var(--a-sidebar);
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+  /* The pen's scrim. */
+  .drawer::backdrop {
+    background: #0c0c0a;
+  }
+  .drawer[open] {
+    display: flex;
+    animation: drawer-in 0.18s ease;
+  }
+  @keyframes drawer-in {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--a-ink);
+    font-family: Inter, sans-serif;
+    font-size: 17px;
+    color: var(--a-surface);
+  }
+  .brandtext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+    line-height: 1.2;
+  }
+  .brandtext strong {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .brandtext span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--a-faint);
+  }
+  .close {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    cursor: pointer;
+  }
+
+  .new {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .grp {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--a-faint);
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--a-muted);
+    text-decoration: none;
+  }
+  .item:hover {
+    background: var(--a-surface);
+  }
+  .item[aria-current="page"] {
+    border-color: var(--a-line);
+    background: var(--a-surface);
+  }
+  .ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 17px;
+    height: 17px;
+  }
+  .item[aria-current="page"] .ico {
+    color: var(--a-accent);
+  }
+  .label {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .item[aria-current="page"] .label {
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .count {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+
+  .spacer {
+    flex: 1;
+    min-height: 8px;
+  }
+
+  .appearance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 2px;
+  }
+  .a-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--a-muted);
+  }
+  .seg {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 9px;
+    background: var(--a-surface);
+  }
+  .opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--a-muted);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .opt[aria-pressed="true"] {
+    background: var(--a-ink);
+    color: var(--a-surface);
+    font-weight: 600;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px;
+    border-radius: 12px;
+    background: var(--a-surface);
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: var(--a-accent-soft);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--a-accent);
+  }
+  .ptext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .ptext strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .ptext span {
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+  :global(.dim) {
+    color: var(--a-muted);
+  }
+</style>
+
+<script>
+  import { applyTheme, isTheme, readTheme, THEMES } from "../lib/theme.ts";
+
+  const drawer = document.querySelector<HTMLDialogElement>("[data-drawer]");
+
+  const open = () => drawer?.showModal();
+  const close = () => drawer?.close();
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    if (target.closest("[data-drawer-open]")) open();
+    // A click on the backdrop lands on the dialog element itself.
+    else if (target === drawer) close();
+    else if (target.closest("[data-drawer-close]")) close();
+    else if (target.closest("[data-drawer-back]")) history.back();
+  });
+
+  // Appearance segment: same store as the desktop toggle.
+  const segment = document.querySelector<HTMLElement>("[data-theme-segment]");
+  const paint = (theme: string) => {
+    for (const option of segment?.querySelectorAll<HTMLButtonElement>("[data-theme-option]") ?? []) {
+      option.setAttribute("aria-pressed", String(option.dataset.themeOption === theme));
+    }
+  };
+  segment?.addEventListener("click", (event) => {
+    const option = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-theme-option]");
+    const next = option?.dataset.themeOption;
+    if (isTheme(next) && next !== "forest") applyTheme(next);
+  });
+  addEventListener("badger:theme", (event) => paint((event as CustomEvent<string>).detail));
+  if (THEMES.length) paint(readTheme());
+
+  // A navigation replaces the page; the drawer must not survive it.
+  document.addEventListener("astro:page-load", () => {
+    if (drawer?.open) drawer.close();
+    paint(readTheme());
+  });
+</script>

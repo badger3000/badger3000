@@ -26,6 +26,9 @@ import { fade } from "astro:transitions";
 import Sidebar from "../components/Sidebar.astro";
 import TopBar from "../components/TopBar.astro";
 import Footer from "../components/Footer.astro";
+import MobileTopBar from "../components/MobileTopBar.astro";
+import MobileDrawer from "../components/MobileDrawer.astro";
+import MobileTabBar, { type Tab } from "../components/MobileTabBar.astro";
 import type { SiteSettings } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -34,9 +37,29 @@ interface Props {
   counts?: Record<string, number | undefined>;
   settings?: SiteSettings | null;
   resumeHref?: string;
+  /** Mobile bar shape: "menu" on the agent home, "page" on browse routes. */
+  mobileBar?: "menu" | "page";
+  /** Page name for the browse variant. */
+  mobileTitle?: string;
+  mobileCount?: number;
+  /** Which tab is active in the mobile tab bar. */
+  mobileTab?: Tab;
+  /** "tabs" replaces the footer on browse routes (pen `nPhhS`); "footer" is the
+      agent home (pen `RQ1cQ`). */
+  mobileBottom?: "tabs" | "footer";
 }
 
-const { active, counts, settings, resumeHref } = Astro.props;
+const {
+  active,
+  counts,
+  settings,
+  resumeHref,
+  mobileBar = "menu",
+  mobileTitle,
+  mobileCount,
+  mobileTab = "explore",
+  mobileBottom = "footer",
+} = Astro.props;
 const profile = settings?.name ? { name: settings.name, location: settings.location ?? "" } : undefined;
 ---
 
@@ -44,11 +67,23 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
   <Sidebar counts={counts} active={active} profile={profile} />
   <div class="main">
     <TopBar resumeHref={resumeHref} />
+    <MobileTopBar
+      variant={mobileBar}
+      title={mobileTitle ?? "Badger3000"}
+      count={mobileCount}
+      initials={profile?.name?.split(" ").map((p) => p.charAt(0)).slice(0, 2).join("")}
+    />
     <div class="body" transition:name="content" transition:animate={fade({ duration: "0.2s" })}>
       <slot />
-      <Footer links={settings?.links} />
+      <Footer
+        links={settings?.links}
+        compact={mobileBottom === "footer"}
+        hideOnMobile={mobileBottom === "tabs"}
+      />
     </div>
+    {mobileBottom === "tabs" && <MobileTabBar active={mobileTab} />}
   </div>
+  <MobileDrawer counts={counts} active={active} profile={profile} />
 </div>
 
 <style>

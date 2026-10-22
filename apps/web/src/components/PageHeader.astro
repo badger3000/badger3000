@@ -72,12 +72,13 @@ const { title, count, countLabel, sub } = Astro.props;
   }
 
   @media (max-width: 720px) {
-    .pagehead {
-      flex-direction: column;
-      align-items: stretch;
+    /* The mobile bar carries the title and count (pen yM5Vm), so the title block
+       would just repeat it. The actions stay: they hold the only search field. */
+    .left {
+      display: none;
     }
-    h1 {
-      font-size: 27px;
+    .pagehead {
+      justify-content: flex-end;
     }
     .actions {
       flex-wrap: wrap;

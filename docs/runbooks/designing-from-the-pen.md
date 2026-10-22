@@ -30,14 +30,25 @@ So a node's name + `context` + geometry + fills give you the component name, its
 
 ## Component → file map
 
-| pen master (id) | package file |
+| pen master (id) | file (as built) |
 | --- | --- |
-| Button `CTvHL`, Tag `rw7Gc`, CountBadge `e4RkB0`, ShieldsBadge `NjGub` | `packages/ui/Button.astro`, `Tag.astro`, … |
-| Avatar `Xu2VY`, AvatarUser `kF8ut`, Input `WIcVr`, IconButton `HFjfa`, FilterChip `RA61q`, SuggestionChip `TPq9Z` | `packages/ui/*` |
-| NavItem `LDNXV`, StatTile `Saf7N`, MessageBubble `x5CCM`, AgentMessage `CVVRV`, Card `I2gPrr`, ProjectCard `FE7oC` | `packages/ui/*` |
-| Sidebar `pL9CR`, TopBar `r30jlq`, PageHeader `a1JCtb`, Composer `c2P43y` | `packages/ui/*` (organisms) |
+| Button `CTvHL`, Tag `rw7Gc`, CountBadge `e4RkB0`, ShieldsBadge `NjGub` | `apps/web/src/components/Button.astro`, `Tag.astro`, … |
+| Avatar `Xu2VY`, AvatarUser `kF8ut`, Input `WIcVr`, IconButton `HFjfa`, FilterChip `RA61q`, SuggestionChip `TPq9Z` | `apps/web/src/components/*` |
+| NavItem `LDNXV`, StatTile `Saf7N`, MessageBubble `x5CCM`, AgentMessage `CVVRV`, Card `I2gPrr`, ProjectCard `FE7oC` | `apps/web/src/components/*` |
+| Sidebar `pL9CR`, TopBar `r30jlq`, PageHeader `a1JCtb`, Footer `RGuEe` | `apps/web/src/components/*` (organisms) |
+| Mobile bar `QIR7a` / `yM5Vm`, drawer `uaeM2`, tab bar `nPhhS` | `MobileTopBar.astro`, `MobileDrawer.astro`, `MobileTabBar.astro` |
+| App shell `l7yp4` / `TLAnY` | `apps/web/src/layouts/AppShell.astro` |
 
-Still to extract (build directly in code against real data): ArticleCard, PenCard, TestimonialCard, SkillBadge group, TimelineEntry, BookmarkFolder+row, GolfBarChart+row, and the mobile organisms (MobileTopBar, MobileTabBar, Drawer).
+Still to build against real data: ArticleCard, PenCard (experiments), TestimonialCard, the skill badge group, TimelineEntry, BookmarkFolder + row, GolfBarChart + row, and the Composer (`c2P43y`, needed for `/api/chat` in phase 4).
+
+## The canvas is live; the file on disk may be behind it
+
+The `.pen` is open in the Pen app while you work, so `git` and a plain JSON read of
+`design/badger3000v2.pen` can lag behind what is on the canvas — including nodes
+that only exist in memory until you save. **Read the design through the pen.dev
+MCP (`execute` + `Get`) when you start work on a component**, and treat the file as
+the record of what has been committed. As of 2026-10-22 the canvas held a reusable
+`Footer` (`RGuEe`) that was not yet in the file.
 
 ## The loop
 

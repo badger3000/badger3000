@@ -1,0 +1,164 @@
+---
+/**
+ * MobileTopBar — pen `QIR7a` (Mobile — Home) and `yM5Vm` (Mobile — Browse).
+ *
+ *   home    padding [16, 18] · menu button 34/10 · title 24/8 + "Badger3000" 15/600
+ *   browse  padding [14, 16] · back button 34/10 · title 16/600 + count chip
+ *                                      · search button 34/10
+ *
+ * Desktop keeps Sidebar + TopBar; this only exists below 720px, which is the
+ * only way to reach the nav there.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  variant?: "menu" | "page";
+  /** Browse variant: the page name in the bar. */
+  title?: string;
+  /** Browse variant: the count chip beside the title. */
+  count?: number;
+  initials?: string;
+}
+
+const { variant = "menu", title = "Badger3000", count, initials = "KR" } = Astro.props;
+---
+
+<header class="m-topbar">
+  {
+    variant === "menu" ? (
+      <>
+        <button type="button" class="square" data-drawer-open aria-label="Open menu">
+          <Icon name="menu" size={18} />
+        </button>
+        <span class="title">
+          <span class="mark" aria-hidden="true">🦡</span>
+          <span class="name">{title}</span>
+        </span>
+        <a class="user" href="/bookmarks" aria-label="Your saved items">
+          {initials}
+        </a>
+      </>
+    ) : (
+      <>
+        <button type="button" class="square" data-drawer-back aria-label="Go back">
+          <Icon name="chevron-left" size={18} />
+        </button>
+        <span class="title">
+          <span class="page">{title}</span>
+          {count !== undefined && <span class="chip">{count}</span>}
+        </span>
+        <button type="button" class="square" data-search-focus aria-label="Search">
+          <Icon name="search" size={17} />
+        </button>
+      </>
+    )
+  }
+</header>
+
+<style>
+  .m-topbar {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .m-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex: none;
+      padding: 14px 16px;
+      background: var(--a-surface);
+      border-bottom: 1px solid var(--a-line);
+    }
+  }
+
+  .square {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--a-ink);
+    cursor: pointer;
+  }
+  .square:active {
+    background: var(--a-bg);
+  }
+  .square:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: var(--a-ink);
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    color: var(--a-surface);
+  }
+  .name,
+  .page {
+    overflow: hidden;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--a-ink);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .page {
+    font-size: 16px;
+  }
+  .chip {
+    flex: none;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    line-height: 1.4;
+  }
+
+  .user {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-size: 10.5px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>
+
+<script>
+  /**
+   * The pen's mobile bar has a search button but no field; the page owns the
+   * only search input, so the button focuses that instead of being decorative.
+   */
+  document.addEventListener("click", (event) => {
+    if (!(event.target as HTMLElement).closest("[data-search-focus]")) return;
+    const field = document.querySelector<HTMLInputElement>('input[name="q"]');
+    if (!field) return;
+    field.scrollIntoView({ block: "center" });
+    field.focus({ preventScroll: true });
+  });
+</script>

@@ -76,20 +76,7 @@ const labels: Record<(typeof themes)[number], string> = {
 </style>
 
 <script>
-  const THEMES = ["light", "dark", "forest"] as const;
-  type Theme = (typeof THEMES)[number];
-  const KEY = "badger-theme";
-
-  const isTheme = (v: string | null | undefined): v is Theme =>
-    !!v && (THEMES as readonly string[]).includes(v);
-  const stored = (): Theme => {
-    try {
-      const value = localStorage.getItem(KEY);
-      return isTheme(value) ? value : "light";
-    } catch {
-      return "light";
-    }
-  };
+  import { applyTheme, isTheme, readTheme } from "../lib/theme.ts";
 
   /**
    * Runs on the first load and again after every client-side navigation, because
@@ -97,35 +84,32 @@ const labels: Record<(typeof themes)[number], string> = {
    * the new document's `data-theme="light"` onto <html>, which would otherwise
    * reset a dark or forest skin on every click.
    */
+  const paint = (theme: string) => {
+    for (const option of document.querySelectorAll<HTMLButtonElement>(
+      "[data-theme-option]",
+    )) {
+      option.setAttribute("aria-pressed", String(option.dataset.themeOption === theme));
+    }
+  };
+
   const init = () => {
-    const theme = stored();
+    const theme = readTheme();
     document.documentElement.dataset.theme = theme;
+    paint(theme);
 
     for (const root of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
-      const options = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
-      const paint = (value: Theme) => {
-        for (const option of options) {
-          option.setAttribute("aria-pressed", String(option.dataset.themeOption === value));
-        }
-      };
-      paint(theme);
-
       root.addEventListener("click", (event) => {
         const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
           "[data-theme-option]",
         );
         const next = button?.dataset.themeOption;
-        if (!isTheme(next)) return;
-        document.documentElement.dataset.theme = next;
-        paint(next);
-        try {
-          localStorage.setItem(KEY, next);
-        } catch {
-          // Storage blocked: the skin still applies for this page view.
-        }
+        if (isTheme(next)) applyTheme(next);
       });
     }
   };
+
+  // The mobile drawer's Appearance segment writes through the same store.
+  addEventListener("badger:theme", (event) => paint((event as CustomEvent<string>).detail));
 
   init();
   document.addEventListener("astro:page-load", init);

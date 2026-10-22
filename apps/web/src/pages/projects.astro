@@ -41,7 +41,16 @@ const searchIndex = projects.map((p) =>
   title="Projects — Badger3000"
   description="Things Kyle has designed, built, and shipped."
 >
-  <AppShell active="projects" counts={counts} settings={settings}>
+  <AppShell
+    active="projects"
+    counts={counts}
+    settings={settings}
+    mobileBar="page"
+    mobileTitle="Projects"
+    mobileCount={projects.length}
+    mobileTab="explore"
+    mobileBottom="tabs"
+  >
     <main class="archive" id="main">
       <div class="inner">
         <PageHeader title="Projects" count={projects.length} countLabel="projects" sub="Things Kyle has designed, built, and shipped.">
