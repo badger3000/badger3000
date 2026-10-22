@@ -44,7 +44,7 @@ const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
           {inner}
         </a>
       ) : (
-        <button type="button" class="tab" data-drawer-open aria-current={isActive ? "page" : undefined}>
+        <button type="button" class="tab" data-drawer-open aria-haspopup="dialog">
           {inner}
         </button>
       );
