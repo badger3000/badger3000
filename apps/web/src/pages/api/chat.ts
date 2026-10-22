@@ -10,12 +10,14 @@
  *
  *   200  { intent, text, cards, suggestions?, composed }
  *   503  { intent, text, cards: [], composed: "template", degraded: true } — content source failed
+ *   429  { error } + Retry-After — rate limited (CHAT_LIMITER)
  *   400 / 405 / 413  { error }
  */
 import type { APIRoute } from "astro";
 import { classify, type Intent } from "../../lib/agent/intents.ts";
 import { filterCards, retrieve } from "../../lib/agent/retrieve.ts";
 import { compose, fallback } from "../../lib/agent/compose.ts";
+import { bindings } from "../../lib/agent/bindings.ts";
 import { json, readBody } from "../../lib/http.ts";
 
 export const prerender = false;
@@ -45,7 +47,15 @@ export interface ChatResponse {
   degraded?: true;
 }
 
+interface RateLimiter {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
 export const POST: APIRoute = async ({ request }) => {
+  if (await rateLimited(request)) {
+    return json({ error: "Slow down — try again in a minute." }, { status: 429, headers: { "retry-after": "60" } });
+  }
+
   const declared = Number(request.headers.get("content-length") ?? 0);
   if (declared > MAX_BODY) return tooLarge();
   const bytes = await readBody(request, MAX_BODY);
@@ -114,5 +124,21 @@ export const POST: APIRoute = async ({ request }) => {
 /** Anything but POST: a JSON 405, not the HTML 404 page. */
 export const ALL: APIRoute = () =>
   json({ error: "POST only." }, { status: 405, headers: { allow: "POST" } });
+
+/**
+ * 20 a minute per IP (wrangler.jsonc). A missing binding (a Node preview) or a
+ * limiter error means no limit rather than no chat.
+ */
+async function rateLimited(request: Request): Promise<boolean> {
+  const limiter = (await bindings())?.CHAT_LIMITER as RateLimiter | undefined;
+  if (!limiter) return false;
+  try {
+    const { success } = await limiter.limit({ key: request.headers.get("cf-connecting-ip") ?? "anon" });
+    return !success;
+  } catch (error) {
+    console.error("[chat] rate limiter failed:", error);
+    return false;
+  }
+}
 
 const tooLarge = () => json({ error: "That message is too long." }, { status: 413 });

@@ -16,6 +16,7 @@
  */
 import type { Intent } from "./intents.ts";
 import { CHAT_MODEL_TIER } from "astro:env/server";
+import { bindings } from "./bindings.ts";
 
 /** The Tier-1 phrasing. Always works, needs no model, costs nothing. */
 export function fallback(intent: Intent, count: number, facts: string[]): string {
@@ -158,16 +159,6 @@ export function isGrounded(line: string, facts: string[]): boolean {
 
 interface AiBinding {
   run(model: string, input: { messages: { role: string; content: string }[] }): Promise<{ response?: string }>;
-}
-
-/** Workers bindings, or null off-Workers (a Node preview, for instance). */
-async function bindings(): Promise<Record<string, unknown> | null> {
-  try {
-    const workers = await import("cloudflare:workers");
-    return workers.env as unknown as Record<string, unknown>;
-  } catch {
-    return null;
-  }
 }
 
 /**
