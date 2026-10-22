@@ -65,7 +65,7 @@ Diagrammed in the pen as the **Chat Architecture** board (`xIXxz`).
 2. **Component library** — port the remaining 19 components + organisms from the pen, driven by `context`. Visual parity against the pen screenshots.
 3. **Content layer** — move Sanity schemas/client/GROQ into a shared package; build the static content routes (`/`, `/articles`, `/codepen`, `/experience`, `/bookmarks`) + the browse views.
 4. **Agent** — `/api/chat` intent router + retrieval + grounded compose; wire the conversation UI; bio/persona doc added to Sanity.
-5. **Platform** — Cloudflare adapter + deploy, SEO (sitemap/robots/RSS), contact endpoint, Studio.
+5. **Platform** — Cloudflare adapter + deploy, SEO (sitemap/robots/RSS), contact endpoint, Studio. The deploy itself is already static-first ([ADR 0009](../adr/0009-static-first-cloudflare-worker.md)); the adapter arrives with `/api/chat`.
 6. **Monorepo** — restructure to Turborepo ([turborepo-migration](../runbooks/turborepo-migration.md)); can run in parallel once packages stabilize.
 7. **Cutover** — promote `web/` (or `apps/web`) to the site, delete the Next app, repoint deploy, archive the old stack.
 

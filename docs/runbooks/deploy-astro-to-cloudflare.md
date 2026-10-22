@@ -64,4 +64,4 @@ Then open the URL and click through the three skins (light / dark / forest) and 
 
 documents:: [[repo/badger3000]]
 uses:: [[tech/astro]] [[service/cloudflare]]
-relates_to:: [[adr/badger3000-migrate-to-astro]] [[runbook/badger3000-designing-from-the-pen]]
+implements:: [[adr/badger3000-static-first-cloudflare-worker]]
