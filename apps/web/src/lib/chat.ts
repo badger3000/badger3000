@@ -82,11 +82,22 @@ const fill = (node: ParentNode, slot: string, value: string | undefined) => {
   if (target) target.textContent = value ?? "";
 };
 
+/**
+ * `template.content.cloneNode(true)` hands back a **DocumentFragment**, not an
+ * element — it has `querySelector` but no `style` and no `setAttribute`. These
+ * are deliberately typed as fragments so the compiler catches that; casting
+ * them to HTMLElement is exactly what let this break at runtime.
+ */
+const clone = (template: HTMLTemplateElement | null | undefined): DocumentFragment | null =>
+  template ? (template.content.cloneNode(true) as DocumentFragment) : null;
+
+/** The component's root element inside a cloned fragment. */
+const rootOf = (fragment: DocumentFragment): HTMLElement | null =>
+  fragment.firstElementChild as HTMLElement | null;
+
 /** Flag a node as newly added so it animates in — and only it. */
-const markEnter = (node: HTMLElement | undefined, index = 0) => {
-  if (!node) return;
-  node.setAttribute("data-enter", "");
-  node.style.setProperty("--i", String(index));
+const markEnter = (fragment: DocumentFragment) => {
+  rootOf(fragment)?.setAttribute("data-enter", "");
 };
 
 const init = () => {
@@ -100,7 +111,7 @@ const init = () => {
   const field = form.querySelector<HTMLInputElement>("[data-composer-input]");
   const root = document.querySelector<HTMLElement>("[data-chat-root]");
 
-  let turns = read();
+    let turns = read();
   /**
    * How many turns have already been painted. Only nodes past this point get the
    * enter animation, so a restored thread does not replay every turn's motion on
@@ -112,7 +123,7 @@ const init = () => {
     const fragment = document.createDocumentFragment();
     for (const card of cards) {
       const index = fragment.childElementCount;
-      const node = cardTemplate?.content.cloneNode(true) as HTMLElement | undefined;
+      const node = clone(cardTemplate);
       if (!node) continue;
       node.querySelector("[data-chat-card]")?.setAttribute("data-kind", card.kind);
       fill(node, "title", card.title);
@@ -142,8 +153,9 @@ const init = () => {
         }
       }
       // Cards stagger inside the turn, one token apart.
-      if (animate) node.querySelector("[data-chat-card]")?.setAttribute("data-enter", "");
-      node.style.setProperty("--i", String(index));
+      const shell = node.querySelector<HTMLElement>("[data-chat-card]");
+      if (animate) shell?.setAttribute("data-enter", "");
+      shell?.style.setProperty("--i", String(index));
       fragment.append(node);
     }
     return fragment;
@@ -152,33 +164,36 @@ const init = () => {
   const paint = () => {
     const animate = painted > 0;
     log.replaceChildren();
-    for (const turn of turns) {
+    for (const [index, turn] of turns.entries()) {
+      const isNew = animate && index >= painted;
+
       if (turn.role === "user") {
-        const node = bubbleTemplate?.content.cloneNode(true) as HTMLElement | undefined;
+        const node = clone(bubbleTemplate);
         if (!node) continue;
         fill(node, "content", turn.text);
-        if (animate && turns.indexOf(turn) >= painted) markEnter(node);
+        if (isNew) markEnter(node);
         log.append(node);
         continue;
       }
 
-      const node = messageTemplate?.content.cloneNode(true) as HTMLElement | undefined;
+      const node = clone(messageTemplate);
       if (!node) continue;
+      const element = rootOf(node);
       fill(node, "line", turn.pending ? "" : turn.text);
       if (turn.pending) {
-        node.setAttribute("data-pending", "");
-        node.setAttribute("aria-busy", "true");
+        element?.setAttribute("data-pending", "");
+        element?.setAttribute("aria-busy", "true");
         node.querySelector("[data-typing]")?.setAttribute("aria-live", "polite");
       }
       const slot = node.querySelector("[data-chat-cards]");
       if (slot) {
         if (turn.cards?.length && !turn.pending) {
-          slot.replaceChildren(renderCards(turn.cards, animate && turns.indexOf(turn) >= painted));
+          slot.replaceChildren(renderCards(turn.cards, isNew));
         } else {
           slot.remove();
         }
       }
-      if (animate && turns.indexOf(turn) >= painted) markEnter(node);
+      if (isNew) markEnter(node);
       log.append(node);
     }
     painted = turns.length;

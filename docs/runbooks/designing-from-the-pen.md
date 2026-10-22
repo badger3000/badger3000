@@ -15,7 +15,7 @@ Top-level frames (read them on the canvas, or by node id):
 
 - **Design Tokens** (`Jy3WM`) — the two-tier token system: primitives (`--p-*`, `--g-*`) → semantic (`--a-*`), with LIGHT / DARK / FOREST columns. This is `packages/tokens/tokens.css` verbatim.
 - **Components — Library** (`NTO2U`) — 20 reusable masters with their variants. These are `packages/ui/*`.
-- **Screens** — Home (`l7yp4`), Conversation (`PuDys`), Response Cards (`x55Spn`), the Browse views (Projects `uXl4B`, Articles `Wmn35`, Experiments, Skills, Testimonials, Bookmarks, Golf, Experience), Mobile Home/Browse/Menu, and dark + forest variants.
+- **Screens** — Home (`l7yp4`), Conversation (`PuDys`), Response Cards (`x55Spn`), the Browse views (Projects `uXl4B`, Articles `Wmn35`, Experiments `fDntQ`, Skills `NH0XZ`, Testimonials `xTK4z`, Bookmarks `fjLXc`, Golf `oH8H5`, Experience `QTqA7`), the **detail views** for articles and experiments (`I4mvDB` and `vKVLC`), Mobile Home / Browse / Menu, and the dark + forest variants for the major screens.
 - **Chat Architecture** (`xIXxz`) — the `/api/chat` flow ([ADR 0008](../adr/0008-agent-chat-grounded-no-vendor-key.md)).
 
 ## The `context` field is the spec
@@ -34,12 +34,16 @@ So a node's name + `context` + geometry + fills give you the component name, its
 | --- | --- |
 | Button `CTvHL`, Tag `rw7Gc`, CountBadge `e4RkB0`, ShieldsBadge `NjGub` | `apps/web/src/components/Button.astro`, `Tag.astro`, … |
 | Avatar `Xu2VY`, AvatarUser `kF8ut`, Input `WIcVr`, IconButton `HFjfa`, FilterChip `RA61q`, SuggestionChip `TPq9Z` | `apps/web/src/components/*` |
-| NavItem `LDNXV`, StatTile `Saf7N`, MessageBubble `x5CCM`, AgentMessage `CVVRV`, Card `I2gPrr`, ProjectCard `FE7oC` | `apps/web/src/components/*` |
+| NavItem `LDNXV`, StatTile `Saf7N`, MessageBubble `x5CCM`, AgentMessage `CVVRV`, Card `I2gPrr`, ProjectCard `FE7oC`, FeatureCard `KkR-feature` (`f3kriq` in the file) | `apps/web/src/components/*` |
 | Sidebar `pL9CR`, TopBar `r30jlq`, PageHeader `a1JCtb`, Footer `RGuEe` | `apps/web/src/components/*` (organisms) |
+
+**FeatureCard vs ProjectCard.** `ProjectCard` (`FE7oC`) is the compact 4-slot card used in the **detail-screen related rows** (no year/category/tech-row slots). `FeatureCard` (`f3kriq`) is the 8-slot rich card used in the **Browse — Projects grid** (Trailhead, Orbit UI, Fairway, Inkwell, Pulse, Beacon, Loop, Ledger, Mosaic). Each Browse — Projects card is a single `ref: f3kriq` with overrides on the master's named children: `Monogram`, `Year`, `Category`, `Title`, `Desc`, `Tags` (full subtree replacement), `Preview`. Every card overrides `Year.descendants.p83sD.fill: { enabled: false }` so the year stamp floats transparent over the gradient preview. All three themes (Light, Dark, Forest) re-render the same 27 instances automatically from the token table.
 | Mobile bar `QIR7a` / `yM5Vm`, drawer `uaeM2`, tab bar `nPhhS` | `MobileTopBar.astro`, `MobileDrawer.astro`, `MobileTabBar.astro` |
 | App shell `l7yp4` / `TLAnY` | `apps/web/src/layouts/AppShell.astro` |
 
-Still to build against real data: ArticleCard, PenCard (experiments), TestimonialCard, the skill badge group, TimelineEntry, BookmarkFolder + row, GolfBarChart + row, and the Composer (`c2P43y`, needed for `/api/chat` in phase 4).
+Still to build against real data: TestimonialCard, the skill badge group, TimelineEntry, BookmarkFolder + row, GolfBarChart + row, and the Composer (`c2P43y`, needed for `/api/chat` in phase 4).
+
+> **Note on cards.** The browse listings for articles and experiments still use local-frame card layouts (owner of the list frame, not a master) — refactoring them is **not** required for the light/dark/forest themes to resolve. The **detail views** (`I4mvDB`, `vKVLC`) re-use `ProjectCard` (`FE7oC`) for the "More from the journal" / "More in React" related grid with a per-instance gradient/title/desc override. The **Browse — Projects grid** (Trailhead, Orbit UI, Fairway, Inkwell, Pulse, Beacon, Loop, Ledger, Mosaic) is built from the `FeatureCard` (`f3kriq`) master — 27 instances across Light, Dark, and Forest themes, all reading from the same single source.
 
 ## The canvas is live; the file on disk may be behind it
 
