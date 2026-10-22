@@ -1,16 +1,22 @@
 /**
  * The chat island.
  *
- * Owns the thread on `/`: restores it from sessionStorage, posts questions to
+ * Owns the thread: restores it from sessionStorage, posts questions to
  * `/api/chat` (ADR 0008), and renders the answer's cards. The markup for a
- * bubble, a message and a card is defined once by the Astro components and
- * cloned from `<template data-chat-*>` here, so the design and the DOM cannot
- * drift apart.
+ * bubble, a message, a card and a suggestion is defined once by the Astro
+ * components and cloned from `<template data-chat-*>` here, so the design and
+ * the DOM cannot drift apart.
  *
  * The thread lives in sessionStorage rather than the URL: it is a conversation,
  * not a location, and the browser back button should keep walking the site.
+ *
+ * The thread is held at module scope, not inside the page's setup, so there is
+ * exactly one copy per document. `shell.ts` imports `reset()` for "New
+ * conversation", which is why this module loads on every page — the island
+ * itself only mounts where `[data-chat-root]` exists.
  */
 import type { Card } from "./agent/retrieve.ts";
+import { island } from "./island.ts";
 
 interface Answer {
   intent: string;
@@ -18,26 +24,41 @@ interface Answer {
   cards: Card[];
   suggestions?: string[];
   composed?: "model" | "template";
+  /** 503: the content source failed; `text` is still safe to show. */
+  degraded?: boolean;
 }
 
 interface Turn {
+  id: string;
   role: "user" | "agent";
   text: string;
   cards?: Card[];
+  suggestions?: string[];
   /** A pending turn renders an ellipsis in place of a line. */
   pending?: boolean;
+  /** Set when the answer failed in a way worth retrying: the question to re-ask. */
+  retry?: string;
 }
 
 const KEY = "badger-thread";
-/** Set by "New conversation" when the click also has to navigate. */
-const PENDING_CLEAR = "badger-thread-clear";
 const MAX_TURNS = 40;
+
+const COPY = {
+  interrupted: "That answer was interrupted — ask again.",
+  unreachable: "I couldn't reach the agent just then. Try again in a moment.",
+  failed: "Something went wrong on my side. Try again in a moment.",
+  limited: "You're asking quickly — give it a minute.",
+  empty: "No answer came back.",
+};
+
+let sequence = 0;
+const nextId = () => `t${Date.now().toString(36)}${(sequence++).toString(36)}`;
 
 const read = (): Turn[] => {
   try {
     const raw = sessionStorage.getItem(KEY);
-    const turns = raw ? (JSON.parse(raw) as Turn[]) : [];
-    return Array.isArray(turns) ? turns : [];
+    const turns = raw ? (JSON.parse(raw) as Partial<Turn>[]) : [];
+    return Array.isArray(turns) ? turns.map((turn) => ({ ...turn, id: turn.id ?? nextId() }) as Turn) : [];
   } catch {
     return [];
   }
@@ -52,30 +73,90 @@ const write = (turns: Turn[]) => {
 };
 
 /**
- * "New conversation" must actually start a fresh session.
- *
- * The thread lives in sessionStorage, so navigating to `/` on its own brings the
- * old conversation straight back — which is what it did until this hook. Two
- * cases: on the chat page already, clear it in place without a reload; from
- * somewhere else, leave a one-shot flag for the destination page to consume.
+ * The one thread for this document. A turn still `pending` when it is read
+ * from storage belongs to a request a previous document started and can never
+ * finish, so it settles as interrupted instead of showing dots forever.
  */
-function armClear() {
-  try {
-    sessionStorage.setItem(PENDING_CLEAR, "1");
-  } catch {
-    // Nothing to do: without storage there is no thread to clear either.
-  }
+let thread: Turn[] = read().map((turn) =>
+  turn.pending ? { ...turn, pending: false, text: COPY.interrupted, cards: [] } : turn,
+);
+/** The id of the agent turn whose request is in flight, if any. */
+let inFlight: string | null = null;
+/** The mounted view's repaint, while `/` is on screen. */
+let view: { paint: (enter?: string[]) => void } | null = null;
+
+/** "New conversation": forget the thread here and in storage. */
+export function reset(): void {
+  thread = [];
+  // An answer still in flight resolves into nothing: its turn id is gone.
+  inFlight = null;
+  write(thread);
+  view?.paint();
 }
 
-function consumeClear() {
+const settle = (id: string, patch: Partial<Turn>) => {
+  if (inFlight === id) inFlight = null;
+  const turn = thread.find((candidate) => candidate.id === id);
+  if (!turn) return; // reset while in flight
+  Object.assign(turn, { pending: false, cards: [], suggestions: undefined, retry: undefined }, patch);
+  write(thread);
+  view?.paint([id]);
+};
+
+const request = async (id: string, question: string) => {
+  inFlight = id;
+  let response: Response;
   try {
-    if (!sessionStorage.getItem(PENDING_CLEAR)) return false;
-    sessionStorage.removeItem(PENDING_CLEAR);
-    return true;
+    response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ q: question }),
+    });
   } catch {
-    return false;
+    settle(id, { text: COPY.unreachable, retry: question });
+    return;
   }
-}
+
+  const body = (await response.json().catch(() => null)) as (Partial<Answer> & { error?: string }) | null;
+
+  // A 503 with `degraded` is a real, visitor-facing answer, not an error.
+  if (response.ok || (response.status === 503 && body?.degraded)) {
+    settle(id, {
+      text: body?.text || COPY.empty,
+      cards: body?.cards ?? [],
+      suggestions: body?.suggestions,
+    });
+  } else if (response.status === 429) {
+    settle(id, { text: COPY.limited });
+  } else if (response.status >= 500) {
+    settle(id, { text: COPY.failed, retry: question });
+  } else {
+    settle(id, { text: body?.error || COPY.failed });
+  }
+};
+
+const ask = (question: string) => {
+  const trimmed = question.trim();
+  if (!trimmed || inFlight) return false;
+  const user: Turn = { id: nextId(), role: "user", text: trimmed };
+  const agent: Turn = { id: nextId(), role: "agent", text: "", pending: true };
+  thread.push(user, agent);
+  write(thread);
+  void request(agent.id, trimmed);
+  view?.paint([user.id, agent.id]);
+  return true;
+};
+
+/** "Try again": the failed turn goes back to pending and re-asks its question. */
+const retry = (id: string) => {
+  const turn = thread.find((candidate) => candidate.id === id);
+  if (!turn?.retry || inFlight) return;
+  const question = turn.retry;
+  Object.assign(turn, { pending: true, text: "", retry: undefined });
+  write(thread);
+  void request(id, question);
+  view?.paint([id]);
+};
 
 const fill = (node: ParentNode, slot: string, value: string | undefined) => {
   const target = node.querySelector(`[data-slot="${slot}"]`);
@@ -95,35 +176,21 @@ const clone = (template: HTMLTemplateElement | null | undefined): DocumentFragme
 const rootOf = (fragment: DocumentFragment): HTMLElement | null =>
   fragment.firstElementChild as HTMLElement | null;
 
-/** Flag a node as newly added so it animates in — and only it. */
-const markEnter = (fragment: DocumentFragment) => {
-  rootOf(fragment)?.setAttribute("data-enter", "");
-};
-
-const init = () => {
-  const log = document.querySelector<HTMLElement>("[data-chat-log]");
-  const form = document.querySelector<HTMLFormElement>("[data-chat-form]");
+island("[data-chat-root]", (root) => {
+  const log = root.querySelector<HTMLElement>("[data-chat-log]");
+  const form = root.querySelector<HTMLFormElement>("[data-chat-form]");
   if (!log || !form) return;
 
-  const bubbleTemplate = document.querySelector<HTMLTemplateElement>("[data-chat-bubble]");
-  const messageTemplate = document.querySelector<HTMLTemplateElement>("[data-chat-message]");
-  const cardTemplate = document.querySelector<HTMLTemplateElement>("[data-chat-card]");
+  const template = (name: string) =>
+    document.querySelector<HTMLTemplateElement>(`template[data-chat-${name}]`);
   const field = form.querySelector<HTMLInputElement>("[data-composer-input]");
-  const root = document.querySelector<HTMLElement>("[data-chat-root]");
-
-    let turns = read();
-  /**
-   * How many turns have already been painted. Only nodes past this point get the
-   * enter animation, so a restored thread does not replay every turn's motion on
-   * load — and a re-render never re-animates what is already on screen.
-   */
-  let painted = 0;
+  const send = form.querySelector<HTMLButtonElement>('[type="submit"]');
 
   const renderCards = (cards: Card[], animate: boolean): DocumentFragment => {
     const fragment = document.createDocumentFragment();
     for (const card of cards) {
       const index = fragment.childElementCount;
-      const node = clone(cardTemplate);
+      const node = clone(template("card"));
       if (!node) continue;
       node.querySelector("[data-chat-card]")?.setAttribute("data-kind", card.kind);
       fill(node, "title", card.title);
@@ -161,119 +228,105 @@ const init = () => {
     return fragment;
   };
 
-  const paint = () => {
-    const animate = painted > 0;
+  /** SuggestionChips: `shell.ts` fills the composer when one is clicked. */
+  const renderSuggestions = (suggestions: string[]): DocumentFragment => {
+    const fragment = document.createDocumentFragment();
+    for (const suggestion of suggestions) {
+      const node = clone(template("suggestion"));
+      const chip = node && rootOf(node);
+      if (!node || !chip) continue;
+      chip.dataset.suggestion = suggestion;
+      fill(node, "label", suggestion);
+      fragment.append(node);
+    }
+    return fragment;
+  };
+
+  /** Mirrors `inFlight` onto Send. Submits are ignored meanwhile, not queued. */
+  const sync = () => {
+    if (inFlight) send?.setAttribute("aria-disabled", "true");
+    else send?.removeAttribute("aria-disabled");
+  };
+
+  /**
+   * Repaints the thread. Only the turns named in `enter` animate, so a
+   * restored thread arrives settled and a re-render never re-animates what is
+   * already on screen; the last of them is scrolled into view.
+   */
+  const paint = (enter: string[] = []) => {
+    let focus: HTMLElement | null = null;
     log.replaceChildren();
-    for (const [index, turn] of turns.entries()) {
-      const isNew = animate && index >= painted;
-
-      if (turn.role === "user") {
-        const node = clone(bubbleTemplate);
-        if (!node) continue;
-        fill(node, "content", turn.text);
-        if (isNew) markEnter(node);
-        log.append(node);
-        continue;
-      }
-
-      const node = clone(messageTemplate);
+    for (const turn of thread) {
+      const isNew = enter.includes(turn.id);
+      const node = clone(template(turn.role === "user" ? "bubble" : "message"));
       if (!node) continue;
       const element = rootOf(node);
-      fill(node, "line", turn.pending ? "" : turn.text);
-      if (turn.pending) {
-        element?.setAttribute("data-pending", "");
-        element?.setAttribute("aria-busy", "true");
-        node.querySelector("[data-typing]")?.setAttribute("aria-live", "polite");
-      }
-      const slot = node.querySelector("[data-chat-cards]");
-      if (slot) {
-        if (turn.cards?.length && !turn.pending) {
-          slot.replaceChildren(renderCards(turn.cards, isNew));
-        } else {
-          slot.remove();
+      element?.setAttribute("data-turn", turn.id);
+      if (isNew) element?.setAttribute("data-enter", "");
+
+      if (turn.role === "user") {
+        fill(node, "content", turn.text);
+      } else {
+        fill(node, "line", turn.pending ? "" : turn.text);
+        if (turn.pending) {
+          element?.setAttribute("data-pending", "");
+          element?.setAttribute("aria-busy", "true");
+          node.querySelector("[data-typing]")?.setAttribute("aria-live", "polite");
+        }
+        const cards = node.querySelector("[data-chat-cards]");
+        if (cards) {
+          if (turn.cards?.length && !turn.pending) cards.replaceChildren(renderCards(turn.cards, isNew));
+          else cards.remove();
+        }
+        const suggestions = node.querySelector("[data-chat-suggestions]");
+        if (suggestions) {
+          if (turn.suggestions?.length && !turn.pending) {
+            suggestions.replaceChildren(renderSuggestions(turn.suggestions));
+          } else suggestions.remove();
+        }
+        const again = node.querySelector<HTMLElement>("[data-chat-retry]");
+        if (again) {
+          if (turn.retry && !turn.pending) again.hidden = false;
+          else again.remove();
         }
       }
-      if (isNew) markEnter(node);
+
+      if (isNew && turn.role === "agent") focus = element;
       log.append(node);
     }
-    painted = turns.length;
-    root?.setAttribute("data-has-thread", String(turns.length > 0));
-    log.scrollIntoView?.({ block: "end" });
+    root.setAttribute("data-has-thread", String(thread.length > 0));
+    sync();
+    focus?.scrollIntoView?.({ block: "nearest" });
   };
 
-  const ask = async (question: string) => {
-    const trimmed = question.trim();
-    if (!trimmed) return;
-    if (field) field.value = "";
+  const controller = new AbortController();
+  const { signal } = controller;
 
-    turns.push({ role: "user", text: trimmed }, { role: "agent", text: "", pending: true });
-    write(turns);
-    paint();
+  form.addEventListener(
+    "submit",
+    (event) => {
+      event.preventDefault();
+      if (ask(field?.value ?? "") && field) field.value = "";
+      field?.focus();
+    },
+    { signal },
+  );
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ q: trimmed }),
-      });
-      const answer = (await response.json()) as Answer & { error?: string };
-      const last = turns[turns.length - 1];
-      if (last?.role === "agent") {
-        Object.assign(last, {
-          pending: false,
-          text: answer.error ?? answer.text ?? "No answer came back.",
-          cards: answer.cards ?? [],
-        });
-      }
-    } catch {
-      const last = turns[turns.length - 1];
-      if (last?.role === "agent") {
-        Object.assign(last, {
-          pending: false,
-          text: "I couldn't reach the agent just then. Try again in a moment.",
-        });
-      }
-    }
+  log.addEventListener(
+    "click",
+    (event) => {
+      const button = (event.target as Element).closest("[data-chat-retry]");
+      const id = button?.closest<HTMLElement>("[data-turn]")?.dataset.turn;
+      if (id) retry(id);
+    },
+    { signal },
+  );
 
-    write(turns);
-    paint();
-  };
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    void ask(field?.value ?? "");
-  });
-
-  // A re-render replaces the form, so its listener goes with it. `painted` resets
-  // so a restored thread arrives settled rather than replaying every turn.
-  turns = consumeClear() ? [] : read();
-  if (!turns.length) write([]);
-  painted = 0;
+  view = { paint };
   paint();
-};
 
-// Wired once: the sidebar and the mobile drawer both render "New conversation",
-// and on the chat page there is nothing to navigate to.
-document.addEventListener("click", (event) => {
-  const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("[data-new-chat]");
-  if (!link) return;
-
-  const chatPath = link.pathname.replace(/\/$/, "") || "/";
-  const here = location.pathname.replace(/\/$/, "") || "/";
-  if (chatPath !== here) {
-    armClear();
-    return; // let the navigation happen; the destination clears
-  }
-
-  event.preventDefault();
-  write([]);
-  consumeClear();
-  document.querySelector<HTMLElement>("[data-chat-log]")?.replaceChildren();
-  document.querySelector("[data-chat-root]")?.setAttribute("data-has-thread", "false");
-  // The mobile drawer is usually what the button lives in.
-  document.querySelector<HTMLDialogElement>("[data-drawer]")?.close();
-  document.querySelector<HTMLInputElement>("[data-composer-input]")?.focus();
+  return () => {
+    controller.abort();
+    if (view?.paint === paint) view = null;
+  };
 });
-
-init();
-document.addEventListener("astro:page-load", init);

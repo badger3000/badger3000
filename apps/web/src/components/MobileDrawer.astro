@@ -12,7 +12,9 @@
  *   Profile surface/12/gap 10/pad 9
  *
  * It is a real `<dialog>`: Esc closes it, focus is trapped, and `::backdrop` is
- * the pen's scrim (`#0C0C0A`) without a second element to manage.
+ * the pen's scrim (`#0C0C0A`) without a second element to manage. Opening,
+ * closing and the Appearance segment are delegated from `lib/shell.ts`, which
+ * looks the dialog up at event time — the router replaces it on every swap.
  */
 import Icon from "./Icon.astro";
 
@@ -78,11 +80,11 @@ const initials = (profile?.name ?? "Kyle Ross")
   <div class="appearance">
     <span class="a-label">Appearance</span>
     <div class="seg" role="group" aria-label="Theme" data-theme-segment>
-      <button type="button" class="opt" data-theme-option="light">
+      <button type="button" class="opt" data-theme-option="light" aria-pressed="false">
         <Icon name="sun" size={13} />
         <span>Light</span>
       </button>
-      <button type="button" class="opt" data-theme-option="dark">
+      <button type="button" class="opt" data-theme-option="dark" aria-pressed="false">
         <Icon name="moon" size={13} />
         <span>Dark</span>
       </button>
@@ -326,42 +328,3 @@ const initials = (profile?.name ?? "Kyle Ross")
     color: var(--a-muted);
   }
 </style>
-
-<script>
-  import { applyTheme, isTheme, readTheme, THEMES } from "../lib/theme.ts";
-
-  const drawer = document.querySelector<HTMLDialogElement>("[data-drawer]");
-
-  const open = () => drawer?.showModal();
-  const close = () => drawer?.close();
-
-  document.addEventListener("click", (event) => {
-    const target = event.target as HTMLElement;
-    if (target.closest("[data-drawer-open]")) open();
-    // A click on the backdrop lands on the dialog element itself.
-    else if (target === drawer) close();
-    else if (target.closest("[data-drawer-close]")) close();
-    else if (target.closest("[data-drawer-back]")) history.back();
-  });
-
-  // Appearance segment: same store as the desktop toggle.
-  const segment = document.querySelector<HTMLElement>("[data-theme-segment]");
-  const paint = (theme: string) => {
-    for (const option of segment?.querySelectorAll<HTMLButtonElement>("[data-theme-option]") ?? []) {
-      option.setAttribute("aria-pressed", String(option.dataset.themeOption === theme));
-    }
-  };
-  segment?.addEventListener("click", (event) => {
-    const option = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-theme-option]");
-    const next = option?.dataset.themeOption;
-    if (isTheme(next) && next !== "forest") applyTheme(next);
-  });
-  addEventListener("badger:theme", (event) => paint((event as CustomEvent<string>).detail));
-  if (THEMES.length) paint(readTheme());
-
-  // A navigation replaces the page; the drawer must not survive it.
-  document.addEventListener("astro:page-load", () => {
-    if (drawer?.open) drawer.close();
-    paint(readTheme());
-  });
-</script>

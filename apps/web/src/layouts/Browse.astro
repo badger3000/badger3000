@@ -48,7 +48,7 @@ const {
     mobileBar="page"
     mobileTitle={title}
     mobileCount={typeof count === "number" ? count : undefined}
-    mobileTab="explore"
+    mobileTab={active === "bookmarks" ? "saved" : "explore"}
     mobileBottom="tabs"
   >
     <main class="archive" id="main">

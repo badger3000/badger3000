@@ -10,7 +10,8 @@
  * mobile (pen `as8tT` Composer Wrap). No duplicate markup, no second form.
  *
  * The composer posts to `/api/chat`, and the island in `lib/chat.ts` intercepts
- * the submit so the thread updates without a page load. The greeting and chips
+ * the submit so the thread updates without a page load (`AppShell` already
+ * loads that module through `lib/shell.ts`; importing it here says so). The greeting and chips
  * give way to the thread once there is one (`data-has-thread`).
  */
 import Base from "../layouts/Base.astro";
@@ -60,6 +61,7 @@ const chips = [
     <template data-chat-bubble><MessageBubble /></template>
     <template data-chat-message><AgentMessage /></template>
     <template data-chat-card><ChatCard /></template>
+    <template data-chat-suggestion><SuggestionChip label="" prompt="" /></template>
   </AppShell>
 </Base>
 

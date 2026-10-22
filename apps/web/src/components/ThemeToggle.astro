@@ -4,8 +4,10 @@
  * Persists to localStorage; the `data-theme` attribute on <html> is what
  * tokens.css keys off (see src/styles/tokens.css).
  *
- * The pre-paint application of the stored theme lives in Base.astro; this
- * component only handles clicks, so there is no flash of the wrong skin.
+ * The pre-paint application of the stored theme lives in Base.astro; clicks
+ * and `aria-pressed` are handled by the delegate in `lib/shell.ts`, which also
+ * serves the mobile drawer's segment. Every option renders unpressed and is
+ * painted on `astro:page-load`.
  */
 import Icon from "./Icon.astro";
 
@@ -29,6 +31,7 @@ const labels: Record<(typeof themes)[number], string> = {
         type="button"
         class="opt"
         data-theme-option={theme}
+        aria-pressed="false"
         aria-label={labels[theme]}
         title={labels[theme]}
       >
@@ -74,43 +77,3 @@ const labels: Record<(typeof themes)[number], string> = {
     outline-offset: 1px;
   }
 </style>
-
-<script>
-  import { applyTheme, isTheme, readTheme } from "../lib/theme.ts";
-
-  /**
-   * Runs on the first load and again after every client-side navigation, because
-   * the chrome is re-rendered rather than persisted — and because a swap copies
-   * the new document's `data-theme="light"` onto <html>, which would otherwise
-   * reset a dark or forest skin on every click.
-   */
-  const paint = (theme: string) => {
-    for (const option of document.querySelectorAll<HTMLButtonElement>(
-      "[data-theme-option]",
-    )) {
-      option.setAttribute("aria-pressed", String(option.dataset.themeOption === theme));
-    }
-  };
-
-  const init = () => {
-    const theme = readTheme();
-    document.documentElement.dataset.theme = theme;
-    paint(theme);
-
-    for (const root of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
-      root.addEventListener("click", (event) => {
-        const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
-          "[data-theme-option]",
-        );
-        const next = button?.dataset.themeOption;
-        if (isTheme(next)) applyTheme(next);
-      });
-    }
-  };
-
-  // The mobile drawer's Appearance segment writes through the same store.
-  addEventListener("badger:theme", (event) => paint((event as CustomEvent<string>).detail));
-
-  init();
-  document.addEventListener("astro:page-load", init);
-</script>
