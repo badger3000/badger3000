@@ -59,10 +59,13 @@ export default defineConfig({
        * away. So the deterministic phrasing is the real answer path, the model
        * is opt-in, and the grounding check below stays as the safety net if you
        * switch it on or move to a larger model.
+       *
+       * `secret` so it is read at runtime, not inlined at build: flip it with a
+       * Worker var or `wrangler secret put`, no rebuild.
        */
       CHAT_MODEL_TIER: envField.enum({
         context: "server",
-        access: "public",
+        access: "secret",
         values: ["off", "on"],
         default: "off",
       }),
