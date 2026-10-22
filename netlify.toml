@@ -14,7 +14,7 @@ skip_processing = false
 [functions]
 node_bundler = "esbuild"
 external_node_modules = ["@node-rs/bcrypt", "next"]
-included_files = ["next.config.js", ".env.local"]
+included_files = ["next.config.js"]
 
 # Set functions timeout appropriately
 [functions.api-sitemap]
