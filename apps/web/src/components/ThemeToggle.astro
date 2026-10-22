@@ -1,0 +1,103 @@
+---
+/**
+ * ThemeToggle — cycles the three pen skins (light → dark → forest).
+ * Persists to localStorage; the `data-theme` attribute on <html> is what
+ * tokens.css keys off (see src/styles/tokens.css).
+ *
+ * The pre-paint application of the stored theme lives in Base.astro; this
+ * component only handles clicks, so there is no flash of the wrong skin.
+ */
+import Icon from "./Icon.astro";
+
+const themes = ["light", "dark", "forest"] as const;
+const icons: Record<(typeof themes)[number], string> = {
+  light: "sun",
+  dark: "moon",
+  forest: "trees",
+};
+const labels: Record<(typeof themes)[number], string> = {
+  light: "Light theme",
+  dark: "Dark theme",
+  forest: "Forest theme",
+};
+---
+
+<div class="toggle" data-theme-toggle>
+  {
+    themes.map((theme) => (
+      <button
+        type="button"
+        class="opt"
+        data-theme-option={theme}
+        aria-label={labels[theme]}
+        title={labels[theme]}
+      >
+        <Icon name={icons[theme]} size={15} />
+      </button>
+    ))
+  }
+</div>
+
+<style>
+  .toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 9px;
+    background: var(--a-surface);
+  }
+  .opt {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--a-faint);
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+  .opt:hover {
+    color: var(--a-ink);
+  }
+  .opt[aria-pressed="true"] {
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+  }
+  .opt:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 1px;
+  }
+</style>
+
+<script>
+  const THEMES = ["light", "dark", "forest"] as const;
+  type Theme = (typeof THEMES)[number];
+  const KEY = "badger-theme";
+
+  const isTheme = (v: string | null | undefined): v is Theme =>
+    !!v && (THEMES as readonly string[]).includes(v);
+
+  document.querySelectorAll<HTMLElement>("[data-theme-toggle]").forEach((root) => {
+    const options = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
+    const apply = (theme: Theme) => {
+      document.documentElement.dataset.theme = theme;
+      options.forEach((o) => o.setAttribute("aria-pressed", String(o.dataset.themeOption === theme)));
+    };
+    apply(isTheme(localStorage.getItem(KEY)) ? (localStorage.getItem(KEY) as Theme) : "light");
+
+    root.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-theme-option]");
+      if (!button) return;
+      const next = button.dataset.themeOption;
+      if (!isTheme(next)) return;
+      apply(next);
+      localStorage.setItem(KEY, next);
+    });
+  });
+</script>

@@ -1,0 +1,32 @@
+{
+  "name": "badger3000-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check",
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy",
+    "deploy:dry": "astro build && wrangler deploy --dry-run --outdir .wrangler/dry-run",
+    "cf:dev": "wrangler dev"
+  },
+  "dependencies": {
+    "astro": "^7.4.2",
+    "lucide-static": "^1.61.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.152.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "workerd@1.20261019.1": true
+  }
+}

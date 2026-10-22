@@ -1,0 +1,586 @@
+---
+/**
+ * Agent home — pen `l7yp4` (Agent UI — Home).
+ * context: section · page / app shell
+ *   aside · site navigation | main | header | section · hero | footer
+ *
+ * Phase 1: the shell only. The composer is not wired to /api/chat yet
+ * (PRD phase 4) and the browse views are PRD phase 3.
+ */
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+
+const explore = [
+  { label: "Projects", icon: "folder-git-2", count: 14, active: true },
+  { label: "Articles", icon: "newspaper", count: 23 },
+  // lucide dropped brand glyphs; CodePen's box is approximated for now.
+  { label: "Experiments", icon: "code-xml", count: 11 },
+  { label: "Experience", icon: "briefcase", count: 6 },
+  { label: "Education", icon: "graduation-cap", count: 2 },
+  { label: "Skills", icon: "sparkles", count: 8 },
+  { label: "Testimonials", icon: "quote", count: 9 },
+  { label: "Bookmarks", icon: "bookmark", count: 40 },
+  { label: "Golf scores", icon: "flag", count: 17 },
+];
+
+const chips = [
+  { label: "Recent projects", icon: "sparkle" },
+  { label: "Latest articles", icon: "newspaper" },
+  { label: "His experience", icon: "briefcase" },
+  { label: "Golf scores", icon: "flag" },
+];
+
+const socials = [
+  { label: "GitHub", href: "https://github.com/kbadger" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/kbadger" },
+  { label: "CodePen", href: "https://codepen.io/kbadger" },
+  { label: "Email", href: "mailto:hello@badger3000.com" },
+];
+---
+
+<Base title="Badger3000 — Kyle Ross's AI">
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="mark" aria-hidden="true">🦡</span>
+        <span class="brandtext">
+          <strong>Badger3000</strong>
+          <span>Kyle's AI</span>
+        </span>
+        <Icon name="square-pen" size={15} class="dim" />
+      </div>
+
+      <a class="newchat" href="/">
+        <Icon name="plus" size={15} />
+        <span>New conversation</span>
+      </a>
+
+      <span class="explore-label">Explore</span>
+      <nav class="nav" aria-label="Explore content">
+        {
+          explore.map((item) => (
+            <a
+              class="navitem"
+              href={`/#${item.label.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+              aria-current={item.active ? "page" : undefined}
+            >
+              <Icon name={item.icon} size={16} />
+              <span class="navlabel">{item.label}</span>
+              <span class="count">{item.count}</span>
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="spacer" />
+
+      <div class="profile">
+        <span class="avatar" aria-hidden="true">KR</span>
+        <span class="ptext">
+          <strong>Kyle Ross</strong>
+          <span>Prescott, AZ</span>
+        </span>
+        <Icon name="settings" size={15} class="dim" />
+      </div>
+    </aside>
+
+    <main class="main" id="main">
+      <header class="topbar">
+        <span class="status">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="name">Badger3000</span>
+          <span class="online">online</span>
+        </span>
+        <span class="actions">
+          <ThemeToggle />
+          <a class="resume" href="/experience" data-astro-prefetch>
+            Résumé
+            <Icon name="arrow-up-right" size={14} />
+          </a>
+        </span>
+      </header>
+
+      <section class="hero">
+        <div class="center">
+          <span class="hero-avatar" aria-hidden="true">🦡</span>
+          <div class="greet">
+            <h1>Hey — I'm Badger3000.</h1>
+            <p>
+              Kyle Ross's AI. Ask about his projects, writing, and experience — or just
+              say hi.
+            </p>
+          </div>
+
+          <form class="prompt" action="/api/chat" method="post">
+            <label class="sr" for="q">Ask Badger3000 anything</label>
+            <input
+              id="q"
+              name="q"
+              type="text"
+              placeholder="Ask me anything about Kyle…"
+              autocomplete="off"
+            />
+            <div class="bar">
+              <span class="bl">
+                <button type="button" class="ghostbtn" aria-label="Attach a file">
+                  <Icon name="paperclip" size={15} />
+                </button>
+                <button type="button" class="ghostbtn" aria-label="Dictate">
+                  <Icon name="mic" size={15} />
+                </button>
+              </span>
+              <button type="submit" class="send" aria-label="Send">
+                <Icon name="arrow-up" size={16} stroke={2.2} />
+              </button>
+            </div>
+          </form>
+
+          <div class="chips">
+            {
+              chips.map((chip) => (
+                <button type="button" class="chip">
+                  <Icon name={chip.icon} size={14} />
+                  <span>{chip.label}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© 2025 Kyle Ross</span>
+        <nav class="socials" aria-label="Elsewhere">
+          {
+            socials.map((social) => (
+              <a href={social.href} rel="me noopener" target="_blank">
+                {social.label}
+              </a>
+            ))
+          }
+        </nav>
+      </footer>
+    </main>
+  </div>
+</Base>
+
+<style>
+  .shell {
+    display: grid;
+    grid-template-columns: 264px 1fr;
+    min-height: 100dvh;
+  }
+
+  /* ---- sidebar (pen rg73H) ---- */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 14px;
+    background: var(--a-sidebar);
+    border-right: 1px solid var(--a-line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 2px;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--a-ink);
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    color: var(--a-surface);
+  }
+  .brandtext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .brandtext strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .brandtext span {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--a-faint);
+  }
+  :global(.dim) {
+    color: var(--a-faint);
+  }
+
+  .newchat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 11px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .newchat:hover {
+    border-color: var(--a-accent);
+  }
+
+  .explore-label {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--a-faint);
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .navitem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: var(--a-muted);
+    text-decoration: none;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+  .navitem:hover {
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .navitem[aria-current="page"] {
+    border-color: var(--a-line);
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .navlabel {
+    flex: 1;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .navitem[aria-current="page"] .navlabel {
+    font-weight: 600;
+  }
+  .count {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+
+  .spacer {
+    flex: 1;
+  }
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 8px;
+    border: 1px solid var(--a-line);
+    border-radius: 11px;
+    background: var(--a-surface);
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: var(--a-accent-soft);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--a-accent);
+  }
+  .ptext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .ptext strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .ptext span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--a-faint);
+  }
+
+  /* ---- main (pen TLAnY) ---- */
+  .main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--a-bg);
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--a-line);
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+    background: #3bbe7a;
+  }
+  .name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .online {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .resume {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 9px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-size: 12.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .resume:hover {
+    border-color: var(--a-accent);
+    color: var(--a-accent);
+  }
+
+  .hero {
+    display: grid;
+    place-items: center;
+    flex: 1;
+    padding: 20px 40px;
+  }
+  .center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    width: 600px;
+    max-width: 100%;
+    text-align: center;
+  }
+  .hero-avatar {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 22px;
+    background: var(--a-ink);
+    font-family: Inter, sans-serif;
+    font-size: 38px;
+    color: var(--a-surface);
+  }
+  .greet {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .greet h1 {
+    margin: 0;
+    font-family: var(--af-display);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--a-ink);
+  }
+  .greet p {
+    margin: 0;
+    font-size: 16.5px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+
+  .prompt {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 14px 16px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 18px;
+    background: var(--a-surface);
+    text-align: left;
+  }
+  .prompt input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--a-ink);
+    font-family: var(--af-ui);
+    font-size: 16px;
+  }
+  .prompt input::placeholder {
+    color: var(--a-faint);
+  }
+  .prompt input:focus {
+    outline: none;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+  }
+  .bl {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ghostbtn {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--a-line);
+    border-radius: 9px;
+    background: transparent;
+    color: var(--a-muted);
+    cursor: pointer;
+  }
+  .ghostbtn:hover {
+    background: var(--a-bg);
+    color: var(--a-ink);
+  }
+  .send {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 11px;
+    background: var(--a-accent);
+    color: var(--a-on-accent);
+    cursor: pointer;
+  }
+  .send:hover {
+    filter: brightness(0.95);
+  }
+  .send:focus-visible,
+  .ghostbtn:focus-visible,
+  .chip:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 20px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-family: var(--af-ui);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .chip:hover {
+    border-color: var(--a-accent);
+    color: var(--a-accent);
+  }
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 22px;
+    border-top: 1px solid var(--a-line);
+    font-size: 12px;
+    color: var(--a-faint);
+  }
+  .socials {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .socials a {
+    color: var(--a-muted);
+    text-decoration: none;
+  }
+  .socials a:hover {
+    color: var(--a-accent);
+  }
+
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ---- mobile (pen Mobile — Home; drawer + tab bar land in PRD phase 2) ---- */
+  @media (max-width: 720px) {
+    .shell {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      display: none;
+    }
+    .topbar {
+      padding: 12px 16px;
+    }
+    .hero {
+      padding: 16px;
+    }
+    .greet h1 {
+      font-size: 32px;
+    }
+    .footer {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+</style>

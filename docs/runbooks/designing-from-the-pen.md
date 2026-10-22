@@ -42,16 +42,44 @@ Still to extract (build directly in code against real data): ArticleCard, PenCar
 ## The loop
 
 1. **Pick** a component on the canvas (or a screen region).
-2. **Read** its node data — name, `context`, size, fills, child structure. In the pen.dev MCP, `Get(id, {depth: n})` returns schema data; `Get(id, {resolveVariables:true})` resolves tokens to values; a screenshot (`TakeScreenshot([id])`) is the pixel target.
+2. **Read** its node data with the pen.dev MCP (see below), or read the JSON directly.
 3. **Implement** in `packages/ui` as an `.astro` (static) or `.tsx` island (if it has state/events). Use the semantic tag from `context`; take props from `context`; style with `var(--a-*)` tokens — never hardcode colors.
 4. **Bind data**: for data templates, each slot's `← field` is the GROQ projection. Query lives in `packages/sanity`.
-5. **Verify**: render the page, compare to the pen screenshot. Themes come free — set `data-theme` on `<html>` and light/dark/forest all resolve from the tokens.
+5. **Verify**: render the page, compare against the canvas. Themes come free — set `data-theme` on `<html>` and light/dark/forest all resolve from the tokens.
+
+## The pen.dev MCP (pi)
+
+Configured in `.pi/mcp.json` and `~/.pi/agent/mcp.json` as the stdio server `pencil`:
+
+```
+~/.pencil/mcp/visual_studio_code/out/mcp-server-darwin-arm64 --app desktop --agent pi
+```
+
+It is a socket client: the **Pen app must be running with the `.pen` file open** or `execute` fails. Check with `pi mcp list`; reload a running session with `/reload`. Tools (exposure `direct`):
+
+| tool | use |
+| --- | --- |
+| `get_app_state` | active document, selected nodes, top-level frames + ids, reusable components. Call first. |
+| `execute` | read/mutate the design as a JS snippet — the real interface. `input` is a snippet; `filePath` optional. On failure it returns an `editId`: patch it with `edits` (`find`/`replace`, `all?`) instead of resending `input`. |
+| `read_skill` | the pen.dev canvas skill. `read_skill()` → SKILL.md; `read_skill({path})` for a referenced file such as `execute.md`, `guide/web-app.md`. |
+| `get_style` | style archetypes. `get_style()` lists; `{name}` then `{name, params}` loads. |
+| `browser` | integrated browser: `load-page`, `import-to-canvas`, `screenshot-to-canvas`, `return-element`, `return-screenshot`. |
+
+Example — read a frame subtree:
+
+```
+execute({ filePath: "design/badger3000v2.pen", input: "…" })
+```
+
+Add `--enable_spawn_agents` to the args if you ever want the `spawn_agents` tool.
+
+Without the app running you can still read everything straight from the `.pen` JSON (`python3 -c 'import json;…'`) — that path has no dependency on Pencil.
 
 ## Extracting assets
 
 - **Tokens**: already ported to `tokens.css`; regenerate from the Design Tokens board if values change.
 - **Images / SVG**: AI/stock fills and generated SVGs in the pen can be exported; static assets live in `apps/web/public`.
-- **Whole-frame reference**: `Export([frameId], "html-css", "...")` or `"png"` from the pen gives a static reference to diff against — use it to check, not to ship (ship the token-driven components).
+- **Whole-frame reference**: export a frame to HTML/CSS or PNG from the pen app (or via `execute`) to get a static reference to diff against — use it to check, not to ship (ship the token-driven components).
 
 ## Rules
 

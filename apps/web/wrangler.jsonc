@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "badger3000-web",
+  "compatibility_date": "2025-10-01",
+  // Workers Static Assets: serve the built Astro site. No Worker script yet —
+  // this is an assets-only Worker. When SSR / /api/chat is added, install
+  // @astrojs/cloudflare and let the adapter own "main" + "assets" instead.
+  "assets": {
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}

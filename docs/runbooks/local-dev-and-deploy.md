@@ -7,6 +7,8 @@ date: 2026-10-22
 
 # Run locally and deploy
 
+> This runbook covers the **current** site: Next.js at the repo root, deployed by Netlify. The new Astro app in `apps/web` deploys to Cloudflare Workers — see [deploy-astro-to-cloudflare](./deploy-astro-to-cloudflare.md). The two run side by side until the cutover (PRD phase 7).
+
 ## When to use
 
 Setting up the site on a new machine, or shipping a change.

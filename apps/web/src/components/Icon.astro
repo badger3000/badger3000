@@ -1,0 +1,53 @@
+---
+/**
+ * Icon — lucide icon renderer for the pen's `icon` nodes.
+ * The pen names every glyph (e.g. `folder-git-2`, `newspaper`, `arrow-up`);
+ * this maps a name to lucide's node data so components can stay declarative.
+ *
+ * Icons are decorative by default (aria-hidden). Pass `label` for a meaningful
+ * standalone icon.
+ */
+import nodes from "lucide-static/icon-nodes.json";
+
+type Node = [string, Record<string, string | number>];
+
+interface Props {
+  name: string;
+  size?: number;
+  stroke?: number;
+  class?: string;
+  label?: string;
+}
+
+const { name, size = 16, stroke = 1.75, class: className, label } = Astro.props;
+
+// icon-nodes.json is typed as nested union arrays by resolveJsonModule; the
+// shape is actually [tag, attrs] tuples, so narrow it once here.
+const registry = nodes as unknown as Record<string, Node[]>;
+
+const icon = registry[name];
+if (!icon) {
+  throw new Error(`Icon "${name}" is not in lucide-static/icon-nodes.json`);
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={stroke}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+>
+  {icon.map(([tag, attrs]) => {
+    const Tag = tag as "path" | "circle" | "rect" | "line" | "polyline" | "polygon" | "ellipse";
+    return <Tag {...attrs} />;
+  })}
+</svg>

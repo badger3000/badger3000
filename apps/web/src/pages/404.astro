@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+---
+
+<Base title="Not found — Badger3000" description="That page doesn't exist.">
+  <main class="wrap" id="main">
+    <span class="mark" aria-hidden="true">🦡</span>
+    <h1>Nothing burrowed here.</h1>
+    <p>That page doesn't exist. Ask me about Kyle's projects, writing, or experience instead.</p>
+    <Button label="Back to the agent" href="/" />
+  </main>
+</Base>
+
+<style>
+  .wrap {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 16px;
+    min-height: 100dvh;
+    padding: 24px;
+    background: var(--a-bg);
+    text-align: center;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    background: var(--a-ink);
+    font-size: 32px;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--af-display);
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  p {
+    max-width: 42ch;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+</style>

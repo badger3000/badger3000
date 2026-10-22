@@ -61,8 +61,8 @@ Diagrammed in the pen as the **Chat Architecture** board (`xIXxz`).
 
 ## Phased plan
 
-1. **Foundation** *(in progress, `apps/web`)* — Astro project, tokens → CSS vars, `Base` layout, first component (`Button`), theme switcher. Verifies the pipeline. (Built straight into `apps/web` since `/web` is a personal `.gitignore` entry.)
-2. **Component library** — port the 20 components + organisms from the pen, driven by `context`. Visual parity against the pen screenshots.
+1. **Foundation** *(done — `apps/web`)* — Astro project on Node 24, tokens → CSS vars, `Base` layout, first component (`Button`), theme toggle, agent home shell, and a Cloudflare Workers deploy ([runbook](../runbooks/deploy-astro-to-cloudflare.md)). Verifies the pipeline. (Built straight into `apps/web` since `/web` is a personal `.gitignore` entry.)
+2. **Component library** — port the remaining 19 components + organisms from the pen, driven by `context`. Visual parity against the pen screenshots.
 3. **Content layer** — move Sanity schemas/client/GROQ into a shared package; build the static content routes (`/`, `/articles`, `/codepen`, `/experience`, `/bookmarks`) + the browse views.
 4. **Agent** — `/api/chat` intent router + retrieval + grounded compose; wire the conversation UI; bio/persona doc added to Sanity.
 5. **Platform** — Cloudflare adapter + deploy, SEO (sitemap/robots/RSS), contact endpoint, Studio.

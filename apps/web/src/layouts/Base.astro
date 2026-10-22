@@ -1,0 +1,80 @@
+---
+/**
+ * Base — the document shell every page uses.
+ * Owns <head>, the token stylesheet, fonts, and the pre-paint theme restore.
+ * Components never set data-theme themselves; the toggle writes it.
+ */
+import "../styles/tokens.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Badger3000 — Kyle Ross's AI. Ask about his projects, writing, and experience.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <!-- Restore the stored skin before first paint (no flash of the wrong theme). -->
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("badger-theme");
+          const theme = stored === "dark" || stored === "forest" || stored === "light" ? stored : "light";
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          /* private mode / storage disabled — stay on light */
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 10px 14px;
+    border-radius: 0 0 9px 0;
+    background: var(--a-accent);
+    color: var(--a-on-accent);
+    font-family: var(--af-ui);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .skip:focus {
+    left: 0;
+  }
+</style>
