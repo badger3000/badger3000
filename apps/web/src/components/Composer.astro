@@ -1,0 +1,76 @@
+---
+/**
+ * Composer — pen master `c2P43y`.
+ * context: form · Composer — POST /api/chat
+ *
+ *   720 wide · `$a-surface` · radius 16 · gap 10 · padding [9, 9, 9, 16]
+ *   Placeholder 15 `$a-faint` · Send = IconButton `HFjfa` as accent arrow-up
+ *
+ * The endpoint is PRD phase 4, so this posts for real but 404s until then —
+ * which is what `action` is for. It is a real form: enter submits, so it works
+ * with the keyboard and without JavaScript.
+ */
+import IconButton from "./IconButton.astro";
+
+interface Props {
+  placeholder?: string;
+  label?: string;
+  class?: string;
+}
+
+const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class: className } = Astro.props;
+---
+
+<form class:list={["composer", className]} action="/api/chat" method="post">
+  <label class="sr" for="composer-q">{label}</label>
+  <input
+    id="composer-q"
+    name="q"
+    type="text"
+    placeholder={placeholder}
+    autocomplete="off"
+    data-composer-input
+  />
+  <IconButton icon="arrow-up" label="Send" variant="accent" type="submit" />
+</form>
+
+<style>
+  .composer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 9px 9px 16px;
+    border-radius: 16px;
+    background: var(--a-surface);
+  }
+  .composer input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 15px;
+  }
+  .composer input::placeholder {
+    color: var(--a-faint);
+  }
+  .composer input:focus {
+    outline: none;
+  }
+  .composer:focus-within {
+    box-shadow: 0 0 0 2px var(--a-accent-soft);
+  }
+
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

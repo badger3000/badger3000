@@ -1,0 +1,73 @@
+---
+/**
+ * SuggestionChip — pen master `TPq9Z`.
+ * context: button · SuggestionChip — props: icon, label, prompt
+ *
+ *   `$a-surface` · radius 20 · gap 7 · padding [8, 13]
+ *   Icon 14 `$a-accent` · Label 13/500 `$a-ink`
+ *
+ * `prompt` is the question the chip asks. `/api/chat` is phase 4, so a chip
+ * does not navigate — it fills the composer on the page, which is what the
+ * design implies and what works today.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  label: string;
+  prompt: string;
+  icon?: string;
+  class?: string;
+}
+
+const { label, prompt, icon = "sparkle", class: className } = Astro.props;
+---
+
+<button type="button" class:list={["chip", className]} data-suggestion={prompt}>
+  <Icon name={icon} size={14} />
+  <span>{label}</span>
+</button>
+
+<style>
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 13px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .chip :global(svg) {
+    color: var(--a-accent);
+  }
+  .chip:hover {
+    border-color: var(--a-accent);
+    color: var(--a-accent);
+  }
+  .chip:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  /** Chips fill the composer instead of navigating: /api/chat lands in phase 4. */
+  document.addEventListener("click", (event) => {
+    const chip = (event.target as HTMLElement).closest<HTMLElement>("[data-suggestion]");
+    const prompt = chip?.dataset.suggestion;
+    if (!prompt) return;
+    const field = document.querySelector<HTMLInputElement>("[data-composer-input]");
+    if (!field) return;
+    field.value = prompt;
+    field.focus();
+    field.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+</script>

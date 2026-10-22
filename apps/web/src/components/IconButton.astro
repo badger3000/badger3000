@@ -1,0 +1,53 @@
+---
+/**
+ * IconButton — pen master `HFjfa`.
+ * context: button · IconButton — props: icon, variant
+ *
+ * 34×34, radius 10. `surface` is the default; `accent` is the pen's Send
+ * override (fill `$a-accent`, white glyph) — see the Composer's Send.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  icon: string;
+  label: string;
+  variant?: "surface" | "accent";
+  type?: "button" | "submit";
+  class?: string;
+  [key: string]: unknown;
+}
+
+const { icon, label, variant = "surface", type = "button", class: className, ...rest } = Astro.props;
+---
+
+<button type={type} class:list={["iconbtn", variant, className]} aria-label={label} title={label} {...rest}>
+  <Icon name={icon} size={17} />
+</button>
+
+<style>
+  .iconbtn {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+  .iconbtn.accent {
+    background: var(--a-accent);
+    color: #fff;
+  }
+  .iconbtn.accent:hover {
+    filter: brightness(0.95);
+  }
+  .iconbtn:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+</style>

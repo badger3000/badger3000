@@ -1,95 +1,70 @@
 ---
 /**
- * Agent home — pen `l7yp4` (Agent UI — Home).
+ * Agent home — pen `l7yp4` (Agent UI — Home) and `p9dFND` (Mobile — Home).
  * context: section · page / app shell
  *   aside · site navigation | main | header | section · hero | footer
  *
- * The shell (Sidebar / TopBar / Footer) now lives in AppShell, shared with the
- * browse routes. The composer is not wired to /api/chat yet (PRD phase 4).
+ * One `<Composer>` serves both layouts. It is the fourth child of the hero
+ * column; `order` places it between the greeting and the chips on desktop (pen
+ * `bHb5v` Prompt) and last, pushed to the bottom with `margin-top: auto`, on
+ * mobile (pen `as8tT` Composer Wrap). No duplicate markup, no second form.
+ *
+ * The composer posts to `/api/chat`, which is PRD phase 4.
  */
 import Base from "../layouts/Base.astro";
 import AppShell from "../layouts/AppShell.astro";
-import Icon from "../components/Icon.astro";
+import Composer from "../components/Composer.astro";
+import SuggestionChip from "../components/SuggestionChip.astro";
 import { getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [counts, settings] = await Promise.all([getCounts(), getSettings()]);
 
 const chips = [
-  { label: "Recent projects", icon: "sparkle" },
-  { label: "Latest articles", icon: "newspaper" },
-  { label: "His experience", icon: "briefcase" },
-  { label: "Golf scores", icon: "flag" },
+  { label: "Show recent projects", prompt: "Show me your recent projects" },
+  { label: "Read latest articles", prompt: "What are your latest articles about?" },
+  { label: "Walk me through his experience", prompt: "Walk me through Kyle's experience" },
+  { label: "Show golf scores", prompt: "Show me Kyle's golf scores" },
 ];
 ---
 
 <Base title="Badger3000 — Kyle Ross's AI">
   <AppShell counts={counts} settings={settings} mobileBar="menu" mobileTab="chat" mobileBottom="footer">
     <main class="hero" id="main">
-      <div class="center">
-        <span class="hero-avatar" aria-hidden="true">🦡</span>
-        <div class="greet">
-          <h1>Hey — I'm Badger3000.</h1>
-          <p>
-            Kyle Ross's AI. Ask about his projects, writing, and experience — or just say hi.
-          </p>
-        </div>
+      <span class="hero-avatar" aria-hidden="true">🦡</span>
 
-        <form class="prompt" action="/api/chat" method="post">
-          <label class="sr" for="q">Ask Badger3000 anything</label>
-          <input
-            id="q"
-            name="q"
-            type="text"
-            placeholder="Ask me anything about Kyle…"
-            autocomplete="off"
-          />
-          <div class="bar">
-            <span class="bl">
-              <button type="button" class="ghostbtn" aria-label="Attach a file">
-                <Icon name="paperclip" size={15} />
-              </button>
-              <button type="button" class="ghostbtn" aria-label="Dictate">
-                <Icon name="mic" size={15} />
-              </button>
-            </span>
-            <button type="submit" class="send" aria-label="Send">
-              <Icon name="arrow-up" size={16} stroke={2.2} />
-            </button>
-          </div>
-        </form>
+      <div class="greet">
+        <h1>Hey — I'm Badger3000.</h1>
+        <p class="sub desktop-sub">
+          Kyle Ross's AI. Ask about his projects, writing, and experience — or just say hi.
+        </p>
+        <p class="sub mobile-sub">Kyle's AI. Ask about his work, writing, or anything else.</p>
+      </div>
 
-        <div class="chips">
-          {
-            chips.map((chip) => (
-              <button type="button" class="chip">
-                <Icon name={chip.icon} size={14} />
-                <span>{chip.label}</span>
-              </button>
-            ))
-          }
-        </div>
+      <div class="dock">
+        <Composer />
+      </div>
+
+      <div class="chips">
+        {chips.map((chip) => <SuggestionChip label={chip.label} prompt={chip.prompt} />)}
       </div>
     </main>
   </AppShell>
 </Base>
 
 <style>
+  /* Desktop: a centred column, composer between greeting and chips. */
   .hero {
-    display: grid;
-    place-items: center;
-    flex: 1;
-    padding: 20px 40px;
-  }
-  .center {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 22px;
-    width: 600px;
-    max-width: 100%;
+    flex: 1;
+    padding: 20px 40px;
     text-align: center;
   }
   .hero-avatar {
+    order: 1;
     display: grid;
     place-items: center;
     width: 76px;
@@ -101,6 +76,7 @@ const chips = [
     color: var(--a-surface);
   }
   .greet {
+    order: 2;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -113,129 +89,70 @@ const chips = [
     line-height: 1.05;
     color: var(--a-ink);
   }
-  .greet p {
+  .sub {
     margin: 0;
     font-size: 16.5px;
     line-height: 1.45;
     color: var(--a-muted);
   }
-
-  .prompt {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 14px 16px 12px;
-    border: 1px solid var(--a-line-2);
-    border-radius: 18px;
-    background: var(--a-surface);
-    text-align: left;
+  .dock {
+    order: 3;
+    width: 600px;
+    max-width: 100%;
   }
-  .prompt input {
-    width: 100%;
-    border: 0;
-    background: transparent;
-    color: var(--a-ink);
-    font-family: var(--af-ui);
-    font-size: 16px;
-  }
-  .prompt input::placeholder {
-    color: var(--a-faint);
-  }
-  .prompt input:focus {
-    outline: none;
-  }
-  .bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 12px;
-  }
-  .bl {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .ghostbtn {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--a-line);
-    border-radius: 9px;
-    background: transparent;
-    color: var(--a-muted);
-    cursor: pointer;
-  }
-  .ghostbtn:hover {
-    background: var(--a-bg);
-    color: var(--a-ink);
-  }
-  .send {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border: 0;
-    border-radius: 11px;
-    background: var(--a-accent);
-    color: var(--a-on-accent);
-    cursor: pointer;
-  }
-  .send:hover {
-    filter: brightness(0.95);
-  }
-  .send:focus-visible,
-  .ghostbtn:focus-visible,
-  .chip:focus-visible {
-    outline: 2px solid var(--a-accent);
-    outline-offset: 2px;
-  }
-
   .chips {
+    order: 4;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 8px;
   }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 13px;
-    border: 1px solid var(--a-line-2);
-    border-radius: 20px;
-    background: var(--a-surface);
-    color: var(--a-ink);
-    font-family: var(--af-ui);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition:
-      border-color 0.15s ease,
-      color 0.15s ease;
-  }
-  .chip:hover {
-    border-color: var(--a-accent);
-    color: var(--a-accent);
+  .mobile-sub {
+    display: none;
   }
 
-  .sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
+  /* Mobile (pen p9dFND): avatar 66, greeting 30/14.5, chips under it, and the
+     composer docked above the footer. */
   @media (max-width: 720px) {
     .hero {
-      padding: 16px;
+      justify-content: flex-start;
+      gap: 18px;
+      min-height: 100%;
+      padding: 16px 22px 0;
+      text-align: center;
+    }
+    .hero-avatar {
+      width: 66px;
+      height: 66px;
+      border-radius: 19px;
+      font-size: 28px;
     }
     .greet h1 {
-      font-size: 32px;
+      font-size: 30px;
+    }
+    .desktop-sub {
+      display: none;
+    }
+    .mobile-sub {
+      display: block;
+      font-size: 14.5px;
+    }
+    .chips {
+      order: 3;
+      gap: 9px;
+      padding-top: 8px;
+      /* Split the free space above and below the greeting group so it sits
+         centred in the hero, with the composer docked under it (pen hQ1Ih is
+         justifyContent center inside the space left by as8tT). */
+      margin-bottom: auto;
+    }
+    .hero-avatar {
+      margin-top: auto;
+    }
+    .dock {
+      order: 4;
+      width: 100%;
+      padding: 4px 14px 8px;
     }
   }
 </style>
