@@ -52,7 +52,7 @@ const searchIndex = projects.map((p) =>
     mobileBottom="tabs"
   >
     <main class="archive" id="main">
-      <div class="inner">
+      <div class="inner" data-browse>
         <PageHeader title="Projects" count={projects.length} countLabel="projects" sub="Things Kyle has designed, built, and shipped.">
           <Fragment slot="actions">
             <a class="ask" href="/">
@@ -92,7 +92,7 @@ const searchIndex = projects.map((p) =>
           ) : (
             <ul class="grid" data-grid>
               {projects.map((project, i) => (
-                <li data-card data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
+                <li data-item data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
                   <ProjectCard project={project} />
                 </li>
               ))}
@@ -214,59 +214,5 @@ const searchIndex = projects.map((p) =>
 </style>
 
 <script>
-  /**
-   * Topic chips + search + view toggle. All client-side: this is a static
-   * build, so there is no server to ask. The grid holds every card; filtering
-   * hides them by setting `hidden`.
-   *
-   * Re-initialised on `astro:page-load` because the router replaces this
-   * markup, taking the listeners with it.
-   */
-  const init = () => {
-    const grid = document.querySelector<HTMLElement>("[data-grid]");
-    if (!grid) return;
-    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter-chip]"));
-    const search = document.querySelector<HTMLInputElement>('input[name="q"]');
-    const note = document.querySelector<HTMLElement>("[data-empty]");
-    const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view]"));
-
-    let topic = "all";
-    let term = "";
-
-    const apply = () => {
-      let shown = 0;
-      for (const item of Array.from(grid.children) as HTMLElement[]) {
-        const matchesTopic = topic === "all" || item.dataset.topic === topic;
-        const matchesTerm = !term || (item.dataset.search ?? "").includes(term);
-        const visible = matchesTopic && matchesTerm;
-        item.hidden = !visible;
-        if (visible) shown++;
-      }
-      if (note) note.hidden = shown > 0;
-    };
-
-    for (const chip of chips) {
-      chip.addEventListener("click", () => {
-        topic = chip.dataset.filterChip ?? "all";
-        for (const other of chips) other.setAttribute("aria-pressed", String(other === chip));
-        apply();
-      });
-    }
-
-    search?.addEventListener("input", () => {
-      term = search.value.trim().toLowerCase();
-      apply();
-    });
-
-    for (const button of viewButtons) {
-      button.addEventListener("click", () => {
-        const view = button.dataset.view ?? "grid";
-        grid.setAttribute("data-view", view);
-        for (const other of viewButtons) other.setAttribute("aria-pressed", String(other === button));
-      });
-    }
-  };
-
-  init();
-  document.addEventListener("astro:page-load", init);
+  import "../lib/browse.ts";
 </script>
