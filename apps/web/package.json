@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "node scripts/node-guard.mjs -- astro dev",
     "build": "node scripts/node-guard.mjs -- astro build",
+    "postbuild": "npm run build:verify",
+    "build:verify": "node scripts/verify-dist.mjs",
     "check": "node scripts/node-guard.mjs -- astro check",
     "preview": "node scripts/node-guard.mjs -- astro preview",
     "sanity:check": "node scripts/sanity-check.ts",

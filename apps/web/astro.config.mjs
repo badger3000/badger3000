@@ -31,15 +31,21 @@ export default defineConfig({
   env: {
     schema: {
       PUBLIC_SANITY_PROJECT_ID: envField.string({ context: "client", access: "public", optional: true }),
-      PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true, default: "production" }),
+      // No default: this project's dataset is "badger3000", and a wrong default
+      // would silently point at a dataset that does not exist. Missing → the
+      // client's MISSING error.
+      PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_SANITY_API_VERSION: envField.string({ context: "client", access: "public", default: "2024-03-09" }),
-      // The badger3000 dataset is private (aclMode: private), so the CDN cannot
-      // read it without a token. Off by default; turn on only for a public
-      // dataset.
-      PUBLIC_SANITY_USE_CDN: envField.boolean({ context: "client", access: "public", default: false }),
-      // Server-only: draft preview locally. Never shipped, and not needed for
-      // a published-content build.
+      // The dataset is private, but the CDN serves it to a request that carries
+      // the token, so published reads use it. Draft preview always bypasses it.
+      PUBLIC_SANITY_USE_CDN: envField.boolean({ context: "client", access: "public", default: true }),
+      // Server-only Viewer token; the dataset is private, so every read needs it.
+      // `secret` means it is read at runtime (`wrangler secret put` on the
+      // Worker) and never inlined into a bundle.
       SANITY_API_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
+      // Draft preview is an explicit opt-in, not implied by having a token.
+      // `secret` only so it is read at runtime rather than baked into the build.
+      SANITY_PREVIEW: envField.enum({ context: "server", access: "secret", values: ["drafts", "published"], optional: true }),
       /**
        * The Workers AI "compose" tier, per ADR 0008. **Off by default**, which
        * is a change of mind from the ADR and worth saying out loud: measured

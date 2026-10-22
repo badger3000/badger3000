@@ -1,81 +1,60 @@
-import { createClient, type SanityClient } from "@sanity/client";
+import type { SanityClient } from "@sanity/client";
+import {
+  PUBLIC_SANITY_API_VERSION,
+  PUBLIC_SANITY_DATASET,
+  PUBLIC_SANITY_PROJECT_ID,
+  PUBLIC_SANITY_USE_CDN,
+} from "astro:env/client";
+import { SANITY_API_TOKEN, SANITY_PREVIEW } from "astro:env/server";
+import { createSanityClient, isComplete } from "./factory.ts";
+import { createQuerySet } from "./queries.ts";
 
 /**
- * Sanity client for the Astro app.
+ * Sanity client for the Astro app: ./factory.ts wired from `astro:env`, so the
+ * schema in astro.config.mjs actually applies. Astro-only — plain-node scripts
+ * build their own client from `process.env` with the same factory.
  *
- * Env names are the Astro-native `PUBLIC_*` ones (see the `env.schema` block in
- * astro.config.mjs). The legacy `NEXT_PUBLIC_*` names are still accepted so the
- * rename can land before the cutover, while the Next app at the repo root keeps
- * running off one set of values in `.env`.
+ * `SANITY_API_TOKEN` is `access: "secret"`: on the Worker it is read per
+ * isolate at runtime (`wrangler secret put`), never inlined into the bundle.
+ * That only holds while it is read inside `getClient()`, not at module scope.
  *
  * Queries live in ./queries.ts, types in ./types.ts.
  */
 
-/** Vite replaces `import.meta.env` at build time; it is undefined under plain node. */
-const astroEnv = import.meta.env as unknown as Record<string, string | undefined> | undefined;
+export const projectId = PUBLIC_SANITY_PROJECT_ID;
+export const dataset = PUBLIC_SANITY_DATASET;
+export const apiVersion = PUBLIC_SANITY_API_VERSION;
 
-/** `astro:env` first, then a legacy alias, then the real shell variable. */
-function env(key: string, legacy?: string): string | undefined {
-  return astroEnv?.[key] ?? (legacy === undefined ? undefined : process.env[legacy]) ?? process.env[key];
-}
-
-export const projectId = env("PUBLIC_SANITY_PROJECT_ID", "NEXT_PUBLIC_SANITY_PROJECT_ID");
-export const dataset = env("PUBLIC_SANITY_DATASET", "NEXT_PUBLIC_SANITY_DATASET");
-export const apiVersion = env("PUBLIC_SANITY_API_VERSION") ?? "2024-03-09";
-export const useCdn = env("PUBLIC_SANITY_USE_CDN") === "true";
-export const token = env("SANITY_API_TOKEN");
-
-export const isConfigured = Boolean(projectId && dataset);
-
-/**
- * Drafts are only readable with a token, and the CDN never serves them, so the
- * two decisions are linked: a token in development means "show me drafts".
- *
- * `useCdn` defaults to **off** because the `badger3000` dataset is private
- * (`aclMode: private`), and the CDN only reads public datasets without a token.
- * A private dataset needs `SANITY_API_TOKEN` on any read — including a
- * production build, so set it in Cloudflare's build environment.
- */
-const previewDrafts = Boolean(token) && !astroEnv?.PROD && process.env.NODE_ENV !== "production";
-
-const MISSING = [
-  "Missing Sanity configuration.",
-  "Set these in apps/web/.env (copy .env.example) or the shell:",
-  "  PUBLIC_SANITY_PROJECT_ID — your Sanity project id",
-  "  PUBLIC_SANITY_DATASET    — dataset name (this project uses 'badger3000')",
-  "  SANITY_API_TOKEN         — required for a private dataset, and for drafts in development",
-].join("\n");
+export const isConfigured = isComplete({ projectId, dataset });
 
 let client: SanityClient | undefined;
 
 /** Lazily created so importing this module never breaks a credential-less build. */
 export function getClient(): SanityClient {
-  if (client) return client;
-  if (!projectId || !dataset) throw new Error(MISSING);
-  client = createClient({
+  return (client ??= createSanityClient({
     projectId,
     dataset,
     apiVersion,
-    useCdn: useCdn && !previewDrafts,
-    token,
-    perspective: previewDrafts ? "drafts" : "published",
-    stega: false,
-  });
-  return client;
+    token: SANITY_API_TOKEN,
+    // Drafts only on an explicit opt-in, never just because a token is present.
+    perspective: SANITY_PREVIEW === "drafts" ? "drafts" : "published",
+    useCdn: PUBLIC_SANITY_USE_CDN,
+  }));
 }
 
-/**
- * Sanity's image CDN takes query params for width/quality/format, which is all
- * Astro's `<Image>` needs on top of the asset URL.
- */
-export function imageUrl(
-  assetUrl: string | undefined,
-  { width, quality = 80, format = "auto" }: { width?: number; quality?: number; format?: string } = {},
-): string | undefined {
-  if (!assetUrl) return undefined;
-  const url = new URL(assetUrl);
-  if (width) url.searchParams.set("w", String(width));
-  url.searchParams.set("q", String(quality));
-  url.searchParams.set("auto", format);
-  return url.toString();
-}
+export const querySet = createQuerySet((query) => getClient().fetch(query));
+
+export const {
+  projects: getProjects,
+  articles: getArticles,
+  experiments: getExperiments,
+  skills: getSkills,
+  testimonials: getTestimonials,
+  bookmarks: getBookmarks,
+  golfScores: getGolfScores,
+  experience: getExperience,
+  education: getEducation,
+  topics: getTopics,
+  settings: getSettings,
+  counts: getCounts,
+} = querySet;

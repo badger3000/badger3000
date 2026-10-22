@@ -11,7 +11,6 @@ import type {
   Testimonial,
   Topic,
 } from "./types.ts";
-import { getClient } from "./client.ts";
 
 /**
  * `groq` from the `groq` package is only a type-level template tag — it exists so
@@ -179,18 +178,6 @@ export const settingsQuery = groq`*[_type == "settings"][0] {
   "links": links[]->{ siteName, webUrl }
 }`;
 
-export const getProjects = () => getClient().fetch<Project[]>(projectsQuery);
-export const getArticles = () => getClient().fetch<Article[]>(articlesQuery);
-export const getExperiments = () => getClient().fetch<Experiment[]>(experimentsQuery);
-export const getSkills = () => getClient().fetch<SkillCategory[]>(skillsQuery);
-export const getTestimonials = () => getClient().fetch<Testimonial[]>(testimonialsQuery);
-export const getBookmarks = () => getClient().fetch<Bookmark[]>(bookmarksQuery);
-export const getGolfScores = () => getClient().fetch<GolfScore[]>(golfScoresQuery);
-export const getExperience = () => getClient().fetch<ExperienceEntry[]>(experienceQuery);
-export const getEducation = () => getClient().fetch<EducationEntry[]>(educationQuery);
-export const getTopics = () => getClient().fetch<Topic[]>(topicsQuery);
-export const getSettings = () => getClient().fetch<SiteSettings | null>(settingsQuery);
-
 /**
  * One round trip for the sidebar counts, keyed by the nav ids. Returns 0 for a
  * type that does not exist yet rather than being omitted, so the nav never
@@ -208,8 +195,6 @@ export const countsQuery = groq`{
   "golf": count(*[_type == "golfScores"])
 }`;
 
-export const getCounts = () => getClient().fetch<Record<string, number>>(countsQuery);
-
 /** name → query string, for linting, parsing and diffing the projections. */
 export const queries = {
   projects: projectsQuery,
@@ -223,19 +208,27 @@ export const queries = {
   education: educationQuery,
   topics: topicsQuery,
   settings: settingsQuery,
+  counts: countsQuery,
 } as const;
 
-/** name → getter. Scripts and tests iterate this instead of the queries themselves. */
-export const querySet = {
-  projects: getProjects,
-  articles: getArticles,
-  experiments: getExperiments,
-  skills: getSkills,
-  testimonials: getTestimonials,
-  bookmarks: getBookmarks,
-  golfScores: getGolfScores,
-  experience: getExperience,
-  education: getEducation,
-  topics: getTopics,
-  settings: getSettings,
-} as const;
+/** Runs one query, or resolves `empty` when a credential-less build allows it. */
+export type Run = <T>(query: string, empty: T) => Promise<T>;
+
+/**
+ * name → getter, bound to a runner. The Astro wiring (./client.ts) and plain-node
+ * scripts each supply their own, so this module never reads env.
+ */
+export const createQuerySet = (run: Run) => ({
+  projects: () => run<Project[]>(projectsQuery, []),
+  articles: () => run<Article[]>(articlesQuery, []),
+  experiments: () => run<Experiment[]>(experimentsQuery, []),
+  skills: () => run<SkillCategory[]>(skillsQuery, []),
+  testimonials: () => run<Testimonial[]>(testimonialsQuery, []),
+  bookmarks: () => run<Bookmark[]>(bookmarksQuery, []),
+  golfScores: () => run<GolfScore[]>(golfScoresQuery, []),
+  experience: () => run<ExperienceEntry[]>(experienceQuery, []),
+  education: () => run<EducationEntry[]>(educationQuery, []),
+  topics: () => run<Topic[]>(topicsQuery, []),
+  settings: () => run<SiteSettings | null>(settingsQuery, null),
+  counts: () => run<Record<string, number>>(countsQuery, {}),
+});
