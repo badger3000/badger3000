@@ -97,6 +97,8 @@ const { counts = {}, active, profile } = Astro.props;
     flex-direction: column;
     gap: 16px;
     padding: 16px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--a-sidebar);
     border-right: 1px solid var(--a-line);
   }

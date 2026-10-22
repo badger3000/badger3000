@@ -1,9 +1,16 @@
 ---
 /**
  * Base — the document shell every page uses.
- * Owns <head>, the token stylesheet, fonts, and the pre-paint theme restore.
- * Components never set data-theme themselves; the toggle writes it.
+ * Owns <head>, the token stylesheet, fonts, the client router, and the
+ * pre-paint theme restore. Components never set data-theme themselves; the
+ * toggle writes it.
+ *
+ * <ClientRouter /> turns navigation into client-side routing: the URL still
+ * updates and the back button works, but only the named `content` group animates
+ * (see AppShell) — the sidebar and topbar are replaced silently instead of
+ * cross-fading, so the chrome appears not to move at all.
  */
+import { ClientRouter } from "astro:transitions";
 import "../styles/tokens.css";
 
 interface Props {
@@ -27,6 +34,7 @@ const {
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -76,5 +84,28 @@ const {
   }
   .skip:focus {
     left: 0;
+  }
+
+  /*
+   * View transitions. The default is a full-page cross-fade of the root group,
+   * which would fade the sidebar and topbar along with the content. The chrome
+   * must look untouched, so the root group does not animate and only the named
+   * `content` group (AppShell's scroll area) transitions.
+   */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-group(content) {
+    animation-duration: 0.2s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
   }
 </style>

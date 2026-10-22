@@ -209,47 +209,55 @@ const searchIndex = projects.map((p) =>
    * Topic chips + search + view toggle. All client-side: this is a static
    * build, so there is no server to ask. The grid holds every card; filtering
    * hides them by setting `hidden`.
+   *
+   * Re-initialised on `astro:page-load` because the router replaces this
+   * markup, taking the listeners with it.
    */
-  const grid = document.querySelector<HTMLElement>("[data-grid]");
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter-chip]"));
-  const search = document.querySelector<HTMLInputElement>('input[name="q"]');
-  const note = document.querySelector<HTMLElement>("[data-empty]");
-  const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view]"));
-
-  let topic = "all";
-  let term = "";
-
-  const apply = () => {
+  const init = () => {
+    const grid = document.querySelector<HTMLElement>("[data-grid]");
     if (!grid) return;
-    let shown = 0;
-    for (const item of Array.from(grid.children) as HTMLElement[]) {
-      const matchesTopic = topic === "all" || item.dataset.topic === topic;
-      const matchesTerm = !term || (item.dataset.search ?? "").includes(term);
-      const visible = matchesTopic && matchesTerm;
-      item.hidden = !visible;
-      if (visible) shown++;
-    }
-    if (note) note.hidden = shown > 0;
-  };
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter-chip]"));
+    const search = document.querySelector<HTMLInputElement>('input[name="q"]');
+    const note = document.querySelector<HTMLElement>("[data-empty]");
+    const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view]"));
 
-  for (const chip of chips) {
-    chip.addEventListener("click", () => {
-      topic = chip.dataset.filterChip ?? "all";
-      for (const other of chips) other.setAttribute("aria-pressed", String(other === chip));
+    let topic = "all";
+    let term = "";
+
+    const apply = () => {
+      let shown = 0;
+      for (const item of Array.from(grid.children) as HTMLElement[]) {
+        const matchesTopic = topic === "all" || item.dataset.topic === topic;
+        const matchesTerm = !term || (item.dataset.search ?? "").includes(term);
+        const visible = matchesTopic && matchesTerm;
+        item.hidden = !visible;
+        if (visible) shown++;
+      }
+      if (note) note.hidden = shown > 0;
+    };
+
+    for (const chip of chips) {
+      chip.addEventListener("click", () => {
+        topic = chip.dataset.filterChip ?? "all";
+        for (const other of chips) other.setAttribute("aria-pressed", String(other === chip));
+        apply();
+      });
+    }
+
+    search?.addEventListener("input", () => {
+      term = search.value.trim().toLowerCase();
       apply();
     });
-  }
 
-  search?.addEventListener("input", () => {
-    term = search.value.trim().toLowerCase();
-    apply();
-  });
+    for (const button of viewButtons) {
+      button.addEventListener("click", () => {
+        const view = button.dataset.view ?? "grid";
+        grid.setAttribute("data-view", view);
+        for (const other of viewButtons) other.setAttribute("aria-pressed", String(other === button));
+      });
+    }
+  };
 
-  for (const button of viewButtons) {
-    button.addEventListener("click", () => {
-      const view = button.dataset.view ?? "grid";
-      grid?.setAttribute("data-view", view);
-      for (const other of viewButtons) other.setAttribute("aria-pressed", String(other === button));
-    });
-  }
+  init();
+  document.addEventListener("astro:page-load", init);
 </script>

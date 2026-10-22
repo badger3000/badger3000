@@ -4,10 +4,25 @@
  * context: section · page / app shell
  *   aside · site navigation | main | header | … | footer
  *
- * Every page renders inside this: the 264px sidebar, a TopBar, the page body,
- * and the footer. The mobile drawer and tab bar (pen "Mobile — Menu") come in
- * with the browse views; below 720px the sidebar simply drops out for now.
+ * Every page renders inside this. Two things are deliberate:
+ *
+ * **The chrome is fixed; only the content scrolls.** `.shell` is exactly one
+ * viewport tall with `overflow: hidden`, so the sidebar and topbar never move.
+ * The sidebar scrolls inside its own column if the nav ever outgrows the
+ * viewport; `.body` is the single scroll container.
+ *
+ * **Only the content animates on navigation.** `<ClientRouter />` (in Base)
+ * handles client-side routing — the URL updates, history works, no full reload.
+ * `.body` is the only element with a `transition:name`, so the browser snapshots
+ * just that group and cross-fades it; Base kills the root animation so the
+ * chrome is replaced without appearing to change.
+ *
+ * The chrome is deliberately *not* `transition:persist`-ed: a persisted element
+ * keeps the markup it was first rendered with, which would freeze the sidebar's
+ * `aria-current` on whatever page it first visited. Replacing it costs one
+ * re-render nobody sees, and every component re-initialises on `astro:page-load`.
  */
+import { fade } from "astro:transitions";
 import Sidebar from "../components/Sidebar.astro";
 import TopBar from "../components/TopBar.astro";
 import Footer from "../components/Footer.astro";
@@ -29,8 +44,10 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
   <Sidebar counts={counts} active={active} profile={profile} />
   <div class="main">
     <TopBar resumeHref={resumeHref} />
-    <slot />
-    <Footer links={settings?.links} />
+    <div class="body" transition:name="content" transition:animate={fade({ duration: "0.2s" })}>
+      <slot />
+      <Footer links={settings?.links} />
+    </div>
   </div>
 </div>
 
@@ -38,16 +55,30 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
   .shell {
     display: grid;
     grid-template-columns: 264px 1fr;
-    min-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
   }
   .main {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    height: 100dvh;
+    overflow: hidden;
     background: var(--a-bg);
   }
-  .main > :global(main) {
+  /* The one scroll container on the page. */
+  .body {
+    display: flex;
+    flex-direction: column;
     flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  /* Pushes the footer to the bottom on short pages; grows past the fold on
+     long ones, which is what makes .body scroll. */
+  .body > :global(main) {
+    flex: 1 0 auto;
   }
 
   @media (max-width: 720px) {
@@ -56,3 +87,47 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
     }
   }
 </style>
+
+<script>
+  /**
+   * Scroll memory for the inner scroll container. Astro restores `window.scrollY`
+   * on history navigation, which does nothing here because the page itself never
+   * scrolls — so keep a per-URL position and restore it on back/forward.
+   */
+  const KEY = "badger-scroll";
+  type Positions = Record<string, number>;
+
+  const read = (): Positions => {
+    try {
+      return JSON.parse(sessionStorage.getItem(KEY) ?? "{}") as Positions;
+    } catch {
+      return {};
+    }
+  };
+  const write = (positions: Positions) => {
+    try {
+      sessionStorage.setItem(KEY, JSON.stringify(positions));
+    } catch {
+      // Private mode: scrolling just starts at the top.
+    }
+  };
+
+  const positionOf = () => `${location.pathname}${location.search}`;
+  const scroller = () => document.querySelector<HTMLElement>(".body");
+
+  const save = () => {
+    const body = scroller();
+    if (body) write({ ...read(), [positionOf()]: body.scrollTop });
+  };
+  const restore = () => {
+    const body = scroller();
+    // A page visited for the first time starts at the top; back/forward returns
+    // to where that page was left.
+    if (body) body.scrollTop = read()[positionOf()] ?? 0;
+  };
+
+  restore();
+  document.addEventListener("astro:before-preparation", save);
+  document.addEventListener("astro:page-load", restore);
+  addEventListener("pagehide", save);
+</script>

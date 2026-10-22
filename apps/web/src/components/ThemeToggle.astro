@@ -82,22 +82,51 @@ const labels: Record<(typeof themes)[number], string> = {
 
   const isTheme = (v: string | null | undefined): v is Theme =>
     !!v && (THEMES as readonly string[]).includes(v);
+  const stored = (): Theme => {
+    try {
+      const value = localStorage.getItem(KEY);
+      return isTheme(value) ? value : "light";
+    } catch {
+      return "light";
+    }
+  };
 
-  document.querySelectorAll<HTMLElement>("[data-theme-toggle]").forEach((root) => {
-    const options = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
-    const apply = (theme: Theme) => {
-      document.documentElement.dataset.theme = theme;
-      options.forEach((o) => o.setAttribute("aria-pressed", String(o.dataset.themeOption === theme)));
-    };
-    apply(isTheme(localStorage.getItem(KEY)) ? (localStorage.getItem(KEY) as Theme) : "light");
+  /**
+   * Runs on the first load and again after every client-side navigation, because
+   * the chrome is re-rendered rather than persisted — and because a swap copies
+   * the new document's `data-theme="light"` onto <html>, which would otherwise
+   * reset a dark or forest skin on every click.
+   */
+  const init = () => {
+    const theme = stored();
+    document.documentElement.dataset.theme = theme;
 
-    root.addEventListener("click", (event) => {
-      const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-theme-option]");
-      if (!button) return;
-      const next = button.dataset.themeOption;
-      if (!isTheme(next)) return;
-      apply(next);
-      localStorage.setItem(KEY, next);
-    });
-  });
+    for (const root of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+      const options = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
+      const paint = (value: Theme) => {
+        for (const option of options) {
+          option.setAttribute("aria-pressed", String(option.dataset.themeOption === value));
+        }
+      };
+      paint(theme);
+
+      root.addEventListener("click", (event) => {
+        const button = (event.target as HTMLElement).closest<HTMLButtonElement>(
+          "[data-theme-option]",
+        );
+        const next = button?.dataset.themeOption;
+        if (!isTheme(next)) return;
+        document.documentElement.dataset.theme = next;
+        paint(next);
+        try {
+          localStorage.setItem(KEY, next);
+        } catch {
+          // Storage blocked: the skin still applies for this page view.
+        }
+      });
+    }
+  };
+
+  init();
+  document.addEventListener("astro:page-load", init);
 </script>

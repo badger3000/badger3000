@@ -71,6 +71,24 @@ the schema disagree, the schema wins** and the `.pen` binding gets corrected —
 currently `ProjectCard` claims `project.excerpt`, which no `projects` field
 provides.
 
+## Navigation
+
+`<ClientRouter />` in `Base.astro` makes navigation client-side: the URL and
+history update, but there is no full page load. Two rules keep that invisible:
+
+- **The chrome never animates.** `AppShell`'s scroll area is the only element
+  with `transition:name="content"`, and `Base` sets
+  `::view-transition-old/new(root) { animation: none }`, so only that group
+  cross-fades.
+- **The chrome is replaced, not persisted.** `transition:persist` would freeze
+  the sidebar's `aria-current` on whichever page first rendered it. Re-rendering
+  costs nothing visible, and every component re-initialises on `astro:page-load`.
+
+`.shell` is exactly one viewport tall with `overflow: hidden`: the sidebar and
+topbar are fixed and `.body` is the only scroll container. Scroll positions are
+kept per URL in `sessionStorage` so back/forward returns where you were —
+Astro's own restore only knows about `window.scrollY`.
+
 ## Rules
 
 - **Design is the source of truth.** Geometry, fills, and `context` strings come
