@@ -5,8 +5,8 @@ import {
   PUBLIC_SANITY_PROJECT_ID,
   PUBLIC_SANITY_USE_CDN,
 } from "astro:env/client";
-import { SANITY_API_TOKEN, SANITY_PREVIEW } from "astro:env/server";
-import { createSanityClient, isComplete } from "./factory.ts";
+import { SANITY_ALLOW_EMPTY, SANITY_API_TOKEN, SANITY_PREVIEW } from "astro:env/server";
+import { MISSING, createSanityClient, isComplete } from "./factory.ts";
 import { createQuerySet } from "./queries.ts";
 
 /**
@@ -42,7 +42,19 @@ export function getClient(): SanityClient {
   }));
 }
 
-export const querySet = createQuerySet((query) => getClient().fetch(query));
+/**
+ * `SANITY_ALLOW_EMPTY=1` lets a build with no credentials (CI) render every page
+ * empty instead of failing. Deploy builds never set it, so a misconfigured
+ * deploy still fails loudly.
+ */
+function run<T>(query: string, empty: T): Promise<T> {
+  if (!isConfigured) {
+    return SANITY_ALLOW_EMPTY === "1" ? Promise.resolve(empty) : Promise.reject(new Error(MISSING));
+  }
+  return getClient().fetch<T>(query);
+}
+
+export const querySet = createQuerySet(run);
 
 export const {
   projects: getProjects,

@@ -24,9 +24,10 @@ export default defineConfig({
    * it replaces the `NEXT_PUBLIC_` names the Next app used. Values come from
    * `apps/web/.env` (or the shell / CI).
    *
-   * All four are `optional` so `astro check` and a credential-less build still
-   * work; `src/lib/sanity/client.ts` throws a message naming the missing key on
-   * first use instead. See docs/adr/0010-public-env-prefix.md.
+   * The Sanity names are `optional` so `astro check` and a credential-less build
+   * (`SANITY_ALLOW_EMPTY=1`) still work; otherwise `src/lib/sanity/client.ts`
+   * throws a message naming the missing key on first use. See
+   * docs/adr/0010-public-env-prefix.md.
    */
   env: {
     schema: {
@@ -46,6 +47,9 @@ export default defineConfig({
       // Draft preview is an explicit opt-in, not implied by having a token.
       // `secret` only so it is read at runtime rather than baked into the build.
       SANITY_PREVIEW: envField.enum({ context: "server", access: "secret", values: ["drafts", "published"], optional: true }),
+      // "1" lets a build with no credentials (CI) render empty pages instead of
+      // failing. Deploy builds never set it. Read at build time, so `public`.
+      SANITY_ALLOW_EMPTY: envField.enum({ context: "server", access: "public", values: ["0", "1"], default: "0" }),
       /**
        * The Workers AI "compose" tier, per ADR 0008. **Off by default**, which
        * is a change of mind from the ADR and worth saying out loud: measured
