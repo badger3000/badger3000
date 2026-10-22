@@ -29,6 +29,8 @@ interface Turn {
 }
 
 const KEY = "badger-thread";
+/** Set by "New conversation" when the click also has to navigate. */
+const PENDING_CLEAR = "badger-thread-clear";
 const MAX_TURNS = 40;
 
 const read = (): Turn[] => {
@@ -48,6 +50,32 @@ const write = (turns: Turn[]) => {
     // Storage blocked: the thread still works, it just will not survive reload.
   }
 };
+
+/**
+ * "New conversation" must actually start a fresh session.
+ *
+ * The thread lives in sessionStorage, so navigating to `/` on its own brings the
+ * old conversation straight back — which is what it did until this hook. Two
+ * cases: on the chat page already, clear it in place without a reload; from
+ * somewhere else, leave a one-shot flag for the destination page to consume.
+ */
+function armClear() {
+  try {
+    sessionStorage.setItem(PENDING_CLEAR, "1");
+  } catch {
+    // Nothing to do: without storage there is no thread to clear either.
+  }
+}
+
+function consumeClear() {
+  try {
+    if (!sessionStorage.getItem(PENDING_CLEAR)) return false;
+    sessionStorage.removeItem(PENDING_CLEAR);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const fill = (node: ParentNode, slot: string, value: string | undefined) => {
   const target = node.querySelector(`[data-slot="${slot}"]`);
@@ -173,9 +201,33 @@ const init = () => {
   });
 
   // A re-render replaces the form, so its listener goes with it.
-  turns = read();
+  turns = consumeClear() ? [] : read();
+  if (!turns.length) write([]);
   paint();
 };
+
+// Wired once: the sidebar and the mobile drawer both render "New conversation",
+// and on the chat page there is nothing to navigate to.
+document.addEventListener("click", (event) => {
+  const link = (event.target as HTMLElement).closest<HTMLAnchorElement>("[data-new-chat]");
+  if (!link) return;
+
+  const chatPath = link.pathname.replace(/\/$/, "") || "/";
+  const here = location.pathname.replace(/\/$/, "") || "/";
+  if (chatPath !== here) {
+    armClear();
+    return; // let the navigation happen; the destination clears
+  }
+
+  event.preventDefault();
+  write([]);
+  consumeClear();
+  document.querySelector<HTMLElement>("[data-chat-log]")?.replaceChildren();
+  document.querySelector("[data-chat-root]")?.setAttribute("data-has-thread", "false");
+  // The mobile drawer is usually what the button lives in.
+  document.querySelector<HTMLDialogElement>("[data-drawer]")?.close();
+  document.querySelector<HTMLInputElement>("[data-composer-input]")?.focus();
+});
 
 init();
 document.addEventListener("astro:page-load", init);
