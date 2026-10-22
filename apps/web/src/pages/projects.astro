@@ -1,0 +1,255 @@
+---
+/**
+ * Browse — Projects. Pen screen `uXl4B`.
+ * context: section · page / app shell → main · archive → div.container
+ *
+ *   header · page header   PageHeader (title + count + Ask Badger + search)
+ *   nav · topic filters    FilterChips + view toggle
+ *   ul · card grid         ProjectCard × projects
+ *
+ * The pen's filter labels ("All / Web App / Open Source / Client Work /
+ * Experiment") are placeholders — the dataset has four topics and every project
+ * shares one, so the chips are built from the topics that actually have
+ * projects. The sort control is omitted: there is no date field to sort by.
+ */
+import Base from "../layouts/Base.astro";
+import AppShell from "../layouts/AppShell.astro";
+import PageHeader from "../components/PageHeader.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import FilterChip from "../components/FilterChip.astro";
+import Input from "../components/Input.astro";
+import Icon from "../components/Icon.astro";
+import Card from "../components/Card.astro";
+import { getProjects, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [projects, topics, counts, settings] = await Promise.all([
+  getProjects(),
+  getTopics(),
+  getCounts(),
+  getSettings(),
+]);
+
+// Only chips that would actually show something.
+const used = new Set(projects.map((p) => p.topicSlug));
+const chips = topics.filter((topic) => topic.slug && used.has(topic.slug));
+const searchIndex = projects.map((p) =>
+  [p.title, p.topic ?? "", p.tech.join(" ")].join(" ").toLowerCase(),
+);
+---
+
+<Base
+  title="Projects — Badger3000"
+  description="Things Kyle has designed, built, and shipped."
+>
+  <AppShell active="projects" counts={counts} settings={settings}>
+    <main class="archive" id="main">
+      <div class="inner">
+        <PageHeader title="Projects" count={projects.length} countLabel="projects" sub="Things Kyle has designed, built, and shipped.">
+          <Fragment slot="actions">
+            <a class="ask" href="/">
+              <Icon name="sparkles" size={15} />
+              <span>Ask Badger</span>
+            </a>
+            <Input
+              name="q"
+              label="Search projects"
+              placeholder="Search projects…"
+              width={220}
+              class="search"
+            />
+            <div class="viewtoggle" role="group" aria-label="Card layout">
+              <button type="button" data-view="grid" aria-pressed="true" aria-label="Grid view">
+                <Icon name="layout-grid" size={15} />
+              </button>
+              <button type="button" data-view="list" aria-pressed="false" aria-label="List view">
+                <Icon name="list" size={15} />
+              </button>
+            </div>
+          </Fragment>
+        </PageHeader>
+
+        <div class="toolbar">
+          <nav class="chips" aria-label="Filter by topic">
+            <FilterChip label="All" value="all" active />
+            {chips.map((topic) => <FilterChip label={topic.title} value={topic.slug ?? topic.title} />)}
+          </nav>
+        </div>
+
+        {
+          projects.length === 0 ? (
+            <Card class="empty">
+              <p>No projects in this dataset yet.</p>
+            </Card>
+          ) : (
+            <ul class="grid" data-grid>
+              {projects.map((project, i) => (
+                <li data-card data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
+                  <ProjectCard project={project} />
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        <p class="empty-note" data-empty hidden>Nothing matches that search.</p>
+      </div>
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .archive {
+    background: var(--a-bg);
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 28px 40px;
+  }
+
+  .ask {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 13px;
+    border-radius: 10px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .ask:hover {
+    filter: brightness(0.97);
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .viewtoggle {
+    display: flex;
+    overflow: hidden;
+    border: 1px solid var(--a-line-2);
+    border-radius: 10px;
+    background: var(--a-surface);
+  }
+  .viewtoggle button {
+    display: grid;
+    place-items: center;
+    padding: 9px;
+    border: 0;
+    background: transparent;
+    color: var(--a-muted);
+    cursor: pointer;
+  }
+  .viewtoggle button[aria-pressed="true"] {
+    background: var(--a-ink);
+    color: var(--a-surface);
+  }
+  .viewtoggle button:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: -2px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* List view: one column, cards stretch. Pen's toggle is grid | list. */
+  .grid[data-view="list"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .grid[data-view="list"] :global(.card) {
+    flex-direction: row;
+  }
+
+  .empty :global(p) {
+    margin: 0;
+    color: var(--a-muted);
+    font-size: 13px;
+  }
+  .empty-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-faint);
+  }
+
+  @media (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .inner {
+      padding: 20px 16px;
+    }
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Topic chips + search + view toggle. All client-side: this is a static
+   * build, so there is no server to ask. The grid holds every card; filtering
+   * hides them by setting `hidden`.
+   */
+  const grid = document.querySelector<HTMLElement>("[data-grid]");
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter-chip]"));
+  const search = document.querySelector<HTMLInputElement>('input[name="q"]');
+  const note = document.querySelector<HTMLElement>("[data-empty]");
+  const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view]"));
+
+  let topic = "all";
+  let term = "";
+
+  const apply = () => {
+    if (!grid) return;
+    let shown = 0;
+    for (const item of Array.from(grid.children) as HTMLElement[]) {
+      const matchesTopic = topic === "all" || item.dataset.topic === topic;
+      const matchesTerm = !term || (item.dataset.search ?? "").includes(term);
+      const visible = matchesTopic && matchesTerm;
+      item.hidden = !visible;
+      if (visible) shown++;
+    }
+    if (note) note.hidden = shown > 0;
+  };
+
+  for (const chip of chips) {
+    chip.addEventListener("click", () => {
+      topic = chip.dataset.filterChip ?? "all";
+      for (const other of chips) other.setAttribute("aria-pressed", String(other === chip));
+      apply();
+    });
+  }
+
+  search?.addEventListener("input", () => {
+    term = search.value.trim().toLowerCase();
+    apply();
+  });
+
+  for (const button of viewButtons) {
+    button.addEventListener("click", () => {
+      const view = button.dataset.view ?? "grid";
+      grid?.setAttribute("data-view", view);
+      for (const other of viewButtons) other.setAttribute("aria-pressed", String(other === button));
+    });
+  }
+</script>

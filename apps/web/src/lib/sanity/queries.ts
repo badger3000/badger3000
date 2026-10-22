@@ -40,7 +40,7 @@ const IMAGE = `{
   "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }
 }`;
 
-/** Browse — Projects (pen uXl4B) + ProjectCard (pen FE7oC). */
+/** Browse — Projects (pen uXl4B) + ProjectCard (pen FE7oC / screen card Hkm7Q). */
 export const projectsQuery = groq`*[_type == "projects" && defined(slug.current)] | order(order asc, title asc) {
   "id": _id,
   title,
@@ -53,7 +53,16 @@ export const projectsQuery = groq`*[_type == "projects" && defined(slug.current)
   "tech": tech[],
   "webUrl": web_url,
   cardLayout,
-  order
+  order,
+  // The pen binds "project.excerpt" but the schema declares no such field. The
+  // live documents carry a project_description (portable text) field instead,
+  // so the first block's text is the excerpt. Add a real excerpt field to the
+  // schema and this can go back to coalescing.
+  "excerpt": project_description[0].children[0].text,
+  "createdAt": _createdAt,
+  // project_image exists on every document but the pen's card is a gradient;
+  // kept out of the projection until the pen allows a cover image.
+  "coverImage": null
 }`;
 
 /** Browse — Articles (pen Wmn35). */
@@ -180,6 +189,25 @@ export const getExperience = () => getClient().fetch<ExperienceEntry[]>(experien
 export const getEducation = () => getClient().fetch<EducationEntry[]>(educationQuery);
 export const getTopics = () => getClient().fetch<Topic[]>(topicsQuery);
 export const getSettings = () => getClient().fetch<SiteSettings | null>(settingsQuery);
+
+/**
+ * One round trip for the sidebar counts, keyed by the nav ids. Returns 0 for a
+ * type that does not exist yet rather than being omitted, so the nav never
+ * flickers between counts and blanks.
+ */
+export const countsQuery = groq`{
+  "projects": count(*[_type == "projects"]),
+  "articles": count(*[_type == "articles"]),
+  "experiments": count(*[_type == "codepen"]),
+  "experience": count(*[_type == "experience"]),
+  "education": count(*[_type == "education"]),
+  "skills": count(*[_type == "skillCategory"]),
+  "testimonials": count(*[_type == "testimonial"]),
+  "bookmarks": count(*[_type == "bookmark"]),
+  "golf": count(*[_type == "golfScores"])
+}`;
+
+export const getCounts = () => getClient().fetch<Record<string, number>>(countsQuery);
 
 /** name → query string, for linting, parsing and diffing the projections. */
 export const queries = {

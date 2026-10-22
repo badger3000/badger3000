@@ -85,9 +85,15 @@ provides.
 
 | phase | adds |
 | --- | --- |
-| 2 | the remaining 19 component masters + mobile drawer/tab bar |
+| 2 | the remaining component masters + mobile drawer/tab bar |
 | 3 | Sanity client/GROQ + `/`, `/articles`, `/codepen`, `/experience`, `/bookmarks`, browse grids |
 | 4 | `/api/chat` intent router + retrieval + the conversation UI |
 | 5 | Cloudflare adapter, sitemap/RSS, contact endpoint, Sanity Studio |
 | 6 | Turborepo monorepo ([runbook](../../docs/runbooks/turborepo-migration.md)) |
 | 7 | cutover: this app replaces the Next app at the root |
+
+**Done so far:** the whole foundation (phase 1), the Sanity content layer, and the
+first vertical slice — `AppShell` + `Sidebar`/`TopBar`/`Footer`, and `ProjectCard`,
+`Tag`, `CountBadge`, `FilterChip`, `Card`, `Input`, `PageHeader` rendering
+`/projects` from live Sanity data. The next browse views reuse that shell and the
+same projections.

@@ -1,0 +1,61 @@
+---
+/**
+ * Footer — pen frame `A0w4T`.
+ * context: footer
+ */
+import type { SiteSettings } from "../lib/sanity/types.ts";
+
+interface Props {
+  year?: number;
+  links?: SiteSettings["links"];
+}
+
+const { year = new Date().getFullYear(), links = [] } = Astro.props;
+---
+
+<footer class="footer">
+  <span class="copy">© {year} Kyle Ross</span>
+  <nav class="socials" aria-label="Elsewhere">
+    {
+      links.map((link) => (
+        <a href={link.webUrl ?? "#"} target="_blank" rel="me noopener">
+          {link.siteName}
+        </a>
+      ))
+    }
+    <a href="mailto:hello@badger3000.com">Email</a>
+  </nav>
+</footer>
+
+<style>
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 22px;
+    border-top: 1px solid var(--a-line);
+    font-size: 12px;
+    color: var(--a-faint);
+  }
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+  }
+  .socials a {
+    color: var(--a-muted);
+    text-decoration: none;
+  }
+  .socials a:hover {
+    color: var(--a-accent);
+  }
+
+  @media (max-width: 720px) {
+    .footer {
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+</style>

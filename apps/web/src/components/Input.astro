@@ -1,0 +1,64 @@
+---
+/**
+ * Input — pen master `WIcVr`.
+ * context: input · Input — props: icon?, placeholder, value
+ *
+ * The pen draws it as a frame with an icon and placeholder text; here it is a
+ * real `<input>` with the same shell, so the search actually works.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  name?: string;
+  placeholder?: string;
+  icon?: string;
+  value?: string;
+  label: string;
+  width?: number | string;
+  class?: string;
+}
+
+const { name = "q", placeholder = "Search…", icon = "search", value, label, width = 240, class: className } =
+  Astro.props;
+---
+
+<label class:list={["input", className]} style={`width:${typeof width === "number" ? `${width}px` : width}`}>
+  <Icon name={icon} size={15} class="ico" />
+  <input type="search" name={name} placeholder={placeholder} value={value} aria-label={label} />
+  <slot name="trailing" />
+</label>
+
+<style>
+  .input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 10px;
+    background: var(--a-surface);
+  }
+  .input :global(.ico) {
+    flex: none;
+    color: var(--a-faint);
+  }
+  .input input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+  }
+  .input input::placeholder {
+    color: var(--a-faint);
+  }
+  .input input:focus {
+    outline: none;
+  }
+  .input:focus-within {
+    border-color: var(--a-accent);
+  }
+</style>

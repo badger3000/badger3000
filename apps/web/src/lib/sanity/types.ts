@@ -28,6 +28,14 @@ export interface Project {
   webUrl: string | null;
   cardLayout: CardLayout | null;
   order: number | null;
+  /**
+   * pen: `Desc ← project.excerpt`. No such schema field exists; the projection
+   * flattens `project_description` (portable text) to the first block's text.
+   * Null when a project has no description.
+   */
+  excerpt: string | null;
+  /** Document creation time — the card's year badge has no binding of its own. */
+  createdAt: string | null;
 }
 
 /** `articles` and `codepen` — the browse views and the home card grid. */

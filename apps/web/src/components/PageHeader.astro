@@ -1,0 +1,86 @@
+---
+/**
+ * PageHeader — pen master `a1JCtb`.
+ * context: header · PageHeader — props: title, count, filters[]
+ *
+ * Title in the display serif with the CountBadge beside it, a muted subtitle,
+ * and an actions slot on the right. The pen puts the filter row inside this
+ * master, but the browse screens draw it as a sibling (with the sort control on
+ * the far right) — so the filters live in the page, not here.
+ */
+import CountBadge from "./CountBadge.astro";
+
+interface Props {
+  title: string;
+  count?: number;
+  /** Singular form for the count's accessible label. */
+  countLabel?: string;
+  sub?: string;
+}
+
+const { title, count, countLabel, sub } = Astro.props;
+---
+
+<header class="pagehead">
+  <div class="left">
+    <div class="titlerow">
+      <h1>{title}</h1>
+      {count !== undefined && <CountBadge count={count} label={`${count} ${countLabel ?? title.toLowerCase()}`} />}
+    </div>
+    {sub && <p class="sub">{sub}</p>}
+  </div>
+  <div class="actions">
+    <slot name="actions" />
+  </div>
+</header>
+
+<style>
+  .pagehead {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .titlerow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--af-display);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--a-ink);
+  }
+  .sub {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--a-muted);
+  }
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 720px) {
+    .pagehead {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    h1 {
+      font-size: 27px;
+    }
+    .actions {
+      flex-wrap: wrap;
+    }
+  }
+</style>

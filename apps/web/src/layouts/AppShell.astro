@@ -1,0 +1,58 @@
+---
+/**
+ * AppShell — pen frame `l7yp4` / `TLAnY`.
+ * context: section · page / app shell
+ *   aside · site navigation | main | header | … | footer
+ *
+ * Every page renders inside this: the 264px sidebar, a TopBar, the page body,
+ * and the footer. The mobile drawer and tab bar (pen "Mobile — Menu") come in
+ * with the browse views; below 720px the sidebar simply drops out for now.
+ */
+import Sidebar from "../components/Sidebar.astro";
+import TopBar from "../components/TopBar.astro";
+import Footer from "../components/Footer.astro";
+import type { SiteSettings } from "../lib/sanity/types.ts";
+
+interface Props {
+  /** Sidebar nav id of this page, e.g. "projects". */
+  active?: string;
+  counts?: Record<string, number | undefined>;
+  settings?: SiteSettings | null;
+  resumeHref?: string;
+}
+
+const { active, counts, settings, resumeHref } = Astro.props;
+const profile = settings?.name ? { name: settings.name, location: settings.location ?? "" } : undefined;
+---
+
+<div class="shell">
+  <Sidebar counts={counts} active={active} profile={profile} />
+  <div class="main">
+    <TopBar resumeHref={resumeHref} />
+    <slot />
+    <Footer links={settings?.links} />
+  </div>
+</div>
+
+<style>
+  .shell {
+    display: grid;
+    grid-template-columns: 264px 1fr;
+    min-height: 100dvh;
+  }
+  .main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--a-bg);
+  }
+  .main > :global(main) {
+    flex: 1;
+  }
+
+  @media (max-width: 720px) {
+    .shell {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

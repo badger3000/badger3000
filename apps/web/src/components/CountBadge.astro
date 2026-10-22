@@ -1,0 +1,32 @@
+---
+/**
+ * CountBadge — pen master `e4RkB0`.
+ * context: span · CountBadge — props: count
+ */
+interface Props {
+  count: number;
+  /** Accessible phrasing, e.g. "9 projects". */
+  label?: string;
+  class?: string;
+}
+
+const { count, label, class: className } = Astro.props;
+---
+
+<span class:list={["badge", className]} aria-label={label} role={label ? "img" : undefined}>
+  {count}
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+</style>

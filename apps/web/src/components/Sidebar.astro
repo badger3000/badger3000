@@ -1,0 +1,260 @@
+---
+/**
+ * Sidebar — pen master `pL9CR`.
+ * context: aside · Sidebar — content-type nav
+ *
+ * Counts come from Sanity (`getCounts()`), not from the pen's mock numbers, so
+ * a route with no content yet shows nothing rather than a stale count.
+ */
+import Icon from "./Icon.astro";
+
+export interface NavEntry {
+  id: string;
+  label: string;
+  icon: string;
+  href: string;
+}
+
+const nav: NavEntry[] = [
+  { id: "projects", label: "Projects", icon: "folder-git-2", href: "/projects" },
+  { id: "articles", label: "Articles", icon: "newspaper", href: "/articles" },
+  // lucide dropped brand glyphs; CodePen's box is approximated for now.
+  { id: "experiments", label: "Experiments", icon: "code-xml", href: "/codepen" },
+  { id: "experience", label: "Experience", icon: "briefcase", href: "/experience" },
+  { id: "education", label: "Education", icon: "graduation-cap", href: "/experience#education" },
+  { id: "skills", label: "Skills", icon: "sparkles", href: "/skills" },
+  { id: "testimonials", label: "Testimonials", icon: "quote", href: "/testimonials" },
+  { id: "bookmarks", label: "Bookmarks", icon: "bookmark", href: "/bookmarks" },
+  { id: "golf", label: "Golf scores", icon: "flag", href: "/golf" },
+];
+
+interface Props {
+  /** id → document count, from getCounts(). Missing entries render no count. */
+  counts?: Record<string, number | undefined>;
+  /** Nav id of the current page. */
+  active?: string;
+  profile?: { name: string; location: string };
+}
+
+const { counts = {}, active, profile } = Astro.props;
+---
+
+<aside class="sidebar">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">🦡</span>
+    <span class="brandtext">
+      <strong>Badger3000</strong>
+      <span>Kyle's AI</span>
+    </span>
+    <Icon name="square-pen" size={17} class="dim" />
+  </div>
+
+  <a class="newchat" href="/">
+    <Icon name="plus" size={15} />
+    <span>New conversation</span>
+  </a>
+
+  <span class="grp">Explore</span>
+  <nav class="nav" aria-label="Explore content">
+    {
+      nav.map((item) => (
+        <a class="item" href={item.href} aria-current={item.id === active ? "page" : undefined}>
+          <span class="ico">
+            <Icon name={item.icon} size={16} />
+          </span>
+          <span class="label">{item.label}</span>
+          {counts[item.id] !== undefined && <span class="count">{counts[item.id]}</span>}
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="spacer" />
+
+  {
+    profile && (
+      <div class="profile">
+        <span class="avatar" aria-hidden="true">
+          {profile.name
+            .split(" ")
+            .map((part) => part.charAt(0))
+            .slice(0, 2)
+            .join("")}
+        </span>
+        <span class="ptext">
+          <strong>{profile.name}</strong>
+          {profile.location && <span>{profile.location}</span>}
+        </span>
+        <Icon name="settings" size={15} class="dim" />
+      </div>
+    )
+  }
+</aside>
+
+<style>
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 14px;
+    background: var(--a-sidebar);
+    border-right: 1px solid var(--a-line);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 2px;
+  }
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: var(--a-ink);
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    color: var(--a-surface);
+  }
+  .brandtext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    line-height: 1.25;
+  }
+  .brandtext strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .brandtext span {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--a-faint);
+  }
+  :global(.dim) {
+    color: var(--a-faint);
+  }
+
+  .newchat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 11px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .newchat:hover {
+    border-color: var(--a-accent);
+  }
+
+  .grp {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--a-faint);
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: var(--a-muted);
+    text-decoration: none;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+  .item:hover {
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .item[aria-current="page"] {
+    border-color: var(--a-line);
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .ico {
+    display: grid;
+    place-items: center;
+    color: var(--a-muted);
+  }
+  .item[aria-current="page"] .ico {
+    color: var(--a-accent);
+  }
+  .label {
+    flex: 1;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .item[aria-current="page"] .label {
+    font-weight: 600;
+  }
+  .count {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+
+  .spacer {
+    flex: 1;
+  }
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 8px;
+    border: 1px solid var(--a-line);
+    border-radius: 11px;
+    background: var(--a-surface);
+  }
+  .avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background: var(--a-accent-soft);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--a-accent);
+  }
+  .ptext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .ptext strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .ptext span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--a-faint);
+  }
+
+  @media (max-width: 720px) {
+    .sidebar {
+      display: none;
+    }
+  }
+</style>
