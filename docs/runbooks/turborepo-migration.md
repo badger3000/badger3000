@@ -55,14 +55,9 @@ Root `package.json` (private, no app code):
 }
 ```
 
-## 2. Move the web app → `apps/web`
+## 2. The web app lives at `apps/web`
 
-```bash
-mkdir -p apps
-git mv web apps/web        # the Astro app built during the conversion
-```
-
-Give `apps/web` its own `package.json` (name `web`, Astro deps) if it doesn't have one yet.
+The Astro app is built directly under `apps/web` during the conversion (not `/web`, which is a personal `.gitignore` entry). Ensure it has its own `package.json` (name `web`, Astro deps). Nothing to move if it already started there.
 
 ## 3. Extract shared packages
 
