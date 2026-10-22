@@ -1,5 +1,4 @@
-import React from "react";
-import {PortableText, PortableTextReactComponents} from "@portabletext/react";
+import {PortableTextReactComponents} from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
@@ -143,7 +142,7 @@ const PortableTextComponents: Partial<PortableTextReactComponents> = {
       const safeParseUrl = (url: string) => {
         try {
           return new URL(url);
-        } catch (e) {
+        } catch {
           return null;
         }
       };

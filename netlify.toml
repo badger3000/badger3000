@@ -3,6 +3,11 @@ command = "npm run build"
 publish = ".next"
 
 [build.environment]
+# Active LTS (Krypton) until 2028-04-30. Netlify's default may be an EOL line
+# (Node 20 went EOL 2026-04-30 and no longer gets security patches), so pin
+# explicitly. Matches .nvmrc; `engines.node` is >=22.12 (the floor required by
+# sanity 6 / @sanity/client 8).
+NODE_VERSION = "24"
 NEXT_TELEMETRY_DISABLED = "1"
 NODE_OPTIONS = "--max_old_space_size=1024"
 
@@ -13,8 +18,8 @@ skip_processing = false
 # Configure Netlify Functions
 [functions]
 node_bundler = "esbuild"
-external_node_modules = ["@node-rs/bcrypt", "next"]
-included_files = ["next.config.js", ".env.local"]
+external_node_modules = ["next"]
+included_files = ["next.config.mjs", ".env.local"]
 
 # Set functions timeout appropriately
 [functions.api-sitemap]
