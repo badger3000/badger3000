@@ -118,7 +118,9 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
 
   @media (max-width: 720px) {
     .shell {
-      grid-template-columns: 1fr;
+      /* `1fr` alone is `minmax(auto, 1fr)`: the column would grow to the widest
+         min-content inside it and push the page sideways. */
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>
@@ -156,15 +158,56 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
     const body = scroller();
     if (body) write({ ...read(), [positionOf()]: body.scrollTop });
   };
-  const restore = () => {
-    const body = scroller();
-    // A page visited for the first time starts at the top; back/forward returns
-    // to where that page was left.
-    if (body) body.scrollTop = read()[positionOf()] ?? 0;
+  /** The element `location.hash` names, if it is inside the scroll container. */
+  const hashTarget = (body: HTMLElement) => {
+    if (location.hash.length < 2) return null;
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    return target && body.contains(target) ? target : null;
   };
 
-  restore();
+  const restore = () => {
+    const body = scroller();
+    if (!body) return;
+    // A link to an anchor wins over any saved position (hard and soft loads):
+    // nothing else scrolls `.body` to it, since the window never scrolls.
+    const target = hashTarget(body);
+    if (target) {
+      target.scrollIntoView({ block: "start" });
+      return;
+    }
+    // A page visited for the first time starts at the top; back/forward returns
+    // to where that page was left.
+    body.scrollTop = read()[positionOf()] ?? 0;
+  };
+
+  /**
+   * "Education" is `/experience#education`, so the server can only mark
+   * Experience as current. Move `aria-current` to it when the hash says so.
+   */
+  const markHash = () => {
+    const onExperience = location.pathname.replace(/\/$/, "") === "/experience";
+    const education = onExperience && location.hash === "#education";
+    const links = document.querySelectorAll<HTMLAnchorElement>(
+      'nav a[href="/experience"], nav a[href="/experience#education"]',
+    );
+    for (const link of links) {
+      const current = link.getAttribute("href") === "/experience" ? onExperience && !education : education;
+      if (current) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    }
+  };
+
   document.addEventListener("astro:before-preparation", save);
-  document.addEventListener("astro:page-load", restore);
+  document.addEventListener("astro:page-load", () => {
+    restore();
+    markHash();
+  });
+  // A same-page hash link is handled by the router with `pushState`, which
+  // fires neither `astro:page-load` nor `hashchange`; check again once it ran.
+  document.addEventListener("click", (event) => {
+    if ((event.target as Element).closest('nav a[href^="/experience"]')) setTimeout(markHash);
+  });
+  addEventListener("popstate", markHash);
+  addEventListener("hashchange", markHash);
   addEventListener("pagehide", save);
 </script>
