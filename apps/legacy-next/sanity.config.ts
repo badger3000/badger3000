@@ -2,7 +2,7 @@
 import {defineConfig} from "sanity";
 import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
-import {schemaTypes} from "./schemas";
+import {schemaTypes} from "@badger3000/sanity/schema";
 import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
 
 // One env name set for both stacks; see docs/adr/0010-public-env-prefix.md.

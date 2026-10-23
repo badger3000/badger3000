@@ -2,7 +2,18 @@
   "name": "@badger3000/sanity",
   "private": true,
   "type": "module",
+  "exports": {
+    "./schema": "./src/schema/index.js"
+  },
   "dependencies": {
     "@sanity/client": "^8.10.1"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "sanity": "^6"
+  },
+  "devDependencies": {
+    "react": "19.3.1",
+    "sanity": "^6.20.0"
   }
 }
