@@ -1,7 +1,36 @@
 /**
- * Content shapes returned by the GROQ in ./queries.ts.
- * These mirror `schemas/parts/*.js` in the repo root, not the pen — where the
- * two disagree the schema wins and the `.pen` binding gets corrected.
+ * Content shapes returned by the GROQ in @badger3000/sanity.
+ *
+ * Generated: `sanity typegen` writes packages/sanity/src/sanity.types.ts from
+ * the schema, and the aliases below re-export its results under the names the
+ * components use. A field the schema does not mark required is `| null`. Where
+ * the schema and the pen disagree the schema wins and the `.pen` binding gets
+ * corrected.
+ */
+import type {
+  BookmarksQueryResult,
+  EducationQueryResult,
+  ExperienceQueryResult,
+  ExperimentsQueryResult,
+  SkillsQueryResult,
+  TestimonialsQueryResult,
+} from "@badger3000/sanity/types";
+
+export type CardLayout = "large" | "small" | "wide" | "tall" | string;
+
+export type Experiment = ExperimentsQueryResult[number];
+export type Skill = NonNullable<SkillsQueryResult[number]["skills"]>[number];
+export type Testimonial = TestimonialsQueryResult[number];
+export type Bookmark = BookmarksQueryResult[number];
+export type ExperienceEntry = ExperienceQueryResult[number];
+export type EducationEntry = EducationQueryResult[number];
+
+/*
+ * Hand-written until their call sites handle the generated nullability
+ * (`field ?? undefined`): typegen says `| null` for Project.title/tech,
+ * Article.title, SkillCategory.skills, GolfScore.course/date/score,
+ * Topic.title and SiteSettings.links, where these say non-null. Live data has
+ * no such nulls today. Each becomes `XQueryResult[number]` like the ones above.
  */
 
 export interface SanityImage {
@@ -12,8 +41,6 @@ export interface SanityImage {
     metadata?: { dimensions?: { width: number; height: number; aspectRatio: number } };
   };
 }
-
-export type CardLayout = "large" | "small" | "wide" | "tall" | string;
 
 /** `projects` — ProjectCard's slots (pen FE7oC). */
 export interface Project {
@@ -38,7 +65,7 @@ export interface Project {
   createdAt: string | null;
 }
 
-/** `articles` and `codepen` — the browse views and the home card grid. */
+/** `articles` — the browse view and the home card grid. */
 export interface Article {
   id: string;
   title: string;
@@ -49,48 +76,10 @@ export interface Article {
   publishedAt: string;
 }
 
-export interface Experiment {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  topic: string | null;
-  penUrl: string | null;
-  /** Document creation — the only date the schema has. */
-  createdAt: string | null;
-  cardLayout: CardLayout | null;
-}
-
-export interface Skill {
-  name: string;
-  badgeType: string | null;
-  badgeLabel: string | null;
-  /** CSS-ready, `#`-prefixed — the projection normalises the stored bare hex. */
-  badgeColor: string | null;
-}
-
 export interface SkillCategory {
   name: string;
   order: number | null;
   skills: Skill[];
-}
-
-export interface Testimonial {
-  name: string;
-  role: string | null;
-  company: string | null;
-  profileUrl: string | null;
-  photo: SanityImage | null;
-  content: string | null;
-  order: number | null;
-  featured: boolean | null;
-}
-
-export interface Bookmark {
-  id: string;
-  title: string;
-  url: string;
-  folder: string | null;
 }
 
 /** pen: `tr · GolfRow ← golfScore{course,date,score}` */
@@ -98,30 +87,6 @@ export interface GolfScore {
   course: string;
   date: string;
   score: number;
-}
-
-export interface ExperienceEntry {
-  title: string;
-  company: string | null;
-  companyUrl: string | null;
-  location: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  logo: SanityImage | null;
-  order: number | null;
-}
-
-export interface EducationEntry {
-  degree: string;
-  institution: string | null;
-  institutionUrl: string | null;
-  location: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  logo: SanityImage | null;
-  order: number | null;
 }
 
 export interface Topic {

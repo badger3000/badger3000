@@ -1,4 +1,5 @@
 export {
+  sanity,
   getClient,
   isConfigured,
   projectId,
@@ -18,6 +19,6 @@ export {
   getSettings,
   getCounts,
 } from "./client.ts";
-export { imageUrl } from "./factory.ts";
+export { imageUrl, API_VERSION } from "@badger3000/sanity";
 export * from "./queries.ts";
 export type * from "./types.ts";

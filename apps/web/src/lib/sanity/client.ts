@@ -1,4 +1,5 @@
 import type { SanityClient } from "@sanity/client";
+import { createSanity, type Sanity } from "@badger3000/sanity";
 import {
   PUBLIC_SANITY_API_VERSION,
   PUBLIC_SANITY_DATASET,
@@ -6,17 +7,18 @@ import {
   PUBLIC_SANITY_USE_CDN,
 } from "astro:env/client";
 import { SANITY_ALLOW_EMPTY, SANITY_API_TOKEN, SANITY_PREVIEW } from "astro:env/server";
-import { MISSING, createSanityClient, isComplete } from "./factory.ts";
+import { MISSING, isComplete } from "./config.ts";
 import { createQuerySet } from "./queries.ts";
 
 /**
- * Sanity client for the Astro app: ./factory.ts wired from `astro:env`, so the
- * schema in astro.config.mjs actually applies. Astro-only — plain-node scripts
- * build their own client from `process.env` with the same factory.
+ * Sanity client for the Astro app: `createSanity` from @badger3000/sanity
+ * wired from `astro:env`, so the schema in astro.config.mjs actually applies.
+ * Astro-only — plain-node scripts build their own from `process.env` with the
+ * same factory.
  *
  * `SANITY_API_TOKEN` is `access: "secret"`: on the Worker it is read per
  * isolate at runtime (`wrangler secret put`), never inlined into the bundle.
- * That only holds while it is read inside `getClient()`, not at module scope.
+ * That only holds while it is read inside `sanity()`, not at module scope.
  *
  * Queries live in ./queries.ts, types in ./types.ts.
  */
@@ -27,11 +29,15 @@ export const apiVersion = PUBLIC_SANITY_API_VERSION;
 
 export const isConfigured = isComplete({ projectId, dataset });
 
-let client: SanityClient | undefined;
+let instance: Sanity | undefined;
 
-/** Lazily created so importing this module never breaks a credential-less build. */
-export function getClient(): SanityClient {
-  return (client ??= createSanityClient({
+/**
+ * One instance per isolate, created on first use so importing this module never
+ * breaks a credential-less build. Throws `MISSING` when unconfigured.
+ */
+export function sanity(): Sanity {
+  if (!projectId || !dataset) throw new Error(MISSING);
+  return (instance ??= createSanity({
     projectId,
     dataset,
     apiVersion,
@@ -41,6 +47,8 @@ export function getClient(): SanityClient {
     useCdn: PUBLIC_SANITY_USE_CDN,
   }));
 }
+
+export const getClient = (): SanityClient => sanity().client;
 
 /**
  * `SANITY_ALLOW_EMPTY=1` lets a build with no credentials (CI) render every page
