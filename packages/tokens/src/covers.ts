@@ -8,16 +8,14 @@
  *
  * The pairs are lifted verbatim from the cards in the pen and picked per item by
  * a hash of its id, so a page shows the same variety of colours the design does
- * without anyone hand-assigning them.
+ * without anyone hand-assigning them. The colours themselves live once, in
+ * tokens.css (`--p-cover-N-from/-to`, `--p-tint-N`); this only picks which.
  */
-const PAIRS: [string, string][] = [
-  ["#f6c6ad", "#e4572e"], // coral  — ProjectCard FE7oC
-  ["#e7d4f5", "#7c3aed"], // violet — Browse — Articles
-  ["#bfe0d0", "#3bbe7a"], // green
-  ["#bce9ea", "#36c3d6"], // cyan
-  ["#fbe3b3", "#f59e0b"], // amber
-  ["#cbd9f2", "#5b7cc2"], // blue   — Browse — Articles secondary
-];
+
+/** How many `--p-cover-N-*` pairs tokens.css defines (1-based). */
+export const COVER_COUNT = 6;
+/** How many `--p-tint-N` colours tokens.css defines (1-based). */
+export const TINT_COUNT = 8;
 
 const hash = (seed: string): number => {
   let value = 0;
@@ -27,13 +25,11 @@ const hash = (seed: string): number => {
 
 /** A CSS gradient for any id: same id, same colours, on every build. */
 export function gradientFor(seed: string): string {
-  const [from, to] = PAIRS[hash(seed) % PAIRS.length];
-  return `linear-gradient(220deg, ${from} 0%, ${to} 100%)`;
+  const n = (hash(seed) % COVER_COUNT) + 1;
+  return `linear-gradient(220deg, var(--p-cover-${n}-from) 0%, var(--p-cover-${n}-to) 100%)`;
 }
 
 /** Monogram colours for avatars and favicons, from the same placeholder idea. */
-const TINTS = ["#e4572e", "#5b7cc2", "#3bbe7a", "#f59e0b", "#6366f1", "#36c3d6", "#ec4899", "#7c3aed"];
-
 export function tintFor(seed: string): string {
-  return TINTS[hash(seed) % TINTS.length];
+  return `var(--p-tint-${(hash(seed) % TINT_COUNT) + 1})`;
 }

@@ -15,6 +15,7 @@ import AskBadger from "../components/AskBadger.astro";
 import FilterBar from "../components/FilterBar.astro";
 import ContentCard from "../components/ContentCard.astro";
 import Tag from "../components/Tag.astro";
+import { gradientFor } from "@badger3000/tokens/covers";
 import { getArticles, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [articles, topics, counts, settings] = await Promise.all([
@@ -52,7 +53,7 @@ const index = (a: (typeof articles)[number]) =>
     {
       featured && (
         <section class="featured" aria-label="Featured article">
-          <a class="feature" href={`/articles/${featured.slug}`}>
+          <a class="feature" href={`/articles/${featured.slug}`} style={`background:${gradientFor(featured.id)}`}>
             <span class="fbody">
               <span class="kicker">Featured</span>
               <span class="ftitle">{featured.title}</span>
@@ -110,7 +111,6 @@ const index = (a: (typeof articles)[number]) =>
     min-height: 300px;
     padding: 24px;
     border-radius: 16px;
-    background: linear-gradient(220deg, #f6c6ad 0%, #e4572e 100%);
     color: var(--a-on-cover);
     text-decoration: none;
   }

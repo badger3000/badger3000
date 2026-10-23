@@ -36,6 +36,31 @@
   --p-green: #3bbe7a;
   --p-slate: #2b2f36;
   --p-scrim: #0c0c0a;
+  /*
+   * Cover gradients and monogram tints, the pen's per-card placeholders.
+   * src/covers.ts picks one by hashing an id; COVER_COUNT / TINT_COUNT there
+   * must match the numbering here.
+   */
+  --p-cover-1-from: #f6c6ad; /* coral  — ProjectCard FE7oC */
+  --p-cover-1-to: #e4572e;
+  --p-cover-2-from: #e7d4f5; /* violet — Browse — Articles */
+  --p-cover-2-to: #7c3aed;
+  --p-cover-3-from: #bfe0d0; /* green */
+  --p-cover-3-to: #3bbe7a;
+  --p-cover-4-from: #bce9ea; /* cyan */
+  --p-cover-4-to: #36c3d6;
+  --p-cover-5-from: #fbe3b3; /* amber */
+  --p-cover-5-to: #f59e0b;
+  --p-cover-6-from: #cbd9f2; /* blue   — Browse — Articles secondary */
+  --p-cover-6-to: #5b7cc2;
+  --p-tint-1: #e4572e;
+  --p-tint-2: #5b7cc2;
+  --p-tint-3: #3bbe7a;
+  --p-tint-4: #f59e0b;
+  --p-tint-5: #6366f1;
+  --p-tint-6: #36c3d6;
+  --p-tint-7: #ec4899;
+  --p-tint-8: #7c3aed;
   /* code-block primitives (the pen's article code block, C2I66) */
   --p-code-900: #1a1a22;
   --p-code-800: #26262c;

@@ -28,6 +28,7 @@
  */
 import Icon from "./Icon.astro";
 import Tag from "./Tag.astro";
+import { gradientFor } from "@badger3000/tokens/covers";
 import type { Project } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -62,7 +63,7 @@ const cardYear = year ?? (project.createdAt ? new Date(project.createdAt).getFul
 ---
 
 <article class="card">
-  <div class="pv">
+  <div class="pv" style={`background:${gradientFor(project.id)}`}>
     <span class="mono" aria-hidden="true">{monogram}</span>
     {cardYear && <span class="yb">{cardYear}</span>}
   </div>
@@ -117,11 +118,10 @@ const cardYear = year ?? (project.createdAt ? new Date(project.createdAt).getFul
     background: var(--a-surface);
   }
 
-  /* pv — pen cover gradient, 220deg */
+  /* pv — pen cover gradient, 220deg, one pair per project (`gradientFor`) */
   .pv {
     position: relative;
     height: 96px;
-    background: linear-gradient(220deg, #f6c6ad 0%, #e4572e 100%);
   }
   .mono {
     position: absolute;
