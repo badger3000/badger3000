@@ -1,0 +1,67 @@
+---
+/**
+ * SelfHostedVideo — the blockContent `selfHostedVideo` type: a Sanity file as
+ * `<video>`, with the author's autoplay/loop/muted/controls switches.
+ *
+ * Lazy: nothing downloads until it plays (`preload="none"`) unless the author
+ * asked for autoplay, which needs the data anyway. Autoplay always plays
+ * inline; browsers only allow it muted, which is the author's call.
+ */
+import type { TypedObjectProps } from "astro-portabletext/types";
+import { cdnUrl } from "./media.ts";
+
+type Props = TypedObjectProps;
+
+const node = Astro.props.node as unknown as {
+  title?: string;
+  autoPlay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  controls?: boolean;
+  videoFile?: { asset?: { url?: string; mimeType?: string } | null } | null;
+  poster?: { asset?: { url?: string } | null } | null;
+};
+const src = node.videoFile?.asset?.url;
+const poster = cdnUrl(node.poster?.asset?.url, 1440);
+---
+
+{
+  src && (
+    <figure class="video">
+      <video
+        poster={poster}
+        controls={node.controls ?? true}
+        autoplay={node.autoPlay || undefined}
+        loop={node.loop || undefined}
+        muted={node.muted || undefined}
+        playsinline
+        preload={node.autoPlay ? "auto" : "none"}
+        aria-label={node.title || undefined}
+      >
+        <source src={src} type={node.videoFile?.asset?.mimeType ?? undefined} />
+      </video>
+      {node.title && <figcaption>{node.title}</figcaption>}
+    </figure>
+  )
+}
+
+<style>
+  .video {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0.4em 0;
+  }
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: var(--a-cover-window);
+  }
+  figcaption {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--a-subtle);
+  }
+</style>

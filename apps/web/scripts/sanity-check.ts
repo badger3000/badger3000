@@ -17,7 +17,7 @@
  */
 import { parse } from "groq-js";
 import { createSanity, type Sanity } from "@badger3000/sanity";
-import { queries } from "@badger3000/sanity/queries";
+import { detailSampleSlugs, queries } from "@badger3000/sanity/queries";
 import { isComplete } from "../src/lib/sanity/config.ts";
 
 // This app has no @types/node (nothing else needs it), so type the slice of
@@ -56,8 +56,16 @@ const config = {
 const { projectId, dataset } = config;
 const isConfigured = isComplete(config);
 let sanity: Sanity | undefined;
-const fetchQuery = (query: string) =>
-  (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query);
+const fetchQuery = (query: string, params: Record<string, unknown> = {}) =>
+  (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query, params);
+
+/** The detail queries take a `$slug`: use the first one their slug list returns. */
+const paramsFor = async (name: string): Promise<Record<string, unknown>> => {
+  const slugs = detailSampleSlugs[name as keyof typeof detailSampleSlugs];
+  if (!slugs) return {};
+  const [slug] = (await fetchQuery(slugs)) as string[];
+  return { slug: slug ?? "" };
+};
 
 type QueryName = keyof typeof queries;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };
@@ -107,7 +115,7 @@ if (!parseOnly && failures.length === 0) {
   for (const name of names) {
     const started = Date.now();
     try {
-      const rows = await fetchQuery(queries[name]);
+      const rows = await fetchQuery(queries[name], await paramsFor(name));
       // A bare count (`count(*[…])`) reports its value; anything else its rows.
       const count = typeof rows === "number" ? rows : Array.isArray(rows) ? rows.length : rows ? 1 : 0;
       report[name] = { ok: true, parsed: true, count, ms: Date.now() - started };

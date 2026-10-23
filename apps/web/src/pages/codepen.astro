@@ -51,7 +51,7 @@ const chips = topics
           <li data-item data-search={[pen.title, pen.topic ?? "", pen.excerpt ?? ""].join(" ").toLowerCase()}>
             <ContentCard
               seed={pen.id}
-              href={pen.penUrl ?? `/codepen/${pen.slug}`}
+              href={`/codepen/${pen.slug}`}
               title={pen.title}
               excerpt={pen.excerpt ?? undefined}
               topic={pen.topic ?? undefined}

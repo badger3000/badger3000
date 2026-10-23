@@ -1,0 +1,54 @@
+---
+/**
+ * Mark — the blockContent decorators: strong, em, code, underline, highlight.
+ * Links are annotations and have their own component (Link.astro).
+ */
+import type { MarkProps } from "astro-portabletext/types";
+
+type Props = MarkProps;
+
+const { node } = Astro.props;
+const type = node.markType;
+---
+
+{
+  type === "strong" ? (
+    <strong><slot /></strong>
+  ) : type === "em" ? (
+    <em><slot /></em>
+  ) : type === "code" ? (
+    <code class="code"><slot /></code>
+  ) : type === "underline" ? (
+    <span class="underline"><slot /></span>
+  ) : type === "highlight" ? (
+    <mark class="highlight"><slot /></mark>
+  ) : (
+    <slot />
+  )
+}
+
+<style>
+  strong {
+    font-weight: 600;
+  }
+  .code {
+    padding: 1px 5px;
+    border: 1px solid var(--a-line);
+    border-radius: 5px;
+    background: var(--a-surface);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 0.86em;
+    overflow-wrap: anywhere;
+  }
+  .underline {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .highlight {
+    padding: 0 3px;
+    border-radius: 3px;
+    background: var(--a-accent-soft);
+    color: inherit;
+  }
+</style>
