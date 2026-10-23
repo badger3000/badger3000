@@ -3,7 +3,7 @@
  * SuggestionChip — pen master `TPq9Z`.
  * context: button · SuggestionChip — props: icon, label, prompt
  *
- *   `$a-surface` · radius 20 · gap 7 · padding [8, 13]
+ *   `$a-surface` · stroke `$a-line-2` · radius 20 · gap 7 · padding [8, 13]
  *   Icon 14 `$a-accent` · Label 13/500 `$a-ink`
  *
  * `prompt` is the question the chip asks. A chip does not navigate or send:
@@ -34,7 +34,7 @@ const { label, prompt, icon = "sparkle", class: className } = Astro.props;
     align-items: center;
     gap: 7px;
     padding: 8px 13px;
-    border: 1px solid transparent;
+    border: 1px solid var(--a-line-2);
     border-radius: 20px;
     background: var(--a-surface);
     color: var(--a-ink);

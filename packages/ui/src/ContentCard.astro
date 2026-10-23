@@ -15,13 +15,14 @@ import Tag from "./Tag.astro";
 import { gradientFor } from "@badger3000/tokens/covers";
 
 interface Props {
-  id: string;
+  /** Picks the cover gradient, usually the document id. */
+  seed: string;
   href: string;
   title: string;
-  excerpt?: string | null;
-  topic?: string | null;
+  excerpt?: string;
+  topic?: string;
   /** Date line, e.g. "Feb 2025 · 8 min". */
-  meta?: string | null;
+  meta?: string;
   /** Cover height: 116 for articles, 132 for experiments. */
   coverHeight?: number;
   titleSize?: number;
@@ -29,12 +30,12 @@ interface Props {
   cover?: "gradient" | "window";
 }
 
-const { id, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15.5, cover = "gradient" } =
+const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15.5, cover = "gradient" } =
   Astro.props;
 ---
 
 <article class="card">
-  <div class="cover" style={`height:${coverHeight}px;${cover === "gradient" ? `background:${gradientFor(id)}` : ""}`}>
+  <div class="cover" style={`height:${coverHeight}px;${cover === "gradient" ? `background:${gradientFor(seed)}` : ""}`}>
     {
       cover === "window" && (
         <div class="window" aria-hidden="true">

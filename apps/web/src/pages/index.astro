@@ -17,7 +17,7 @@
 import Base from "../layouts/Base.astro";
 import AppShell from "../layouts/AppShell.astro";
 import Composer from "../components/Composer.astro";
-import SuggestionChip from "../components/SuggestionChip.astro";
+import { Avatar, SuggestionChip } from "@badger3000/ui";
 import MessageBubble from "../components/MessageBubble.astro";
 import AgentMessage from "../components/AgentMessage.astro";
 import ChatCard from "../components/ChatCard.astro";
@@ -38,7 +38,7 @@ const chips = [
     <main class="hero" id="main" data-chat-root>
       <section class="thread" aria-label="Conversation" aria-live="polite" data-chat-log></section>
 
-      <span class="hero-avatar" aria-hidden="true">🦡</span>
+      <Avatar size={76} mobileSize={66} class="hero-avatar" />
 
       <div class="greet">
         <h1>Hey — I'm Badger3000.</h1>
@@ -81,9 +81,9 @@ const chips = [
     display: flex;
     flex: 1;
   }
-  :global([data-has-thread="true"]) .hero-avatar,
   :global([data-has-thread="true"]) .greet,
-  :global([data-has-thread="true"]) .chips {
+  :global([data-has-thread="true"]) .chips,
+  .hero[data-has-thread="true"] :global(.hero-avatar) {
     display: none;
   }
   :global(.chat-tag) {
@@ -107,17 +107,8 @@ const chips = [
     padding: 20px 40px;
     text-align: center;
   }
-  .hero-avatar {
+  .hero :global(.hero-avatar) {
     order: 1;
-    display: grid;
-    place-items: center;
-    width: 76px;
-    height: 76px;
-    border-radius: 22px;
-    background: var(--a-ink);
-    font-family: Inter, sans-serif;
-    font-size: 38px;
-    color: var(--a-surface);
   }
   .greet {
     order: 2;
@@ -168,12 +159,6 @@ const chips = [
     .thread {
       gap: 18px;
     }
-    .hero-avatar {
-      width: 66px;
-      height: 66px;
-      border-radius: 19px;
-      font-size: 28px;
-    }
     .greet h1 {
       font-size: 30px;
     }
@@ -193,7 +178,7 @@ const chips = [
          justifyContent center inside the space left by as8tT). */
       margin-bottom: auto;
     }
-    .hero-avatar {
+    .hero :global(.hero-avatar) {
       margin-top: auto;
     }
     .dock {

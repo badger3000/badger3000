@@ -1,0 +1,130 @@
+---
+/**
+ * Button — ported from the pen component `CTvHL`.
+ * context: button · Button — props: variant(primary|secondary|ghost), icon?, label, href?
+ *
+ *   md   padding [11, 18] · radius 11 · gap 8 · 14/600 · icon 16
+ *   sm   padding [7, 12] · 12.5/500 · icon 14 `$a-muted` (TopBar Résumé `vqw23`)
+ *
+ * `soft` is the pen's Ask Badger override (`YKe19`, and the local `ask` frames
+ * on every browse screen): `$a-accent-soft` fill, `$a-accent` label 13/600,
+ * padding [9, 13], radius 10, gap 7, icon 15. It keeps those metrics at either
+ * size, since that pill only comes in one.
+ *
+ * The icon goes in the `icon` slot (an `<Icon>`), so the glyph stays the
+ * caller's choice and the size here only sets its box.
+ */
+interface Props {
+  variant?: "primary" | "secondary" | "ghost" | "soft";
+  size?: "md" | "sm";
+  label: string;
+  href?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { variant = "primary", size = "md", label, href, class: className, ...rest } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag class:list={["btn", variant, size, className]} href={href} {...rest}>
+  <slot name="icon" />
+  <span>{label}</span>
+  <slot name="trailing" />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    border-radius: 11px;
+    border: 1px solid transparent;
+    font-family: var(--af-ui);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      filter 0.15s ease,
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .btn :global(svg) {
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+
+  /* sm and soft keep the text's own line box, as the pills they replace did. */
+  .sm {
+    gap: 7px;
+    line-height: normal;
+    padding: 7px 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+  .sm :global(svg) {
+    width: 14px;
+    height: 14px;
+    color: var(--a-muted);
+  }
+
+  .primary {
+    background: var(--a-accent);
+    color: var(--a-on-accent);
+  }
+  .primary:hover {
+    filter: brightness(0.95);
+  }
+
+  .secondary {
+    background: var(--a-surface);
+    border-color: var(--a-line-2);
+    color: var(--a-ink);
+  }
+  .secondary:hover {
+    background: var(--a-bg);
+  }
+  .secondary.sm:hover {
+    background: var(--a-surface);
+    border-color: var(--a-accent);
+    color: var(--a-accent);
+  }
+
+  .ghost {
+    background: transparent;
+    color: var(--a-ink);
+  }
+  .ghost:hover {
+    background: var(--a-surface);
+  }
+
+  .soft {
+    gap: 7px;
+    line-height: normal;
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .soft :global(svg) {
+    width: 15px;
+    height: 15px;
+    color: var(--a-accent);
+  }
+  .soft:hover {
+    filter: brightness(0.97);
+  }
+</style>

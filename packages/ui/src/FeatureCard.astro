@@ -1,0 +1,180 @@
+---
+/**
+ * FeatureCard — pen master `f3kriq`, the card on Browse — Projects (`uXl4B`).
+ * context: article · FeatureCard ← project{title,topic,excerpt,tech[],webUrl,_createdAt}
+ *
+ * Slots, in pen order:
+ *   Preview   96px cover, `gradientFor(seed)`, Monogram 56 `title[0]`,
+ *             Year = Tag `onCover`, bottom-left 12px in
+ *   Category  Tag ← project.topic
+ *   Title     16/1.25 600 ← project.title
+ *   Desc      13/1.45 `$a-muted` ← project.excerpt
+ *   Tech row  tech chips + arrow 14 `$a-faint` → webUrl
+ *
+ * Radius 14 like every other card (the pen master still says 8, pen fix P-3),
+ * and the pen's absolute layout becomes the column it describes (Body padding
+ * 14, gap 7). The tech chips stay neutral: the pen draws them as accent Tags,
+ * which would make the row compete with the Category tag (listed for the owner).
+ *
+ * Plain props, not a Sanity document: the page maps its rows onto these, so
+ * this package never depends on the schema types.
+ */
+import Icon from "./Icon.astro";
+import Tag from "./Tag.astro";
+import { gradientFor } from "@badger3000/tokens/covers";
+
+interface Props {
+  title: string;
+  /** Picks the cover gradient, usually the document id. */
+  seed: string;
+  /** Where the title and arrow go; external, so they open a new tab. */
+  href?: string;
+  topic?: string;
+  excerpt?: string;
+  /** Display labels, already formatted. */
+  tech?: string[];
+  year?: number;
+}
+
+const { title, seed, href, topic, excerpt, tech = [], year } = Astro.props;
+
+const monogram = title.trim().charAt(0);
+---
+
+<article class="card">
+  <div class="pv" style={`background:${gradientFor(seed)}`}>
+    <span class="mono" aria-hidden="true">{monogram}</span>
+    {year && <Tag label={String(year)} tone="onCover" class="yb" />}
+  </div>
+
+  <div class="bd">
+    {topic && <Tag label={topic} />}
+
+    {
+      href ? (
+        <a class="ti" href={href} target="_blank" rel="noopener">
+          {title}
+        </a>
+      ) : (
+        <span class="ti">{title}</span>
+      )
+    }
+
+    {excerpt && <p class="desc">{excerpt}</p>}
+
+    {
+      tech.length > 0 && (
+        <div class="tc">
+          <span class="chips">
+            {tech.map((t) => (
+              <span class="chip">{t}</span>
+            ))}
+          </span>
+          {href && (
+            <a
+              class="out"
+              href={href}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${title} — opens ${new URL(href).hostname}`}
+            >
+              <Icon name="arrow-up-right" size={14} />
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+
+  /* Preview — pen cover gradient, 220deg, one pair per item */
+  .pv {
+    position: relative;
+    flex: none;
+    height: 96px;
+  }
+  .mono {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-family: var(--af-display);
+    font-size: 56px;
+    line-height: 1;
+    color: var(--a-on-cover);
+  }
+  .pv :global(.yb) {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+  }
+
+  .bd {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 14px;
+  }
+  .ti {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--a-ink);
+    text-decoration: none;
+  }
+  a.ti:hover {
+    color: var(--a-accent);
+  }
+  .desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+
+  .tc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 4px;
+  }
+  .chips {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .chip {
+    padding: 2px 7px;
+    border: 1px solid var(--a-line);
+    border-radius: 5px;
+    background: var(--a-bg);
+    color: var(--a-muted);
+    font-size: 10.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .out {
+    flex: none;
+    display: grid;
+    place-items: center;
+    color: var(--a-faint);
+  }
+  .out:hover {
+    color: var(--a-accent);
+  }
+  .out:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+</style>

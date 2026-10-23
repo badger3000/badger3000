@@ -4,8 +4,8 @@
  * context: section · page / app shell → main · archive → div.container
  *
  *   header · page header   PageHeader (title + count + Ask Badger + search)
- *   nav · topic filters    FilterChips + view toggle
- *   ul · card grid         ProjectCard × projects
+ *   nav · topic filters    FilterBar + view toggle
+ *   ul · card grid         FeatureCard × projects (`f3kriq`)
  *
  * The pen's filter labels ("All / Web App / Open Source / Client Work /
  * Experiment") are placeholders — the dataset has four topics and every project
@@ -14,12 +14,7 @@
  */
 import Base from "../layouts/Base.astro";
 import AppShell from "../layouts/AppShell.astro";
-import PageHeader from "../components/PageHeader.astro";
-import ProjectCard from "../components/ProjectCard.astro";
-import FilterChip from "../components/FilterChip.astro";
-import Input from "../components/Input.astro";
-import Icon from "../components/Icon.astro";
-import Card from "../components/Card.astro";
+import { Button, Card, FeatureCard, FilterBar, Icon, Input, PageHeader } from "@badger3000/ui";
 import { getProjects, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [projects, topics, counts, settings] = await Promise.all([
@@ -31,7 +26,32 @@ const [projects, topics, counts, settings] = await Promise.all([
 
 // Only chips that would actually show something.
 const used = new Set(projects.map((p) => p.topicSlug));
-const chips = topics.filter((topic) => topic.slug && used.has(topic.slug));
+const chips = topics
+  .filter((topic) => topic.slug && used.has(topic.slug))
+  .map((topic) => ({ label: topic.title, value: topic.slug ?? topic.title }));
+
+/** Tech slugs as people write them: "node-js" → "Node.js", "css3" → "CSS3". */
+const LABELS: Record<string, string> = {
+  js: "JS",
+  ts: "TypeScript",
+  javascript: "JavaScript",
+  html5: "HTML5",
+  css3: "CSS3",
+  "node-js": "Node.js",
+  nodejs: "Node.js",
+  sass: "Sass",
+  aws: "AWS",
+  hubspot: "HubSpot",
+  webflow: "Webflow",
+  java: "Java",
+  php: "PHP",
+};
+const techLabel = (tech: string) => LABELS[tech] ?? tech.replace(/-/g, " ");
+
+// The year stamp has no field of its own: `_createdAt` is when the *document*
+// was created, not when the work shipped — swap in a real year if one appears.
+const yearOf = (iso: string | null) => (iso ? new Date(iso).getFullYear() : undefined);
+
 const searchIndex = projects.map((p) =>
   [p.title, p.topic ?? "", p.tech.join(" ")].join(" ").toLowerCase(),
 );
@@ -55,10 +75,9 @@ const searchIndex = projects.map((p) =>
       <div class="inner" data-browse>
         <PageHeader title="Projects" count={projects.length} countLabel="projects" sub="Things Kyle has designed, built, and shipped.">
           <Fragment slot="actions">
-            <a class="ask" href="/">
-              <Icon name="sparkles" size={15} />
-              <span>Ask Badger</span>
-            </a>
+            <Button variant="soft" href="/" label="Ask Badger" class="ask">
+              <Icon slot="icon" name="sparkles" />
+            </Button>
             <Input
               name="q"
               label="Search projects"
@@ -77,12 +96,7 @@ const searchIndex = projects.map((p) =>
           </Fragment>
         </PageHeader>
 
-        <div class="toolbar">
-          <nav class="chips" aria-label="Filter by topic">
-            <FilterChip label="All" value="all" active />
-            {chips.map((topic) => <FilterChip label={topic.title} value={topic.slug ?? topic.title} />)}
-          </nav>
-        </div>
+        <FilterBar chips={chips} />
 
         {
           projects.length === 0 ? (
@@ -93,7 +107,15 @@ const searchIndex = projects.map((p) =>
             <ul class="grid" data-grid>
               {projects.map((project, i) => (
                 <li data-item data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
-                  <ProjectCard project={project} />
+                  <FeatureCard
+                    title={project.title}
+                    seed={project.id}
+                    href={project.webUrl ?? undefined}
+                    topic={project.topic ?? undefined}
+                    excerpt={project.excerpt ?? undefined}
+                    tech={project.tech.map(techLabel)}
+                    year={yearOf(project.createdAt)}
+                  />
                 </li>
               ))}
             </ul>
@@ -115,35 +137,6 @@ const searchIndex = projects.map((p) =>
     flex-direction: column;
     gap: 22px;
     padding: 28px 40px;
-  }
-
-  .ask {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 13px;
-    border-radius: 10px;
-    background: var(--a-accent-soft);
-    color: var(--a-accent);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .ask:hover {
-    filter: brightness(0.97);
-  }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 7px;
   }
 
   .viewtoggle {

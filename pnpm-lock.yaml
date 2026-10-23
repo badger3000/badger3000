@@ -150,6 +150,9 @@ importers:
       '@badger3000/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
+      '@badger3000/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@sanity/client':
         specifier: ^8.10.1
         version: 8.10.1
@@ -205,6 +208,25 @@ importers:
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/ui:
+    dependencies:
+      '@badger3000/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lucide-static:
+        specifier: ^1.61.0
+        version: 1.61.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: ^0.9.12
+        version: 0.9.12(@emnapi/runtime@1.11.3)(prettier@3.9.10)(typescript@6.0.3)
+      astro:
+        specifier: ^7.4.2
+        version: 7.4.2(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

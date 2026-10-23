@@ -1,0 +1,93 @@
+---
+/**
+ * NavItem — pen master `LDNXV`.
+ * context: a · NavItem — props: href, icon, label, count, active
+ *
+ *   md (Sidebar)          radius 9 · gap 10 · padding [9, 10] · icon 16 · label 13.5/500
+ *   lg (Mobile — Menu)    radius 10 · gap 12 · padding 11 · icon 17 · label 14/500
+ *   both: `$a-muted`, count mono 11 `$a-faint`; active = `$a-surface` fill,
+ *   `$a-line` edge, `$a-accent` icon, `$a-ink` label at 600
+ *
+ * `active` sets `aria-current="page"`; the styles key off that attribute so a
+ * script that moves it (AppShell does, for `/experience#education`) restyles
+ * the item too.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  href: string;
+  icon: string;
+  label: string;
+  count?: number;
+  active?: boolean;
+  size?: "md" | "lg";
+}
+
+const { href, icon, label, count, active = false, size = "md" } = Astro.props;
+---
+
+<a class:list={["item", size]} href={href} aria-current={active ? "page" : undefined}>
+  <span class="ico"><Icon name={icon} size={size === "lg" ? 17 : 16} /></span>
+  <span class="label">{label}</span>
+  {count !== undefined && <span class="count">{count}</span>}
+</a>
+
+<style>
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    color: var(--a-muted);
+    text-decoration: none;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+  .item:hover {
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .item[aria-current="page"] {
+    border-color: var(--a-line);
+    background: var(--a-surface);
+    color: var(--a-ink);
+  }
+  .ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    color: var(--a-muted);
+  }
+  .item[aria-current="page"] .ico {
+    color: var(--a-accent);
+  }
+  .label {
+    flex: 1;
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .item[aria-current="page"] .label {
+    font-weight: 600;
+  }
+  .count {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-faint);
+  }
+
+  .lg {
+    gap: 12px;
+    padding: 11px;
+    border-radius: 10px;
+  }
+  .lg .ico {
+    width: 17px;
+    height: 17px;
+  }
+  .lg .label {
+    font-size: 14px;
+  }
+</style>

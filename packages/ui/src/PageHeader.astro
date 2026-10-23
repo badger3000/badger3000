@@ -6,7 +6,8 @@
  * Title in the display serif with the CountBadge beside it, a muted subtitle,
  * and an actions slot on the right. The pen puts the filter row inside this
  * master, but the browse screens draw it as a sibling (with the sort control on
- * the far right) — so the filters live in the page, not here.
+ * the far right) — so the filters are a `FilterBar` in the page, not here
+ * (pen fix P-4 drops them from the master: props title, count, sub, actions).
  */
 import CountBadge from "./CountBadge.astro";
 

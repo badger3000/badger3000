@@ -3,7 +3,7 @@
  * Browse — Golf. Pen `oH8H5`.
  *
  *   PageHead (Golf scores + "17 rounds" badge + Ask Badger)
- *   Stats: dl · stats — StatTile × 4
+ *   Stats: dl · stats — StatTile × 3 (the pen's 4th has no data; owner question)
  *   ChartCard: "LAST 12 ROUNDS" + 12 bars
  *   Table: tr · GolfRow ← golfScore{course,date,score}
  *     COURSE · DATE · SCORE · VS PAR
@@ -14,8 +14,7 @@
  * logged are all computed from what is there.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
-import StatTile from "../components/StatTile.astro";
+import { Button, Icon, StatTile } from "@badger3000/ui";
 import { getGolfScores, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [scores, counts, settings] = await Promise.all([getGolfScores(), getCounts(), getSettings()]);
@@ -38,7 +37,9 @@ const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month:
   count={total ? `${total} rounds` : undefined}
   sub="The other obsession. Lower is better — most days, anyway."
 >
-  <Fragment slot="actions"><AskBadger /></Fragment>
+  <Button slot="actions" variant="soft" href="/" label="Ask Badger" class="ask">
+    <Icon slot="icon" name="sparkles" />
+  </Button>
 
   <dl class="stats">
     <div data-item data-search="best round lowest">

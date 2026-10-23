@@ -3,7 +3,8 @@
  * StatTile — pen master `Saf7N`.
  * context: div · StatTile — props: icon, value, label
  *
- * `$a-bg` · radius 12 · gap 4 · padding 16 · icon 16 `$a-accent`
+ * `$a-bg` · stroke `$a-line` · radius 12 · gap 4 · padding 16 · icon 16 `$a-accent`
+ * (top-left: the pen's vertical layout does not centre it)
  * value 30 `$a-ink` · label 12.5 `$a-muted`
  */
 import Icon from "./Icon.astro";
@@ -30,12 +31,12 @@ const { icon, value, label, class: className } = Astro.props;
     flex-direction: column;
     gap: 4px;
     padding: 16px;
+    border: 1px solid var(--a-line);
     border-radius: 12px;
     background: var(--a-bg);
   }
   .ico {
-    display: grid;
-    place-items: center;
+    display: flex;
     color: var(--a-accent);
   }
   .value {

@@ -1,0 +1,63 @@
+---
+/**
+ * ShieldsBadge — pen master `NjGub`.
+ * context: span · ShieldsBadge — props: label,value,color ← skill
+ *
+ *   stroke `$a-line` · radius 5 · mono 10.5 `$a-on-accent`
+ *   Key   `--a-badge-key` padding [4, 8]          ← skill.name
+ *   Value fill ← skill.badgeColor, padding [4, 8] ← skill.badgeLabel
+ *
+ * `value` (badgeLabel) is optional — plenty of skills have only a colour. The
+ * pen always draws the Value segment with the skill's colour, so it renders
+ * whenever there is a colour: with no label it is an 8px swatch. With neither,
+ * the badge is the key alone. The projection has already normalised the colour
+ * to `#rrggbb`; it is data, so it arrives as an inline style.
+ */
+interface Props {
+  name: string;
+  color?: string;
+  value?: string;
+  class?: string;
+}
+
+const { name, color, value, class: className } = Astro.props;
+---
+
+<span class:list={["badge", className]}>
+  <span class="key">{name}</span>
+  {
+    (value || color) && (
+      <span class:list={["value", { swatch: !value }]} style={color ? `background:${color}` : undefined}>
+        {value}
+      </span>
+    )
+  }
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    overflow: hidden;
+    border: 1px solid var(--a-line);
+    border-radius: 5px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .key,
+  .value {
+    padding: 4px 8px;
+    color: var(--a-on-accent);
+  }
+  .key {
+    background: var(--a-badge-key);
+  }
+  .value {
+    background: var(--a-line-2);
+  }
+  .swatch {
+    width: 8px;
+    padding: 0;
+  }
+</style>

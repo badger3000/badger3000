@@ -8,7 +8,7 @@
  * settle for the sidebar anyway, and stripping the duplicate toggle was the
  * point: one place to change the skin, paired with the user it changes for.
  */
-import Icon from "./Icon.astro";
+import { Button, Icon } from "@badger3000/ui";
 
 interface Props {
   /** Where the Résumé link points until the printable résumé exists (phase 3). */
@@ -25,10 +25,10 @@ const { resumeHref = "/experience" } = Astro.props;
     <span class="status">online</span>
   </span>
   <span class="right">
-    <a class="resume" href={resumeHref}>
-      <Icon name="file-text" size={14} />
-      <span>Résumé</span>
-    </a>
+    {/* pen `vqw23`: a secondary Button at the small size */}
+    <Button variant="secondary" size="sm" href={resumeHref} label="Résumé">
+      <Icon slot="icon" name="file-text" />
+    </Button>
   </span>
 </header>
 
@@ -70,26 +70,6 @@ const { resumeHref = "/experience" } = Astro.props;
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  .resume {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 7px 12px;
-    border: 1px solid var(--a-line-2);
-    border-radius: 9px;
-    background: var(--a-surface);
-    color: var(--a-ink);
-    font-size: 12.5px;
-    font-weight: 500;
-    text-decoration: none;
-  }
-  .resume :global(svg) {
-    color: var(--a-muted);
-  }
-  .resume:hover {
-    border-color: var(--a-accent);
-    color: var(--a-accent);
   }
 
   @media (max-width: 720px) {
