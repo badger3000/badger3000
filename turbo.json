@@ -1,5 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
+  "cacheDir": ".turbo/cache",
   "globalDependencies": [".nvmrc"],
   "globalEnv": ["NODE_ENV", "SANITY_ALLOW_EMPTY"],
   "tasks": {
@@ -8,7 +9,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env", ".env.local", "!public/sitemap.xml", "!public/sitemap-0.xml", "!public/server-sitemap.xml"],
       "env": ["PUBLIC_*", "NEXT_PUBLIC_*", "SANITY_STUDIO_*", "SANITY_API_TOKEN", "SANITY_PREVIEW", "SITE_URL", "CHAT_MODEL_TIER"],
       "outputs": [
-        "dist/**", ".astro/**",
+        "dist/**", "!dist/server/.dev.vars", ".astro/**",
         ".next/**", "!.next/cache/**",
         "public/sitemap.xml", "public/sitemap-0.xml", "public/server-sitemap.xml"
       ]
