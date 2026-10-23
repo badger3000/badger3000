@@ -27,8 +27,9 @@ const [projects, topics, counts, settings] = await Promise.all([
 // Only chips that would actually show something.
 const used = new Set(projects.map((p) => p.topicSlug));
 const chips = topics
-  .filter((topic) => topic.slug && used.has(topic.slug))
-  .map((topic) => ({ label: topic.title, value: topic.slug ?? topic.title }));
+  .flatMap((topic) =>
+    topic.title && topic.slug && used.has(topic.slug) ? [{ label: topic.title, value: topic.slug }] : [],
+  );
 
 /** Tech slugs as people write them: "node-js" → "Node.js", "css3" → "CSS3". */
 const LABELS: Record<string, string> = {
@@ -53,7 +54,7 @@ const techLabel = (tech: string) => LABELS[tech] ?? tech.replace(/-/g, " ");
 const yearOf = (iso: string | null) => (iso ? new Date(iso).getFullYear() : undefined);
 
 const searchIndex = projects.map((p) =>
-  [p.title, p.topic ?? "", p.tech.join(" ")].join(" ").toLowerCase(),
+  [p.title ?? "", p.topic ?? "", (p.tech ?? []).join(" ")].join(" ").toLowerCase(),
 );
 ---
 
@@ -108,12 +109,12 @@ const searchIndex = projects.map((p) =>
               {projects.map((project, i) => (
                 <li data-item data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
                   <FeatureCard
-                    title={project.title}
+                    title={project.title ?? "Untitled"}
                     seed={project.id}
                     href={project.webUrl ?? undefined}
                     topic={project.topic ?? undefined}
                     excerpt={project.excerpt ?? undefined}
-                    tech={project.tech.map(techLabel)}
+                    tech={(project.tech ?? []).map(techLabel)}
                     year={yearOf(project.createdAt)}
                   />
                 </li>

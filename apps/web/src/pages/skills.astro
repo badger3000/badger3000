@@ -14,7 +14,7 @@ import { Button, Icon, ShieldsBadge } from "@badger3000/ui";
 import { getSkills, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [categories, counts, settings] = await Promise.all([getSkills(), getCounts(), getSettings()]);
-const total = categories.reduce((sum, category) => sum + category.skills.length, 0);
+const total = categories.reduce((sum, category) => sum + (category.skills?.length ?? 0), 0);
 ---
 
 <Browse
@@ -37,7 +37,7 @@ const total = categories.reduce((sum, category) => sum + category.skills.length,
         <li class="group">
           <h2 class="label">{category.name}</h2>
           <div class="badges">
-            {category.skills.map((skill) => (
+            {(category.skills ?? []).map((skill) => (
               <ShieldsBadge
                 name={skill.name}
                 color={skill.badgeColor ?? undefined}

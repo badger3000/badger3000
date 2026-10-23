@@ -17,7 +17,10 @@ import Browse from "../layouts/Browse.astro";
 import { Button, Icon, StatTile } from "@badger3000/ui";
 import { getGolfScores, getCounts, getSettings } from "../lib/sanity/index.ts";
 
-const [scores, counts, settings] = await Promise.all([getGolfScores(), getCounts(), getSettings()]);
+const [rows, counts, settings] = await Promise.all([getGolfScores(), getCounts(), getSettings()]);
+
+// A round without a score has nothing to chart or average; leave it out.
+const scores = rows.flatMap((row) => (row.score === null ? [] : [{ ...row, score: row.score }]));
 
 const total = scores.length;
 const best = total ? Math.min(...scores.map((s) => s.score)) : 0;
@@ -25,7 +28,7 @@ const average = total ? Math.round(scores.reduce((sum, s) => sum + s.score, 0) /
 const recent = scores.slice(0, 12);
 const tallest = Math.max(...recent.map((s) => s.score), 1);
 const lowest = Math.min(...recent.map((s) => s.score));
-const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+const date = (iso: string | null) => iso && new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 ---
 
 <Browse
@@ -86,8 +89,8 @@ const date = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month:
         {
           scores.map((round) => (
             <tr>
-              <td class="course">{round.course}</td>
-              <td class="date">{date(round.date)}</td>
+              <td class="course">{round.course ?? "—"}</td>
+              <td class="date">{date(round.date) || "—"}</td>
               <td class="score">{round.score}</td>
             </tr>
           ))

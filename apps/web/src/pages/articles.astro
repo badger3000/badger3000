@@ -28,10 +28,9 @@ const month = (iso: string) =>
 const [featured, ...rest] = articles;
 const usedTopics = new Set(articles.map((a) => a.topic));
 const chips = topics
-  .filter((t) => t.slug && usedTopics.has(t.slug))
-  .map((t) => ({ label: t.title, value: t.slug ?? t.title }));
+  .flatMap((t) => (t.title && t.slug && usedTopics.has(t.slug) ? [{ label: t.title, value: t.slug }] : []));
 const index = (a: (typeof articles)[number]) =>
-  [a.title, a.topic ?? ""].join(" ").toLowerCase();
+  [a.title ?? "", a.topic ?? ""].join(" ").toLowerCase();
 ---
 
 <Browse
@@ -67,7 +66,7 @@ const index = (a: (typeof articles)[number]) =>
               <ContentCard
                 seed={rest[0].id}
                 href={`/articles/${rest[0].slug}`}
-                title={rest[0].title}
+                title={rest[0].title ?? "Untitled"}
                 excerpt={rest[0].excerpt ?? undefined}
                 topic={rest[0].topic ?? undefined}
                 meta={month(rest[0].publishedAt)}
@@ -87,7 +86,7 @@ const index = (a: (typeof articles)[number]) =>
             <ContentCard
               seed={article.id}
               href={`/articles/${article.slug}`}
-              title={article.title}
+              title={article.title ?? "Untitled"}
               excerpt={article.excerpt ?? undefined}
               topic={article.topic ?? undefined}
               meta={month(article.publishedAt)}

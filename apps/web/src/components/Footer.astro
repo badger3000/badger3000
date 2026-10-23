@@ -32,7 +32,7 @@ const fallback = [
   { siteName: "LinkedIn", webUrl: "https://www.linkedin.com/in/kbadger" },
   ...(compact ? [] : [{ siteName: "CodePen", webUrl: "https://codepen.io/kbadger" }]),
 ];
-const socials = links.length ? links : fallback;
+const socials = links?.length ? links : fallback;
 ---
 
 <footer class="footer" class:list={{ compact, "hide-on-mobile": hideOnMobile }}>

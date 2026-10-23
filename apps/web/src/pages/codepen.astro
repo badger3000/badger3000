@@ -25,8 +25,7 @@ const month = (iso: string) =>
 
 const usedTopics = new Set(experiments.map((e) => e.topic));
 const chips = topics
-  .filter((t) => t.slug && usedTopics.has(t.slug))
-  .map((t) => ({ label: t.title, value: t.slug ?? t.title }));
+  .flatMap((t) => (t.title && t.slug && usedTopics.has(t.slug) ? [{ label: t.title, value: t.slug }] : []));
 ---
 
 <Browse
