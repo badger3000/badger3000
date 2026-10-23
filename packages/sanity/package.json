@@ -1,0 +1,8 @@
+{
+  "name": "@badger3000/sanity",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@sanity/client": "^8.10.1"
+  }
+}

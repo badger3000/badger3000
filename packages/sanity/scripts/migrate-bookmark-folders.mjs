@@ -7,7 +7,7 @@
  * 3. Patches each bookmark to replace the string with a reference
  *
  * Usage:
- *   node --env-file=.env.local scripts/migrate-bookmark-folders.mjs
+ *   node --env-file=../../apps/web/.env scripts/migrate-bookmark-folders.mjs
  *
  * Safe to re-run — skips bookmarks that already have a reference.
  */
@@ -15,20 +15,22 @@
 import {createClient} from "@sanity/client";
 
 const projectId =
+  process.env.PUBLIC_SANITY_PROJECT_ID ||
   process.env.SANITY_PROJECT_ID ||
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset =
+  process.env.PUBLIC_SANITY_DATASET ||
   process.env.SANITY_DATASET ||
   process.env.NEXT_PUBLIC_SANITY_DATASET ||
   "production";
 const token =
-  process.env.SANITY_TOKEN ||
-  process.env.SANITY_API_TOKEN;
+  process.env.SANITY_API_TOKEN ||
+  process.env.SANITY_TOKEN;
 
 if (!projectId || !token) {
   console.error(
     "Missing required environment variables.\n" +
-      "Set SANITY_PROJECT_ID (or NEXT_PUBLIC_SANITY_PROJECT_ID) and SANITY_TOKEN (or SANITY_API_TOKEN)."
+      "Set PUBLIC_SANITY_PROJECT_ID (or SANITY_PROJECT_ID) and SANITY_API_TOKEN (or SANITY_TOKEN)."
   );
   process.exit(1);
 }
