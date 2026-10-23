@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import fs from "fs";
-import https from "https";
-import http from "http";
 import path from "path";
 
 // Configuration
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl =
+  process.env.PUBLIC_SITE_URL ||
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "http://localhost:3000";
 const productionUrl = "https://www.badger3000.com"; // Your production URL
 const feedEndpoint = `${siteUrl}/api/articles-feed`;
 const readmePath = path.join(process.cwd(), "README.md");
@@ -15,28 +16,15 @@ console.log(
   `🔍 Updating README.md with latest blog posts from ${feedEndpoint}`
 );
 
-// Function to fetch the RSS feed
-function fetchFeed(url) {
-  return new Promise((resolve, reject) => {
-    console.log(`Fetching feed from: ${url}`);
-    const client = url.startsWith("https") ? https : http;
-
-    client
-      .get(url, (res) => {
-        if (res.statusCode !== 200) {
-          reject(new Error(`Failed to fetch feed: ${res.statusCode}`));
-          return;
-        }
-
-        let data = "";
-        res.on("data", (chunk) => (data += chunk));
-        res.on("end", () => resolve(data));
-      })
-      .on("error", (err) => {
-        console.error("Connection error:", err.message);
-        reject(err);
-      });
-  });
+// Function to fetch the RSS feed. Follows redirects, so an apex <-> www
+// hop between the secret and the canonical host doesn't fail the run.
+async function fetchFeed(url) {
+  console.log(`Fetching feed from: ${url}`);
+  const res = await fetch(url, {redirect: "follow"});
+  if (!res.ok) {
+    throw new Error(`Failed to fetch feed: ${res.status}`);
+  }
+  return res.text();
 }
 
 // Function to parse RSS XML and extract items

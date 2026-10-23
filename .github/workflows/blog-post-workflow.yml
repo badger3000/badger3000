@@ -13,7 +13,7 @@ jobs:
     name: Update README with latest blog posts
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+      PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
       NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
       NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
       NEXT_PUBLIC_AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
@@ -30,7 +30,6 @@ jobs:
           # 2026-04-30 and no longer receives security patches; 22 is only in
           # maintenance. See .nvmrc for the local version.
           node-version: "24"
-          cache: "npm"
 
       - name: Execute blog post updater script
         id: update-readme
