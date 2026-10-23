@@ -108,6 +108,22 @@
   }
 }
 
+/*
+ * The theme picker has two ways to land on a skin: a direct pill pick
+ * (snap instantly to that token) or a gear-cycle (animate from current to
+ * next through `transition: background-color …`). `shell.ts` flips this class
+ * on the next two animation frames around the pill pick so the colour change
+ * the user just asked for snaps, but the next one — almost always through the
+ * gear again — animates from the new baseline.
+ */
+html.no-transitions,
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 /* ---- dark skin ---- */
 [data-theme="dark"] {
   --a-bg: var(--p-900);

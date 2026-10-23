@@ -54,21 +54,64 @@ delegate("click", "[data-drawer-back]", () => {
 // --- Theme -----------------------------------------------------------------
 
 /**
- * One delegate for the desktop toggle and the drawer's Appearance segment.
- * `Base.astro` applies the skin before paint and before every swap; this only
- * handles clicks and paints `aria-pressed`. The drawer has no Forest option,
- * so a forest user sees neither of its options pressed.
+ * The theme picker has two distinct affordances:
+ *
+ *   1. The gear glyph in the profile block (`[data-cycle-theme]`) is a pure
+ *      drawer trigger. Pressed while the tray is closed: open it. Pressed
+ *      while the tray is open: close it. The gear never touches the theme
+ *      itself — it just reveals or hides the picker.
+ *
+ *   2. The pill row (`[data-theme-option]`) selects the actual skin. Clicking
+ *      one runs `applyTheme()` and the browser interpolates every
+ *      `transition` rule on the way through, so the highlight slides,
+ *      the colours transition, the gear glyph spins. This is also where a
+ *      user can jump straight to a skin without scrolling through the
+ *      others.
+ *
+ * Each `applyTheme()` triggers `badger:theme`; we listen on that to repaint
+ * `aria-pressed` and the indicator position so the highlight follows the
+ * stored skin. The gear itself rotates on every picker-toggle via the
+ * `spin` class — a reflow between `remove` and `add` is what makes the
+ * second click actually restart the animation instead of caching.
  */
+const SLOTS = ["light", "dark", "forest"] as const;
+
+const indexOf = (theme: string): number => {
+  const i = (SLOTS as readonly string[]).indexOf(theme);
+  return i < 0 ? 0 : i;
+};
+
 const paintTheme = (theme: string) => {
+  const idx = indexOf(theme);
   for (const option of document.querySelectorAll<HTMLElement>("[data-theme-option]")) {
     option.setAttribute("aria-pressed", String(option.dataset.themeOption === theme));
   }
+  for (const toggle of document.querySelectorAll<HTMLElement>("[data-theme-toggle]")) {
+    toggle.style.setProperty("--indicator-x", String(idx));
+  }
 };
+
+const spinGears = () => {
+  for (const glyph of document.querySelectorAll<SVGElement>(".gear > svg")) {
+    glyph.classList.remove("spin");
+    void glyph.getBoundingClientRect();
+    glyph.classList.add("spin");
+  }
+};
+
+delegate("click", "[data-cycle-theme]", () => {
+  const block = document.querySelector<HTMLElement>("[data-profile-block]");
+  if (!block) return;
+  spinGears();
+  block.dataset.trayOpen = block.dataset.trayOpen === "true" ? "false" : "true";
+});
 
 delegate("click", "[data-theme-option]", (option) => {
   const next = option.dataset.themeOption;
-  if (isTheme(next)) applyTheme(next);
+  if (!isTheme(next)) return;
+  applyTheme(next);
 });
+
 addEventListener("badger:theme", (event) => paintTheme((event as CustomEvent<string>).detail));
 document.addEventListener("astro:page-load", () => paintTheme(readTheme()));
 

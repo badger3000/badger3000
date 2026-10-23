@@ -1,13 +1,28 @@
 ---
 /**
- * ThemeToggle — cycles the three pen skins (light → dark → forest).
- * Persists to localStorage; the `data-theme` attribute on <html> is what
- * tokens.css keys off (see src/styles/tokens.css).
+ * ThemeToggle — pen master `Theme tray` (`wqUwc`).
  *
- * The pre-paint application of the stored theme lives in Base.astro; clicks
- * and `aria-pressed` are handled by the delegate in `lib/shell.ts`, which also
- * serves the mobile drawer's segment. Every option renders unpressed and is
- * painted on `astro:page-load`.
+ * The pill histogram drops into the sidebar's profile block as a **drawer** —
+ * collapsed by default, slid up into view by the gear click. Each option is
+ * declared as a `<button data-theme-option>` so direct picks still work in a
+ * snap, but the design language now leads with the gear.
+ *
+ * The visual highlight is a separate `.indicator` element absolutely
+ * positioned over the pills. `lib/shell.ts` sets `--indicator-x` to 0, 1, or 2
+ * for light/dark/forest; CSS interpolates `transform: translateX(...)` over
+ * `0.4s` so the highlight **slides** between positions, while a single
+ * `transition: background-color 0.4s` on the pill itself swaps its text
+ * colour smoothly when its neighbour becomes active.
+ *
+ * The `[data-theme-option]` attribute is the contract — `lib/shell.ts` listens
+ * for clicks on any `[data-theme-option]` and runs `applyTheme()` from
+ * `lib/theme.ts`. Active state is painted by `astro:page-load` so the persisted
+ * skin renders correct even after a client-side navigation swaps the chrome.
+ *
+ * `tokens.css` is the only place skin values live; this component reads
+ * `--a-accent`, `--a-on-accent`, etc. and resolves across light/dark/forest
+ * automatically. Add a fourth skin = one more `[data-theme]` block, zero
+ * component edits.
  */
 import Icon from "./Icon.astro";
 
@@ -15,16 +30,22 @@ const themes = ["light", "dark", "forest"] as const;
 const icons: Record<(typeof themes)[number], string> = {
   light: "sun",
   dark: "moon",
-  forest: "trees",
+  forest: "tree-pine",
 };
 const labels: Record<(typeof themes)[number], string> = {
-  light: "Light theme",
-  dark: "Dark theme",
-  forest: "Forest theme",
+  light: "Light",
+  dark: "Dark",
+  forest: "Forest",
+};
+const arias: Record<(typeof themes)[number], string> = {
+  light: "Switch to Light theme",
+  dark: "Switch to Dark theme",
+  forest: "Switch to Forest theme",
 };
 ---
 
-<div class="toggle" data-theme-toggle>
+<div class="toggle" data-theme-toggle role="group" aria-label="Theme">
+  <span class="indicator" data-theme-indicator aria-hidden="true"></span>
   {
     themes.map((theme) => (
       <button
@@ -32,10 +53,11 @@ const labels: Record<(typeof themes)[number], string> = {
         class="opt"
         data-theme-option={theme}
         aria-pressed="false"
-        aria-label={labels[theme]}
-        title={labels[theme]}
+        aria-label={arias[theme]}
+        title={arias[theme]}
       >
-        <Icon name={icons[theme]} size={15} />
+        <Icon name={icons[theme]} size={14} stroke={1.75} />
+        <span class="opt-label">{labels[theme]}</span>
       </button>
     ))
   }
@@ -43,37 +65,70 @@ const labels: Record<(typeof themes)[number], string> = {
 
 <style>
   .toggle {
-    display: inline-flex;
-    gap: 2px;
-    padding: 2px;
-    border: 1px solid var(--a-line-2);
+    --indicator-x: 0;
+    position: relative;
+    display: flex;
+    gap: 0;
+    padding: 3px;
+    border: 1px solid var(--a-line);
     border-radius: 9px;
     background: var(--a-surface);
+    width: 100%;
+  }
+  /*
+   * The indicator is **one-third** of the row's interior, positioned with
+   * `translateX(var(--indicator-x) * 100%)`. Three stops gives us a perfect
+   * track per pill; CSS handles the easing so the highlight glides between
+   * options rather than snapping.
+   */
+  .indicator {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    height: calc(100% - 6px);
+    width: calc((100% - 6px) / 3);
+    border-radius: 7px;
+    background: var(--a-accent);
+    transform: translateX(calc(var(--indicator-x) * 100%));
+    transition:
+      transform var(--duration-slow, 0.4s) cubic-bezier(0.4, 0, 0.2, 1),
+      background-color var(--duration-slow, 0.4s) ease;
+    pointer-events: none;
   }
   .opt {
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 26px;
-    padding: 0;
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    padding: 7px 4px;
     border: 0;
     border-radius: 7px;
     background: transparent;
-    color: var(--a-faint);
+    color: var(--a-muted);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
     cursor: pointer;
-    transition:
-      background 0.15s ease,
-      color 0.15s ease;
+    transition: color var(--duration-slow, 0.4s) ease;
   }
-  .opt:hover {
-    color: var(--a-ink);
-  }
+  /*
+   * The active pill's text colour flips to on-accent to read against the
+   * indicator. The indicator itself sits underneath the button row at a
+   * 1/3-width track, so we do **not** colour the button background — only
+   * its label.
+   */
   .opt[aria-pressed="true"] {
-    background: var(--a-accent-soft);
-    color: var(--a-accent);
+    color: var(--a-on-accent);
+  }
+  .opt-label {
+    line-height: 1;
   }
   .opt:focus-visible {
     outline: 2px solid var(--a-accent);
-    outline-offset: 1px;
+    outline-offset: 2px;
   }
 </style>

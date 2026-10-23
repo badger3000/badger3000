@@ -5,8 +5,22 @@
  *
  * Counts come from Sanity (`getCounts()`), not from the pen's mock numbers, so
  * a route with no content yet shows nothing rather than a stale count.
+ *
+ * The profile block is a **drawer**: the theme tray sits above the profile
+ * row inside `.profileBlock`, but the tray is collapsed by default. The gear
+ * glyph in the profile row is the cycle trigger — `lib/shell.ts` listens on
+ * `[data-cycle-theme]`, opens the tray and steps the theme forward on a
+ * press from `data-tray-open="false"`, and folds the tray shut again on a
+ * press from `data-tray-open="true"`.
+ *
+ * Both halves share `--a-accent-soft` fill and `--a-accent` stroke; the panel
+ * itself is the outline, and `overflow: hidden` + a single `border-radius`
+ * give it the rounded shape. When the tray is sliding shut the seam between
+ * the two halves closes at the same time as the tray collapses, so the
+ * profile row is the only thing visible at rest.
  */
 import Icon from "./Icon.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 
 export interface NavEntry {
   id: string;
@@ -37,6 +51,12 @@ interface Props {
 }
 
 const { counts = {}, active, profile } = Astro.props;
+
+const initials = (profile?.name ?? "")
+  .split(" ")
+  .map((part) => part.charAt(0))
+  .slice(0, 2)
+  .join("");
 ---
 
 <aside class="sidebar">
@@ -73,19 +93,26 @@ const { counts = {}, active, profile } = Astro.props;
 
   {
     profile && (
-      <div class="profile">
-        <span class="avatar" aria-hidden="true">
-          {profile.name
-            .split(" ")
-            .map((part) => part.charAt(0))
-            .slice(0, 2)
-            .join("")}
-        </span>
-        <span class="ptext">
-          <strong>{profile.name}</strong>
-          {profile.location && <span>{profile.location}</span>}
-        </span>
-        <Icon name="settings" size={15} class="dim" />
+      <div class="profileBlock" data-profile-block data-tray-open="false">
+        <div class="tray">
+          <ThemeToggle />
+        </div>
+        <div class="profile" aria-label={`Signed in as ${profile.name}`}>
+          <span class="avatar" aria-hidden="true">{initials}</span>
+          <span class="ptext">
+            <strong>{profile.name}</strong>
+            {profile.location && <span>{profile.location}</span>}
+          </span>
+          <button
+            type="button"
+            class="gear"
+            data-cycle-theme
+            aria-label="Cycle to the next theme"
+            title="Cycle to the next theme"
+          >
+            <Icon name="settings" size={14} stroke={1.75} />
+          </button>
+        </div>
       </div>
     )
   }
@@ -217,14 +244,79 @@ const { counts = {}, active, profile } = Astro.props;
   .spacer {
     flex: 1;
   }
+
+  /*
+   * The profile block is a single coral surface that owns both the theme tray
+   * and the profile row inside it. The tray sits above the profile row and is
+   * collapsed by default; the gear flips `data-tray-open` from "false" to
+   * "true" (`lib/shell.ts`) and the row grows from 0 to its natural height
+   * over the standard `--duration-slow` ease.
+   *
+   * Colour transitions ride the same duration — background, border, ink —
+   * so the active skin's tokens swap in time with the tray opening.
+   */
+  .profileBlock,
+  .profileBlock :global(.toggle),
+  .avatar,
+  .gear,
+  .ptext strong,
+  .ptext span {
+    transition:
+      background-color var(--duration-slow, 0.4s) ease,
+      border-color var(--duration-slow, 0.4s) ease,
+      color var(--duration-slow, 0.4s) ease;
+  }
+  .profileBlock {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--a-accent);
+    border-radius: 12px;
+    background: var(--a-accent-soft);
+    overflow: hidden;
+  }
+
+  /*
+   * Drawer. Closed state: tray is `height: 0; opacity: 0; visibility: hidden`
+   * so its labels are fully invisible — not just clipped to a sliver the
+   * grid trick was leaving. Open state: tray grows to its natural height,
+   * fades in, and `visibility: visible` flips immediately. The
+   * `visibility 0s 0.4s` delay on the closing transition makes the labels
+   * stay interactive for the slide-down duration, then clean up after.
+   *
+   * Plain `height` rather than the grid `0fr` trick because the toggle's
+   * intrinsic min-content kept it peeking out of the grid row — a sliver
+   * was visible at the bottom even when the row collapsed.
+   */
+  .tray {
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      height var(--duration-slow, 0.4s) cubic-bezier(0.4, 0, 0.2, 1),
+      opacity var(--duration-quick, 0.25s) ease,
+      visibility 0s linear var(--duration-slow, 0.4s);
+  }
+  .tray :global(.toggle) {
+    border-color: var(--a-line);
+    background: var(--a-surface);
+  }
+  .profileBlock[data-tray-open="true"] .tray {
+    height: 60px;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      height var(--duration-slow, 0.4s) cubic-bezier(0.4, 0, 0.2, 1),
+      opacity var(--duration-quick, 0.25s) ease,
+      visibility 0s linear 0s;
+  }
+
   .profile {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 9px 8px;
-    border: 1px solid var(--a-line);
-    border-radius: 11px;
-    background: var(--a-surface);
+    padding: 9px 9px;
+    background: transparent;
   }
   .avatar {
     display: grid;
@@ -232,26 +324,86 @@ const { counts = {}, active, profile } = Astro.props;
     width: 30px;
     height: 30px;
     border-radius: 15px;
-    background: var(--a-accent-soft);
+    background: var(--a-accent);
     font-size: 11px;
-    font-weight: 600;
-    color: var(--a-accent);
+    font-weight: 700;
+    color: var(--a-on-accent);
+    letter-spacing: 0.5px;
   }
   .ptext {
     display: flex;
     flex: 1;
     flex-direction: column;
     gap: 1px;
+    line-height: 1.2;
+    min-width: 0;
   }
   .ptext strong {
     font-size: 13px;
     font-weight: 600;
     color: var(--a-ink);
+    /* truncate name if it spills */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .ptext span {
     font-size: 11px;
     font-weight: 500;
-    color: var(--a-faint);
+    color: var(--a-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /*
+   * The gear is the drawer trigger: it carries the same accent fill as the
+   * indicator inside the tray, so when the tray opens and the highlight
+   * slides in, the gear that summoned it matches that highlight visually.
+   */
+  .gear {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background: var(--a-accent);
+    color: var(--a-on-accent);
+    cursor: pointer;
+  }
+  .gear:focus-visible {
+    outline: 2px solid var(--a-on-accent);
+    outline-offset: 2px;
+  }
+  .gear:hover {
+    filter: brightness(1.05);
+  }
+  /* The gear glyph spins one full turn every time the cycle runs.
+     `lib/shell.ts` re-adds `.spin` after a reflow so the animation restarts on
+     every click instead of caching the second time round. Reduced-motion
+     users get a single beat of motion (the icon jumps to its target state)
+     instead of a full rotation. */
+  .gear > :global(svg) {
+    transform-origin: 50% 50%;
+  }
+  @keyframes gear-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .gear > :global(svg.spin) {
+    animation: gear-spin var(--duration-slow, 0.55s) cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* When the tray is open the gear pulses once to acknowledge the open. */
+  @media (prefers-reduced-motion: reduce) {
+    .gear > :global(svg.spin) {
+      animation: none;
+      transform: rotate(60deg);
+    }
   }
 
   @media (max-width: 720px) {

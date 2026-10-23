@@ -3,11 +3,12 @@
  * TopBar — pen master `r30jlq`.
  * context: header · TopBar
  *
- * The theme toggle is not in the pen; it lives here so every route gets it
- * (design-first applies to the rest of the chrome, not to this affordance).
+ * The theme picker lives in the Sidebar profile block now, not here — the
+ * TopBar only owns status and the Résumé link. Routes that need a switch
+ * settle for the sidebar anyway, and stripping the duplicate toggle was the
+ * point: one place to change the skin, paired with the user it changes for.
  */
 import Icon from "./Icon.astro";
-import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   /** Where the Résumé link points until the printable résumé exists (phase 3). */
@@ -24,7 +25,6 @@ const { resumeHref = "/experience" } = Astro.props;
     <span class="status">online</span>
   </span>
   <span class="right">
-    <ThemeToggle />
     <a class="resume" href={resumeHref}>
       <Icon name="file-text" size={14} />
       <span>Résumé</span>
