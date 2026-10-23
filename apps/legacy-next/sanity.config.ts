@@ -4,7 +4,10 @@ import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
 import {colorInput} from "@sanity/color-input";
 import {schemaTypes} from "@badger3000/sanity/schema";
-import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
+// Studio-only, so it moved to apps/studio. Imported across apps until the
+// cutover deletes this embedded Studio; it uses no runtime `sanity` code, so
+// there is no second Studio instance to clash with this one.
+import {bookmarkStructure} from "../studio/structure/bookmarkStructure";
 
 // One env name set for both stacks; see docs/adr/0010-public-env-prefix.md.
 const projectId =

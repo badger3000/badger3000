@@ -1,0 +1,28 @@
+{
+  "name": "@badger3000/studio",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "sanity dev --port 3333",
+    "build": "sanity build",
+    "typecheck": "tsc --noEmit",
+    "schema:extract": "sanity schema extract --enforce-required-fields --path ../../packages/sanity/schema.json"
+  },
+  "dependencies": {
+    "@badger3000/sanity": "workspace:*",
+    "@sanity/color-input": "^6.1.8",
+    "@sanity/vision": "^6.20.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "sanity": "^6.20.0",
+    "styled-components": "^6.6.0"
+  },
+  "devDependencies": {
+    "@badger3000/config": "workspace:*",
+    "@types/react": "19.3.0",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,5 +1,6 @@
-// schemas/structure/bookmarkStructure.ts
+// apps/studio/structure/bookmarkStructure.ts
 import type {StructureResolver} from "sanity/structure";
+import {API_VERSION} from "@badger3000/sanity";
 
 export const bookmarkStructure: StructureResolver = (S, context) => {
   // All default items except bookmark and bookmarkFolder (handled manually below)
@@ -11,7 +12,7 @@ export const bookmarkStructure: StructureResolver = (S, context) => {
     .title("Bookmarks")
     .child(async () => {
       try {
-        const client = context.getClient({apiVersion: "2024-01-01"});
+        const client = context.getClient({apiVersion: API_VERSION});
         const result = await client.fetch(
           `*[_type == "bookmarkFolder"] | order(name asc) { _id, name }`
         );
