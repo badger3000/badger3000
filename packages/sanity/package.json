@@ -5,10 +5,12 @@
   "exports": {
     ".": "./src/index.ts",
     "./queries": "./src/queries/index.ts",
+    "./types": "./src/sanity.types.ts",
     "./schema": "./src/schema/index.js"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typegen": "sanity typegen generate"
   },
   "dependencies": {
     "@sanity/client": "^8.10.1",
@@ -19,8 +21,12 @@
     "sanity": "^6"
   },
   "peerDependenciesMeta": {
-    "react": { "optional": true },
-    "sanity": { "optional": true }
+    "react": {
+      "optional": true
+    },
+    "sanity": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@badger3000/config": "workspace:*",

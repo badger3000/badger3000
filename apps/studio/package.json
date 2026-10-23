@@ -9,7 +9,7 @@
     "dev": "sanity dev --port 3333",
     "build": "sanity build",
     "typecheck": "tsc --noEmit",
-    "schema:extract": "sanity schema extract --enforce-required-fields --path ../../packages/sanity/schema.json"
+    "schema:extract": "sanity schema extract --enforce-required-fields --force --path ../../packages/sanity/schema.json"
   },
   "dependencies": {
     "@badger3000/sanity": "workspace:*",

@@ -14,5 +14,5 @@ export const articlesQuery = defineQuery(`*[_type == "articles" && defined(slug.
 
 /** Chat — the agent's `articles` intent: the 6 newest. */
 export const articlesForChatQuery = defineQuery(`*[_type == "articles" && defined(slug.current)] | order(_createdAt desc) [0...6] {
-  title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt
+  "title": coalesce(title, "Untitled"), "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt
 }`);

@@ -40,68 +40,6 @@ export interface Retrieved {
   count: number;
 }
 
-interface ProjectRow {
-  title: string;
-  topic: string | null;
-  tech: string[];
-  url: string | null;
-}
-interface ArticleRow {
-  title: string;
-  slug: string;
-  excerpt: string;
-  topic: string | null;
-  date: string;
-}
-interface PenRow {
-  title: string;
-  slug: string;
-  excerpt: string;
-  url: string | null;
-  topic: string | null;
-}
-interface RoleRow {
-  title: string;
-  org: string | null;
-  loc?: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  url: string | null;
-}
-interface SkillRow {
-  name: string;
-  badgeLabel: string | null;
-}
-interface SkillGroupRow {
-  name: string;
-  skills: SkillRow[];
-}
-interface TestimonialRow {
-  name: string;
-  role: string | null;
-  company: string | null;
-  content: string | null;
-  profileUrl: string | null;
-}
-interface BookmarkRow {
-  title: string;
-  url: string;
-  folder: string | null;
-}
-interface GolfRow {
-  course: string;
-  date: string;
-  score: number;
-}
-interface SettingsRow {
-  name: string | null;
-  title: string | null;
-  location: string | null;
-  occupation: string | null;
-  description: string | null;
-}
-
 const month = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : undefined;
 
@@ -140,7 +78,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
 
   switch (intent) {
     case "projects": {
-      const rows = await client.fetch<ProjectRow[]>(q.projectsForChat);
+      const rows = await client.fetch(q.projectsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "project" as const,
@@ -160,7 +98,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "articles": {
-      const rows = await client.fetch<ArticleRow[]>(q.articlesForChat);
+      const rows = await client.fetch(q.articlesForChat);
       return {
         cards: rows.map((row) => ({
           kind: "article" as const,
@@ -176,7 +114,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "experiments": {
-      const rows = await client.fetch<PenRow[]>(q.experimentsForChat);
+      const rows = await client.fetch(q.experimentsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "experiment" as const,
@@ -194,14 +132,14 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     case "education": {
       const isEducation = intent === "education";
       const rows = isEducation
-        ? await client.fetch<RoleRow[]>(q.educationForChat)
-        : await client.fetch<RoleRow[]>(q.experienceForChat);
+        ? await client.fetch(q.educationForChat)
+        : await client.fetch(q.experienceForChat);
 
       return {
         cards: rows.map((row) => ({
           kind: isEducation ? ("education" as const) : ("role" as const),
           title: row.title,
-          subtitle: [row.org, row.loc].filter(Boolean).join("  ·  ") || undefined,
+          subtitle: [row.org, "loc" in row ? row.loc : null].filter(Boolean).join("  ·  ") || undefined,
           body: row.description || undefined,
           meta: [row.startDate, row.endDate ?? "Present"].filter(Boolean).join(" — "),
           href: row.url ?? undefined,
@@ -212,7 +150,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "skills": {
-      const rows = await client.fetch<SkillGroupRow[]>(q.skillsForChat);
+      const rows = await client.fetch(q.skillsForChat);
       const total = rows.reduce((sum, row) => sum + row.skills.length, 0);
       return {
         cards: rows.map((row) => ({
@@ -229,7 +167,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "testimonials": {
-      const rows = await client.fetch<TestimonialRow[]>(q.testimonialsForChat);
+      const rows = await client.fetch(q.testimonialsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "testimonial" as const,
@@ -244,7 +182,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "bookmarks": {
-      const rows = await client.fetch<BookmarkRow[]>(q.bookmarksForChat);
+      const rows = await client.fetch(q.bookmarksForChat);
       const folders = new Set(rows.map((row) => row.folder).filter(Boolean));
       return {
         cards: rows.map((row) => ({
@@ -259,7 +197,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "golf": {
-      const rows = await client.fetch<GolfRow[]>(q.golfScoresForChat);
+      const rows = await client.fetch(q.golfScoresForChat);
       const scores = rows.map((row) => row.score);
       const best = scores.length ? Math.min(...scores) : 0;
       const average = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
@@ -293,9 +231,9 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
       };
 
     case "about": {
-      const settings = await client.fetch<SettingsRow | null>(q.settingsForChat);
-      const projects = await client.fetch<number>(q.projectCount);
-      const articles = await client.fetch<number>(q.articleCount);
+      const settings = await client.fetch(q.settingsForChat);
+      const projects = await client.fetch(q.projectCount);
+      const articles = await client.fetch(q.articleCount);
 
       if (!settings) {
         return {
