@@ -147,10 +147,13 @@ delegate("click", "[data-suggestion]", (chip) => {
 // --- Search ----------------------------------------------------------------
 
 // The pen's mobile bar has a search button but no field; the page owns the only
-// search input, so the button focuses that instead of being decorative.
+// search input, so the button focuses that instead of being decorative. A field
+// in the page header is hidden on mobile (pen Fn67n) until this opens it.
 delegate("click", "[data-search-focus]", () => {
   const field = document.querySelector<HTMLInputElement>('input[name="q"]:not([data-composer-input])');
   if (!field) return;
+  const header = field.closest<HTMLElement>("[data-pagehead]");
+  if (header) header.dataset.searchOpen = "";
   field.scrollIntoView({ block: "center" });
   field.focus({ preventScroll: true });
 });
