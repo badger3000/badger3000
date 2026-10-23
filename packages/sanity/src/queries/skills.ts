@@ -20,7 +20,18 @@ export const skillsQuery = defineQuery(`*[_type == "skillCategory"] | order(orde
   }
 }`);
 
-/** Chat — the agent's `skills` intent: every category, names only. */
-export const skillsForChatQuery = defineQuery(`*[_type == "skillCategory"] | order(order asc) {
-  "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])
+/**
+ * Chat — the agent's `skills` intent: the categories whose name or any skill
+ * matches `$q` (every category when `$q` is empty), names only. `total` and
+ * `matched` count categories.
+ */
+export const skillsForChatQuery = defineQuery(`{
+  "total": count(*[_type == "skillCategory"]),
+  "matched": count(*[_type == "skillCategory"
+    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]),
+  "rows": *[_type == "skillCategory"
+    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]
+    | order(order asc) [0...$limit] {
+    "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])
+  }
 }`);

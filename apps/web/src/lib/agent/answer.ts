@@ -8,7 +8,7 @@
  * Retrieval errors propagate; turning them into a 503 is the endpoint's job.
  */
 import { classify, type Intent } from "./intents.ts";
-import { filterCards, retrieve, type Card, type ChatFetch } from "./retrieve.ts";
+import { retrieve, type Card, type ChatFetch } from "./retrieve.ts";
 import { compose, fallback, type Model } from "./compose.ts";
 
 /** Suggestions for the fallback answer, and the chips under the greeting. */
@@ -50,13 +50,13 @@ export async function answer(message: string, { fetch, model }: AnswerDeps): Pro
     };
   }
 
-  const found = await retrieve(intent, fetch);
-  // Narrow to the words the visitor actually typed, but never to nothing.
-  const cards = filterCards(found.cards, terms.join(" ").toLowerCase());
+  // Narrowed in GROQ by the words the visitor actually typed, but never to nothing.
+  const found = await retrieve(intent, terms, fetch);
+  const { cards } = found;
 
   // The model's line is a bonus; the template is the contract.
   const line = await compose(intent, found.facts, model);
-  const text = line ?? fallback(intent, found.count, found.facts);
+  const text = line ?? fallback(intent, cards.length, found.facts);
 
   return { intent, text, cards, composed: line ? "model" : "template" };
 }

@@ -56,8 +56,19 @@ const config = {
 const { projectId, dataset } = config;
 const isConfigured = isComplete(config);
 let sanity: Sanity | undefined;
-const fetchQuery = (query: string) =>
-  (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query);
+const fetchQuery = (query: string, params: Record<string, unknown>) =>
+  (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query, params);
+
+/**
+ * The agent's list queries take the visitor's terms (`$q`) and a cap
+ * (`$limit`). Each runs twice: unfiltered, and with a probe term so the
+ * `match` filter runs on the real API too. Queries without params ignore them.
+ * groq-js needs the params to parse as well: a `$limit` slice must be a
+ * constant at parse time.
+ */
+const PARAMS = { q: [], limit: 3 };
+const PROBE = { q: ["a*"], limit: 3 };
+const takesTerms = (query: string) => /\$q\b/.test(query);
 
 type QueryName = keyof typeof queries;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };
@@ -77,7 +88,7 @@ const failures: string[] = [];
 //    a build does.
 for (const name of names) {
   try {
-    parse(queries[name]);
+    parse(queries[name], { params: takesTerms(queries[name]) ? PARAMS : {} });
     report[name] = { ...(report[name] ?? { ok: true }), parsed: true };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -104,22 +115,35 @@ if (!parseOnly && failures.length === 0) {
 
   console.error(`project ${projectId} · dataset ${dataset}${asJson ? "" : "\n"}`);
 
-  for (const name of names) {
+  const runs = names.flatMap((name): { name: QueryName; label: string; params: Record<string, unknown> }[] =>
+    takesTerms(queries[name])
+      ? [
+          { name, label: name, params: PARAMS },
+          { name, label: `${name} $q`, params: PROBE },
+        ]
+      : [{ name, label: name, params: {} }],
+  );
+
+  for (const { name, label, params } of runs) {
     const started = Date.now();
     try {
-      const rows = await fetchQuery(queries[name]);
-      // A bare count (`count(*[…])`) reports its value; anything else its rows.
+      const result = await fetchQuery(queries[name], params);
+      // A bare count (`count(*[…])`) reports its value, a `{ total, rows }`
+      // chat result its rows, anything else its rows.
+      const rows =
+        result && typeof result === "object" && "rows" in result ? (result as { rows: unknown }).rows : result;
       const count = typeof rows === "number" ? rows : Array.isArray(rows) ? rows.length : rows ? 1 : 0;
-      report[name] = { ok: true, parsed: true, count, ms: Date.now() - started };
+      // The probe only proves the filter runs; zero matches is fine.
+      if (label === name) report[name] = { ok: true, parsed: true, count, ms: Date.now() - started };
       if (!asJson) {
-        const first = rows ? JSON.stringify(rows).slice(0, 92) : "—";
-        console.log(`  ✓ ${name.padEnd(19)} ${String(count).padStart(4)} rows  ${first}`);
+        const first = result ? JSON.stringify(result).slice(0, 92) : "—";
+        console.log(`  ✓ ${label.padEnd(21)} ${String(count).padStart(4)} rows  ${first}`);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       report[name] = { ok: false, parsed: true, error: message };
-      failures.push(`${name}: ${message.split("\n")[0]}`);
-      if (!asJson) console.log(`  ✗ ${name.padEnd(19)} ${message.split("\n")[0]}`);
+      failures.push(`${label}: ${message.split("\n")[0]}`);
+      if (!asJson) console.log(`  ✗ ${label.padEnd(21)} ${message.split("\n")[0]}`);
     }
   }
 

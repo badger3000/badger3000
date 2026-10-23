@@ -25,7 +25,23 @@ export const projectsQuery = defineQuery(`*[_type == "projects" && defined(slug.
   "coverImage": null
 }`);
 
-/** Chat — the agent's `projects` intent: the first 8, by the schema's `order`. */
-export const projectsForChatQuery = defineQuery(`*[_type == "projects" && defined(slug.current)] | order(order asc) [0...8] {
-  "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url
+/**
+ * Chat — the agent's `projects` intent, by the schema's `order`. The shape every
+ * list intent shares:
+ *
+ * - `$q`: the visitor's terms as `match` patterns (`["react*"]`); a document
+ *   matches when any term hits any listed field. `[]` matches everything.
+ * - `$limit`: the most rows one answer carries.
+ * - `total` / `matched`: the counts the reply quotes ("2 of his 5 projects"),
+ *   so the text is computed from the same filter as the cards.
+ */
+export const projectsForChatQuery = defineQuery(`{
+  "total": count(*[_type == "projects" && defined(slug.current)]),
+  "matched": count(*[_type == "projects" && defined(slug.current)
+    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),
+  "rows": *[_type == "projects" && defined(slug.current)
+    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]
+    | order(order asc) [0...$limit] {
+    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url
+  }
 }`);

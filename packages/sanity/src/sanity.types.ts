@@ -767,14 +767,18 @@ export type ArticlesQueryResult = Array<{
 
 // Source: src/queries/articles.ts
 // Variable: articlesForChatQuery
-// Query: *[_type == "articles" && defined(slug.current)] | order(_createdAt desc) [0...6] {  "title": coalesce(title, "Untitled"), "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt}
-export type ArticlesForChatQueryResult = Array<{
-  title: string | "Untitled";
-  slug: string;
-  excerpt: string | "";
-  topic: string | null;
-  date: string;
-}>;
+// Query: {  "total": count(*[_type == "articles" && defined(slug.current)]),  "matched": count(*[_type == "articles" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),  "rows": *[_type == "articles" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]    | order(_createdAt desc) [0...$limit] {    "title": coalesce(title, "Untitled"), "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt  }}
+export type ArticlesForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string | "Untitled";
+    slug: string | null;
+    excerpt: string | "";
+    topic: string | null;
+    date: string;
+  }>;
+};
 
 // Source: src/queries/bookmarks.ts
 // Variable: bookmarksQuery
@@ -788,12 +792,16 @@ export type BookmarksQueryResult = Array<{
 
 // Source: src/queries/bookmarks.ts
 // Variable: bookmarksForChatQuery
-// Query: *[_type == "bookmark"] | order(title asc) [0...8] {  title, url, "folder": folder->name}
-export type BookmarksForChatQueryResult = Array<{
-  title: string;
-  url: string;
-  folder: string;
-}>;
+// Query: {  "total": count(*[_type == "bookmark"]),  "matched": count(*[_type == "bookmark"    && (count($q) == 0 || count($q[[^.title, ^.url, ^.folder->name] match @]) > 0)]),  "rows": *[_type == "bookmark"    && (count($q) == 0 || count($q[[^.title, ^.url, ^.folder->name] match @]) > 0)]    | order(title asc) [0...$limit] {    title, url, "folder": folder->name  }}
+export type BookmarksForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string;
+    url: string;
+    folder: string;
+  }>;
+};
 
 // Source: src/queries/counts.ts
 // Variable: countsQuery
@@ -878,28 +886,36 @@ export type EducationQueryResult = Array<{
 
 // Source: src/queries/experience.ts
 // Variable: experienceForChatQuery
-// Query: *[_type == "experience"] | order(startDate desc) [0...8] {  title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl}
-export type ExperienceForChatQueryResult = Array<{
-  title: string;
-  org: string;
-  loc: string | null;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  url: string | null;
-}>;
+// Query: {  "total": count(*[_type == "experience"]),  "matched": count(*[_type == "experience"    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]),  "rows": *[_type == "experience"    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]    | order(startDate desc) [0...$limit] {    title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl  }}
+export type ExperienceForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string;
+    org: string;
+    loc: string | null;
+    startDate: string | null;
+    endDate: string | null;
+    description: string | null;
+    url: string | null;
+  }>;
+};
 
 // Source: src/queries/experience.ts
 // Variable: educationForChatQuery
-// Query: *[_type == "education"] | order(startDate desc) [0...8] {  "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl}
-export type EducationForChatQueryResult = Array<{
-  title: string;
-  org: string;
-  startDate: string | null;
-  endDate: string | null;
-  description: string | null;
-  url: string | null;
-}>;
+// Query: {  "total": count(*[_type == "education"]),  "matched": count(*[_type == "education"    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]),  "rows": *[_type == "education"    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]    | order(startDate desc) [0...$limit] {    "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl  }}
+export type EducationForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string;
+    org: string;
+    startDate: string | null;
+    endDate: string | null;
+    description: string | null;
+    url: string | null;
+  }>;
+};
 
 // Source: src/queries/experiments.ts
 // Variable: experimentsQuery
@@ -931,14 +947,18 @@ export type ExperimentsQueryResult = Array<{
 
 // Source: src/queries/experiments.ts
 // Variable: experimentsForChatQuery
-// Query: *[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) [0...6] {  title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title}
-export type ExperimentsForChatQueryResult = Array<{
-  title: string;
-  slug: string;
-  excerpt: string | "";
-  url: string;
-  topic: string | null;
-}>;
+// Query: {  "total": count(*[_type == "codepen" && defined(slug.current)]),  "matched": count(*[_type == "codepen" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),  "rows": *[_type == "codepen" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]    | order(_createdAt desc) [0...$limit] {    title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title  }}
+export type ExperimentsForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string;
+    slug: string;
+    excerpt: string | "";
+    url: string;
+    topic: string | null;
+  }>;
+};
 
 // Source: src/queries/golf.ts
 // Variable: golfScoresQuery
@@ -951,12 +971,16 @@ export type GolfScoresQueryResult = Array<{
 
 // Source: src/queries/golf.ts
 // Variable: golfScoresForChatQuery
-// Query: *[_type == "golfScores" && defined(score)] | order(date desc) [0...10] {  "course": coalesce(course, "Unknown course"), date, score}
-export type GolfScoresForChatQueryResult = Array<{
-  course: string | "Unknown course";
-  date: string | null;
-  score: number;
-}>;
+// Query: {  "total": count(*[_type == "golfScores" && defined(score)]),  "matched": count(*[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[^.course match @]) > 0)]),  "rows": *[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[^.course match @]) > 0)]    | order(date desc) [0...$limit] {    "course": coalesce(course, "Unknown course"), date, score  }}
+export type GolfScoresForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    course: string | "Unknown course";
+    date: string | null;
+    score: number | null;
+  }>;
+};
 
 // Source: src/queries/projects.ts
 // Variable: projectsQuery
@@ -978,13 +1002,17 @@ export type ProjectsQueryResult = Array<{
 
 // Source: src/queries/projects.ts
 // Variable: projectsForChatQuery
-// Query: *[_type == "projects" && defined(slug.current)] | order(order asc) [0...8] {  "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url}
-export type ProjectsForChatQueryResult = Array<{
-  title: string | "Untitled";
-  topic: string | null;
-  tech: Array<string> | Array<never>;
-  url: string | null;
-}>;
+// Query: {  "total": count(*[_type == "projects" && defined(slug.current)]),  "matched": count(*[_type == "projects" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),  "rows": *[_type == "projects" && defined(slug.current)    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]    | order(order asc) [0...$limit] {    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url  }}
+export type ProjectsForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    title: string | "Untitled";
+    topic: string | null;
+    tech: Array<string> | Array<never>;
+    url: string | null;
+  }>;
+};
 
 // Source: src/queries/settings.ts
 // Variable: settingsQuery
@@ -1042,16 +1070,20 @@ export type SkillsQueryResult = Array<{
 
 // Source: src/queries/skills.ts
 // Variable: skillsForChatQuery
-// Query: *[_type == "skillCategory"] | order(order asc) {  "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])}
-export type SkillsForChatQueryResult = Array<{
-  name: string;
-  skills:
-    | Array<{
-        name: string;
-        badgeLabel: string | null;
-      }>
-    | Array<never>;
-}>;
+// Query: {  "total": count(*[_type == "skillCategory"]),  "matched": count(*[_type == "skillCategory"    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]),  "rows": *[_type == "skillCategory"    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]    | order(order asc) [0...$limit] {    "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])  }}
+export type SkillsForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    name: string;
+    skills:
+      | Array<{
+          name: string;
+          badgeLabel: string | null;
+        }>
+      | Array<never>;
+  }>;
+};
 
 // Source: src/queries/testimonials.ts
 // Variable: testimonialsQuery
@@ -1082,14 +1114,18 @@ export type TestimonialsQueryResult = Array<{
 
 // Source: src/queries/testimonials.ts
 // Variable: testimonialsForChatQuery
-// Query: *[_type == "testimonial"] | order(order asc) [0...5] {  "name": coalesce(name, "Anonymous"), role, company, content, profileUrl}
-export type TestimonialsForChatQueryResult = Array<{
-  name: string;
-  role: string;
-  company: string | null;
-  content: string;
-  profileUrl: string | null;
-}>;
+// Query: {  "total": count(*[_type == "testimonial"]),  "matched": count(*[_type == "testimonial"    && (count($q) == 0 || count($q[[^.name, ^.role, ^.company] match @]) > 0)]),  "rows": *[_type == "testimonial"    && (count($q) == 0 || count($q[[^.name, ^.role, ^.company] match @]) > 0)]    | order(order asc) [0...$limit] {    "name": coalesce(name, "Anonymous"), role, company, content, profileUrl  }}
+export type TestimonialsForChatQueryResult = {
+  total: number;
+  matched: number;
+  rows: Array<{
+    name: string;
+    role: string;
+    company: string | null;
+    content: string;
+    profileUrl: string | null;
+  }>;
+};
 
 // Source: src/queries/topics.ts
 // Variable: topicsQuery
@@ -1104,28 +1140,28 @@ export type TopicsQueryResult = Array<{
 declare global {
   interface SanityQueries {
     '*[_type == "articles" && defined(slug.current)] | order(_createdAt desc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  "excerpt": coalesce(excerpt, "Read more..."),\n  "topic": topic->title,\n  "publishedAt": _createdAt,\n  "mainImage": main_image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ArticlesQueryResult;
-    '*[_type == "articles" && defined(slug.current)] | order(_createdAt desc) [0...6] {\n  "title": coalesce(title, "Untitled"), "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt\n}': ArticlesForChatQueryResult;
+    '{\n  "total": count(*[_type == "articles" && defined(slug.current)]),\n  "matched": count(*[_type == "articles" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),\n  "rows": *[_type == "articles" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]\n    | order(_createdAt desc) [0...$limit] {\n    "title": coalesce(title, "Untitled"), "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt\n  }\n}': ArticlesForChatQueryResult;
     '*[_type == "bookmark"] | order(title asc) {\n  "id": _id,\n  title,\n  url,\n  "folder": folder->name\n}': BookmarksQueryResult;
-    '*[_type == "bookmark"] | order(title asc) [0...8] {\n  title, url, "folder": folder->name\n}': BookmarksForChatQueryResult;
+    '{\n  "total": count(*[_type == "bookmark"]),\n  "matched": count(*[_type == "bookmark"\n    && (count($q) == 0 || count($q[[^.title, ^.url, ^.folder->name] match @]) > 0)]),\n  "rows": *[_type == "bookmark"\n    && (count($q) == 0 || count($q[[^.title, ^.url, ^.folder->name] match @]) > 0)]\n    | order(title asc) [0...$limit] {\n    title, url, "folder": folder->name\n  }\n}': BookmarksForChatQueryResult;
     '{\n  "projects": count(*[_type == "projects"]),\n  "articles": count(*[_type == "articles"]),\n  "experiments": count(*[_type == "codepen"]),\n  "experience": count(*[_type == "experience"]),\n  "education": count(*[_type == "education"]),\n  "skills": count(*[_type == "skillCategory"]),\n  "testimonials": count(*[_type == "testimonial"]),\n  "bookmarks": count(*[_type == "bookmark"]),\n  "golf": count(*[_type == "golfScores"])\n}': CountsQueryResult;
     'count(*[_type == "projects"])': ProjectCountQueryResult;
     'count(*[_type == "articles"])': ArticleCountQueryResult;
     '*[_type == "experience"] | order(startDate desc) {\n  title,\n  company,\n  companyUrl,\n  location,\n  startDate,\n  endDate,\n  description,\n  order,\n  "logo": logo {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ExperienceQueryResult;
     '*[_type == "education"] | order(startDate desc) {\n  degree,\n  institution,\n  institutionUrl,\n  location,\n  startDate,\n  endDate,\n  description,\n  order,\n  "logo": logo {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': EducationQueryResult;
-    '*[_type == "experience"] | order(startDate desc) [0...8] {\n  title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl\n}': ExperienceForChatQueryResult;
-    '*[_type == "education"] | order(startDate desc) [0...8] {\n  "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl\n}': EducationForChatQueryResult;
+    '{\n  "total": count(*[_type == "experience"]),\n  "matched": count(*[_type == "experience"\n    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]),\n  "rows": *[_type == "experience"\n    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]\n    | order(startDate desc) [0...$limit] {\n    title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl\n  }\n}': ExperienceForChatQueryResult;
+    '{\n  "total": count(*[_type == "education"]),\n  "matched": count(*[_type == "education"\n    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]),\n  "rows": *[_type == "education"\n    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]\n    | order(startDate desc) [0...$limit] {\n    "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl\n  }\n}': EducationForChatQueryResult;
     '*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  "excerpt": coalesce(excerpt, description[0].children[0].text, "Read more..."),\n  "topic": topic->title,\n  penUrl,\n  cardLayout,\n  "createdAt": _createdAt,\n  "thumbnail": thumbnail {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ExperimentsQueryResult;
-    '*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) [0...6] {\n  title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title\n}': ExperimentsForChatQueryResult;
+    '{\n  "total": count(*[_type == "codepen" && defined(slug.current)]),\n  "matched": count(*[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),\n  "rows": *[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]\n    | order(_createdAt desc) [0...$limit] {\n    title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title\n  }\n}': ExperimentsForChatQueryResult;
     '*[_type == "golfScores"] | order(date desc) {\n  course,\n  date,\n  score\n}': GolfScoresQueryResult;
-    '*[_type == "golfScores" && defined(score)] | order(date desc) [0...10] {\n  "course": coalesce(course, "Unknown course"), date, score\n}': GolfScoresForChatQueryResult;
+    '{\n  "total": count(*[_type == "golfScores" && defined(score)]),\n  "matched": count(*[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]),\n  "rows": *[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]\n    | order(date desc) [0...$limit] {\n    "course": coalesce(course, "Unknown course"), date, score\n  }\n}': GolfScoresForChatQueryResult;
     '*[_type == "projects" && defined(slug.current)] | order(order asc, title asc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  // No monogram here: title[0] is null in GROQ (strings are not indexable).\n  // The pen binds the monogram to project.title[0]; the card takes\n  // title.charAt(0) instead.\n  "topic": topic->title,\n  "topicSlug": topic->slug.current,\n  "tech": tech[],\n  "webUrl": web_url,\n  cardLayout,\n  order,\n  // The pen binds "project.excerpt" but the schema declares no such field. The\n  // live documents carry a project_description (portable text) field instead,\n  // so the first block\'s text is the excerpt. Add a real excerpt field to the\n  // schema and this can go back to coalescing.\n  "excerpt": project_description[0].children[0].text,\n  "createdAt": _createdAt,\n  // project_image exists on every document but the pen\'s card is a gradient;\n  // kept out of the projection until the pen allows a cover image.\n  "coverImage": null\n}': ProjectsQueryResult;
-    '*[_type == "projects" && defined(slug.current)] | order(order asc) [0...8] {\n  "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url\n}': ProjectsForChatQueryResult;
+    '{\n  "total": count(*[_type == "projects" && defined(slug.current)]),\n  "matched": count(*[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),\n  "rows": *[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url\n  }\n}': ProjectsForChatQueryResult;
     '*[_type == "settings"][0] {\n  name,\n  title,\n  location,\n  occupation,\n  description,\n  "avatarImage": avatar_image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "links": links[]->{ siteName, webUrl }\n}': SettingsQueryResult;
     '*[_type == "settings"][0] {\n  name, title, location, occupation, description\n}': SettingsForChatQueryResult;
     '*[_type == "skillCategory"] | order(order asc) {\n  name,\n  order,\n  "skills": skills[] {\n    name,\n    badgeType,\n    badgeLabel,\n    "badgeColor": select(\n      badgeColor == null => null,\n      string::startsWith(badgeColor, "#") => badgeColor,\n      true => "#" + badgeColor\n    )\n  }\n}': SkillsQueryResult;
-    '*[_type == "skillCategory"] | order(order asc) {\n  "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])\n}': SkillsForChatQueryResult;
+    '{\n  "total": count(*[_type == "skillCategory"]),\n  "matched": count(*[_type == "skillCategory"\n    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]),\n  "rows": *[_type == "skillCategory"\n    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])\n  }\n}': SkillsForChatQueryResult;
     '*[_type == "testimonial"] | order(order asc) {\n  name,\n  role,\n  company,\n  profileUrl,\n  content,\n  order,\n  featured,\n  "photo": photo {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': TestimonialsQueryResult;
-    '*[_type == "testimonial"] | order(order asc) [0...5] {\n  "name": coalesce(name, "Anonymous"), role, company, content, profileUrl\n}': TestimonialsForChatQueryResult;
+    '{\n  "total": count(*[_type == "testimonial"]),\n  "matched": count(*[_type == "testimonial"\n    && (count($q) == 0 || count($q[[^.name, ^.role, ^.company] match @]) > 0)]),\n  "rows": *[_type == "testimonial"\n    && (count($q) == 0 || count($q[[^.name, ^.role, ^.company] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "name": coalesce(name, "Anonymous"), role, company, content, profileUrl\n  }\n}': TestimonialsForChatQueryResult;
     '*[_type == "topics"] | order(title asc) {\n  title,\n  "slug": slug.current,\n  "backgroundColor": backgroundColor.hex\n}': TopicsQueryResult;
   }
 }
