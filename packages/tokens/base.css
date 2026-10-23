@@ -1,0 +1,56 @@
+/*
+ * BADGER3000 base — the document defaults that sit on top of tokens.css.
+ * Kept apart from the variables so a consumer that only wants the tokens
+ * (Studio, an embed) can import tokens.css without the reset.
+ */
+
+/* ---- reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+/* Forest is a light skin; said explicitly so it never inherits dark's. */
+[data-theme="forest"] {
+  color-scheme: light;
+}
+body {
+  margin: 0;
+  background: var(--a-bg);
+  color: var(--a-ink);
+  font-family: var(--af-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * The theme picker has two ways to land on a skin: a direct pill pick
+ * (snap instantly to that token) or a gear-cycle (animate from current to
+ * next through `transition: background-color …`). `shell.ts` flips this class
+ * on the next two animation frames around the pill pick so the colour change
+ * the user just asked for snaps, but the next one — almost always through the
+ * gear again — animates from the new baseline.
+ */
+html.no-transitions,
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}

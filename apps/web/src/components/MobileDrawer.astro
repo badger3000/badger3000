@@ -4,7 +4,7 @@
  * context: nav · mobile drawer
  *
  *   320 wide · `$a-sidebar` · gap 16 · padding [18, 16]
- *   Brand 32/10 + close 34/10 · New surface/12/pad 12 · EXPLORE mono 10.5
+ *   Brand = Avatar 32 + close 34/10 · New surface/12/pad 12 · EXPLORE mono 10.5
  *   Nav gap 2, items radius 10, gap 12, padding 11, icon 17, label 14, count mono 11
  *   Appearance (pad [4, 2]): seg surface/9/gap 2/pad 2, options radius 7 gap 5
  *     pad [6, 10], icon 13 + label 12 — the pen shows Light and Dark only, so
@@ -12,11 +12,12 @@
  *   Profile surface/12/gap 10/pad 9
  *
  * It is a real `<dialog>`: Esc closes it, focus is trapped, and `::backdrop` is
- * the pen's scrim (`#0C0C0A`) without a second element to manage. Opening,
+ * the pen's scrim (`--a-scrim`) without a second element to manage. Opening,
  * closing and the Appearance segment are delegated from `lib/shell.ts`, which
  * looks the dialog up at event time — the router replaces it on every swap.
  */
-import Icon from "./Icon.astro";
+import { Avatar, AvatarUser, Icon, NavItem } from "@badger3000/ui";
+import { nav } from "../lib/nav.ts";
 
 interface Props {
   counts?: Record<string, number | undefined>;
@@ -25,29 +26,11 @@ interface Props {
 }
 
 const { counts = {}, active, profile } = Astro.props;
-
-const nav = [
-  { id: "projects", label: "Projects", icon: "folder-git-2", href: "/projects" },
-  { id: "articles", label: "Articles", icon: "newspaper", href: "/articles" },
-  { id: "experiments", label: "Experiments", icon: "code-xml", href: "/codepen" },
-  { id: "experience", label: "Experience", icon: "briefcase", href: "/experience" },
-  { id: "education", label: "Education", icon: "graduation-cap", href: "/experience#education" },
-  { id: "skills", label: "Skills", icon: "sparkles", href: "/skills" },
-  { id: "testimonials", label: "Testimonials", icon: "quote", href: "/testimonials" },
-  { id: "bookmarks", label: "Bookmarks", icon: "bookmark", href: "/bookmarks" },
-  { id: "golf", label: "Golf scores", icon: "flag", href: "/golf" },
-];
-
-const initials = (profile?.name ?? "Kyle Ross")
-  .split(" ")
-  .map((part) => part.charAt(0))
-  .slice(0, 2)
-  .join("");
 ---
 
 <dialog class="drawer" data-drawer aria-label="Menu">
   <div class="brand">
-    <span class="mark" aria-hidden="true">🦡</span>
+    <Avatar size={32} />
     <span class="brandtext">
       <strong>Badger3000</strong>
       <span>Kyle's AI</span>
@@ -66,11 +49,14 @@ const initials = (profile?.name ?? "Kyle Ross")
   <nav class="nav" aria-label="Explore content">
     {
       nav.map((item) => (
-        <a class="item" href={item.href} aria-current={item.id === active ? "page" : undefined}>
-          <span class="ico"><Icon name={item.icon} size={17} /></span>
-          <span class="label">{item.label}</span>
-          {counts[item.id] !== undefined && <span class="count">{counts[item.id]}</span>}
-        </a>
+        <NavItem
+          href={item.href}
+          icon={item.icon}
+          label={item.label}
+          count={counts[item.id]}
+          active={item.id === active}
+          size="lg"
+        />
       ))
     }
   </nav>
@@ -94,7 +80,7 @@ const initials = (profile?.name ?? "Kyle Ross")
   {
     profile && (
       <div class="profile">
-        <span class="avatar" aria-hidden="true">{initials}</span>
+        <AvatarUser name={profile.name} />
         <span class="ptext">
           <strong>{profile.name}</strong>
           {profile.location && <span>{profile.location}</span>}
@@ -123,7 +109,7 @@ const initials = (profile?.name ?? "Kyle Ross")
   }
   /* The pen's scrim. */
   .drawer::backdrop {
-    background: #0c0c0a;
+    background: var(--a-scrim);
   }
   .drawer[open] {
     display: flex;
@@ -139,17 +125,6 @@ const initials = (profile?.name ?? "Kyle Ross")
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-  .mark {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: var(--a-ink);
-    font-family: Inter, sans-serif;
-    font-size: 17px;
-    color: var(--a-surface);
   }
   .brandtext {
     display: flex;
@@ -204,48 +179,6 @@ const initials = (profile?.name ?? "Kyle Ross")
     flex-direction: column;
     gap: 2px;
   }
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 11px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    color: var(--a-muted);
-    text-decoration: none;
-  }
-  .item:hover {
-    background: var(--a-surface);
-  }
-  .item[aria-current="page"] {
-    border-color: var(--a-line);
-    background: var(--a-surface);
-  }
-  .ico {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 17px;
-    height: 17px;
-  }
-  .item[aria-current="page"] .ico {
-    color: var(--a-accent);
-  }
-  .label {
-    flex: 1;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .item[aria-current="page"] .label {
-    font-weight: 600;
-    color: var(--a-ink);
-  }
-  .count {
-    font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 11px;
-    color: var(--a-faint);
-  }
-
   .spacer {
     flex: 1;
     min-height: 8px;
@@ -297,17 +230,6 @@ const initials = (profile?.name ?? "Kyle Ross")
     padding: 9px;
     border-radius: 12px;
     background: var(--a-surface);
-  }
-  .avatar {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    background: var(--a-accent-soft);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--a-accent);
   }
   .ptext {
     display: flex;

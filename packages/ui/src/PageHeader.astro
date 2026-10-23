@@ -6,7 +6,14 @@
  * Title in the display serif with the CountBadge beside it, a muted subtitle,
  * and an actions slot on the right. The pen puts the filter row inside this
  * master, but the browse screens draw it as a sibling (with the sort control on
- * the far right) — so the filters live in the page, not here.
+ * the far right) — so the filters are a `FilterBar` in the page, not here
+ * (pen fix P-4 drops them from the master: props title, count, sub, actions).
+ *
+ * At ≤720px it follows Mobile — Browse (`Fn67n`), which has no page header at
+ * all: the mobile bar carries title and count, Ask Badger (`.ask`) is gone and
+ * search is the bar's icon. So the title block and `.ask` hide, and a search
+ * `Input` in the actions stays hidden until that icon sets `data-search-open`
+ * (`lib/shell.ts`). The header itself hides when nothing else is left in it.
  */
 import CountBadge from "./CountBadge.astro";
 
@@ -21,7 +28,7 @@ interface Props {
 const { title, count, countLabel, sub } = Astro.props;
 ---
 
-<header class="pagehead">
+<header class="pagehead" data-pagehead>
   <div class="left">
     <div class="titlerow">
       <h1>{title}</h1>
@@ -73,15 +80,26 @@ const { title, count, countLabel, sub } = Astro.props;
 
   @media (max-width: 720px) {
     /* The mobile bar carries the title and count (pen yM5Vm), so the title block
-       would just repeat it. The actions stay: they hold the only search field. */
-    .left {
+       would just repeat it. */
+    .left,
+    .actions > :global(.ask),
+    .pagehead:not([data-search-open]) .actions > :global(.input) {
+      display: none;
+    }
+    .pagehead:not([data-search-open]):not(:has(> .actions > :global(:not(.ask, .input)))) {
       display: none;
     }
     .pagehead {
       justify-content: flex-end;
     }
     .actions {
+      flex: 1;
       flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .actions > :global(.input) {
+      flex: 1;
+      min-width: 0;
     }
   }
 </style>

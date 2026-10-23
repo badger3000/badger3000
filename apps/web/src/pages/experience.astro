@@ -9,10 +9,8 @@
  * The Résumé button points at the printable experience page until a PDF is added.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
-import Icon from "../components/Icon.astro";
+import { Button, FilterBar, Icon } from "@badger3000/ui";
 import TimelineEntry from "../components/TimelineEntry.astro";
-import FilterBar from "../components/FilterBar.astro";
 import { getExperience, getEducation, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [experience, education, counts, settings] = await Promise.all([
@@ -33,7 +31,9 @@ const [experience, education, counts, settings] = await Promise.all([
   gap={20}
 >
   <Fragment slot="actions">
-    <AskBadger />
+    <Button variant="soft" href="/" label="Ask Badger" class="ask">
+      <Icon slot="icon" name="sparkles" />
+    </Button>
     <a class="download" href="/experience">
       <Icon name="download" size={14} />
       <span>Résumé</span>

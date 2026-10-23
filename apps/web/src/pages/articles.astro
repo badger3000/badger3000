@@ -11,10 +11,8 @@
  * newest article takes it rather than inventing one.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
-import FilterBar from "../components/FilterBar.astro";
-import ContentCard from "../components/ContentCard.astro";
-import Tag from "../components/Tag.astro";
+import { Button, ContentCard, FilterBar, Icon } from "@badger3000/ui";
+import { gradientFor } from "@badger3000/tokens/covers";
 import { getArticles, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [articles, topics, counts, settings] = await Promise.all([
@@ -29,9 +27,10 @@ const month = (iso: string) =>
 
 const [featured, ...rest] = articles;
 const usedTopics = new Set(articles.map((a) => a.topic));
-const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
+const chips = topics
+  .flatMap((t) => (t.title && t.slug && usedTopics.has(t.slug) ? [{ label: t.title, value: t.slug }] : []));
 const index = (a: (typeof articles)[number]) =>
-  [a.title, a.topic ?? ""].join(" ").toLowerCase();
+  [a.title ?? "", a.topic ?? ""].join(" ").toLowerCase();
 ---
 
 <Browse
@@ -44,15 +43,17 @@ const index = (a: (typeof articles)[number]) =>
   countLabel="articles"
   sub="Essays on building for the web — and the occasional detour."
 >
-  <Fragment slot="actions"><AskBadger /></Fragment>
+  <Button slot="actions" variant="soft" href="/" label="Ask Badger" class="ask">
+    <Icon slot="icon" name="sparkles" />
+  </Button>
 
-  <FilterBar topics={chips} searchPlaceholder="Search writing…" searchLabel="Search articles" />
+  <FilterBar chips={chips} searchPlaceholder="Search writing…" searchLabel="Search articles" />
 
   <div data-browse>
     {
       featured && (
         <section class="featured" aria-label="Featured article">
-          <a class="feature" href={`/articles/${featured.slug}`}>
+          <a class="feature" href={`/articles/${featured.slug}`} style={`background:${gradientFor(featured.id)}`}>
             <span class="fbody">
               <span class="kicker">Featured</span>
               <span class="ftitle">{featured.title}</span>
@@ -63,11 +64,11 @@ const index = (a: (typeof articles)[number]) =>
           {rest[0] && (
             <div class="secondary">
               <ContentCard
-                id={rest[0].id}
+                seed={rest[0].id}
                 href={`/articles/${rest[0].slug}`}
-                title={rest[0].title}
-                excerpt={rest[0].excerpt}
-                topic={rest[0].topic}
+                title={rest[0].title ?? "Untitled"}
+                excerpt={rest[0].excerpt ?? undefined}
+                topic={rest[0].topic ?? undefined}
                 meta={month(rest[0].publishedAt)}
                 titleSize={17}
                 coverHeight={132}
@@ -83,11 +84,11 @@ const index = (a: (typeof articles)[number]) =>
         rest.slice(1).map((article) => (
           <li data-item data-search={index(article)}>
             <ContentCard
-              id={article.id}
+              seed={article.id}
               href={`/articles/${article.slug}`}
-              title={article.title}
-              excerpt={article.excerpt}
-              topic={article.topic}
+              title={article.title ?? "Untitled"}
+              excerpt={article.excerpt ?? undefined}
+              topic={article.topic ?? undefined}
               meta={month(article.publishedAt)}
             />
           </li>
@@ -110,8 +111,7 @@ const index = (a: (typeof articles)[number]) =>
     min-height: 300px;
     padding: 24px;
     border-radius: 16px;
-    background: linear-gradient(220deg, #f6c6ad 0%, #e4572e 100%);
-    color: #fff;
+    color: var(--a-on-cover);
     text-decoration: none;
   }
   .feature:hover {
@@ -125,7 +125,7 @@ const index = (a: (typeof articles)[number]) =>
   .kicker {
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 10.5px;
-    color: #ffffffcc;
+    color: var(--a-on-cover-muted);
   }
   .ftitle {
     max-width: 20ch;
@@ -137,12 +137,12 @@ const index = (a: (typeof articles)[number]) =>
     max-width: 52ch;
     font-size: 14.5px;
     line-height: 1.45;
-    color: #ffffffe0;
+    color: var(--a-on-cover-soft);
   }
   .fmeta {
     margin-top: auto;
     font-size: 11.5px;
-    color: #ffffffaa;
+    color: var(--a-on-cover-faint);
   }
   .secondary {
     min-width: 0;

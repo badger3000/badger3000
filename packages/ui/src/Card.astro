@@ -3,10 +3,10 @@
  * Card — pen master `I2gPrr`.
  * context: div · Card — surface shell with slot
  *
- * The generic surface: 260px wide, 14px radius, `--a-line` border, 16px padding,
- * 8px gap. ProjectCard does **not** use it — the pen spells its own surface out
- * (no padding of its own; the body pads itself) — so this is the shell for the
- * article, experiment and testimonial cards that land with their routes.
+ * The generic surface: 14px radius, `--a-line` border, 16px padding, 8px gap.
+ * The pen master is 260 wide; here the caller sizes it, since no caller wants
+ * 260. FeatureCard and ProjectCard do **not** use it — the pen spells their
+ * surface out (no padding of its own; the body pads itself).
  */
 interface Props {
   class?: string;
@@ -23,7 +23,6 @@ const { class: className, as: Tag = "div" } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 260px;
     padding: 16px;
     border: 1px solid var(--a-line);
     border-radius: 14px;

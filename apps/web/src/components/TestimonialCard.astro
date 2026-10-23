@@ -9,8 +9,8 @@
  * `photo` is usually null in the dataset, so the avatar falls back to initials on
  * a tint — the same placeholder idea as the card gradients.
  */
-import Icon from "./Icon.astro";
-import { tintFor } from "../lib/palette.ts";
+import { Icon } from "@badger3000/ui";
+import { tintFor } from "@badger3000/tokens/covers";
 import type { Testimonial } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -93,7 +93,7 @@ const photo = testimonial.photo?.asset?.url;
     place-items: center;
     font-size: 11.5px;
     font-weight: 600;
-    color: #fff;
+    color: var(--a-on-cover);
   }
   .who {
     display: flex;

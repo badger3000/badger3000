@@ -8,7 +8,7 @@
  * masonry with content that reflows.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
+import { Button, Icon } from "@badger3000/ui";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import { getTestimonials, getCounts, getSettings } from "../lib/sanity/index.ts";
 
@@ -29,7 +29,9 @@ const [testimonials, counts, settings] = await Promise.all([
   countLabel="testimonials"
   sub="What the people Kyle has worked with say."
 >
-  <Fragment slot="actions"><AskBadger /></Fragment>
+  <Button slot="actions" variant="soft" href="/" label="Ask Badger" class="ask">
+    <Icon slot="icon" name="sparkles" />
+  </Button>
 
   <ul class="masonry">
     {testimonials.map((testimonial) => <li><TestimonialCard testimonial={testimonial} /></li>)}

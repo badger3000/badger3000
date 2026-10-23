@@ -190,6 +190,12 @@ importers:
       '@badger3000/sanity':
         specifier: workspace:*
         version: link:../../packages/sanity
+      '@badger3000/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@badger3000/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@sanity/client':
         specifier: ^8.10.1
         version: 8.10.1
@@ -249,6 +255,37 @@ importers:
       sanity:
         specifier: ^6.20.0
         version: 6.20.0(@babel/core@7.29.7(supports-color@10.2.2))(@babel/runtime@7.29.10)(@noble/hashes@2.4.0)(@rolldown/plugin-babel@0.2.4(@babel/core@7.29.7(supports-color@10.2.2))(@babel/runtime@7.29.10)(rolldown@1.2.15)(vite@8.3.5(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)))(@sanity/workflow-blueprint@0.36.0(@sanity/workflow-engine@0.36.0(@types/react@19.3.0)(supports-color@10.2.2)(typescript@6.0.3))(typescript@6.0.3))(@types/node@24.19.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(esbuild@0.28.2)(jiti@2.7.0)(prismjs@1.30.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.15)(styled-components@6.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(supports-color@10.2.2)(typescript@6.0.3)
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/tokens:
+    devDependencies:
+      '@badger3000/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/node':
+        specifier: ^24.19.2
+        version: 24.19.2
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/ui:
+    dependencies:
+      '@badger3000/tokens':
+        specifier: workspace:*
+        version: link:../tokens
+      lucide-static:
+        specifier: ^1.61.0
+        version: 1.61.0
+    devDependencies:
+      '@astrojs/check':
+        specifier: ^0.9.12
+        version: 0.9.12(@emnapi/runtime@1.11.3)(prettier@3.9.10)(typescript@6.0.3)
+      astro:
+        specifier: ^7.4.2
+        version: 7.4.2(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

@@ -10,12 +10,11 @@
  * whole archive is four cards.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
-import ShieldsBadge from "../components/ShieldsBadge.astro";
+import { Button, Icon, ShieldsBadge } from "@badger3000/ui";
 import { getSkills, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [categories, counts, settings] = await Promise.all([getSkills(), getCounts(), getSettings()]);
-const total = categories.reduce((sum, category) => sum + category.skills.length, 0);
+const total = categories.reduce((sum, category) => sum + (category.skills?.length ?? 0), 0);
 ---
 
 <Browse
@@ -28,7 +27,9 @@ const total = categories.reduce((sum, category) => sum + category.skills.length,
   countLabel="skills"
   sub="The tools and platforms Kyle reaches for."
 >
-  <Fragment slot="actions"><AskBadger /></Fragment>
+  <Button slot="actions" variant="soft" href="/" label="Ask Badger" class="ask">
+    <Icon slot="icon" name="sparkles" />
+  </Button>
 
   <ul class="grid">
     {
@@ -36,8 +37,12 @@ const total = categories.reduce((sum, category) => sum + category.skills.length,
         <li class="group">
           <h2 class="label">{category.name}</h2>
           <div class="badges">
-            {category.skills.map((skill) => (
-              <ShieldsBadge name={skill.name} color={skill.badgeColor} value={skill.badgeLabel} />
+            {(category.skills ?? []).map((skill) => (
+              <ShieldsBadge
+                name={skill.name}
+                color={skill.badgeColor ?? undefined}
+                value={skill.badgeLabel ?? undefined}
+              />
             ))}
           </div>
         </li>

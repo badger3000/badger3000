@@ -1,0 +1,27 @@
+{
+  "name": "@badger3000/ui",
+  "private": true,
+  "type": "module",
+  "keywords": [
+    "astro-component"
+  ],
+  "exports": {
+    ".": "./index.ts",
+    "./*.astro": "./src/*.astro"
+  },
+  "scripts": {
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@badger3000/tokens": "workspace:*",
+    "lucide-static": "^1.61.0"
+  },
+  "peerDependencies": {
+    "astro": "^7.4.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "astro": "^7.4.2",
+    "typescript": "^6.0.3"
+  }
+}

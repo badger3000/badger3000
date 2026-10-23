@@ -1,0 +1,53 @@
+---
+/**
+ * AvatarUser — pen master `kF8ut`.
+ * context: span · AvatarUser — props: initials ← settings.name
+ *
+ *   32 round · `$a-accent-soft` · initials 11/600 `$a-accent`
+ *
+ * Takes the name and works out the initials itself (first letter of the first
+ * two words). `solid` is the Sidebar's profile block, where the avatar sits on
+ * `$a-accent-soft` already and so takes the accent fill instead.
+ * Decorative: the name is always next to it.
+ */
+interface Props {
+  name: string;
+  size?: number;
+  tone?: "soft" | "solid";
+  class?: string;
+}
+
+const { name, size = 32, tone = "soft", class: className } = Astro.props;
+
+const initials = name
+  .trim()
+  .split(/\s+/)
+  .map((part) => part.charAt(0))
+  .slice(0, 2)
+  .join("")
+  .toUpperCase();
+---
+
+<span class:list={["avatar", tone, className]} style={`--size:${size}px`} aria-hidden="true">{initials}</span>
+
+<style>
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    background: var(--a-accent-soft);
+    color: var(--a-accent);
+    font-family: var(--af-ui);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .solid {
+    background: var(--a-accent);
+    color: var(--a-on-accent);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+</style>

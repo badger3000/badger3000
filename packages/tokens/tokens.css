@@ -2,6 +2,9 @@
  * BADGER3000 design tokens — ported from design/badger3000v2.pen (Design Tokens board).
  * Two tiers: raw primitives -> semantic tokens. Skins switch via [data-theme].
  * Components only ever use var(--a-*). Add a skin = one more [data-theme] block.
+ *
+ * Variables and the keyframes they drive only; the reset, `color-scheme` and the
+ * reduced-motion switch are in base.css.
  */
 
 :root {
@@ -26,6 +29,45 @@
   --p-coral-soft-d: #3a241c;
   --p-d-line: #2b2b28;
   --p-d-line-2: #36352f;
+  /* contrast primitives: text that must reach AA (4.5:1) where faint cannot */
+  --p-450: #86837d;
+  --p-coral-text-l: #b94625;
+  --p-coral-text-d: #e86d49;
+  --p-green: #3bbe7a;
+  --p-slate: #2b2f36;
+  --p-scrim: #0c0c0a;
+  /*
+   * Cover gradients and monogram tints, the pen's per-card placeholders.
+   * src/covers.ts picks one by hashing an id; COVER_COUNT / TINT_COUNT there
+   * must match the numbering here.
+   */
+  --p-cover-1-from: #f6c6ad; /* coral  — ProjectCard FE7oC */
+  --p-cover-1-to: #e4572e;
+  --p-cover-2-from: #e7d4f5; /* violet — Browse — Articles */
+  --p-cover-2-to: #7c3aed;
+  --p-cover-3-from: #bfe0d0; /* green */
+  --p-cover-3-to: #3bbe7a;
+  --p-cover-4-from: #bce9ea; /* cyan */
+  --p-cover-4-to: #36c3d6;
+  --p-cover-5-from: #fbe3b3; /* amber */
+  --p-cover-5-to: #f59e0b;
+  --p-cover-6-from: #cbd9f2; /* blue   — Browse — Articles secondary */
+  --p-cover-6-to: #5b7cc2;
+  --p-tint-1: #e4572e;
+  --p-tint-2: #5b7cc2;
+  --p-tint-3: #3bbe7a;
+  --p-tint-4: #f59e0b;
+  --p-tint-5: #6366f1;
+  --p-tint-6: #36c3d6;
+  --p-tint-7: #ec4899;
+  --p-tint-8: #7c3aed;
+  /* code-block primitives (the pen's article code block, C2I66) */
+  --p-code-900: #1a1a22;
+  --p-code-800: #26262c;
+  --p-code-text: #e9e4d8;
+  --p-code-comment: #9a968c;
+  --p-code-keyword: #f4c400;
+  --p-code-string: #36c3d6;
   /* forest-skin primitives */
   --g-bg: #f5f7f4;
   --g-surface: #ffffff;
@@ -37,6 +79,10 @@
   --g-line-2: #d2dad3;
   --g-accent: #1c7c59;
   --g-accent-soft: #e2f0e8;
+  --g-subtle: #606d67;
+  --g-accent-text: #1b7856;
+  --g-code-bg: #16221d;
+  --g-code-head: #22312a;
 
   /* ---- TIER 2: semantic (light — default skin) ---- */
   --a-bg: var(--p-25);
@@ -50,6 +96,36 @@
   --a-accent: var(--p-coral);
   --a-accent-soft: var(--p-coral-soft-l);
   --a-on-accent: #ffffff;
+  /*
+   * Contrast tokens. `--a-faint` stays for icons and decoration; text that has
+   * to be read uses `--a-subtle` (≥4.5:1 on bg, surface and sidebar). Small
+   * accent text uses `--a-accent-text` (≥4.5:1 on those and on accent-soft);
+   * `--a-accent` stays for fills and icons.
+   */
+  --a-subtle: var(--p-500);
+  --a-accent-text: var(--p-coral-text-l);
+  /* status, badges */
+  --a-ok: var(--p-green);
+  --a-badge-key: var(--p-slate);
+  /* text and overlays on a cover gradient or a tinted mark */
+  --a-on-cover: #ffffff;
+  --a-on-cover-soft: #ffffffe0;
+  --a-on-cover-muted: #ffffffcc;
+  --a-on-cover-faint: #ffffffaa;
+  --a-cover-overlay: #ffffff29;
+  /* the experiment card's dark "window" cover */
+  --a-cover-window: #17171c;
+  --a-cover-window-dot: #ffffff26;
+  --a-cover-window-line: #ffffff1f;
+  /* behind a modal (the mobile drawer) */
+  --a-scrim: var(--p-scrim);
+  /* code blocks — dark in every skin */
+  --a-code-bg: var(--p-code-900);
+  --a-code-head: var(--p-code-800);
+  --a-code-text: var(--p-code-text);
+  --a-code-comment: var(--p-code-comment);
+  --a-code-keyword: var(--p-code-keyword);
+  --a-code-string: var(--p-code-string);
 
   /* type */
   --af-display: "Instrument Serif", ui-serif, serif;
@@ -98,32 +174,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
-/*
- * The theme picker has two ways to land on a skin: a direct pill pick
- * (snap instantly to that token) or a gear-cycle (animate from current to
- * next through `transition: background-color …`). `shell.ts` flips this class
- * on the next two animation frames around the pill pick so the colour change
- * the user just asked for snaps, but the next one — almost always through the
- * gear again — animates from the new baseline.
- */
-html.no-transitions,
-html.no-transitions *,
-html.no-transitions *::before,
-html.no-transitions *::after {
-  transition: none !important;
-  animation: none !important;
-}
-
 /* ---- dark skin ---- */
 [data-theme="dark"] {
   --a-bg: var(--p-900);
@@ -136,6 +186,11 @@ html.no-transitions *::after {
   --a-line-2: var(--p-d-line-2);
   --a-accent: var(--p-coral);
   --a-accent-soft: var(--p-coral-soft-d);
+  --a-subtle: var(--p-450);
+  --a-accent-text: var(--p-coral-text-d);
+  /* the surface is already near the light skin's code bg, so go darker */
+  --a-code-bg: var(--p-950);
+  --a-code-head: var(--p-800);
 }
 
 /* ---- forest skin ---- */
@@ -150,24 +205,8 @@ html.no-transitions *::after {
   --a-line-2: var(--g-line-2);
   --a-accent: var(--g-accent);
   --a-accent-soft: var(--g-accent-soft);
-}
-
-/* base reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-html {
-  color-scheme: light;
-}
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-body {
-  margin: 0;
-  background: var(--a-bg);
-  color: var(--a-ink);
-  font-family: var(--af-ui);
-  -webkit-font-smoothing: antialiased;
+  --a-subtle: var(--g-subtle);
+  --a-accent-text: var(--g-accent-text);
+  --a-code-bg: var(--g-code-bg);
+  --a-code-head: var(--g-code-head);
 }

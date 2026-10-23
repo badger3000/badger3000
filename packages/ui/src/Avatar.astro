@@ -1,0 +1,70 @@
+---
+/**
+ * Avatar — pen master `Xu2VY`, the Badger3000 mark.
+ * context: span · Avatar — Badger3000 agent mark
+ *
+ * `$a-ink` square, 🦡 glyph. The pen draws it at several sizes, each instance
+ * overriding radius and glyph; those overrides are the size map below, so a
+ * caller only picks a size:
+ *
+ *   24 r8/13  MobileTopBar title     30 r9/16   Sidebar brand
+ *   26 r9/13  AgentMessage           32 r9/17   Mobile — Menu brand
+ *   36 r11/18 the master             64 r20/32  404
+ *   66 r19/28 Mobile — Home hero     76 r22/38  Agent UI — Home hero
+ *
+ * `mobileSize` swaps to another size at ≤720px (the home hero is 76 → 66).
+ * Decorative: the name is always next to it.
+ */
+const SIZES = {
+  24: [8, 13],
+  26: [9, 13],
+  30: [9, 16],
+  32: [9, 17],
+  36: [11, 18],
+  64: [20, 32],
+  66: [19, 28],
+  76: [22, 38],
+} as const;
+
+export type AvatarSize = keyof typeof SIZES;
+
+interface Props {
+  size?: AvatarSize;
+  mobileSize?: AvatarSize;
+  class?: string;
+}
+
+const { size = 36, mobileSize, class: className } = Astro.props;
+
+const vars = (prefix: string, value: AvatarSize) => {
+  const [radius, glyph] = SIZES[value];
+  return `--${prefix}size:${value}px;--${prefix}radius:${radius}px;--${prefix}glyph:${glyph}px`;
+};
+const style = [vars("", size), mobileSize && vars("m-", mobileSize)].filter(Boolean).join(";");
+---
+
+<span class:list={["avatar", className]} style={style} aria-hidden="true">🦡</span>
+
+<style>
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    border-radius: var(--radius);
+    background: var(--a-ink);
+    color: var(--a-surface);
+    font-family: var(--af-ui);
+    font-size: var(--glyph);
+  }
+
+  @media (max-width: 720px) {
+    .avatar {
+      width: var(--m-size, var(--size));
+      height: var(--m-size, var(--size));
+      border-radius: var(--m-radius, var(--radius));
+      font-size: var(--m-glyph, var(--glyph));
+    }
+  }
+</style>

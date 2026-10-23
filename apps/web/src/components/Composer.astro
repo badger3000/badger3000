@@ -3,14 +3,15 @@
  * Composer — pen master `c2P43y`.
  * context: form · Composer — POST /api/chat
  *
- *   720 wide · `$a-surface` · radius 16 · gap 10 · padding [9, 9, 9, 16]
- *   Placeholder 15 `$a-faint` · Send = IconButton `HFjfa` as accent arrow-up
+ *   720 wide · `$a-surface` · stroke `$a-line-2` · radius 16 · gap 10
+ *   padding [9, 9, 9, 16] · Placeholder 15 `$a-faint`
+ *   Send = IconButton `HFjfa` as accent arrow-up
  *
- * The endpoint is PRD phase 4, so this posts for real but 404s until then —
- * which is what `action` is for. It is a real form: enter submits, so it works
- * with the keyboard and without JavaScript.
+ * It is a real form posting to `/api/chat`: enter submits, so it works with the
+ * keyboard, and the chat island (`lib/chat.ts`) intercepts the submit when it
+ * has loaded. `id` keeps the label's `for` unique if a page ever has two.
  */
-import IconButton from "./IconButton.astro";
+import { IconButton } from "@badger3000/ui";
 
 interface Props {
   placeholder?: string;
@@ -18,10 +19,13 @@ interface Props {
   class?: string;
   /** Marks the form the chat island intercepts. */
   chat?: boolean;
+  /** Suffix for the input id, unique per page. */
+  id?: string;
 }
 
-const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class: className, chat } =
+const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class: className, chat, id = "q" } =
   Astro.props;
+const inputId = `composer-${id}`;
 ---
 
 <form
@@ -30,9 +34,9 @@ const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class:
   method="post"
   data-chat-form={chat ? "" : undefined}
 >
-  <label class="sr" for="composer-q">{label}</label>
+  <label class="sr" for={inputId}>{label}</label>
   <input
-    id="composer-q"
+    id={inputId}
     name="q"
     type="text"
     placeholder={placeholder}
@@ -48,6 +52,7 @@ const { placeholder = "Reply to Badger3000…", label = "Ask Badger3000", class:
     align-items: center;
     gap: 10px;
     padding: 9px 9px 9px 16px;
+    border: 1px solid var(--a-line-2);
     border-radius: 16px;
     background: var(--a-surface);
   }

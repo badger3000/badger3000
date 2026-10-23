@@ -24,20 +24,20 @@
  * automatically. Add a fourth skin = one more `[data-theme]` block, zero
  * component edits.
  */
-import Icon from "./Icon.astro";
+import { themes, type Theme } from "@badger3000/tokens";
+import { Icon } from "@badger3000/ui";
 
-const themes = ["light", "dark", "forest"] as const;
-const icons: Record<(typeof themes)[number], string> = {
+const icons: Record<Theme, string> = {
   light: "sun",
   dark: "moon",
   forest: "tree-pine",
 };
-const labels: Record<(typeof themes)[number], string> = {
+const labels: Record<Theme, string> = {
   light: "Light",
   dark: "Dark",
   forest: "Forest",
 };
-const arias: Record<(typeof themes)[number], string> = {
+const arias: Record<Theme, string> = {
   light: "Switch to Light theme",
   dark: "Switch to Dark theme",
   forest: "Switch to Forest theme",

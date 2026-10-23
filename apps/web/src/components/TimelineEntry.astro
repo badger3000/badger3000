@@ -9,7 +9,7 @@
  * `logo` is usually null in the dataset, so the mark is a monogram in a tint
  * derived from the entry — same placeholder idea as the card gradients.
  */
-import { tintFor } from "../lib/palette.ts";
+import { tintFor } from "@badger3000/tokens/covers";
 import type { ExperienceEntry, EducationEntry } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -82,7 +82,7 @@ const searchSeed = heading;
     place-items: center;
     font-size: 18px;
     font-weight: 600;
-    color: #fff;
+    color: var(--a-on-cover);
   }
   .tx {
     display: flex;

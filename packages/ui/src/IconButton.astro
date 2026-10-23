@@ -3,25 +3,30 @@
  * IconButton — pen master `HFjfa`.
  * context: button · IconButton — props: icon, variant
  *
- * 34×34, radius 10. `surface` is the default; `accent` is the pen's Send
- * override (fill `$a-accent`, white glyph) — see the Composer's Send.
+ * 34×34, radius 10, stroke `$a-line-2`. `surface` is the default; `accent` is
+ * the pen's Send override (fill `$a-accent`, `$a-on-accent` glyph, no edge) —
+ * see the Composer's Send; `ghost` is the mobile bar's bare square (no fill,
+ * no edge, `$a-bg` while pressed).
  */
 import Icon from "./Icon.astro";
 
 interface Props {
   icon: string;
   label: string;
-  variant?: "surface" | "accent";
+  variant?: "surface" | "accent" | "ghost";
   type?: "button" | "submit";
+  /** Glyph size; the pen's master is 17, the mobile bar's menu and back are 18. */
+  iconSize?: number;
   class?: string;
   [key: string]: unknown;
 }
 
-const { icon, label, variant = "surface", type = "button", class: className, ...rest } = Astro.props;
+const { icon, label, variant = "surface", type = "button", iconSize = 17, class: className, ...rest } =
+  Astro.props;
 ---
 
 <button type={type} class:list={["iconbtn", variant, className]} aria-label={label} title={label} {...rest}>
-  <Icon name={icon} size={17} />
+  <Icon name={icon} size={iconSize} />
 </button>
 
 <style>
@@ -32,7 +37,7 @@ const { icon, label, variant = "surface", type = "button", class: className, ...
     width: 34px;
     height: 34px;
     padding: 0;
-    border: 0;
+    border: 1px solid var(--a-line-2);
     border-radius: 10px;
     background: var(--a-surface);
     color: var(--a-ink);
@@ -40,11 +45,19 @@ const { icon, label, variant = "surface", type = "button", class: className, ...
     transition: filter 0.15s ease;
   }
   .iconbtn.accent {
+    border-color: transparent;
     background: var(--a-accent);
-    color: #fff;
+    color: var(--a-on-accent);
   }
   .iconbtn.accent:hover {
     filter: brightness(0.95);
+  }
+  .iconbtn.ghost {
+    border-color: transparent;
+    background: transparent;
+  }
+  .iconbtn.ghost:active {
+    background: var(--a-bg);
   }
   .iconbtn:focus-visible {
     outline: 2px solid var(--a-accent);

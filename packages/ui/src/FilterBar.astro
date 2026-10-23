@@ -2,29 +2,36 @@
 /**
  * FilterBar — the `nav · topic filters` row every browse screen carries.
  *
- * Chips come from the topics that actually have items (the pen's labels —
- * "Web App / Open Source / Client Work" — are placeholders), and the search box
- * matches the pen's 200px `search` frame in the page header.
+ * The page passes the chips: the topics that actually have items (the pen's
+ * labels — "Web App / Open Source / Client Work" — are placeholders). "All"
+ * always leads. The search box matches the pen's 200px `search` frame, and the
+ * `trailing` slot takes a control on the right, e.g. a sort.
  */
 import FilterChip from "./FilterChip.astro";
 import Input from "./Input.astro";
-import type { Topic } from "../lib/sanity/types.ts";
+
+export interface Chip {
+  label: string;
+  /** What the filter applies, e.g. a topic slug. */
+  value: string;
+}
 
 interface Props {
-  topics?: Topic[];
+  chips?: Chip[];
+  /** Value of the pressed chip; "all" by default. */
+  active?: string;
   searchPlaceholder?: string;
   searchLabel?: string;
-  /** Slot for a control on the right, e.g. a sort. */
   class?: string;
 }
 
-const { topics = [], searchPlaceholder, searchLabel, class: className } = Astro.props;
+const { chips = [], active = "all", searchPlaceholder, searchLabel, class: className } = Astro.props;
 ---
 
 <div class:list={["toolbar", className]}>
   <nav class="chips" aria-label="Filter by topic">
-    <FilterChip label="All" value="all" active />
-    {topics.map((topic) => <FilterChip label={topic.title} value={topic.slug ?? topic.title} />)}
+    <FilterChip label="All" value="all" active={active === "all"} />
+    {chips.map((chip) => <FilterChip label={chip.label} value={chip.value} active={active === chip.value} />)}
   </nav>
   {
     searchPlaceholder && (
@@ -37,6 +44,7 @@ const { topics = [], searchPlaceholder, searchLabel, class: className } = Astro.
       />
     )
   }
+  <slot name="trailing" />
 </div>
 
 <style>

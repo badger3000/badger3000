@@ -12,16 +12,17 @@
  *   meta: date · read, 11 `$a-faint`, padding-top 2
  */
 import Tag from "./Tag.astro";
-import { gradientFor } from "../lib/palette.ts";
+import { gradientFor } from "@badger3000/tokens/covers";
 
 interface Props {
-  id: string;
+  /** Picks the cover gradient, usually the document id. */
+  seed: string;
   href: string;
   title: string;
-  excerpt?: string | null;
-  topic?: string | null;
+  excerpt?: string;
+  topic?: string;
   /** Date line, e.g. "Feb 2025 · 8 min". */
-  meta?: string | null;
+  meta?: string;
   /** Cover height: 116 for articles, 132 for experiments. */
   coverHeight?: number;
   titleSize?: number;
@@ -29,12 +30,12 @@ interface Props {
   cover?: "gradient" | "window";
 }
 
-const { id, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15.5, cover = "gradient" } =
+const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15.5, cover = "gradient" } =
   Astro.props;
 ---
 
 <article class="card">
-  <div class="cover" style={`height:${coverHeight}px;${cover === "gradient" ? `background:${gradientFor(id)}` : ""}`}>
+  <div class="cover" style={`height:${coverHeight}px;${cover === "gradient" ? `background:${gradientFor(seed)}` : ""}`}>
     {
       cover === "window" && (
         <div class="window" aria-hidden="true">
@@ -72,7 +73,7 @@ const { id, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15
     height: 100%;
     gap: 7px;
     padding: 12px;
-    background: #17171c;
+    background: var(--a-cover-window);
   }
   .dots {
     display: flex;
@@ -82,7 +83,7 @@ const { id, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #ffffff26;
+    background: var(--a-cover-window-dot);
   }
   .lines {
     display: flex;
@@ -93,7 +94,7 @@ const { id, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15
   .lines b {
     height: 5px;
     border-radius: 3px;
-    background: #ffffff1f;
+    background: var(--a-cover-window-line);
   }
   .lines b:nth-child(2) {
     width: 70%;

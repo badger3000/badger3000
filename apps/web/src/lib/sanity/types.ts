@@ -5,104 +5,42 @@
  * the schema, and the aliases below re-export its results under the names the
  * components use. A field the schema does not mark required is `| null`. Where
  * the schema and the pen disagree the schema wins and the `.pen` binding gets
- * corrected.
+ * corrected. Call sites handle the nulls (`field ?? undefined` into a
+ * `@badger3000/ui` prop, or a fallback where a value is needed).
  */
 import type {
+  ArticlesQueryResult,
   BookmarksQueryResult,
   EducationQueryResult,
   ExperienceQueryResult,
   ExperimentsQueryResult,
+  GolfScoresQueryResult,
+  ProjectsQueryResult,
+  SettingsQueryResult,
   SkillsQueryResult,
   TestimonialsQueryResult,
+  TopicsQueryResult,
 } from "@badger3000/sanity/types";
 
 export type CardLayout = "large" | "small" | "wide" | "tall" | string;
 
+/** `projects` — FeatureCard's slots (pen f3kriq). `excerpt` is the first
+ *  block of `project_description`; `createdAt` stands in for a year. */
+export type Project = ProjectsQueryResult[number];
+/** `articles` — the browse view and the home card grid. */
+export type Article = ArticlesQueryResult[number];
 export type Experiment = ExperimentsQueryResult[number];
-export type Skill = NonNullable<SkillsQueryResult[number]["skills"]>[number];
+export type SkillCategory = SkillsQueryResult[number];
+export type Skill = NonNullable<SkillCategory["skills"]>[number];
 export type Testimonial = TestimonialsQueryResult[number];
 export type Bookmark = BookmarksQueryResult[number];
 export type ExperienceEntry = ExperienceQueryResult[number];
 export type EducationEntry = EducationQueryResult[number];
-
-/*
- * Hand-written until their call sites handle the generated nullability
- * (`field ?? undefined`): typegen says `| null` for Project.title/tech,
- * Article.title, SkillCategory.skills, GolfScore.course/date/score,
- * Topic.title and SiteSettings.links, where these say non-null. Live data has
- * no such nulls today. Each becomes `XQueryResult[number]` like the ones above.
- */
-
-export interface SanityImage {
-  alt?: string;
-  asset?: {
-    _id?: string;
-    url?: string;
-    metadata?: { dimensions?: { width: number; height: number; aspectRatio: number } };
-  };
-}
-
-/** `projects` — ProjectCard's slots (pen FE7oC). */
-export interface Project {
-  id: string;
-  title: string;
-  slug: string;
-  /** pen: `Tag ← project.topic` (the topic is a reference, dereferenced here) */
-  topic: string | null;
-  topicSlug: string | null;
-  tech: string[];
-  /** pen: `← project.webUrl`; the schema field is `web_url`, aliased on the way out */
-  webUrl: string | null;
-  cardLayout: CardLayout | null;
-  order: number | null;
-  /**
-   * pen: `Desc ← project.excerpt`. No such schema field exists; the projection
-   * flattens `project_description` (portable text) to the first block's text.
-   * Null when a project has no description.
-   */
-  excerpt: string | null;
-  /** Document creation time — the card's year badge has no binding of its own. */
-  createdAt: string | null;
-}
-
-/** `articles` — the browse view and the home card grid. */
-export interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  topic: string | null;
-  mainImage: SanityImage | null;
-  publishedAt: string;
-}
-
-export interface SkillCategory {
-  name: string;
-  order: number | null;
-  skills: Skill[];
-}
-
 /** pen: `tr · GolfRow ← golfScore{course,date,score}` */
-export interface GolfScore {
-  course: string;
-  date: string;
-  score: number;
-}
-
-export interface Topic {
-  title: string;
-  slug: string | null;
-  /** Hex string; the projection unwraps the stored colour object. */
-  backgroundColor: string | null;
-}
-
-/** pen: `AvatarUser ← settings.name` */
-export interface SiteSettings {
-  name: string | null;
-  title: string | null;
-  location: string | null;
-  occupation: string | null;
-  description: string | null;
-  avatarImage: SanityImage | null;
-  links: { siteName: string | null; webUrl: string | null }[];
-}
+export type GolfScore = GolfScoresQueryResult[number];
+/** `backgroundColor` is a hex string; the projection unwraps the colour object. */
+export type Topic = TopicsQueryResult[number];
+/** pen: `AvatarUser ← settings.name`. Null when there is no settings document. */
+export type SiteSettings = NonNullable<SettingsQueryResult>;
+/** An image as the projections return it (`main_image`, `avatarImage`). */
+export type SanityImage = NonNullable<Article["mainImage"]>;

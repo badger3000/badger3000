@@ -10,9 +10,7 @@
  * chips come from the topics the documents actually carry.
  */
 import Browse from "../layouts/Browse.astro";
-import AskBadger from "../components/AskBadger.astro";
-import FilterBar from "../components/FilterBar.astro";
-import ContentCard from "../components/ContentCard.astro";
+import { Button, ContentCard, FilterBar, Icon } from "@badger3000/ui";
 import { getExperiments, getTopics, getCounts, getSettings } from "../lib/sanity/index.ts";
 
 const [experiments, topics, counts, settings] = await Promise.all([
@@ -26,7 +24,8 @@ const month = (iso: string) =>
   new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" });
 
 const usedTopics = new Set(experiments.map((e) => e.topic));
-const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
+const chips = topics
+  .flatMap((t) => (t.title && t.slug && usedTopics.has(t.slug) ? [{ label: t.title, value: t.slug }] : []));
 ---
 
 <Browse
@@ -39,9 +38,11 @@ const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
   countLabel="experiments"
   sub="Live code sketches and UI explorations."
 >
-  <Fragment slot="actions"><AskBadger /></Fragment>
+  <Button slot="actions" variant="soft" href="/" label="Ask Badger" class="ask">
+    <Icon slot="icon" name="sparkles" />
+  </Button>
 
-  <FilterBar topics={chips} searchPlaceholder="Search…" searchLabel="Search experiments" />
+  <FilterBar chips={chips} searchPlaceholder="Search…" searchLabel="Search experiments" />
 
   <div data-browse>
     <ul class="grid" data-grid>
@@ -49,12 +50,12 @@ const chips = topics.filter((t) => t.slug && usedTopics.has(t.slug));
         experiments.map((pen) => (
           <li data-item data-search={[pen.title, pen.topic ?? "", pen.excerpt ?? ""].join(" ").toLowerCase()}>
             <ContentCard
-              id={pen.id}
+              seed={pen.id}
               href={pen.penUrl ?? `/codepen/${pen.slug}`}
               title={pen.title}
-              excerpt={pen.excerpt}
-              topic={pen.topic}
-              meta={pen.createdAt ? month(pen.createdAt) : null}
+              excerpt={pen.excerpt ?? undefined}
+              topic={pen.topic ?? undefined}
+              meta={pen.createdAt ? month(pen.createdAt) : undefined}
               titleSize={17}
               coverHeight={132}
               cover="window"

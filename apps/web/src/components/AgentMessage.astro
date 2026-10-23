@@ -8,7 +8,7 @@
  * Doubles as the `<template>` the chat island clones, so this file is the single
  * definition of an agent turn.
  */
-import Button from "./Button.astro";
+import { Avatar, Button } from "@badger3000/ui";
 
 interface Props {
   line?: string;
@@ -18,7 +18,7 @@ const { line = "" } = Astro.props;
 ---
 
 <div class="turn" data-chat-turn>
-  <span class="avatar" aria-hidden="true">🦡</span>
+  <Avatar size={26} />
   <div class="body">
     <p class="line" data-slot="line">{line}</p>
     {/* pen `A Pending` — the loading state while /api/chat is in flight. */}
@@ -39,16 +39,6 @@ const { line = "" } = Astro.props;
     gap: 12px;
     width: 100%;
     max-width: 620px;
-  }
-  .avatar {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 26px;
-    height: 26px;
-    border-radius: 9px;
-    background: var(--a-ink);
-    font-size: 14px;
   }
   .body {
     display: flex;
