@@ -15,52 +15,112 @@
  * long, the deterministic phrasing is used instead. Chat never breaks.
  */
 import type { Intent } from "./intents.ts";
+import type { Retrieved } from "./retrieve.ts";
 
-/** The Tier-1 phrasing. Always works, needs no model, costs nothing. */
-export function fallback(intent: Intent, count: number, facts: string[]): string {
+/** What the template needs from retrieval. */
+export type Found = Pick<Retrieved, "cards" | "facts" | "total" | "matched" | "narrowedBy" | "known">;
+
+/** Nothing retrieved: the `suggest` answer, and the empty case. */
+export const NOTHING: Found = { cards: [], facts: [], total: 0, matched: 0, narrowedBy: [] };
+
+/** What the list intents call one item and many. */
+const NOUN: Partial<Record<Intent, [string, string]>> = {
+  projects: ["project", "projects"],
+  articles: ["article", "articles"],
+  experiments: ["experiment", "experiments"],
+  experience: ["role", "roles"],
+  education: ["qualification", "qualifications"],
+  skills: ["skill group", "skill groups"],
+  testimonials: ["testimonial", "testimonials"],
+  bookmarks: ["bookmark", "bookmarks"],
+  golf: ["round", "rounds"],
+};
+
+const plural = (n: number, [one, many]: [string, string]) => (n === 1 ? one : many);
+const quote = (terms: string[]) => `“${terms.join(" ")}”`;
+
+/**
+ * "2 of his 28 experiments match “canvas”." Every count comes from the same
+ * query as the cards, and the first number is the number of cards shown.
+ */
+function narrowed(intent: Intent, { cards, matched, total, narrowedBy }: Found): string {
+  const noun = NOUN[intent] ?? ["result", "results"];
+  const shown = cards.length;
+  if (matched > shown) return `Here are ${shown} of the ${matched} ${noun[1]} that match ${quote(narrowedBy)}.`;
+  return `${shown} of his ${total} ${plural(total, noun)} ${shown === 1 ? "matches" : "match"} ${quote(narrowedBy)}.`;
+}
+
+/** "6 of his 28 experiments" when the cap cut the list, "6 experiments" when it didn't. */
+function some(intent: Intent, { cards, total }: Found): string {
+  const noun = NOUN[intent] ?? ["result", "results"];
+  const shown = cards.length;
+  return shown < total ? `${shown} of his ${total} ${noun[1]}` : `${shown} ${plural(shown, noun)}`;
+}
+
+/**
+ * The Tier-1 phrasing. Always works, needs no model, costs nothing. `terms` are
+ * the visitor's words; when they matched nothing, the reply says so rather than
+ * passing the unfiltered list off as an answer to them.
+ */
+export function fallback(intent: Intent, found: Found, terms: string[] = []): string {
+  const { cards, facts, narrowedBy } = found;
+  const shown = cards.length;
+  const missed = terms.length && !narrowedBy.length ? ` Nothing matched ${quote(terms)}.` : "";
+  const isNarrowed = narrowedBy.length > 0;
+
   switch (intent) {
     case "projects":
-      return count
-        ? `He's shipped ${count} of them — here's the short list.`
-        : "There are no published projects in the dataset yet.";
+      if (!shown) return "There are no published projects in the dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return (shown < found.total
+        ? `${some(intent, found)} — here's the short list.`
+        : `He's shipped ${shown} — here's the list.`) + missed;
     case "articles":
-      return count
-        ? `${count} of his articles, most recent first.`
-        : "No articles are published yet.";
+      if (!shown) return "No articles are published yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)}, most recent first.${missed}`;
     case "experiments":
-      return count
-        ? `${count} experiments — code sketches rather than finished work.`
-        : "No experiments yet.";
+      if (!shown) return "No experiments yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} — code sketches rather than finished work.${missed}`;
     case "experience":
-      return count
-        ? `${count} roles on the record, newest first.`
-        : "Nothing in the experience dataset yet.";
+      if (!shown) return "Nothing in the experience dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} on the record, newest first.${missed}`;
     case "education":
-      return count
-        ? `${count} qualification${count === 1 ? "" : "s"} on file.`
-        : "Nothing in the education dataset yet.";
-    case "skills":
-      return facts[0]
-        ? `${facts[0]}, grouped by category.`
-        : "No skills in the dataset yet.";
+      if (!shown) return "Nothing in the education dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} on file.${missed}`;
+    case "skills": {
+      if (!facts[0]) return "No skills in the dataset yet.";
+      // A skill asked about by name gets a yes or no, not just a list.
+      if (found.known?.length) {
+        const where = found.known.map(({ skill, category }) => `${skill} is under ${category}`);
+        return `Yes — ${where.join("; ")}.`;
+      }
+      if (isNarrowed) return narrowed(intent, found);
+      if (terms.length) return `No — ${quote(terms)} isn't on his skills list. ${facts[0]}, grouped by category.`;
+      return `${facts[0]}, grouped by category.`;
+    }
     case "testimonials":
-      return count
-        ? `${count} testimonial${count === 1 ? "" : "s"} from people he's worked with.`
-        : "No testimonials published yet.";
+      if (!shown) return "No testimonials published yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)}, in their own words.${missed}`;
     case "bookmarks":
-      return count
-        ? `A slice of what he's saved — the full set is browsable.`
-        : "No bookmarks yet.";
+      if (!shown) return "No bookmarks yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${shown} of the ${found.total} links he's saved — the full set is browsable.${missed}`;
     case "golf":
-      return facts.length
-        ? `His golf card: ${facts.join(", ")}. Lower is better.`
-        : "No rounds logged yet.";
+      if (!facts.length) return "No rounds logged yet.";
+      if (isNarrowed) return `${narrowed(intent, found)} ${facts.join(", ")}. Lower is better.`;
+      return `His golf card: ${facts.join(", ")}. Lower is better.`;
     case "contact":
       return "Email is the surest way to reach him.";
-    case "about":
-      return facts[0]
-        ? `${facts[0]}. Everything on this site comes out of his own Sanity data.`
-        : "The bio document hasn't been filled in yet.";
+    case "about": {
+      if (!facts[0]) return "The bio document hasn't been filled in yet.";
+      const based = facts.find((fact) => fact.startsWith("based in "));
+      return `${facts[0]}${based ? `, ${based}` : ""}. Everything on this site comes out of his own Sanity data.`;
+    }
     default:
       return "I know his projects, writing, experiments, experience, skills, testimonials, bookmarks and golf scores. Try one of those.";
   }
