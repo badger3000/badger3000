@@ -1,0 +1,85 @@
+---
+/**
+ * CodeBlock — the blockContent `code` type. Pen `C2I66`.
+ * context: figure · Code block ← code{language, code, filename}
+ *
+ *   Head   `$a-code-head` · 3 dots · filename (or the language) mono 11.5
+ *   Body   `pre > code`, Shiki via Astro's `<Code>`, mono 13.5/1.6
+ *
+ * Highlighted at build time with the `--a-code-*` theme in ./media.ts, so no
+ * highlighter ships to the browser. A long line scrolls inside `pre`, never
+ * the page; Shiki gives the `pre` a tabindex so the keyboard can scroll it.
+ */
+import { Code } from "astro:components";
+import type { TypedObjectProps } from "astro-portabletext/types";
+import { codeTheme } from "./media.ts";
+
+type Props = TypedObjectProps;
+
+const node = Astro.props.node as unknown as { code?: string; language?: string; filename?: string };
+const code = node.code?.replace(/\s+$/, "") ?? "";
+const lang = node.language && node.language !== "text" ? node.language : "plaintext";
+const label = node.filename || (lang === "plaintext" ? "" : lang);
+---
+
+{
+  code && (
+    <figure class="code">
+      <figcaption class="head">
+        <span class="dots" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+        {label && <span class="file">{label}</span>}
+      </figcaption>
+      <Code code={code} lang={lang as never} theme={codeTheme} />
+    </figure>
+  )
+}
+
+<style>
+  .code {
+    overflow: hidden;
+    min-width: 0;
+    margin: 0.4em 0;
+    border-radius: 12px;
+    background: var(--a-code-bg);
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--a-code-head);
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dots span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--a-code-comment);
+    opacity: 0.6;
+  }
+  .file {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--a-code-comment);
+  }
+  .code :global(pre) {
+    margin: 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 13.5px;
+    line-height: 1.6;
+    tab-size: 2;
+  }
+  .code :global(pre:focus-visible) {
+    outline: 2px solid var(--a-accent);
+    outline-offset: -2px;
+  }
+</style>

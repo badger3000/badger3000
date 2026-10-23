@@ -1,0 +1,51 @@
+---
+/**
+ * VideoEmbed — the blockContent `video` type: a YouTube or Vimeo page URL as a
+ * lazy 16:9 iframe. A URL from anywhere else renders nothing.
+ */
+import type { TypedObjectProps } from "astro-portabletext/types";
+import { embedUrl } from "./media.ts";
+
+type Props = TypedObjectProps;
+
+const node = Astro.props.node as unknown as { url?: string; title?: string; provider?: string };
+const src = embedUrl(node.url, node.provider);
+---
+
+{
+  src && (
+    <figure class="video">
+      <iframe
+        src={src}
+        title={node.title || "Video"}
+        loading="lazy"
+        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"
+      />
+      {node.title && <figcaption>{node.title}</figcaption>}
+    </figure>
+  )
+}
+
+<style>
+  .video {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0.4em 0;
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 12px;
+    background: var(--a-cover-window);
+  }
+  figcaption {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--a-subtle);
+  }
+</style>
