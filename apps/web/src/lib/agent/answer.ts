@@ -38,7 +38,7 @@ export interface AnswerDeps {
 }
 
 export async function answer(message: string, { fetch, model }: AnswerDeps): Promise<ChatResponse> {
-  const { intent, query } = classify(message);
+  const { intent, terms } = classify(message);
 
   if (intent === "suggest") {
     return {
@@ -52,7 +52,7 @@ export async function answer(message: string, { fetch, model }: AnswerDeps): Pro
 
   const found = await retrieve(intent, fetch);
   // Narrow to the words the visitor actually typed, but never to nothing.
-  const cards = filterCards(found.cards, query);
+  const cards = filterCards(found.cards, terms.join(" ").toLowerCase());
 
   // The model's line is a bonus; the template is the contract.
   const line = await compose(intent, found.facts, model);
