@@ -2,7 +2,7 @@
 /**
  * verify-dist — fail the build if a secret's value ended up in dist/.
  *
- *   npm run build:verify   # also runs as `postbuild`
+ *   pnpm run build:verify   # also runs as `postbuild`
  *
  * `SANITY_API_TOKEN` must only ever be read at runtime (`astro:env/server`,
  * `access: "secret"`). Read it through `import.meta.env` instead and Vite

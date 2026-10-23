@@ -4,10 +4,10 @@
  * src/lib/sanity/queries.ts with groq-js, and — when credentials are present —
  * fetches each one and prints what came back.
  *
- *   npm run sanity:check             # parse, then fetch if configured
- *   npm run sanity:check -- --parse  # syntax only, no network
- *   npm run sanity:check -- --json   # machine-readable
- *   npm run sanity:check -- projects # only queries whose name matches
+ *   pnpm run sanity:check             # parse, then fetch if configured
+ *   pnpm run sanity:check -- --parse  # syntax only, no network
+ *   pnpm run sanity:check -- --json   # machine-readable
+ *   pnpm run sanity:check -- projects # only queries whose name matches
  *
  * Relative imports carry their .ts extension so Node can strip the types and run
  * this directly — no loader, no bundler. Astro's tsconfig allows it

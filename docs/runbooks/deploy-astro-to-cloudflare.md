@@ -7,7 +7,7 @@ date: 2026-10-22
 
 # Deploy the Astro app to Cloudflare Workers
 
-How to ship [`apps/web`](../../apps/web) (the Astro front end, ADR 0006) as a Cloudflare Worker. The Next.js app at the repo root still serves the live site — this is the deploy path for the new stack, not a cutover.
+How to ship [`apps/web`](../../apps/web) (`@badger3000/web`, the Astro front end, ADR 0006) as a Cloudflare Worker. The Next.js app in `apps/legacy-next` still serves the live site: this is the deploy path for the new stack, not a cutover.
 
 ## When to use
 
@@ -15,32 +15,37 @@ Any change under `apps/web`. Until the cutover (PRD phase 7) this deploys alongs
 
 ## Prerequisites
 
-- **Node 24** (`.nvmrc`; Astro 7 needs >= 22.23.4). You don't have to switch manually — every `apps/web` script goes through `scripts/node-guard.mjs`, which finds a supported interpreter (nvm / Volta / Homebrew / PATH, preferring `.nvmrc`) and re-runs the command with it:
+- **Node 24** (`.nvmrc`; Astro 7 needs >= 22.23.4). You don't have to switch manually: every `apps/web` script goes through `scripts/node-guard.mjs`, which finds a supported interpreter (nvm / Volta / Homebrew / PATH, preferring `.nvmrc`) and re-runs the command with it:
 
   ```bash
-  $ npm run build
+  $ pnpm --filter @badger3000/web run build
   node-guard: v22.23.0 does not satisfy ">=22.23.4" — using v24.22.1 from ~/.nvm/versions/node/v24.22.1/bin/node
   ```
 
-  Outside those scripts (a bare `npx astro …`, an editor task) still run `nvm use`.
-- `npx wrangler login` once per machine — `npx wrangler whoami` must print an account.
-- `npm install` in `apps/web`. If npm reports packages "not yet covered by allowScripts", run `npm install-scripts approve esbuild fsevents workerd` once; the resulting `allowScripts` block in `apps/web/package.json` is what keeps CI installs non-interactive.
+  Outside those scripts (a bare `pnpm exec astro …`, an editor task) still run `nvm use`.
+- `pnpm --filter @badger3000/web exec wrangler login` once per machine; `… exec wrangler whoami` must print an account.
+- `pnpm install` at the repo root (one `pnpm-lock.yaml` for the workspace). Build scripts for `esbuild`, `workerd` and `unrs-resolver` are approved in `pnpm-workspace.yaml` (`allowBuilds`). If pnpm reports a new ignored build, run `pnpm approve-builds <pkg>` and commit the change.
+- `apps/web/.env` (copy `apps/web/.env.example`). `SANITY_ALLOW_EMPTY=1` builds with no credentials (CI does); deploy builds never set it, so a misconfigured deploy fails loudly.
 
 ## Steps
 
-1. `cd apps/web && npm install`
-2. `npm run check` (`astro check` — TypeScript across `.astro` files) and `npm run build`.
-3. Preview locally: `npm run preview` → <http://localhost:4321>.
-4. `npm run deploy` — `astro build` then `wrangler deploy`.
-5. No-auth smoke test (ephemeral account, expires, gives a claimable URL): `npx wrangler deploy --temporary`.
+Run from the repo root (or `pnpm run <script>` inside `apps/web`):
+
+1. `pnpm install`
+2. `pnpm --filter @badger3000/web run check` (`astro check`, TypeScript across `.astro` files) and `pnpm --filter @badger3000/web run build`.
+3. Preview locally: `pnpm --filter @badger3000/web run preview` → <http://localhost:4321>, or `cf:dev` for the Worker including `/api/chat`.
+4. `pnpm --filter @badger3000/web run deploy`: `astro build`, then `wrangler deploy`. `deploy:dry` stops before uploading.
+5. No-auth smoke test (ephemeral account, expires, gives a claimable URL): `pnpm --filter @badger3000/web exec wrangler deploy --temporary`.
+
+**Workers Builds** (the chosen CI deploy, not yet connected) must call the package scripts, never `turbo run`: Turbo's cache doesn't know about Sanity content. Settings: root directory `apps/web`; build command `pnpm run build`; deploy command `pnpm run deploy:worker`; non-production branch deploy command `pnpm exec wrangler versions upload`; build watch paths `apps/web/*`, `packages/*`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`; build variables `NODE_VERSION=24`, `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL=https://www.badger3000.com`, and the `SANITY_API_TOKEN` secret.
 
 ## What gets deployed
 
-`wrangler.jsonc` defines an **assets-only Worker**: `dist/` is uploaded as Workers Static Assets, `html_handling: "auto-trailing-slash"` (matches Astro's `build.format: "directory"`), and `not_found_handling: "404-page"` serves `dist/404.html`.
+`@astrojs/cloudflare` owns `main` and `assets` in `wrangler.jsonc` (ADR 0009, phase 4 reached). Every page is prerendered into `dist/client` and served as Workers Static Assets; only routes with `export const prerender = false` (today `src/pages/api/chat.ts`) run in the Worker. `wrangler.jsonc` adds the `AI` binding (ADR 0008), the `CHAT_LIMITER` rate limit and observability.
 
-`public/_headers` is honoured by Cloudflare and is the edge-cache layer: `/_astro/*` is fingerprinted so it ships `max-age=31536000, immutable`; the security headers land on every response.
+`public/_headers` is honoured by Cloudflare and is the edge-cache layer for assets: `/_astro/*` is fingerprinted, so it ships `max-age=31536000, immutable`. It doesn't apply to Worker responses (`/api/*`).
 
-To switch on server rendering for `/api/chat` (PRD phase 4), install `@astrojs/cloudflare` and let the adapter own `main` + `assets` — the exact steps are in the comment at the top of [`apps/web/astro.config.mjs`](../../apps/web/astro.config.mjs). Prerendered pages keep shipping as assets.
+The adapter writes `dist/server/.dev.vars` with the local `SANITY_API_TOKEN` for `wrangler dev`. It isn't deployed (`verify-dist` checks), and Turbo excludes it from the cache.
 
 ## Verify
 
@@ -48,17 +53,18 @@ To switch on server rendering for `/api/chat` (PRD phase 4), install `@astrojs/c
 curl -sI https://<worker>.workers.dev/            # 200, cf-cache-status
 curl -sI https://<worker>.workers.dev/_astro/*.css # cache-control: …immutable
 curl -s  https://<worker>.workers.dev/nope        # 404, our 404 page
+curl -s -X POST https://<worker>.workers.dev/api/chat -H 'content-type: application/json' -d '{"message":"projects"}'
 ```
 
 Then open the URL and click through the three skins (light / dark / forest) and the mobile width.
 
 ## Troubleshooting
 
-- **`Node.js vX is not supported by Astro`** — you ran `astro` outside the npm scripts (so the guard never ran). Use `npm run build` / `npm run dev`, or `nvm use` first.
-- **`You are not authenticated`** — `npx wrangler login`.
-- **npm skips esbuild/workerd/sharp install scripts** — see prerequisites.
-- **404 on a route with no trailing slash** — that is `html_handling`; confirm the page is `dist/<route>/index.html`.
-- **Fonts look wrong on first load** — the Google Fonts link is render-blocking by design; if that hurts CWV, self-host with `@fontsource` when phase 3 lands.
+- **`Node.js vX is not supported by Astro`**: you ran `astro` outside the package scripts (so the guard never ran). Use the scripts, or `nvm use` first.
+- **`You are not authenticated`**: `wrangler login` (see prerequisites).
+- **pnpm "Ignored build scripts"**: `pnpm approve-builds <pkg>`, see prerequisites.
+- **404 on a route with no trailing slash**: assets use Cloudflare's default `html_handling` (`auto-trailing-slash`); confirm the page is `dist/client/<route>/index.html`.
+- **`Missing Sanity configuration.` at build**: `apps/web/.env` is missing or incomplete (Astro only loads env from its own directory).
 
 ## Links
 

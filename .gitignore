@@ -27,3 +27,4 @@ sanityConfig.js
 .serena
 .claude
 .turbo/
+.wrangler/
