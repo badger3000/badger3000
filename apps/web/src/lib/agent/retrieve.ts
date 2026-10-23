@@ -1,11 +1,13 @@
 /**
  * Retrieval: intent → GROQ → cards (ADR 0008, step 2).
  *
- * Everything the agent says is traceable to a document. Each projection is
- * capped so one question cannot drag the whole dataset across the edge, and
- * every card carries only what the client's card components render.
+ * Everything the agent says is traceable to a document. The GROQ lives in
+ * @badger3000/sanity (`chatQueries`, so `sanity:check` parses and runs it);
+ * each projection there is capped so one question cannot drag the whole
+ * dataset across the edge. This module only maps rows to cards, and every card
+ * carries only what the client's card components render.
  */
-import { groq } from "../sanity/queries.ts";
+import { chatQueries as q } from "@badger3000/sanity/queries";
 import { getClient } from "../sanity/client.ts";
 import type { Intent } from "./intents.ts";
 
@@ -138,9 +140,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
 
   switch (intent) {
     case "projects": {
-      const rows = await client.fetch<ProjectRow[]>(groq`*[_type == "projects"] | order(order asc) [0...8] {
-        "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url
-      }`);
+      const rows = await client.fetch<ProjectRow[]>(q.projectsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "project" as const,
@@ -160,9 +160,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "articles": {
-      const rows = await client.fetch<ArticleRow[]>(groq`*[_type == "articles" && defined(slug.current)] | order(_createdAt desc) [0...6] {
-        title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "topic": topic->title, "date": _createdAt
-      }`);
+      const rows = await client.fetch<ArticleRow[]>(q.articlesForChat);
       return {
         cards: rows.map((row) => ({
           kind: "article" as const,
@@ -178,9 +176,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "experiments": {
-      const rows = await client.fetch<PenRow[]>(groq`*[_type == "codepen"] | order(_createdAt desc) [0...6] {
-        title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title
-      }`);
+      const rows = await client.fetch<PenRow[]>(q.experimentsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "experiment" as const,
@@ -198,12 +194,8 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     case "education": {
       const isEducation = intent === "education";
       const rows = isEducation
-        ? await client.fetch<RoleRow[]>(groq`*[_type == "education"] | order(startDate desc) [0...8] {
-            "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl
-          }`)
-        : await client.fetch<RoleRow[]>(groq`*[_type == "experience"] | order(startDate desc) [0...8] {
-            title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl
-          }`);
+        ? await client.fetch<RoleRow[]>(q.educationForChat)
+        : await client.fetch<RoleRow[]>(q.experienceForChat);
 
       return {
         cards: rows.map((row) => ({
@@ -220,9 +212,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "skills": {
-      const rows = await client.fetch<SkillGroupRow[]>(groq`*[_type == "skillCategory"] | order(order asc) {
-        "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])
-      }`);
+      const rows = await client.fetch<SkillGroupRow[]>(q.skillsForChat);
       const total = rows.reduce((sum, row) => sum + row.skills.length, 0);
       return {
         cards: rows.map((row) => ({
@@ -239,9 +229,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "testimonials": {
-      const rows = await client.fetch<TestimonialRow[]>(groq`*[_type == "testimonial"] | order(order asc) [0...5] {
-        "name": coalesce(name, "Anonymous"), role, company, content, profileUrl
-      }`);
+      const rows = await client.fetch<TestimonialRow[]>(q.testimonialsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "testimonial" as const,
@@ -256,9 +244,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "bookmarks": {
-      const rows = await client.fetch<BookmarkRow[]>(groq`*[_type == "bookmark"] | order(title asc) [0...8] {
-        title, url, "folder": folder->name
-      }`);
+      const rows = await client.fetch<BookmarkRow[]>(q.bookmarksForChat);
       const folders = new Set(rows.map((row) => row.folder).filter(Boolean));
       return {
         cards: rows.map((row) => ({
@@ -273,9 +259,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "golf": {
-      const rows = await client.fetch<GolfRow[]>(groq`*[_type == "golfScores" && defined(score)] | order(date desc) [0...10] {
-        "course": coalesce(course, "Unknown course"), date, score
-      }`);
+      const rows = await client.fetch<GolfRow[]>(q.golfScoresForChat);
       const scores = rows.map((row) => row.score);
       const best = scores.length ? Math.min(...scores) : 0;
       const average = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
@@ -309,11 +293,9 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
       };
 
     case "about": {
-      const settings = await client.fetch<SettingsRow | null>(groq`*[_type == "settings"][0] {
-        name, title, location, occupation, description
-      }`);
-      const projects = await client.fetch<number>(groq`count(*[_type == "projects"])`);
-      const articles = await client.fetch<number>(groq`count(*[_type == "articles"])`);
+      const settings = await client.fetch<SettingsRow | null>(q.settingsForChat);
+      const projects = await client.fetch<number>(q.projectCount);
+      const articles = await client.fetch<number>(q.articleCount);
 
       if (!settings) {
         return {
