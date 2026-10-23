@@ -9,9 +9,11 @@ export default {
       type: "string",
     },
     {
+      // The documents store a colour object ({ hex, hsl, rgb }), so this is a
+      // `color` field: the Studio needs the @sanity/color-input plugin.
       title: "Background color",
       name: "backgroundColor",
-      type: "string",
+      type: "color",
     },
     {
       title: "Filter Slug",

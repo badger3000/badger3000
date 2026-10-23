@@ -2,6 +2,7 @@
 import {defineConfig} from "sanity";
 import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
+import {colorInput} from "@sanity/color-input";
 import {schemaTypes} from "@badger3000/sanity/schema";
 import {bookmarkStructure} from "./schemas/structure/bookmarkStructure";
 
@@ -28,7 +29,7 @@ export default defineConfig({
   projectId,
   dataset,
 
-  plugins: [structureTool({structure: bookmarkStructure}), visionTool()],
+  plugins: [structureTool({structure: bookmarkStructure}), visionTool(), colorInput()],
 
   schema: {
     types: schemaTypes,
