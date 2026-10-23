@@ -3,7 +3,7 @@
  * ShieldsBadge — pen master `NjGub`.
  * context: span · ShieldsBadge — props: label,value,color ← skill
  *
- *   Key   `#2B2F36` radius 5 padding [4, 8] 10.5 white   ← skill.name
+ *   Key   `--a-badge-key` radius 5 padding [4, 8] 10.5 white   ← skill.name
  *   Value fill ← skill.badgeColor, radius 5, padding [4, 8] ← skill.badgeLabel
  *
  * `badgeLabel` is optional — plenty of skills have only a colour. The projection
@@ -37,10 +37,10 @@ const { name, color, value, class: className } = Astro.props;
   .key,
   .value {
     padding: 4px 8px;
-    color: #fff;
+    color: var(--a-on-accent);
   }
   .key {
-    background: #2b2f36;
+    background: var(--a-badge-key);
   }
   .value {
     background: var(--a-line-2);

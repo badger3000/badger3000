@@ -12,7 +12,7 @@
  *   Profile surface/12/gap 10/pad 9
  *
  * It is a real `<dialog>`: Esc closes it, focus is trapped, and `::backdrop` is
- * the pen's scrim (`#0C0C0A`) without a second element to manage. Opening,
+ * the pen's scrim (`--a-scrim`) without a second element to manage. Opening,
  * closing and the Appearance segment are delegated from `lib/shell.ts`, which
  * looks the dialog up at event time — the router replaces it on every swap.
  */
@@ -123,7 +123,7 @@ const initials = (profile?.name ?? "Kyle Ross")
   }
   /* The pen's scrim. */
   .drawer::backdrop {
-    background: #0c0c0a;
+    background: var(--a-scrim);
   }
   .drawer[open] {
     display: flex;

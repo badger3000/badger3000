@@ -29,6 +29,20 @@
   --p-coral-soft-d: #3a241c;
   --p-d-line: #2b2b28;
   --p-d-line-2: #36352f;
+  /* contrast primitives: text that must reach AA (4.5:1) where faint cannot */
+  --p-450: #86837d;
+  --p-coral-text-l: #b94625;
+  --p-coral-text-d: #e86d49;
+  --p-green: #3bbe7a;
+  --p-slate: #2b2f36;
+  --p-scrim: #0c0c0a;
+  /* code-block primitives (the pen's article code block, C2I66) */
+  --p-code-900: #1a1a22;
+  --p-code-800: #26262c;
+  --p-code-text: #e9e4d8;
+  --p-code-comment: #9a968c;
+  --p-code-keyword: #f4c400;
+  --p-code-string: #36c3d6;
   /* forest-skin primitives */
   --g-bg: #f5f7f4;
   --g-surface: #ffffff;
@@ -40,6 +54,10 @@
   --g-line-2: #d2dad3;
   --g-accent: #1c7c59;
   --g-accent-soft: #e2f0e8;
+  --g-subtle: #606d67;
+  --g-accent-text: #1b7856;
+  --g-code-bg: #16221d;
+  --g-code-head: #22312a;
 
   /* ---- TIER 2: semantic (light — default skin) ---- */
   --a-bg: var(--p-25);
@@ -53,6 +71,36 @@
   --a-accent: var(--p-coral);
   --a-accent-soft: var(--p-coral-soft-l);
   --a-on-accent: #ffffff;
+  /*
+   * Contrast tokens. `--a-faint` stays for icons and decoration; text that has
+   * to be read uses `--a-subtle` (≥4.5:1 on bg, surface and sidebar). Small
+   * accent text uses `--a-accent-text` (≥4.5:1 on those and on accent-soft);
+   * `--a-accent` stays for fills and icons.
+   */
+  --a-subtle: var(--p-500);
+  --a-accent-text: var(--p-coral-text-l);
+  /* status, badges */
+  --a-ok: var(--p-green);
+  --a-badge-key: var(--p-slate);
+  /* text and overlays on a cover gradient or a tinted mark */
+  --a-on-cover: #ffffff;
+  --a-on-cover-soft: #ffffffe0;
+  --a-on-cover-muted: #ffffffcc;
+  --a-on-cover-faint: #ffffffaa;
+  --a-cover-overlay: #ffffff29;
+  /* the experiment card's dark "window" cover */
+  --a-cover-window: #17171c;
+  --a-cover-window-dot: #ffffff26;
+  --a-cover-window-line: #ffffff1f;
+  /* behind a modal (the mobile drawer) */
+  --a-scrim: var(--p-scrim);
+  /* code blocks — dark in every skin */
+  --a-code-bg: var(--p-code-900);
+  --a-code-head: var(--p-code-800);
+  --a-code-text: var(--p-code-text);
+  --a-code-comment: var(--p-code-comment);
+  --a-code-keyword: var(--p-code-keyword);
+  --a-code-string: var(--p-code-string);
 
   /* type */
   --af-display: "Instrument Serif", ui-serif, serif;
@@ -113,6 +161,11 @@
   --a-line-2: var(--p-d-line-2);
   --a-accent: var(--p-coral);
   --a-accent-soft: var(--p-coral-soft-d);
+  --a-subtle: var(--p-450);
+  --a-accent-text: var(--p-coral-text-d);
+  /* the surface is already near the light skin's code bg, so go darker */
+  --a-code-bg: var(--p-950);
+  --a-code-head: var(--p-800);
 }
 
 /* ---- forest skin ---- */
@@ -127,4 +180,8 @@
   --a-line-2: var(--g-line-2);
   --a-accent: var(--g-accent);
   --a-accent-soft: var(--g-accent-soft);
+  --a-subtle: var(--g-subtle);
+  --a-accent-text: var(--g-accent-text);
+  --a-code-bg: var(--g-code-bg);
+  --a-code-head: var(--g-code-head);
 }
