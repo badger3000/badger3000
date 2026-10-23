@@ -1,0 +1,394 @@
+---
+/**
+ * Experiments — Detail (`codepen`). Pen `vKVLC`, spec in design.md §D.
+ * context: article · experimentBySlugQuery ← codepen
+ *
+ *   Header 856   Back · Tag ← topic · h1 display 64 · lede 18 · "Published …"
+ *   Preview      window: head (dots, slug tab) · 16:9 CodePen iframe · footer link
+ *   CTAs         Button primary "View on CodePen" · Button secondary "Fork"
+ *   About 760    h2 display 28 · Portable Text 16 ← description
+ *   More         "More in {topic}" · 3 × ProjectCard, same topic first
+ *
+ * The schema has no tech list, fork or heart counts (P-7), so there is no tech
+ * block and no heart. `penUrl` is the pen's hash; when the author pasted
+ * CodePen's embed snippet (`embedCode`), its user and default tab win, but its
+ * `<script>` is never injected: the page always renders its own lazy iframe.
+ */
+import type { GetStaticPaths } from "astro";
+import { SANITY_ALLOW_EMPTY } from "astro:env/server";
+import Base from "../../layouts/Base.astro";
+import AppShell from "../../layouts/AppShell.astro";
+import PortableBody from "../../components/portable/PortableBody.astro";
+import { Button, Icon, ProjectCard, Tag } from "@badger3000/ui";
+import { gradientFor } from "@badger3000/tokens/covers";
+import { experimentBySlugQuery, experimentSlugsQuery } from "@badger3000/sanity/queries";
+import { getCounts, getSettings, isConfigured, sanity } from "../../lib/sanity/index.ts";
+
+/** Every pen in the dataset is on this account; an embed snippet can override it. */
+const CODEPEN_USER = "badger3000";
+
+export const getStaticPaths = (async () => {
+  if (!isConfigured && SANITY_ALLOW_EMPTY === "1") return [];
+  const slugs = await sanity().fetch(experimentSlugsQuery);
+  return slugs.flatMap((slug) => (slug ? [{ params: { slug } }] : []));
+}) satisfies GetStaticPaths;
+
+const { slug } = Astro.params;
+const [pen, counts, settings] = await Promise.all([
+  sanity().fetch(experimentBySlugQuery, { slug }),
+  getCounts(),
+  getSettings(),
+]);
+if (!pen) throw new Error(`experimentBySlugQuery returned nothing for "${slug}"`);
+
+/** One `data-*` attribute from CodePen's embed snippet, if there is one. */
+const embedAttr = (name: string) => pen.embedCode?.match(new RegExp(`data-${name}="([^"]+)"`))?.[1];
+const safe = (value: string | undefined) => (value && /^[\w-]+$/.test(value) ? value : undefined);
+
+const hash = safe(embedAttr("slug-hash")) ?? safe(pen.penUrl?.trim());
+const user = safe(embedAttr("user")) ?? CODEPEN_USER;
+const tab = embedAttr("default-tab") ?? "result";
+const penHref = hash ? `https://codepen.io/${user}/pen/${hash}` : undefined;
+const forkHref = hash ? `https://codepen.io/${user}/pen/fork/${hash}` : undefined;
+const embedSrc = hash ? `https://codepen.io/${user}/embed/${hash}?default-tab=${encodeURIComponent(tab)}` : undefined;
+
+const title = pen.title;
+const date = new Date(pen.createdAt).toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.topic);
+---
+
+<Base title={`${title} — Badger3000`} description={pen.excerpt ?? undefined}>
+  <AppShell
+    active="experiments"
+    counts={counts}
+    settings={settings}
+    mobileBar="page"
+    mobileTitle="Experiments"
+    mobileBottom="tabs"
+  >
+    <main class="detail" id="main">
+      <article class="wrap">
+        <header class="head">
+          <a class="back" href="/codepen">
+            <Icon name="arrow-left" size={14} />
+            Experiments
+          </a>
+          {pen.topic && <Tag label={pen.topic} />}
+          <h1 class="title">{title}</h1>
+          {pen.excerpt && <p class="lede">{pen.excerpt}</p>}
+          <p class="meta">Published <time datetime={pen.createdAt}>{date}</time></p>
+        </header>
+
+        <figure class="preview">
+          <div class="bar">
+            <span class="dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span class="tab">{pen.slug}</span>
+          </div>
+          <div class="stage" style={`background:${gradientFor(pen.id)}`}>
+            {
+              embedSrc ? (
+                <iframe
+                  src={embedSrc}
+                  title={`${title} — live CodePen preview`}
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                />
+              ) : (
+                <p class="no-preview">No live preview for this one.</p>
+              )
+            }
+          </div>
+          {
+            penHref && (
+              <figcaption class="foot">
+                <a href={penHref} target="_blank" rel="noopener noreferrer">
+                  codepen.io/{user}/pen/{hash}
+                  <span class="sr">(opens in a new tab)</span>
+                </a>
+              </figcaption>
+            )
+          }
+        </figure>
+
+        {
+          penHref && (
+            <div class="ctas">
+              <Button variant="primary" label="View on CodePen" href={penHref} target="_blank" rel="noopener noreferrer">
+                <Icon slot="icon" name="external-link" />
+              </Button>
+              <Button variant="secondary" label="Fork" href={forkHref} target="_blank" rel="noopener noreferrer">
+                <Icon slot="icon" name="git-fork" />
+              </Button>
+            </div>
+          )
+        }
+
+        {
+          pen.description && pen.description.length > 0 && (
+            <section class="about" aria-labelledby="about-head">
+              <h2 id="about-head">About</h2>
+              <PortableBody value={pen.description} size={16} />
+            </section>
+          )
+        }
+      </article>
+
+      {
+        pen.related.length > 0 && (
+          <section class="more" aria-labelledby="more-head">
+            <div class="more-head">
+              <h2 id="more-head">{sameTopic ? `More in ${pen.topic}` : "More experiments"}</h2>
+              <a href="/codepen">View all →</a>
+            </div>
+            <ul class="related">
+              {pen.related.map((item) => (
+                <li>
+                  <ProjectCard
+                    title={item.title}
+                    href={`/codepen/${item.slug}`}
+                    seed={item.id}
+                    topic={item.topic ?? undefined}
+                    excerpt={item.excerpt ?? undefined}
+                  />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+    padding: 40px 80px;
+    background: var(--a-bg);
+  }
+  .wrap,
+  .more {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 856px;
+    min-width: 0;
+  }
+  .wrap {
+    gap: 28px;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--a-muted);
+    text-decoration: none;
+  }
+  .back:hover {
+    color: var(--a-ink);
+  }
+  .title {
+    width: 100%;
+    margin: 0;
+    font-family: var(--af-display);
+    font-size: clamp(36px, 7vw, 64px);
+    font-weight: 400;
+    line-height: 1.02;
+    color: var(--a-ink);
+    overflow-wrap: break-word;
+  }
+  .lede {
+    max-width: 720px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--a-muted);
+  }
+  .meta {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-subtle);
+  }
+
+  .preview {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--a-line);
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--a-faint);
+  }
+  .dots span:first-child {
+    background: var(--a-accent);
+  }
+  .dots span:nth-child(2) {
+    background: var(--a-ok);
+  }
+  .tab {
+    overflow: hidden;
+    min-width: 0;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--a-bg);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--a-muted);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* The gradient shows until the iframe paints over it. */
+  .stage {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+  }
+  .stage iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .no-preview {
+    margin: 0;
+    font-size: 14px;
+    color: var(--a-on-cover);
+  }
+  .foot {
+    padding: 10px 14px;
+    border-top: 1px solid var(--a-line);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11.5px;
+  }
+  .foot a {
+    color: var(--a-muted);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+  .foot a:hover {
+    color: var(--a-accent-text);
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 760px;
+  }
+  .about h2,
+  .more-head h2 {
+    margin: 0;
+    font-family: var(--af-display);
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  .about h2 {
+    font-size: 28px;
+  }
+
+  .more {
+    gap: 18px;
+  }
+  .more-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .more-head h2 {
+    font-size: 26px;
+  }
+  .more-head a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--a-accent-text);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .more-head a:hover {
+    text-decoration: underline;
+  }
+  .related {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1080px) {
+    .detail {
+      padding: 32px 40px;
+    }
+  }
+  @media (max-width: 720px) {
+    .detail {
+      gap: 40px;
+      padding: 16px;
+    }
+    .title {
+      font-size: clamp(36px, 11vw, 48px);
+    }
+    .lede {
+      font-size: 16.5px;
+    }
+    .preview {
+      border-radius: 12px;
+    }
+    .related {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
