@@ -2,6 +2,9 @@
  * BADGER3000 design tokens — ported from design/badger3000v2.pen (Design Tokens board).
  * Two tiers: raw primitives -> semantic tokens. Skins switch via [data-theme].
  * Components only ever use var(--a-*). Add a skin = one more [data-theme] block.
+ *
+ * Variables and the keyframes they drive only; the reset, `color-scheme` and the
+ * reduced-motion switch are in base.css.
  */
 
 :root {
@@ -98,32 +101,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
-/*
- * The theme picker has two ways to land on a skin: a direct pill pick
- * (snap instantly to that token) or a gear-cycle (animate from current to
- * next through `transition: background-color …`). `shell.ts` flips this class
- * on the next two animation frames around the pill pick so the colour change
- * the user just asked for snaps, but the next one — almost always through the
- * gear again — animates from the new baseline.
- */
-html.no-transitions,
-html.no-transitions *,
-html.no-transitions *::before,
-html.no-transitions *::after {
-  transition: none !important;
-  animation: none !important;
-}
-
 /* ---- dark skin ---- */
 [data-theme="dark"] {
   --a-bg: var(--p-900);
@@ -150,24 +127,4 @@ html.no-transitions *::after {
   --a-line-2: var(--g-line-2);
   --a-accent: var(--g-accent);
   --a-accent-soft: var(--g-accent-soft);
-}
-
-/* base reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-html {
-  color-scheme: light;
-}
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-body {
-  margin: 0;
-  background: var(--a-bg);
-  color: var(--a-ink);
-  font-family: var(--af-ui);
-  -webkit-font-smoothing: antialiased;
 }

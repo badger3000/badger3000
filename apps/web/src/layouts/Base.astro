@@ -1,8 +1,8 @@
 ---
 /**
  * Base — the document shell every page uses.
- * Owns <head>, the token stylesheet, fonts, the client router, and the
- * pre-paint theme restore. Components never set data-theme themselves; the
+ * Owns <head>, the token and base stylesheets (`@badger3000/tokens`), fonts,
+ * the client router, and the pre-paint theme restore. Components never set data-theme themselves; the
  * toggle writes it.
  *
  * <ClientRouter /> turns navigation into client-side routing: the URL still
@@ -11,7 +11,8 @@
  * cross-fading, so the chrome appears not to move at all.
  */
 import { ClientRouter } from "astro:transitions";
-import "../styles/tokens.css";
+import "@badger3000/tokens/tokens.css";
+import "@badger3000/tokens/base.css";
 
 interface Props {
   title: string;

@@ -1,0 +1,9 @@
+{
+  "name": "@badger3000/tokens",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./base.css": "./base.css"
+  }
+}

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.2",
+    "@badger3000/tokens": "workspace:*",
     "@sanity/client": "^8.10.1",
     "astro": "^7.4.2",
     "lucide-static": "^1.61.0"
