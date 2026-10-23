@@ -1,35 +1,21 @@
+# Legacy Next app (apps/legacy-next) — serves production until the Astro cutover.
+# Deleted at cutover. The Astro app deploys to Cloudflare, not here.
+# Builds are stopped in the Netlify UI (owner decision, 2026-10-22); this file
+# is ready for when they are switched back on.
 [build]
-command = "npm run build"
+base    = "apps/legacy-next"
+# Direct package script, not `turbo run`: Turbo's strict env mode would strip
+# Netlify's build vars, and a cache hit would skip the Sanity sitemap/content fetch.
+command = "pnpm run build"
 publish = ".next"
+# Skip builds when nothing the legacy app depends on changed (runs from base).
+ignore  = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../../packages ../../pnpm-lock.yaml ../../pnpm-workspace.yaml ../../netlify.toml"
 
 [build.environment]
-# Active LTS (Krypton) until 2028-04-30. Netlify's default may be an EOL line
-# (Node 20 went EOL 2026-04-30 and no longer gets security patches), so pin
-# explicitly. Matches .nvmrc; `engines.node` is >=22.12 (the floor required by
-# sanity 6 / @sanity/client 8).
 NODE_VERSION = "24"
 NEXT_TELEMETRY_DISABLED = "1"
 NODE_OPTIONS = "--max_old_space_size=1024"
 
-# Increase build memory limit to avoid potential memory issues
-[build.processing]
-skip_processing = false
-
-# Configure Netlify Functions
-[functions]
-node_bundler = "esbuild"
-external_node_modules = ["next"]
-included_files = ["next.config.mjs"]
-
-# Set functions timeout appropriately
-[functions.api-sitemap]
-pattern = "*/api/sitemap*"
-included_files = ["scripts/generate-sitemap.cjs"]
-memory = 1024
-timeout = 30
-
-
-# Set cache headers for better performance
 [[headers]]
 for = "/_next/static/*"
 [headers.values]
@@ -40,14 +26,12 @@ for = "/images/*"
 [headers.values]
 Cache-Control = "public, max-age=31536000, immutable"
 
-# Add specific headers for API routes
 [[headers]]
 for = "/api/*"
 [headers.values]
 Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
 X-Content-Type-Options = "nosniff"
 
-# Set proper headers for sitemap files - with more specific patterns
 [[headers]]
 for = "/sitemap*.xml"
 [headers.values]
