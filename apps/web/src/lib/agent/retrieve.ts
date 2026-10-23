@@ -8,8 +8,28 @@
  * carries only what the client's card components render.
  */
 import { chatQueries as q } from "@badger3000/sanity/queries";
-import { getClient } from "../sanity/client.ts";
+import type {
+  ArticleCountQueryResult,
+  ArticlesForChatQueryResult,
+  BookmarksForChatQueryResult,
+  EducationForChatQueryResult,
+  ExperienceForChatQueryResult,
+  ExperimentsForChatQueryResult,
+  GolfScoresForChatQueryResult,
+  ProjectCountQueryResult,
+  ProjectsForChatQueryResult,
+  SettingsForChatQueryResult,
+  SkillsForChatQueryResult,
+  TestimonialsForChatQueryResult,
+} from "@badger3000/sanity/types";
 import type { Intent } from "./intents.ts";
+
+/**
+ * How retrieval reads Sanity. Passed in rather than imported, so the agent
+ * never touches env: the endpoint hands it the real client, `agent:check` a
+ * stub over fixture documents.
+ */
+export type ChatFetch = <T>(query: string, params?: Record<string, unknown>) => Promise<T>;
 
 /** One rendered answer. The client maps `kind` to a component. */
 export interface Card {
@@ -73,12 +93,11 @@ export function filterCards(cards: Card[], query: string): Card[] {
   return narrowed.length ? narrowed : cards;
 }
 
-export async function retrieve(intent: Intent): Promise<Retrieved> {
-  const client = getClient();
+export async function retrieve(intent: Intent, fetch: ChatFetch): Promise<Retrieved> {
 
   switch (intent) {
     case "projects": {
-      const rows = await client.fetch(q.projectsForChat);
+      const rows = await fetch<ProjectsForChatQueryResult>(q.projectsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "project" as const,
@@ -98,7 +117,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "articles": {
-      const rows = await client.fetch(q.articlesForChat);
+      const rows = await fetch<ArticlesForChatQueryResult>(q.articlesForChat);
       return {
         cards: rows.map((row) => ({
           kind: "article" as const,
@@ -114,7 +133,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "experiments": {
-      const rows = await client.fetch(q.experimentsForChat);
+      const rows = await fetch<ExperimentsForChatQueryResult>(q.experimentsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "experiment" as const,
@@ -132,8 +151,8 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     case "education": {
       const isEducation = intent === "education";
       const rows = isEducation
-        ? await client.fetch(q.educationForChat)
-        : await client.fetch(q.experienceForChat);
+        ? await fetch<EducationForChatQueryResult>(q.educationForChat)
+        : await fetch<ExperienceForChatQueryResult>(q.experienceForChat);
 
       return {
         cards: rows.map((row) => ({
@@ -150,7 +169,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "skills": {
-      const rows = await client.fetch(q.skillsForChat);
+      const rows = await fetch<SkillsForChatQueryResult>(q.skillsForChat);
       const total = rows.reduce((sum, row) => sum + row.skills.length, 0);
       return {
         cards: rows.map((row) => ({
@@ -167,7 +186,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "testimonials": {
-      const rows = await client.fetch(q.testimonialsForChat);
+      const rows = await fetch<TestimonialsForChatQueryResult>(q.testimonialsForChat);
       return {
         cards: rows.map((row) => ({
           kind: "testimonial" as const,
@@ -182,7 +201,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "bookmarks": {
-      const rows = await client.fetch(q.bookmarksForChat);
+      const rows = await fetch<BookmarksForChatQueryResult>(q.bookmarksForChat);
       const folders = new Set(rows.map((row) => row.folder).filter(Boolean));
       return {
         cards: rows.map((row) => ({
@@ -197,7 +216,7 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
     }
 
     case "golf": {
-      const rows = await client.fetch(q.golfScoresForChat);
+      const rows = await fetch<GolfScoresForChatQueryResult>(q.golfScoresForChat);
       const scores = rows.map((row) => row.score);
       const best = scores.length ? Math.min(...scores) : 0;
       const average = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
@@ -231,9 +250,9 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
       };
 
     case "about": {
-      const settings = await client.fetch(q.settingsForChat);
-      const projects = await client.fetch(q.projectCount);
-      const articles = await client.fetch(q.articleCount);
+      const settings = await fetch<SettingsForChatQueryResult>(q.settingsForChat);
+      const projects = await fetch<ProjectCountQueryResult>(q.projectCount);
+      const articles = await fetch<ArticleCountQueryResult>(q.articleCount);
 
       if (!settings) {
         return {

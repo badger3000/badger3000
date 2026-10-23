@@ -15,8 +15,6 @@
  * long, the deterministic phrasing is used instead. Chat never breaks.
  */
 import type { Intent } from "./intents.ts";
-import { CHAT_MODEL_TIER } from "astro:env/server";
-import { bindings } from "./bindings.ts";
 
 /** The Tier-1 phrasing. Always works, needs no model, costs nothing. */
 export function fallback(intent: Intent, count: number, facts: string[]): string {
@@ -157,12 +155,22 @@ export function isGrounded(line: string, facts: string[]): boolean {
   return true;
 }
 
-interface AiBinding {
+export interface AiBinding {
   run(
     model: string,
     input: { messages: { role: string; content: string }[] },
     options?: { signal?: AbortSignal },
   ): Promise<{ response?: string }>;
+}
+
+/**
+ * What the model tier needs, passed in by the endpoint (env and bindings stay
+ * out of the agent): `tier` is CHAT_MODEL_TIER, `ai` the Workers AI binding if
+ * there is one.
+ */
+export interface Model {
+  tier?: "off" | "on";
+  ai?: AiBinding | null;
 }
 
 /** The template answers in ~0 ms; the model gets this long to beat it. */
@@ -176,14 +184,13 @@ const TIMEOUT_MS = 2500;
 export async function compose(
   intent: Intent,
   facts: string[],
+  { tier, ai }: Model,
 ): Promise<string | null> {
   if (!facts.length) return null;
 
   // Off by default — see the note above and on CHAT_MODEL_TIER in astro.config.
-  if (CHAT_MODEL_TIER !== "on") return null;
+  if (tier !== "on") return null;
 
-  const env = await bindings();
-  const ai = env?.AI as AiBinding | undefined;
   if (!ai) {
     console.info("[chat] no AI binding — using deterministic phrasing");
     return null;
