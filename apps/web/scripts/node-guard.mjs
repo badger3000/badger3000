@@ -4,7 +4,7 @@
  *
  * Usage: node scripts/node-guard.mjs -- <command> [args...]
  *
- * npm scripts run under whatever `node` is first on PATH, which on this machine
+ * Package scripts run under whatever `node` is first on PATH, which on this machine
  * is v22.23.0 — just below Astro's >=22.23.4 floor. Rather than making every
  * command remember `nvm use`, this finds a supported interpreter (nvm, Volta,
  * Homebrew, or anywhere on PATH, preferring the repo's .nvmrc) and re-runs the

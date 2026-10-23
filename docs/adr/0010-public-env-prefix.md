@@ -40,7 +40,7 @@ Worse, there was no `.env` file and no `.env.example` in the repo at all, and `a
 
 ## Consequences
 
-- `.env.local` is written once for the repo; `apps/web/.env` holds the same `PUBLIC_*` block (or a symlink) because Astro only loads from its own project directory.
+- `.env.local` is written once for the repo; `apps/web/.env` holds the same `PUBLIC_*` block (or a symlink) because Astro only loads from its own project directory. *(2026-10-22: since the B1 move the env files are per app, `apps/web/.env` and `apps/legacy-next/.env.local`, with the same names; a symlink between them is fine.)*
 - The fallback chains are noisy at ~10 call sites, and they are meant to be temporary: `grep NEXT_PUBLIC_` should go quiet at the cutover, and that grep is the checklist.
 - Nothing server-only is prefixed `PUBLIC_`, so `GET /_astro/*.js` cannot leak a token — worth re-checking whenever a secret is added.
 

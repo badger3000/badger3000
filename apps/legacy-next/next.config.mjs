@@ -1,6 +1,14 @@
+import {fileURLToPath} from "node:url";
+
+// Workspace root, two levels up: file tracing and Turbopack must see pnpm's
+// root node_modules, not just this app.
+const root = fileURLToPath(new URL("../..", import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  outputFileTracingRoot: root,
+  turbopack: {root},
   images: {
     remotePatterns: [
       {

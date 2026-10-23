@@ -13,8 +13,8 @@ type BlogPost = {
 const SITE_URL = (process.env.PUBLIC_SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL) || "http://localhost:3000";
 
 const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: (process.env.PUBLIC_SANITY_PROJECT_ID ?? process.env.NEXT_PUBLIC_SANITY_PROJECT_ID)!,
+  dataset: (process.env.PUBLIC_SANITY_DATASET ?? process.env.NEXT_PUBLIC_SANITY_DATASET)!,
   apiVersion: "2024-03-09",
   useCdn: process.env.NODE_ENV === "production",
   token: process.env.SANITY_API_TOKEN,

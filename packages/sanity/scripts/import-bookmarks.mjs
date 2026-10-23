@@ -5,10 +5,10 @@
  * all bookmarks with references to their folder document.
  *
  * Usage:
- *   SANITY_PROJECT_ID=xxx SANITY_DATASET=production SANITY_TOKEN=xxx node scripts/import-bookmarks.mjs
+ *   PUBLIC_SANITY_PROJECT_ID=xxx PUBLIC_SANITY_DATASET=production SANITY_API_TOKEN=xxx node scripts/import-bookmarks.mjs
  *
- * Or with .env.local vars already loaded:
- *   node --env-file=.env.local scripts/import-bookmarks.mjs
+ * Or with the app env file (run from packages/sanity):
+ *   node --env-file=../../apps/web/.env scripts/import-bookmarks.mjs
  *
  * Requires a Sanity API token with write permissions.
  * Safe to re-run — uses createIfNotExists with deterministic IDs.
@@ -21,22 +21,24 @@ import {dirname, join} from "path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Support both direct env vars and NEXT_PUBLIC_ prefixed ones
+// PUBLIC_* names first (ADR 0010); the older names still work
 const projectId =
+  process.env.PUBLIC_SANITY_PROJECT_ID ||
   process.env.SANITY_PROJECT_ID ||
   process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset =
+  process.env.PUBLIC_SANITY_DATASET ||
   process.env.SANITY_DATASET ||
   process.env.NEXT_PUBLIC_SANITY_DATASET ||
   "production";
 const token =
-  process.env.SANITY_TOKEN ||
-  process.env.SANITY_API_TOKEN;
+  process.env.SANITY_API_TOKEN ||
+  process.env.SANITY_TOKEN;
 
 if (!projectId || !token) {
   console.error(
     "Missing required environment variables.\n" +
-      "Set SANITY_PROJECT_ID (or NEXT_PUBLIC_SANITY_PROJECT_ID) and SANITY_TOKEN (or SANITY_API_TOKEN).\n" +
+      "Set PUBLIC_SANITY_PROJECT_ID (or SANITY_PROJECT_ID) and SANITY_API_TOKEN (or SANITY_TOKEN).\n" +
       "The token must have write permissions."
   );
   process.exit(1);

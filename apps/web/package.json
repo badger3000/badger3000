@@ -1,5 +1,5 @@
 {
-  "name": "badger3000-web",
+  "name": "@badger3000/web",
   "type": "module",
   "version": "0.1.0",
   "private": true,
@@ -9,14 +9,14 @@
   "scripts": {
     "dev": "node scripts/node-guard.mjs -- astro dev",
     "build": "node scripts/node-guard.mjs -- astro build",
-    "postbuild": "npm run build:verify",
+    "postbuild": "pnpm run build:verify",
     "build:verify": "node scripts/verify-dist.mjs",
     "check": "node scripts/node-guard.mjs -- astro check",
     "preview": "node scripts/node-guard.mjs -- astro preview",
     "sanity:check": "node scripts/sanity-check.ts",
-    "deploy": "npm run build && npm run deploy:worker",
+    "deploy": "pnpm run build && pnpm run deploy:worker",
     "deploy:worker": "node scripts/node-guard.mjs -- wrangler deploy",
-    "deploy:dry": "npm run build && node scripts/node-guard.mjs -- wrangler deploy --dry-run",
+    "deploy:dry": "pnpm run build && node scripts/node-guard.mjs -- wrangler deploy --dry-run",
     "cf:dev": "node scripts/node-guard.mjs -- wrangler dev"
   },
   "dependencies": {
@@ -27,14 +27,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^24.19.2",
     "groq-js": "^2.0.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.152.0"
-  },
-  "allowScripts": {
-    "esbuild@0.28.2": true,
-    "fsevents@2.3.3": true,
-    "workerd@1.20261019.1": true,
-    "workerd@1.20261012.1": true
   }
 }
