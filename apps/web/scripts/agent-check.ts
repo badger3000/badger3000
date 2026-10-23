@@ -38,6 +38,9 @@ const only = process.argv.slice(2).filter((a) => !a.startsWith("--"));
 const picked = <T extends { q?: string; line?: string }>(rows: T[]) =>
   rows.filter((row) => !only.length || only.some((o) => (row.q ?? row.line ?? "").toLowerCase().includes(o.toLowerCase())));
 
+// compose() logs every line it refuses; the tables below report those.
+console.info = () => {};
+
 const failures: string[] = [];
 let passed = 0;
 

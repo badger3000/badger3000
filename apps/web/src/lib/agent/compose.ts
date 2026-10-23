@@ -163,53 +163,72 @@ const REJECT = [
 
 /**
  * Words that carry no checkable claim and so need no backing in the facts:
- * function words, the site's own subject, verbs of *existence* ("his skills span
- * four categories"), and intensifiers.
+ * function words, the site's own subject, the names of what is being listed
+ * ("his projects include…"), and verbs of *existence* ("his skills span four
+ * categories").
  *
- * Verbs and adjectives of *accomplishment* are deliberately absent — "built",
- * "created", "worked with", "partnered with" are where embellishment shows up,
- * and they assert something a reader could check.
+ * Verbs and adjectives of *accomplishment* or *judgement* are deliberately
+ * absent — "built", "created", "worked with", "partnered with", "impressive",
+ * "extensive" are where embellishment shows up, and they assert something a
+ * reader could check (or that the data never said). Number words are absent
+ * too: they are read as numbers, and numbers must be in the facts.
  */
 const ALLOWED = new Set(
   `a an the and or but so if of in on at by for to from with without across over under into
-   his her their its this that these those there here it he she they them we you your
+   his her their its this that these those there here it he him she they them we you your
    is are was were be been being has have had having do does did done
-   many several various few more most less than some any each both either neither
+   many several various few more most less than some any each both either neither multiple
    as up down out about around between within among while when where which who what how why
-   not no yes also just only still able us one two three
+   not no yes also just only still able us
    kyle ross badger badger3000 site website
+   project projects article articles experiment experiments role roles skill skills
+   testimonial testimonials bookmark bookmarks link links round rounds category categories
+   folder folders qualification qualifications
    include includes included listing lists listed show shows showed span spans spanned
    cover covers covered feature features featured contain contains contained
-   range ranges ranged run runs running
-   broad wide deep extensive diverse comprehensive solid strong notable impressive
-   valuable impressive key main multiple consistent genuine practical active current
-   growing serious hands useful current broad`.split(/\s+/).filter(Boolean),
+   range ranges ranged run runs running`.split(/\s+/).filter(Boolean),
 );
 
+const NUMBER_WORDS: Record<string, string> = {
+  zero: "0", one: "1", two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7", eight: "8",
+  nine: "9", ten: "10", eleven: "11", twelve: "12", dozen: "12", twenty: "20", hundred: "100",
+};
+
+/** Lowercase whole words and digit runs; "8-round" is ["8", "round"], "Smart" never contains "art". */
+const tokens = (text: string) =>
+  text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .flatMap((token) => token.split(/(?<=\p{N})(?=\p{L})|(?<=\p{L})(?=\p{N})/u))
+    .filter(Boolean);
+
+/** A plural or an inflection of a supplied word ("rounds" / "round", "categories" / "category"). */
+const stem = (word: string) =>
+  word.length > 4 ? word.replace(/ies$/, "y").replace(/(?:es|s|ed|ing)$/, "") : word;
+
 /**
- * Checkable grounding: every content word in the model's sentence must appear in
- * the facts it was given.
+ * Checkable grounding: every content word in the model's sentence must be a
+ * whole word of the facts it was given (or an inflection of one), and every
+ * number must appear in them verbatim.
  *
  * ADR 0008 assumes a model limited to retrieved facts "cannot hallucinate". A
  * 3B model does not honour that by instruction — observed output invented
- * "guided meditations" for a project called Headspace, and a year nobody
- * supplied. So the claim is checked instead of trusted: a word with no backing
- * in the facts means the line is not grounded, and the deterministic phrasing
- * answers instead.
+ * "guided meditations" for a project called Headspace, a year nobody
+ * supplied, and an 8-round streak. So the claim is checked instead of trusted:
+ * one word or number with no backing in the facts means the line is not
+ * grounded, and the deterministic phrasing answers instead.
  */
 export function isGrounded(line: string, facts: string[]): boolean {
-  const haystack = facts.join(" ").toLowerCase();
-  const words = line
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .split(/\s+/)
-    .filter(Boolean);
+  const supplied = new Set(facts.flatMap(tokens));
+  const stems = new Set([...supplied].map(stem));
 
-  for (const word of words) {
-    if (ALLOWED.has(word) || word.length < 3) continue;
-    // Accept a plural or an inflection of a supplied word ("rounds" / "round").
-    const stem = word.replace(/(s|es|ed|ing)$/, "");
-    if (haystack.includes(word) || haystack.includes(stem)) continue;
+  for (const raw of tokens(line)) {
+    const word = NUMBER_WORDS[raw] ?? raw;
+    if (/^\p{N}+$/u.test(word)) {
+      if (supplied.has(word)) continue;
+      return false;
+    }
+    if (ALLOWED.has(word) || supplied.has(word) || stems.has(stem(word))) continue;
     return false;
   }
   return true;
@@ -285,7 +304,11 @@ export async function compose(
       ?.trim();
 
     if (!line) {
-      console.info("[chat] model returned no text — using deterministic phrasing");
+      console.info(
+        controller.signal.aborted
+          ? `[chat] model timed out after ${TIMEOUT_MS} ms — using deterministic phrasing`
+          : "[chat] model returned no text — using deterministic phrasing",
+      );
       return null;
     }
     if (REJECT.some((pattern) => pattern.test(line))) {

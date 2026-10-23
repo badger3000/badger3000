@@ -254,7 +254,11 @@ export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch
           body: row.content || undefined,
           href: row.profileUrl ?? undefined,
         })),
-        facts: found.rows.map((row) => `${row.name}${row.company ? `, who worked with him at ${row.company}` : ""}`),
+        // Only what the document says: `company` is the author's, not a claim
+        // that they worked with him.
+        facts: found.rows.map((row) =>
+          [row.name, [row.role, row.company].filter(Boolean).join(" at ")].filter(Boolean).join(", "),
+        ),
       };
     }
 

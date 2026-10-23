@@ -159,6 +159,20 @@ export const grounding: GroundingCase[] = [
     why: "#9: invented employer relationship",
   },
   { line: "His impressive projects include Headspace", facts: PROJECT_FACTS, grounded: false, why: "#8c: praise" },
+  { line: "He has three projects", facts: PROJECT_FACTS, grounded: false, why: "#8a: a number word is a number" },
+  {
+    line: "His skills span four categories",
+    facts: ["9 skills across 3 categories", "Languages", "Design"],
+    grounded: false,
+    why: "#8a: wrong number word",
+  },
+  {
+    line: "Sam Rivera, Engineering Manager at Globex",
+    facts: ["Sam Rivera, Engineering Manager at Globex"],
+    grounded: true,
+    why: "#9: the fact as the data states it",
+  },
+  { line: "His current projects include Headspace", facts: PROJECT_FACTS, grounded: false, why: "#8c: “current” is a claim" },
   {
     line: "His extensive skills span 3 categories",
     facts: ["9 skills across 3 categories", "Languages", "Design"],
@@ -202,6 +216,12 @@ export const model: ModelCase[] = [
   { q: "What has Kyle shipped?", says: "He partnered with Headspace to promote mindfulness.", composed: "template", why: "ungrounded → template" },
   { q: "What has Kyle shipped?", says: "He shipped 12 projects, including Headspace.", composed: "template", why: "invented number → template" },
   { q: "Any testimonials?", says: "Sam Rivera worked with him at Globex.", composed: "template", why: "#9 → template" },
+  {
+    q: "Any testimonials?",
+    says: "Sam Rivera, Engineering Manager at Globex.",
+    composed: "model",
+    why: "#9: the facts quote the document",
+  },
   { q: "Show me his golf scores", says: "I'm a golfer with a best round of 79.", composed: "template", why: "first person → template" },
   { q: "What has Kyle shipped?", says: "throw", composed: "template", why: "binding error → template" },
   { q: "What has Kyle shipped?", says: "hang", composed: "template", why: "timeout aborts → template" },
