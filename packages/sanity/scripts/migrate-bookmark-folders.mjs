@@ -21,16 +21,24 @@ const projectId =
 const dataset =
   process.env.PUBLIC_SANITY_DATASET ||
   process.env.SANITY_DATASET ||
-  process.env.NEXT_PUBLIC_SANITY_DATASET ||
-  "production";
+  process.env.NEXT_PUBLIC_SANITY_DATASET;
 const token =
   process.env.SANITY_API_TOKEN ||
   process.env.SANITY_TOKEN;
 
-if (!projectId || !token) {
+// No dataset default: this project's dataset is private "badger3000", and a
+// guessed name would point writes at a dataset that does not exist. Only the
+// missing names are printed, never a value.
+const missing = [
+  !projectId && "PUBLIC_SANITY_PROJECT_ID (or SANITY_PROJECT_ID)",
+  !dataset && "PUBLIC_SANITY_DATASET (or SANITY_DATASET)",
+  !token && "SANITY_API_TOKEN (or SANITY_TOKEN)",
+].filter(Boolean);
+if (missing.length) {
   console.error(
-    "Missing required environment variables.\n" +
-      "Set PUBLIC_SANITY_PROJECT_ID (or SANITY_PROJECT_ID) and SANITY_API_TOKEN (or SANITY_TOKEN)."
+    "Missing required environment variables:\n  " +
+      missing.join("\n  ") +
+      "\nRun with the app env: node --env-file=../../apps/web/.env scripts/<name>.mjs"
   );
   process.exit(1);
 }

@@ -162,12 +162,12 @@ export default {
   orderings: [
     {
       title: 'Project Order - First',
-      name: 'prjectOrderAsc',
+      name: 'projectOrderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },
     {
       title: 'Project Order - Last',
-      name: 'prjectOrderDesc',
+      name: 'projectOrderDesc',
       by: [{field: 'order', direction: 'desc'}],
     },
   ],

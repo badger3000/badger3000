@@ -17,6 +17,8 @@
     "check":     { "dependsOn": ["^build"], "outputs": [".astro/**"] },
     "typecheck": { "dependsOn": ["^build"], "inputs": ["$TURBO_DEFAULT$", "!public/sitemap.xml", "!public/sitemap-0.xml", "!public/server-sitemap.xml"], "outputs": [] },
     "lint":      { "inputs": ["$TURBO_DEFAULT$", "!public/sitemap.xml", "!public/sitemap-0.xml", "!public/server-sitemap.xml"], "outputs": [] },
-    "dev":       { "cache": false, "persistent": true }
+    "dev":       { "cache": false, "persistent": true },
+    "schema:extract": { "cache": false },
+    "@badger3000/sanity#typegen": { "dependsOn": ["@badger3000/studio#schema:extract"], "cache": false }
   }
 }

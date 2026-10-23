@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Proves the Sanity wiring end to end: parses every projection in
- * src/lib/sanity/queries.ts with groq-js, and — when credentials are present —
- * fetches each one and prints what came back.
+ * Proves the Sanity wiring end to end: parses every query in
+ * @badger3000/sanity's `queries` record (the browse views and the agent's
+ * retrieval) with groq-js, and — when credentials are present — fetches each
+ * one and prints what came back.
  *
  *   pnpm run sanity:check             # parse, then fetch if configured
  *   pnpm run sanity:check -- --parse  # syntax only, no network
@@ -11,12 +12,13 @@
  *
  * Relative imports carry their .ts extension so Node can strip the types and run
  * this directly — no loader, no bundler. Astro's tsconfig allows it
- * (`allowImportingTsExtensions`).
+ * (`allowImportingTsExtensions`). The workspace package ships its .ts source the
+ * same way.
  */
 import { parse } from "groq-js";
-import type { SanityClient } from "@sanity/client";
-import { queries, createQuerySet } from "../src/lib/sanity/queries.ts";
-import { createSanityClient, isComplete } from "../src/lib/sanity/factory.ts";
+import { createSanity, type Sanity } from "@badger3000/sanity";
+import { queries } from "@badger3000/sanity/queries";
+import { isComplete } from "../src/lib/sanity/config.ts";
 
 // This app has no @types/node (nothing else needs it), so type the slice of
 // `process` this script uses rather than add a dependency for one file.
@@ -31,7 +33,7 @@ const { process } = globalThis as unknown as {
 
 // Astro loads .env itself; this script runs under plain node, so load the same
 // files by hand. It can't import `astro:env`, so it builds its own client from
-// `process.env` with the same pure factory the app uses. Only names are ever
+// `process.env` with the same `createSanity` the app uses. Only names are ever
 // printed; values are never echoed.
 for (const file of [".env", ".env.local", ".env.development"]) {
   try {
@@ -53,10 +55,11 @@ const config = {
 };
 const { projectId, dataset } = config;
 const isConfigured = isComplete(config);
-let client: SanityClient | undefined;
-const querySet = createQuerySet((query) => (client ??= createSanityClient(config)).fetch(query));
+let sanity: Sanity | undefined;
+const fetchQuery = (query: string) =>
+  (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query);
 
-type QueryName = keyof typeof querySet;
+type QueryName = keyof typeof queries;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };
 
 const args = process.argv.slice(2);
@@ -64,7 +67,7 @@ const asJson = args.includes("--json");
 const parseOnly = args.includes("--parse");
 const only = args.filter((a) => !a.startsWith("--"));
 
-const allNames = Object.keys(querySet) as QueryName[];
+const allNames = Object.keys(queries) as QueryName[];
 const names = allNames.filter((name) => !only.length || only.some((o) => name.includes(o)));
 
 const report: Record<string, Result> = {};
@@ -104,25 +107,26 @@ if (!parseOnly && failures.length === 0) {
   for (const name of names) {
     const started = Date.now();
     try {
-      const rows = await querySet[name]();
-      const count = Array.isArray(rows) ? rows.length : rows ? 1 : 0;
+      const rows = await fetchQuery(queries[name]);
+      // A bare count (`count(*[…])`) reports its value; anything else its rows.
+      const count = typeof rows === "number" ? rows : Array.isArray(rows) ? rows.length : rows ? 1 : 0;
       report[name] = { ok: true, parsed: true, count, ms: Date.now() - started };
       if (!asJson) {
         const first = rows ? JSON.stringify(rows).slice(0, 92) : "—";
-        console.log(`  ✓ ${name.padEnd(13)} ${String(count).padStart(4)} rows  ${first}`);
+        console.log(`  ✓ ${name.padEnd(19)} ${String(count).padStart(4)} rows  ${first}`);
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       report[name] = { ok: false, parsed: true, error: message };
       failures.push(`${name}: ${message.split("\n")[0]}`);
-      if (!asJson) console.log(`  ✗ ${name.padEnd(13)} ${message.split("\n")[0]}`);
+      if (!asJson) console.log(`  ✗ ${name.padEnd(19)} ${message.split("\n")[0]}`);
     }
   }
 
   // Zero rows is usually a wrong `_type` or the wrong dataset, not empty content.
   for (const [name, result] of Object.entries(report)) {
-    if (result.ok && result.count === 0 && name !== "education" && name !== "settings") {
-      failures.push(`${name} returned 0 rows — check the dataset name and the _type in schemas/.`);
+    if (result.ok && result.count === 0 && !/^(education|settings)/.test(name)) {
+      failures.push(`${name} returned 0 rows — check the dataset name and the _type in packages/sanity/src/schema/.`);
     }
   }
 }

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.2",
+    "@badger3000/sanity": "workspace:*",
     "@badger3000/tokens": "workspace:*",
     "@badger3000/ui": "workspace:*",
     "@sanity/client": "^8.10.1",
