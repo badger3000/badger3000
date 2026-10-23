@@ -15,9 +15,15 @@ type Props = BlockProps;
 const { node } = Astro.props;
 const style = node.style ?? "normal";
 const Tag = style === "h1" || style === "h2" ? "h2" : style === "h3" ? "h3" : style === "h4" ? "h4" : style === "blockquote" ? "blockquote" : "p";
+// Studio leaves empty blocks behind (a blank line, a cleared heading); they
+// would each take a gap in the column, so they render nothing.
+// `children` is the marks tree here (`@text` leaves inside `@span` marks).
+type Leaf = { text?: unknown; children?: Leaf[] };
+const text = (leaf: Leaf): string => (typeof leaf.text === "string" ? leaf.text : (leaf.children ?? []).map(text).join(""));
+const empty = !text(node as Leaf).trim();
 ---
 
-<Tag class={Tag}><slot /></Tag>
+{!empty && <Tag class={Tag}><slot /></Tag>}
 
 <style>
   .p,
