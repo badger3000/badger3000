@@ -14,12 +14,13 @@
  *   400 / 405 / 413  { error }
  */
 import type { APIRoute } from "astro";
-import { CHAT_MODEL_TIER } from "astro:env/server";
+import { CHAT_MODEL_TIER, SANITY_PREVIEW } from "astro:env/server";
 import { answer, type ChatResponse } from "../../lib/agent/answer.ts";
 import type { AiBinding } from "../../lib/agent/compose.ts";
 import { classify } from "../../lib/agent/intents.ts";
 import type { ChatFetch } from "../../lib/agent/retrieve.ts";
 import { bindings } from "../../lib/agent/bindings.ts";
+import { memoize } from "../../lib/agent/memo.ts";
 import { getClient } from "../../lib/sanity/client.ts";
 import { json, readBody } from "../../lib/http.ts";
 
@@ -32,7 +33,12 @@ const MAX_MESSAGE = 400;
 const MAX_BODY = 2048;
 
 /** Sanity reads for the agent, through the app's one client (lib/sanity/client.ts). */
-const fetchFromSanity: ChatFetch = (query, params = {}) => getClient().fetch(query, params);
+const readSanity: ChatFetch = (query, params = {}) => getClient().fetch(query, params);
+/** Published reads are reused for 60 s per isolate (lib/agent/memo.ts). */
+const memoized = memoize(readSanity, { ttlMs: 60_000 });
+/** Drafts bypass the memo. Read per call: `SANITY_PREVIEW` is a runtime secret. */
+const fetchFromSanity: ChatFetch = (query, params) =>
+  (SANITY_PREVIEW === "drafts" ? readSanity : memoized)(query, params);
 
 interface RateLimiter {
   limit(options: { key: string }): Promise<{ success: boolean }>;

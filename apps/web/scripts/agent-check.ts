@@ -16,6 +16,7 @@ import { evaluate, parse } from "groq-js";
 import { answer, type ChatResponse } from "../src/lib/agent/answer.ts";
 import { isGrounded, type AiBinding } from "../src/lib/agent/compose.ts";
 import type { ChatFetch } from "../src/lib/agent/retrieve.ts";
+import { memoize } from "../src/lib/agent/memo.ts";
 import { cases, grounding, model } from "./fixtures/agent-cases.ts";
 
 const { process } = globalThis as unknown as {
@@ -119,6 +120,35 @@ for (const m of picked(model)) {
     ...(called ? ["model was called"] : []),
     ...(res.composed === "template" ? [] : [`composed ${res.composed}`]),
   ]);
+}
+
+// 5. The per-isolate memo: repeats are reused within the TTL, keyed by params,
+//    and a failed read is not cached.
+{
+  let clock = 0;
+  let calls = 0;
+  let fail = false;
+  const counting: ChatFetch = async <T>(query: string, params?: Record<string, unknown>) => {
+    calls++;
+    if (fail) throw new Error("stub outage");
+    return fetchFixtures<T>(query, params);
+  };
+  const memo = memoize(counting, { ttlMs: 60_000, max: 2, now: () => clock });
+  const problems: string[] = [];
+  await memo("count(*)", { q: [] });
+  await memo("count(*)", { q: [] });
+  if (calls !== 1) problems.push(`repeat within the TTL made ${calls} calls`);
+  await memo("count(*)", { q: ["a*"] });
+  if (calls !== 2) problems.push("different params shared an entry");
+  clock = 61_000;
+  await memo("count(*)", { q: [] });
+  if (calls !== 3) problems.push("expired entry was reused");
+  fail = true;
+  await memo("count(*)", { q: ["x*"] }).catch(() => {});
+  fail = false;
+  await memo("count(*)", { q: ["x*"] });
+  if (calls !== 5) problems.push("a failed read was cached");
+  report("memo: TTL, params in the key, failures dropped", problems);
 }
 
 const total = passed + failures.length;
