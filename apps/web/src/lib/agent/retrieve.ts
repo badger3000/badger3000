@@ -220,7 +220,8 @@ export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch
         ? found.rows.flatMap((row) =>
             row.skills
               .filter((skill) => terms.some((term) => named(`${skill.name} ${skill.badgeLabel ?? ""}`, term)))
-              .map((skill) => ({ skill: skill.name, category: row.name.trim() })),
+              // The label is the display form ("TypeScript"); `name` can be a slug.
+              .map((skill) => ({ skill: skill.badgeLabel ?? skill.name, category: row.name.trim() })),
           )
         : [];
       return {

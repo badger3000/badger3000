@@ -38,7 +38,7 @@
   { "_id": "edu.2", "_type": "education", "degree": "Front-end Web Development certificate", "institution": "Online", "startDate": "2016", "endDate": "2016", "order": 2 },
 
   { "_id": "skills.1", "_type": "skillCategory", "name": "Languages ", "order": 1, "skills": [
-    { "_key": "a", "name": "TypeScript", "badgeLabel": "TypeScript" },
+    { "_key": "a", "name": "typescript", "badgeLabel": "TypeScript" },
     { "_key": "b", "name": "JavaScript" },
     { "_key": "c", "name": "Python" }
   ] },
