@@ -3,7 +3,7 @@
  * TimelineEntry — one role in the experience timeline (pen `xfWnk` → `tl` rows).
  *
  *   row: surface, radius 14, padding [4, 18] · gap 14 · padding [16, 0]
- *   logo 44/11 · role 15.5/600 `$a-ink` + dates 11.5 `$a-faint` (gap 10)
+ *   logo 44/11 · role 15.5/600 `$a-ink` + dates 11.5 `$a-subtle` (gap 10)
  *   org 13 `$a-muted` · description 13 `$a-muted`
  *
  * `logo` is usually null in the dataset, so the mark is a monogram in a tint
@@ -105,12 +105,12 @@ const searchSeed = heading;
     text-decoration: none;
   }
   a.role:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .dates {
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 11.5px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
   .org {
     font-size: 13px;

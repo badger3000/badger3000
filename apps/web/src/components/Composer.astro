@@ -4,7 +4,7 @@
  * context: form · Composer — POST /api/chat
  *
  *   720 wide · `$a-surface` · stroke `$a-line-2` · radius 16 · gap 10
- *   padding [9, 9, 9, 16] · Placeholder 15 `$a-faint`
+ *   padding [9, 9, 9, 16] · Placeholder 15 `$a-subtle`
  *   Send = IconButton `HFjfa` as accent arrow-up
  *
  * It is a real form posting to `/api/chat`: enter submits, so it works with the
@@ -67,7 +67,7 @@ const inputId = `composer-${id}`;
     font-size: 15px;
   }
   .composer input::placeholder {
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
   .composer input:focus {
     outline: none;

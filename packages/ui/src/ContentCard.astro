@@ -9,7 +9,7 @@
  *
  *   surface · radius 14 · bd padding 14, gap 6
  *   title 15.5/600 `$a-ink` · excerpt 13 `$a-muted`
- *   meta: date · read, 11 `$a-faint`, padding-top 2
+ *   meta: date · read, 11 `$a-subtle`, padding-top 2
  */
 import Tag from "./Tag.astro";
 import { gradientFor } from "@badger3000/tokens/covers";
@@ -116,7 +116,7 @@ const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 
     text-decoration: none;
   }
   .ti:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .ex {
     display: -webkit-box;
@@ -133,6 +133,6 @@ const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 
     padding-top: 2px;
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 11px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
 </style>

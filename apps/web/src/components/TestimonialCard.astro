@@ -4,7 +4,7 @@
  *
  *   surface · radius 14 · gap 13 · padding 18
  *   quote 18 `$a-accent` · body 14 `$a-ink`
- *   footer: avatar 32/16 + name 13/600 `$a-ink` + role 11.5 `$a-faint`
+ *   footer: avatar 32/16 + name 13/600 `$a-ink` + role 11.5 `$a-subtle`
  *
  * `photo` is usually null in the dataset, so the avatar falls back to initials on
  * a tint — the same placeholder idea as the card gradients.
@@ -107,10 +107,10 @@ const photo = testimonial.photo?.asset?.url;
     text-decoration: none;
   }
   a.name:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .role {
     font-size: 11.5px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
 </style>

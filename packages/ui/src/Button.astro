@@ -7,7 +7,7 @@
  *   sm   padding [7, 12] · 12.5/500 · icon 14 `$a-muted` (TopBar Résumé `vqw23`)
  *
  * `soft` is the pen's Ask Badger override (`YKe19`, and the local `ask` frames
- * on every browse screen): `$a-accent-soft` fill, `$a-accent` label 13/600,
+ * on every browse screen): `$a-accent-soft` fill, `$a-accent-text` label 13/600,
  * padding [9, 13], radius 10, gap 7, icon 15. It keeps those metrics at either
  * size, since that pill only comes in one.
  *
@@ -78,9 +78,14 @@ const Tag = href ? "a" : "button";
     color: var(--a-muted);
   }
 
+  /*
+   * White on coral is 3.68:1, under AA for a 14px label. The text-strength
+   * coral with the page colour on it clears 5:1 in every skin (light: near-white
+   * on deep coral; dark: near-black on the lighter coral).
+   */
   .primary {
-    background: var(--a-accent);
-    color: var(--a-on-accent);
+    background: var(--a-accent-text);
+    color: var(--a-bg);
   }
   .primary:hover {
     filter: brightness(0.95);
@@ -97,7 +102,7 @@ const Tag = href ? "a" : "button";
   .secondary.sm:hover {
     background: var(--a-surface);
     border-color: var(--a-accent);
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
 
   .ghost {
@@ -115,7 +120,7 @@ const Tag = href ? "a" : "button";
     border: 0;
     border-radius: 10px;
     background: var(--a-accent-soft);
-    color: var(--a-accent);
+    color: var(--a-accent-text);
     font-size: 13px;
     font-weight: 600;
   }
