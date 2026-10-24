@@ -7,6 +7,9 @@
  *   EDUCATION label · tl: one row per qualification
  *
  * The Résumé button points at the printable experience page until a PDF is added.
+ * Printing it gives the résumé (Next parity): the chrome, the filters and the
+ * actions drop out, the one-viewport shell unrolls, and every skin prints with
+ * the light palette.
  */
 import Browse from "../layouts/Browse.astro";
 import { Button, FilterBar, Icon } from "@badger3000/ui";
@@ -29,6 +32,7 @@ const [experience, education, counts, settings] = await Promise.all([
   settings={settings}
   sub="Twelve years building for the web. Here's the short version."
   gap={20}
+  seo={{ description: "Kyle Ross — work and education. Twelve years building for the web." }}
 >
   <Fragment slot="actions">
     <Button variant="soft" href="/" label="Ask Badger" class="ask">
@@ -107,6 +111,58 @@ const [experience, education, counts, settings] = await Promise.all([
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  @media print {
+    @page {
+      margin: 14mm 12mm;
+    }
+    /* Light palette in every skin: re-point the semantic tokens at the light
+       primitives, so a dark or forest reader still gets ink on paper. */
+    :global(html[data-theme]) {
+      --a-bg: var(--p-0);
+      --a-surface: var(--p-0);
+      --a-sidebar: var(--p-0);
+      --a-ink: var(--p-850);
+      --a-muted: var(--p-500);
+      --a-subtle: var(--p-500);
+      --a-faint: var(--p-500);
+      --a-line: var(--p-200);
+      --a-line-2: var(--p-200);
+      --a-accent: var(--p-coral-700);
+      --a-accent-text: var(--p-coral-700);
+    }
+    /* The chrome and anything interactive. */
+    :global(.skip),
+    :global(.sidebar),
+    :global(.topbar),
+    :global(.m-topbar),
+    :global(.tabbar),
+    :global(.drawer),
+    :global(.footer),
+    :global([data-pagehead] .actions),
+    :global([data-browse] .toolbar),
+    :global([data-empty]) {
+      display: none !important;
+    }
+    /* The shell is one viewport tall with an inner scroller; print the lot.
+       `!important` because AppShell's scoped rules outrank a page's. */
+    :global(.shell),
+    :global(.main),
+    :global(.body) {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    :global(.archive .inner) {
+      padding: 0 !important;
+    }
+    .timeline > :global(li) {
+      break-inside: avoid;
+    }
+    .section {
+      break-after: avoid;
+    }
   }
 </style>
 
