@@ -4,7 +4,7 @@
  * context: nav · mobile tabs
  *
  *   `$a-surface` · padding [10, 34, 16, 34] · items gap 3, icon 21, label 10.5
- *   active: `$a-accent` at weight 600 · inactive: `$a-faint` at weight 500
+ *   active: `$a-accent-text` at weight 600 · inactive: `$a-subtle` at weight 500
  *
  * The pen's four tabs are Chat, Explore, Saved, Profile. Explore and Saved have
  * routes; Chat is the agent home; **Profile has no page yet**, so it opens the
@@ -76,7 +76,7 @@ const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--a-faint);
+    color: var(--a-subtle);
     font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
     font-size: 10.5px;
     font-weight: 500;
@@ -84,7 +84,7 @@ const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
     cursor: pointer;
   }
   .tab[aria-current="page"] {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
     font-weight: 600;
   }
   .tlabel {

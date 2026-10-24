@@ -3,7 +3,7 @@
  * AvatarUser — pen master `kF8ut`.
  * context: span · AvatarUser — props: initials ← settings.name
  *
- *   32 round · `$a-accent-soft` · initials 11/600 `$a-accent`
+ *   32 round · `$a-accent-soft` · initials 11/600 `$a-accent-text`
  *
  * Takes the name and works out the initials itself (first letter of the first
  * two words). `solid` is the Sidebar's profile block, where the avatar sits on
@@ -39,14 +39,15 @@ const initials = name
     height: var(--size);
     border-radius: 50%;
     background: var(--a-accent-soft);
-    color: var(--a-accent);
+    color: var(--a-accent-text);
     font-family: var(--af-ui);
     font-size: 11px;
     font-weight: 600;
   }
+  /* as the primary Button: white on coral is under AA for 11px initials */
   .solid {
-    background: var(--a-accent);
-    color: var(--a-on-accent);
+    background: var(--a-accent-text);
+    color: var(--a-bg);
     font-weight: 700;
     letter-spacing: 0.5px;
   }

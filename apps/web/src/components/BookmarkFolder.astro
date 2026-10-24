@@ -3,24 +3,26 @@
  * BookmarkFolder — pen `t5zUMA` on Browse — Bookmarks.
  *
  *   surface · radius 14 · gap 2 · padding 16
- *   header: folder 16 `$a-accent` + name 13.5/600 `$a-ink` + count 11 `$a-faint`, gap 8
- *   row: favicon 20/6 · title 13/500 `$a-ink` · domain 11 `$a-faint`
+ *   header: folder 16 `$a-accent` + name 13.5/600 `$a-ink` + count 11 `$a-subtle`, gap 8
+ *   row: favicon 20/6 · title 13/500 `$a-ink` · domain 11 `$a-subtle`
  *        + arrow 13 `$a-faint` · padding [8, 2] · gap 10
  *
  * The dataset has no favicons, so the tile is an initial on a tint derived from
  * the hostname.
  */
-import { Icon } from "@badger3000/ui";
+import { ExternalLink, Icon } from "@badger3000/ui";
 import { tintFor } from "@badger3000/tokens/covers";
 import type { Bookmark } from "../lib/sanity/types.ts";
 
 interface Props {
   name: string;
   bookmarks: Bookmark[];
+  /** Rendered open. The page opens only the first folder; the rest wait for a click. */
+  open?: boolean;
   class?: string;
 }
 
-const { name, bookmarks, class: className } = Astro.props;
+const { name, bookmarks, open = false, class: className } = Astro.props;
 
 const hostOf = (url: string): string => {
   try {
@@ -31,12 +33,15 @@ const hostOf = (url: string): string => {
 };
 ---
 
-<section class:list={["folder", className]}>
-  <h2 class="fh">
-    <span class="ico"><Icon name="folder" size={16} /></span>
-    <span class="fname">{name}</span>
-    <span class="count">{bookmarks.length}</span>
-  </h2>
+<details class:list={["folder", className]} open={open}>
+  <summary>
+    <h2 class="fh">
+      <span class="ico"><Icon name="folder" size={16} /></span>
+      <span class="fname">{name}</span>
+      <span class="count">{bookmarks.length}</span>
+      <Icon name="chevron-down" size={14} class="chev" />
+    </h2>
+  </summary>
 
   <ul class="rows">
     {
@@ -44,20 +49,20 @@ const hostOf = (url: string): string => {
         const host = hostOf(bookmark.url);
         return (
           <li>
-            <a class="row" href={bookmark.url} target="_blank" rel="noopener">
+            <ExternalLink class="row" href={bookmark.url} cue={false}>
               <span class="fav" style={`background:${tintFor(host)}`} aria-hidden="true">
                 {host.charAt(0).toUpperCase()}
               </span>
               <span class="t">{bookmark.title}</span>
               <span class="d">{host}</span>
               <Icon name="arrow-up-right" size={13} class="out" />
-            </a>
+            </ExternalLink>
           </li>
         );
       })
     }
   </ul>
-</section>
+</details>
 
 <style>
   .folder {
@@ -65,6 +70,25 @@ const hostOf = (url: string): string => {
     border: 1px solid var(--a-line);
     border-radius: 14px;
     background: var(--a-surface);
+  }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .folder:not([open]) .fh {
+    padding-bottom: 2px;
+  }
+  .fh :global(.chev) {
+    flex: none;
+    color: var(--a-muted);
+    transition: transform var(--duration-quick) var(--ease-smooth-out);
+  }
+  .folder[open] .fh :global(.chev) {
+    transform: rotate(180deg);
   }
   .fh {
     display: flex;
@@ -76,6 +100,7 @@ const hostOf = (url: string): string => {
     font-weight: 600;
   }
   .fh :global(.ico) {
+    display: flex;
     color: var(--a-accent);
   }
   .fname {
@@ -86,7 +111,7 @@ const hostOf = (url: string): string => {
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 11px;
     font-weight: 400;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
 
   .rows {
@@ -96,6 +121,14 @@ const hostOf = (url: string): string => {
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  /*
+   * 888 rows on one page: rows off screen skip layout and paint until they
+   * scroll near (closed folders skip them entirely). 36px = the row's height.
+   */
+  .rows > li {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 36px;
   }
   .row {
     display: flex;
@@ -128,7 +161,7 @@ const hostOf = (url: string): string => {
     flex: 1;
     overflow: hidden;
     font-size: 11px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
     text-overflow: ellipsis;
     white-space: nowrap;
   }

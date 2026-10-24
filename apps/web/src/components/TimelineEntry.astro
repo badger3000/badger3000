@@ -3,13 +3,15 @@
  * TimelineEntry — one role in the experience timeline (pen `xfWnk` → `tl` rows).
  *
  *   row: surface, radius 14, padding [4, 18] · gap 14 · padding [16, 0]
- *   logo 44/11 · role 15.5/600 `$a-ink` + dates 11.5 `$a-faint` (gap 10)
+ *   logo 44/11 · role 15.5/600 `$a-ink` + dates 11.5 `$a-subtle` (gap 10)
  *   org 13 `$a-muted` · description 13 `$a-muted`
  *
  * `logo` is usually null in the dataset, so the mark is a monogram in a tint
  * derived from the entry — same placeholder idea as the card gradients.
  */
 import { tintFor } from "@badger3000/tokens/covers";
+import { ExternalLink } from "@badger3000/ui";
+import { thumb } from "../lib/sanity/thumb.ts";
 import type { ExperienceEntry, EducationEntry } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -28,7 +30,7 @@ const org =
     ? [entry.company, entry.location].filter(Boolean).join("  ·  ")
     : entry.institution;
 const dates = [entry.startDate, entry.endDate ?? "Present"].filter(Boolean).join(" — ");
-const logo = entry.logo?.asset?.url;
+const logo = thumb(entry.logo?.asset?.url, 44);
 const monogram = heading.trim().charAt(0);
 const searchSeed = heading;
 ---
@@ -36,7 +38,7 @@ const searchSeed = heading;
 <div class:list={["row", className]}>
   {
     logo ? (
-      <img class="logo" src={logo} alt="" width={44} height={44} loading="lazy" />
+      <img class="logo" src={logo.src} srcset={logo.srcset} alt="" width={44} height={44} loading="lazy" />
     ) : (
       <span class="logo mark" style={`background:${tintFor(searchSeed)}`} aria-hidden="true">
         {monogram}
@@ -45,15 +47,17 @@ const searchSeed = heading;
   }
   <div class="tx">
     <div class="top">
-      {
-        href ? (
-          <a class="role" href={href} target="_blank" rel="noopener">
-            {heading}
-          </a>
-        ) : (
-          <span class="role">{heading}</span>
-        )
-      }
+      <h3 class="h">
+        {
+          href ? (
+            <ExternalLink class="role" href={href}>
+              {heading}
+            </ExternalLink>
+          ) : (
+            <span class="role">{heading}</span>
+          )
+        }
+      </h3>
       {dates && <span class="dates">{dates}</span>}
     </div>
     {org && <span class="org">{org}</span>}
@@ -62,6 +66,11 @@ const searchSeed = heading;
 </div>
 
 <style>
+  /* An h3 under the page's Work / Education h2; the look stays on .role. */
+  .h {
+    margin: 0;
+    font: inherit;
+  }
   .row {
     display: flex;
     gap: 14px;
@@ -105,12 +114,12 @@ const searchSeed = heading;
     text-decoration: none;
   }
   a.role:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .dates {
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 11.5px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
   .org {
     font-size: 13px;

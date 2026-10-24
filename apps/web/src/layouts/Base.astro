@@ -96,8 +96,9 @@ const { title, description, seo } = Astro.props;
     z-index: 100;
     padding: 10px 14px;
     border-radius: 0 0 9px 0;
-    background: var(--a-accent);
-    color: var(--a-on-accent);
+    /* as the primary Button: white on coral is under AA at 13px */
+    background: var(--a-accent-text);
+    color: var(--a-bg);
     font-family: var(--af-ui);
     font-size: 13px;
     font-weight: 600;

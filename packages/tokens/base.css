@@ -28,6 +28,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/*
+ * ---- focus ----
+ * One keyboard ring for everything interactive. `--a-accent-text` clears 4.5:1
+ * on bg, surface, sidebar and accent-soft in every skin, so the ring reads
+ * wherever the control sits (WCAG 1.4.11 asks for 3:1). `:where()` keeps the
+ * specificity at zero, so a component that needs a different shape (a card
+ * whose title link covers it) can still move the ring.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--a-accent-text);
+  outline-offset: 2px;
+}
+
 /* ---- motion ---- */
 @media (prefers-reduced-motion: reduce) {
   *,

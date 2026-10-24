@@ -88,7 +88,7 @@ const arias: Record<Theme, string> = {
     height: calc(100% - 6px);
     width: calc((100% - 6px) / 3);
     border-radius: 7px;
-    background: var(--a-accent);
+    background: var(--a-accent-text);
     transform: translateX(calc(var(--indicator-x) * 100%));
     transition:
       transform var(--duration-slow, 0.4s) cubic-bezier(0.4, 0, 0.2, 1),
@@ -116,19 +116,15 @@ const arias: Record<Theme, string> = {
     transition: color var(--duration-slow, 0.4s) ease;
   }
   /*
-   * The active pill's text colour flips to on-accent to read against the
-   * indicator. The indicator itself sits underneath the button row at a
+   * The active pill's text colour flips to the page colour to read against
+   * the indicator (the 10px label needs 4.5:1, which white on coral misses). The indicator itself sits underneath the button row at a
    * 1/3-width track, so we do **not** colour the button background — only
    * its label.
    */
   .opt[aria-pressed="true"] {
-    color: var(--a-on-accent);
+    color: var(--a-bg);
   }
   .opt-label {
     line-height: 1;
-  }
-  .opt:focus-visible {
-    outline: 2px solid var(--a-accent);
-    outline-offset: 2px;
   }
 </style>

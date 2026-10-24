@@ -9,7 +9,7 @@
  *
  *   surface · radius 14 · bd padding 14, gap 6
  *   title 15.5/600 `$a-ink` · excerpt 13 `$a-muted`
- *   meta: date · read, 11 `$a-faint`, padding-top 2
+ *   meta: date · read, 11 `$a-subtle`, padding-top 2
  */
 import Tag from "./Tag.astro";
 import { gradientFor } from "@badger3000/tokens/covers";
@@ -28,10 +28,23 @@ interface Props {
   titleSize?: number;
   /** Experiments use a dark window cover instead of the gradient. */
   cover?: "gradient" | "window";
+  /** Heading level of the title: 3 under a section heading, 2 straight under the page's h1. */
+  level?: 2 | 3;
 }
 
-const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 15.5, cover = "gradient" } =
-  Astro.props;
+const {
+  seed,
+  href,
+  title,
+  excerpt,
+  topic,
+  meta,
+  coverHeight = 116,
+  titleSize = 15.5,
+  cover = "gradient",
+  level = 3,
+} = Astro.props;
+const H = `h${level}` as "h2" | "h3";
 ---
 
 <article class="card">
@@ -48,13 +61,18 @@ const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 
 
   <div class="bd">
     {topic && <Tag label={topic} class="tg" />}
-    <a class="ti" href={href} style={`font-size:${titleSize}px`}>{title}</a>
+    <H class="h"><a class="ti" href={href} style={`font-size:${titleSize}px`}>{title}</a></H>
     {excerpt && <p class="ex">{excerpt}</p>}
     {meta && <p class="meta">{meta}</p>}
   </div>
 </article>
 
 <style>
+  /* The title's heading level is the page's call; the look stays on .ti. */
+  .h {
+    margin: 0;
+    font: inherit;
+  }
   .card {
     display: flex;
     flex-direction: column;
@@ -116,7 +134,7 @@ const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 
     text-decoration: none;
   }
   .ti:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .ex {
     display: -webkit-box;
@@ -133,6 +151,6 @@ const { seed, href, title, excerpt, topic, meta, coverHeight = 116, titleSize = 
     padding-top: 2px;
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 11px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
 </style>

@@ -4,7 +4,7 @@
  * context: form · Composer — POST /api/chat
  *
  *   720 wide · `$a-surface` · stroke `$a-line-2` · radius 16 · gap 10
- *   padding [9, 9, 9, 16] · Placeholder 15 `$a-faint`
+ *   padding [9, 9, 9, 16] · Placeholder 15 `$a-subtle`
  *   Send = IconButton `HFjfa` as accent arrow-up
  *
  * It is a real form posting to `/api/chat`: enter submits, so it works with the
@@ -67,13 +67,15 @@ const inputId = `composer-${id}`;
     font-size: 15px;
   }
   .composer input::placeholder {
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
-  .composer input:focus {
+  /* The field has no edge of its own, so the ring goes on the whole composer. */
+  .composer input:focus-visible {
     outline: none;
   }
-  .composer:focus-within {
-    box-shadow: 0 0 0 2px var(--a-accent-soft);
+  .composer:has(input:focus-visible) {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
   }
 
   .sr {

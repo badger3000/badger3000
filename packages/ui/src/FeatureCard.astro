@@ -19,6 +19,7 @@
  * Plain props, not a Sanity document: the page maps its rows onto these, so
  * this package never depends on the schema types.
  */
+import ExternalLink from "./ExternalLink.astro";
 import Icon from "./Icon.astro";
 import Tag from "./Tag.astro";
 import { gradientFor } from "@badger3000/tokens/covers";
@@ -34,9 +35,12 @@ interface Props {
   /** Display labels, already formatted. */
   tech?: string[];
   year?: number;
+  /** Heading level of the title: 3 under a section heading, 2 straight under the page's h1. */
+  level?: 2 | 3;
 }
 
-const { title, seed, href, topic, excerpt, tech = [], year } = Astro.props;
+const { title, seed, href, topic, excerpt, tech = [], year, level = 3 } = Astro.props;
+const H = `h${level}` as "h2" | "h3";
 
 const monogram = title.trim().charAt(0);
 ---
@@ -50,15 +54,17 @@ const monogram = title.trim().charAt(0);
   <div class="bd">
     {topic && <Tag label={topic} />}
 
-    {
-      href ? (
-        <a class="ti" href={href} target="_blank" rel="noopener">
-          {title}
-        </a>
-      ) : (
-        <span class="ti">{title}</span>
-      )
-    }
+    <H class="h">
+      {
+        href ? (
+          <ExternalLink class="ti" href={href} cue={tech.length === 0}>
+            {title}
+          </ExternalLink>
+        ) : (
+          <span class="ti">{title}</span>
+        )
+      }
+    </H>
 
     {excerpt && <p class="desc">{excerpt}</p>}
 
@@ -71,15 +77,14 @@ const monogram = title.trim().charAt(0);
             ))}
           </span>
           {href && (
-            <a
+            <ExternalLink
               class="out"
               href={href}
-              target="_blank"
-              rel="noopener"
+              cue={false}
               aria-label={`${title} — opens ${new URL(href).hostname}`}
             >
               <Icon name="arrow-up-right" size={14} />
-            </a>
+            </ExternalLink>
           )}
         </div>
       )
@@ -88,6 +93,11 @@ const monogram = title.trim().charAt(0);
 </article>
 
 <style>
+  /* The title's heading level is the page's call; the look stays on .ti. */
+  .h {
+    margin: 0;
+    font: inherit;
+  }
   .card {
     display: flex;
     flex-direction: column;
@@ -132,7 +142,7 @@ const monogram = title.trim().charAt(0);
     text-decoration: none;
   }
   a.ti:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .desc {
     margin: 0;
@@ -167,14 +177,9 @@ const monogram = title.trim().charAt(0);
     flex: none;
     display: grid;
     place-items: center;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
   .out:hover {
     color: var(--a-accent);
-  }
-  .out:focus-visible {
-    outline: 2px solid var(--a-accent);
-    outline-offset: 2px;
-    border-radius: 4px;
   }
 </style>

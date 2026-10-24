@@ -22,9 +22,12 @@ interface Props {
   seed: string;
   topic?: string;
   excerpt?: string;
+  /** Heading level of the title: 3 under a section heading, 2 straight under the page's h1. */
+  level?: 2 | 3;
 }
 
-const { title, href, seed, topic, excerpt } = Astro.props;
+const { title, href, seed, topic, excerpt, level = 3 } = Astro.props;
+const H = `h${level}` as "h2" | "h3";
 
 const monogram = title.trim().charAt(0);
 ---
@@ -35,12 +38,17 @@ const monogram = title.trim().charAt(0);
   </div>
   <div class="bd">
     {topic && <Tag label={topic} />}
-    <a class="ti" href={href}>{title}</a>
+    <H class="h"><a class="ti" href={href}>{title}</a></H>
     {excerpt && <p class="desc">{excerpt}</p>}
   </div>
 </article>
 
 <style>
+  /* The title's heading level is the page's call; the look stays on .ti. */
+  .h {
+    margin: 0;
+    font: inherit;
+  }
   .card {
     position: relative;
     display: flex;
@@ -86,13 +94,13 @@ const monogram = title.trim().charAt(0);
     inset: 0;
   }
   .card:hover .ti {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
   .ti:focus-visible {
     outline: none;
   }
   .card:has(.ti:focus-visible) {
-    outline: 2px solid var(--a-accent);
+    outline: 2px solid var(--a-accent-text);
     outline-offset: 2px;
   }
   .desc {

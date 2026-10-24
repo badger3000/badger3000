@@ -20,5 +20,6 @@ export {
   getCounts,
 } from "./client.ts";
 export { imageUrl, API_VERSION } from "@badger3000/sanity";
+export { thumb } from "./thumb.ts";
 export * from "./queries.ts";
 export type * from "./types.ts";

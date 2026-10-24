@@ -1,0 +1,56 @@
+---
+/**
+ * ExternalLink — every link that opens a new tab goes through here, so each
+ * one gets `rel="noopener noreferrer"`, an arrow cue and a spoken
+ * "(opens in a new tab)".
+ *
+ * `cue={false}` drops the arrow where the caller already draws one (a bookmark
+ * row, a card's arrow button); the spoken text stays. An `aria-label` replaces
+ * the link's text for assistive tech, so the new-tab note is appended to it.
+ * `rel` adds tokens (e.g. `me`) to the two that are always there.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  href: string;
+  class?: string;
+  rel?: string;
+  cue?: boolean;
+  "aria-label"?: string;
+  [key: string]: unknown;
+}
+
+const NEW_TAB = "(opens in a new tab)";
+
+const { href, class: className, rel, cue = true, "aria-label": label, ...rest } = Astro.props;
+---
+
+<a
+  class:list={["ext", className]}
+  href={href}
+  target="_blank"
+  rel={[...new Set(`noopener noreferrer ${rel ?? ""}`.split(/\s+/).filter(Boolean))].join(" ")}
+  aria-label={label ? `${label} ${NEW_TAB}` : undefined}
+  {...rest}
+>
+  <slot />
+  {cue && <Icon name="arrow-up-right" size={12} stroke={2} class="ext-cue" />}
+  {!label && <span class="ext-sr">{NEW_TAB}</span>}
+</a>
+
+<style>
+  .ext :global(.ext-cue) {
+    display: inline;
+    flex: none;
+    margin-left: 2px;
+    vertical-align: -1px;
+  }
+  .ext-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

@@ -5,7 +5,10 @@
  *   PageHead (Bookmarks + count) · Grid: 2 across of folder cards
  *
  * The dataset holds 888 bookmarks, so the search is the only thing between a
- * visitor and a wall of links — it filters folders and rows together.
+ * visitor and a wall of links — it filters folders and rows together. Every
+ * bookmark stays on the page, but only the first folder renders open; a search
+ * opens the folders it matches. Folders carry no `data-search`: `browse.ts`
+ * reads their text and links instead of the page shipping every title twice.
  */
 import Browse from "../layouts/Browse.astro";
 import { FilterBar } from "@badger3000/ui";
@@ -38,12 +41,9 @@ const sorted = [...folders.entries()].sort(([a], [b]) => a.localeCompare(b));
 
     <div class="grid">
       {
-        sorted.map(([name, items]) => (
-          <div
-            data-item
-            data-search={`${name} ${items.map((b) => `${b.title} ${b.url}`).join(" ")}`.toLowerCase()}
-          >
-            <BookmarkFolder name={name} bookmarks={items} />
+        sorted.map(([name, items], index) => (
+          <div data-item>
+            <BookmarkFolder name={name} bookmarks={items} open={index === 0} />
           </div>
         ))
       }
@@ -63,7 +63,7 @@ const sorted = [...folders.entries()].sort(([a], [b]) => a.localeCompare(b));
   .empty {
     margin: 22px 0 0;
     font-size: 13px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
 
   @media (max-width: 1080px) {

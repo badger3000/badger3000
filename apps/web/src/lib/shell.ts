@@ -44,10 +44,19 @@ document.addEventListener("astro:after-swap", () => {
   navigated = true;
 });
 
+/** The referrer is this site. An exact origin match: a prefix test would pass `badger3000.com.example`. */
+const cameFromHere = (): boolean => {
+  try {
+    return new URL(document.referrer).origin === location.origin;
+  } catch {
+    return false; // no referrer
+  }
+};
+
 // A deep link has nothing on this site to go back to, so go home instead of
 // leaving.
 delegate("click", "[data-drawer-back]", () => {
-  if (navigated || document.referrer.startsWith(location.origin)) history.back();
+  if (navigated || cameFromHere()) history.back();
   else location.assign("/");
 });
 

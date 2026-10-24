@@ -44,6 +44,7 @@ const KEY = "badger-thread";
 const MAX_TURNS = 40;
 
 const COPY = {
+  thinking: "Badger3000 is thinking…",
   interrupted: "That answer was interrupted — ask again.",
   unreachable: "I couldn't reach the agent just then. Try again in a moment.",
   failed: "Something went wrong on my side. Try again in a moment.",
@@ -178,6 +179,7 @@ const rootOf = (fragment: DocumentFragment): HTMLElement | null =>
 
 island("[data-chat-root]", (root) => {
   const log = root.querySelector<HTMLElement>("[data-chat-log]");
+  const status = root.querySelector<HTMLElement>("[data-chat-status]");
   const form = root.querySelector<HTMLFormElement>("[data-chat-form]");
   if (!log || !form) return;
 
@@ -211,12 +213,13 @@ island("[data-chat-root]", (root) => {
         }
       }
 
-      const title = node.querySelector<HTMLAnchorElement>('[data-slot="title"]');
+      const title = node.querySelector<HTMLAnchorElement>("[data-title-link]");
       if (title && card.href) {
         title.href = card.href;
         if (card.href.startsWith("http")) {
           title.target = "_blank";
-          title.rel = "noopener";
+          title.rel = "noopener noreferrer";
+          title.querySelector<HTMLElement>("[data-external]")?.removeAttribute("hidden");
         }
       }
       // Cards stagger inside the turn, one token apart.
@@ -249,12 +252,29 @@ island("[data-chat-root]", (root) => {
   };
 
   /**
+   * Says the newest agent turn, and only that, through the status region. A
+   * restored thread or a reset says nothing. The text is cleared first so the
+   * same answer twice is still announced twice.
+   */
+  const announce = (turn: Turn | undefined) => {
+    if (!status) return;
+    status.textContent = "";
+    if (!turn) return;
+    const cards = turn.cards?.length ?? 0;
+    const text = turn.pending
+      ? COPY.thinking
+      : [turn.text, cards ? `${cards} ${cards === 1 ? "result" : "results"} below.` : ""].filter(Boolean).join(" ");
+    requestAnimationFrame(() => (status.textContent = text));
+  };
+
+  /**
    * Repaints the thread. Only the turns named in `enter` animate, so a
    * restored thread arrives settled and a re-render never re-animates what is
    * already on screen; the last of them is scrolled into view.
    */
   const paint = (enter: string[] = []) => {
     let focus: HTMLElement | null = null;
+    let said: Turn | undefined;
     log.replaceChildren();
     for (const turn of thread) {
       const isNew = enter.includes(turn.id);
@@ -271,7 +291,6 @@ island("[data-chat-root]", (root) => {
         if (turn.pending) {
           element?.setAttribute("data-pending", "");
           element?.setAttribute("aria-busy", "true");
-          node.querySelector("[data-typing]")?.setAttribute("aria-live", "polite");
         }
         const cards = node.querySelector("[data-chat-cards]");
         if (cards) {
@@ -291,11 +310,15 @@ island("[data-chat-root]", (root) => {
         }
       }
 
-      if (isNew && turn.role === "agent") focus = element;
+      if (isNew && turn.role === "agent") {
+        focus = element;
+        said = turn;
+      }
       log.append(node);
     }
     root.setAttribute("data-has-thread", String(thread.length > 0));
     sync();
+    announce(said);
     focus?.scrollIntoView?.({ block: "nearest" });
   };
 

@@ -1,7 +1,7 @@
 ---
 /**
  * Footer — pen master `RGuEe` (promoted from the home screen's frame `A0w4T`).
- *   gap 16, padding [13, 22] · copy `$a-faint` · socials gap 16 at 14px `$a-faint`
+ *   gap 16, padding [13, 22] · copy `$a-subtle` · socials gap 16 at 14px `$a-subtle`
  *
  * The master has no `context` string, and its socials are brand icons. lucide
  * dropped brand glyphs and simple-icons no longer ships LinkedIn or CodePen, so
@@ -9,6 +9,7 @@
  * icons. The `compact` variant is the mobile footer (pen `RQ1cQ`): padding
  * [6, 16], gap 8, and no CodePen.
  */
+import { ExternalLink } from "@badger3000/ui";
 import type { SiteSettings } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -39,11 +40,14 @@ const socials = links?.length ? links : fallback;
   <span class="copy">© {year} Kyle Ross</span>
   <nav class="socials" aria-label="Elsewhere">
     {
-      socials.map((link) => (
-        <a href={link.webUrl ?? "#"} target="_blank" rel="me noopener">
-          {link.siteName}
-        </a>
-      ))
+      socials.map(
+        (link) =>
+          link.webUrl && (
+            <ExternalLink href={link.webUrl} rel="me">
+              {link.siteName}
+            </ExternalLink>
+          ),
+      )
     }
     <a href="mailto:hello@badger3000.com">Email</a>
   </nav>
@@ -58,7 +62,7 @@ const socials = links?.length ? links : fallback;
     padding: 13px 22px;
     border-top: 1px solid var(--a-line);
     font-size: 12px;
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
   .footer.compact {
     padding: 6px 16px;
@@ -74,11 +78,11 @@ const socials = links?.length ? links : fallback;
     gap: 12px;
   }
   .socials a {
-    color: var(--a-faint);
+    color: var(--a-subtle);
     text-decoration: none;
   }
   .socials a:hover {
-    color: var(--a-accent);
+    color: var(--a-accent-text);
   }
 
   @media (max-width: 720px) {

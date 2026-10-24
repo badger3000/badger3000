@@ -62,12 +62,14 @@ const {
     font-size: 13px;
   }
   .input input::placeholder {
-    color: var(--a-faint);
+    color: var(--a-subtle);
   }
-  .input input:focus {
+  /* The field has no edge of its own, so the ring goes on the whole pill. */
+  .input input:focus-visible {
     outline: none;
   }
-  .input:focus-within {
-    border-color: var(--a-accent);
+  .input:has(input:focus-visible) {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
   }
 </style>

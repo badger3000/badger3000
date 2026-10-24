@@ -80,14 +80,20 @@ const { title, count, countLabel, sub } = Astro.props;
 
   @media (max-width: 720px) {
     /* The mobile bar carries the title and count (pen yM5Vm), so the title block
-       would just repeat it. */
-    .left,
+       would just repeat it. It is hidden visually only: the h1 is still the
+       page's heading for assistive tech. */
     .actions > :global(.ask),
     .pagehead:not([data-search-open]) .actions > :global(.input) {
       display: none;
     }
+    .left,
     .pagehead:not([data-search-open]):not(:has(> .actions > :global(:not(.ask, .input)))) {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
     }
     .pagehead {
       justify-content: flex-end;

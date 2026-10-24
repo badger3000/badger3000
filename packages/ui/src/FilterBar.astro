@@ -1,6 +1,7 @@
 ---
 /**
- * FilterBar — the `nav · topic filters` row every browse screen carries.
+ * FilterBar — the `nav · topic filters` row every browse screen carries. It
+ * renders as a labelled group, not a nav: filters are not a landmark.
  *
  * The page passes the chips: the topics that actually have items (the pen's
  * labels — "Web App / Open Source / Client Work" — are placeholders). "All"
@@ -29,10 +30,10 @@ const { chips = [], active = "all", searchPlaceholder, searchLabel, class: class
 ---
 
 <div class:list={["toolbar", className]}>
-  <nav class="chips" aria-label="Filter by topic">
+  <div class="chips" role="group" aria-label="Filter by topic">
     <FilterChip label="All" value="all" active={active === "all"} />
     {chips.map((chip) => <FilterChip label={chip.label} value={chip.value} active={active === chip.value} />)}
-  </nav>
+  </div>
   {
     searchPlaceholder && (
       <Input
