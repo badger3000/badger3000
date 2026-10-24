@@ -160,9 +160,17 @@ const searchIndex = projects.map((p) =>
     background: var(--a-ink);
     color: var(--a-surface);
   }
+  /*
+   * The group clips its buttons, so the shared ring moves to the group, and the
+   * focused button gets an inner edge so it's clear which of the two it is.
+   */
+  .viewtoggle:has(button:focus-visible) {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
+  }
   .viewtoggle button:focus-visible {
-    outline: 2px solid var(--a-accent);
-    outline-offset: -2px;
+    outline: 0;
+    box-shadow: inset 0 0 0 2px var(--a-accent-text);
   }
 
   .grid {

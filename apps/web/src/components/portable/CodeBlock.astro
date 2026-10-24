@@ -89,8 +89,8 @@ const label = node.filename || (lang === "plaintext" ? "" : lang);
     line-height: 24px;
     tab-size: 2;
   }
+  /* the shared ring, drawn inside so the block's rounded clip doesn't cut it */
   .code :global(pre:focus-visible) {
-    outline: 2px solid var(--a-accent);
     outline-offset: -2px;
   }
 </style>

@@ -69,11 +69,13 @@ const inputId = `composer-${id}`;
   .composer input::placeholder {
     color: var(--a-subtle);
   }
-  .composer input:focus {
+  /* The field has no edge of its own, so the ring goes on the whole composer. */
+  .composer input:focus-visible {
     outline: none;
   }
-  .composer:focus-within {
-    box-shadow: 0 0 0 2px var(--a-accent-soft);
+  .composer:has(input:focus-visible) {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
   }
 
   .sr {
