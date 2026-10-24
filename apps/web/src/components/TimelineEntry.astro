@@ -11,6 +11,7 @@
  */
 import { tintFor } from "@badger3000/tokens/covers";
 import { ExternalLink } from "@badger3000/ui";
+import { thumb } from "../lib/sanity/thumb.ts";
 import type { ExperienceEntry, EducationEntry } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -29,7 +30,7 @@ const org =
     ? [entry.company, entry.location].filter(Boolean).join("  ·  ")
     : entry.institution;
 const dates = [entry.startDate, entry.endDate ?? "Present"].filter(Boolean).join(" — ");
-const logo = entry.logo?.asset?.url;
+const logo = thumb(entry.logo?.asset?.url, 44);
 const monogram = heading.trim().charAt(0);
 const searchSeed = heading;
 ---
@@ -37,7 +38,7 @@ const searchSeed = heading;
 <div class:list={["row", className]}>
   {
     logo ? (
-      <img class="logo" src={logo} alt="" width={44} height={44} loading="lazy" />
+      <img class="logo" src={logo.src} srcset={logo.srcset} alt="" width={44} height={44} loading="lazy" />
     ) : (
       <span class="logo mark" style={`background:${tintFor(searchSeed)}`} aria-hidden="true">
         {monogram}
