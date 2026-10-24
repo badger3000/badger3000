@@ -26,7 +26,12 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://www.badger3000.com",
   trailingSlash: "never",
-  adapter: cloudflare(),
+  // The AI binding has no local simulator, so the adapter's default workerd
+  // prerender opens an authenticated remote proxy during every build. Static
+  // pages do not use Workers bindings; only /api/chat and /api/contact do,
+  // and both opt out of prerendering. Use Astro's Node prerender so CI stays
+  // credential-less; the deployed Worker still runs on workerd.
+  adapter: cloudflare({ prerenderEnvironment: "node" }),
   integrations: [
     sitemap({
       // Pages only: no error pages, no feeds or API routes.
