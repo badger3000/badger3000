@@ -3,11 +3,15 @@
  * Experiments — Detail (`codepen`). Pen `vKVLC`, spec in design.md §D.
  * context: article · experimentBySlugQuery ← codepen
  *
- *   Header 856   Back · Tag ← topic · h1 display 64 · lede 18 · "Published …"
- *   Preview      window: head (dots, slug tab) · 16:9 CodePen iframe · footer link
- *   CTAs         Button primary "View on CodePen" · Button secondary "Fork"
- *   About 760    h2 display 28 · Portable Text 16 ← description
- *   More         "More in {topic}" · 3 × ProjectCard, same topic first
+ *   Content 856, padding [40, 80, 80], gap 32:
+ *   Back         "Back to Experiments" 13 `$a-muted`
+ *   Header       centred · gap 18 · Tag ← topic · h1 display 64 · lede 18 (720)
+ *                · "Published Mar 22, 2024" 13
+ *   Preview      r12 window: head on `$a-bg` (dots, rule, slug) · 16:9 CodePen
+ *                iframe · footer on `$a-bg` (accent dot, `codepen.io/…` link)
+ *   CTAs         centred · Button primary "View on CodePen" · secondary "Fork"
+ *   About 760    centred · gap 18 · "About this pen" display 28 · Portable Text 16
+ *   More         rule · "More in {topic}" + "View all →" · 3 × ProjectCard
  *
  * The schema has no tech list, fork or heart counts (P-7), so there is no tech
  * block and no heart. `penUrl` is the pen's hash; when the author pasted
@@ -54,7 +58,7 @@ const embedSrc = hash ? `https://codepen.io/${user}/embed/${hash}?default-tab=${
 
 const title = pen.title;
 const date = new Date(pen.createdAt).toLocaleDateString("en-US", {
-  month: "long",
+  month: "short",
   day: "numeric",
   year: "numeric",
   timeZone: "UTC",
@@ -72,100 +76,105 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
     mobileBottom="tabs"
   >
     <main class="detail" id="main">
-      <article class="wrap">
-        <header class="head">
+      <div class="wrap">
+        <article class="pen">
           <a class="back" href="/codepen">
             <Icon name="arrow-left" size={14} />
-            Experiments
+            Back to Experiments
           </a>
-          {pen.topic && <Tag label={pen.topic} />}
-          <h1 class="title">{title}</h1>
-          {pen.excerpt && <p class="lede">{pen.excerpt}</p>}
-          <p class="meta">Published <time datetime={pen.createdAt}>{date}</time></p>
-        </header>
 
-        <figure class="preview">
-          <div class="bar">
-            <span class="dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-            <span class="tab">{pen.slug}</span>
-          </div>
-          <div class="stage" style={`background:${gradientFor(pen.id)}`}>
+          <header class="head">
+            {pen.topic && <Tag label={pen.topic} />}
+            <h1 class="title">{title}</h1>
+            {pen.excerpt && <p class="lede">{pen.excerpt}</p>}
+            <p class="meta">Published <time datetime={pen.createdAt}>{date}</time></p>
+          </header>
+
+          <figure class="preview">
+            <div class="bar">
+              <span class="dots" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span class="rule" aria-hidden="true" />
+              <span class="tab">{pen.slug}</span>
+            </div>
+            <div class="stage" style={`background:${gradientFor(pen.id)}`}>
+              {
+                embedSrc ? (
+                  <iframe
+                    src={embedSrc}
+                    title={`${title} — live CodePen preview`}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  />
+                ) : (
+                  <p class="no-preview">No live preview for this one.</p>
+                )
+              }
+            </div>
             {
-              embedSrc ? (
-                <iframe
-                  src={embedSrc}
-                  title={`${title} — live CodePen preview`}
-                  loading="lazy"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen
-                />
-              ) : (
-                <p class="no-preview">No live preview for this one.</p>
+              penHref && (
+                <figcaption class="foot">
+                  <span class="live" aria-hidden="true" />
+                  <a href={penHref} target="_blank" rel="noopener noreferrer">
+                    codepen.io/{user}/pen/{hash}
+                    <span class="sr">(opens in a new tab)</span>
+                  </a>
+                </figcaption>
               )
             }
-          </div>
+          </figure>
+
           {
             penHref && (
-              <figcaption class="foot">
-                <a href={penHref} target="_blank" rel="noopener noreferrer">
-                  codepen.io/{user}/pen/{hash}
-                  <span class="sr">(opens in a new tab)</span>
-                </a>
-              </figcaption>
+              <div class="ctas">
+                <Button variant="primary" label="View on CodePen" href={penHref} target="_blank" rel="noopener noreferrer">
+                  <Icon slot="icon" name="external-link" />
+                </Button>
+                <Button variant="secondary" label="Fork" href={forkHref} target="_blank" rel="noopener noreferrer">
+                  <Icon slot="icon" name="git-fork" />
+                </Button>
+              </div>
             )
           }
-        </figure>
+
+          {
+            pen.description && pen.description.length > 0 && (
+              <section class="about" aria-labelledby="about-head">
+                <h2 id="about-head">About this pen</h2>
+                <PortableBody value={pen.description} size={16} gap={18} />
+              </section>
+            )
+          }
+        </article>
 
         {
-          penHref && (
-            <div class="ctas">
-              <Button variant="primary" label="View on CodePen" href={penHref} target="_blank" rel="noopener noreferrer">
-                <Icon slot="icon" name="external-link" />
-              </Button>
-              <Button variant="secondary" label="Fork" href={forkHref} target="_blank" rel="noopener noreferrer">
-                <Icon slot="icon" name="git-fork" />
-              </Button>
-            </div>
-          )
-        }
-
-        {
-          pen.description && pen.description.length > 0 && (
-            <section class="about" aria-labelledby="about-head">
-              <h2 id="about-head">About</h2>
-              <PortableBody value={pen.description} size={16} />
+          pen.related.length > 0 && (
+            <section class="more" aria-labelledby="more-head">
+              <div class="more-head">
+                <h2 id="more-head">{sameTopic ? `More in ${pen.topic}` : "More experiments"}</h2>
+                <a href="/codepen">View all →</a>
+              </div>
+              <ul class="related">
+                {pen.related.map((item) => (
+                  <li>
+                    <ProjectCard
+                      title={item.title}
+                      href={`/codepen/${item.slug}`}
+                      seed={item.id}
+                      topic={item.topic ?? undefined}
+                      excerpt={item.excerpt ?? undefined}
+                    />
+                  </li>
+                ))}
+              </ul>
             </section>
           )
         }
-      </article>
-
-      {
-        pen.related.length > 0 && (
-          <section class="more" aria-labelledby="more-head">
-            <div class="more-head">
-              <h2 id="more-head">{sameTopic ? `More in ${pen.topic}` : "More experiments"}</h2>
-              <a href="/codepen">View all →</a>
-            </div>
-            <ul class="related">
-              {pen.related.map((item) => (
-                <li>
-                  <ProjectCard
-                    title={item.title}
-                    href={`/codepen/${item.slug}`}
-                    seed={item.id}
-                    topic={item.topic ?? undefined}
-                    excerpt={item.excerpt ?? undefined}
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
+      </div>
     </main>
   </AppShell>
 </Base>
@@ -173,40 +182,45 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
 <style>
   .detail {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 56px;
-    padding: 40px 80px;
+    justify-content: center;
+    padding: 40px 80px 80px;
     background: var(--a-bg);
   }
   .wrap,
-  .more {
+  .pen {
     display: flex;
     flex-direction: column;
+    gap: 32px;
     width: 100%;
-    max-width: 856px;
     min-width: 0;
   }
   .wrap {
-    gap: 28px;
+    max-width: 856px;
   }
 
-  .head {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
   .back {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 13px;
+    letter-spacing: 0.2px;
     color: var(--a-muted);
     text-decoration: none;
   }
   .back:hover {
     color: var(--a-ink);
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+  }
+  .head > :global(.tag) {
+    align-self: center;
   }
   .title {
     width: 100%;
@@ -222,11 +236,12 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
     max-width: 720px;
     margin: 0;
     font-size: 18px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--a-muted);
   }
   .meta {
     margin: 0;
+    padding: 8px 4px;
     font-size: 13px;
     color: var(--a-subtle);
   }
@@ -235,16 +250,20 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    margin: 0;
+    margin: 16px 0;
     border: 1px solid var(--a-line);
-    border-radius: 14px;
+    border-radius: 12px;
     background: var(--a-surface);
   }
-  .bar {
+  .bar,
+  .foot {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 10px 14px;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--a-bg);
+  }
+  .bar {
     border-bottom: 1px solid var(--a-line);
   }
   .dots {
@@ -263,15 +282,18 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
   .dots span:nth-child(2) {
     background: var(--a-ok);
   }
+  .rule {
+    flex: none;
+    width: 1px;
+    height: 18px;
+    background: var(--a-line);
+  }
   .tab {
     overflow: hidden;
     min-width: 0;
-    padding: 4px 10px;
-    border-radius: 6px;
-    background: var(--a-bg);
-    font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 11.5px;
-    color: var(--a-muted);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--a-ink);
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -292,12 +314,19 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
     color: var(--a-on-cover);
   }
   .foot {
-    padding: 10px 14px;
     border-top: 1px solid var(--a-line);
     font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 11.5px;
+    font-size: 12px;
+  }
+  .live {
+    flex: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--a-accent);
   }
   .foot a {
+    min-width: 0;
     color: var(--a-muted);
     text-decoration: none;
     overflow-wrap: anywhere;
@@ -317,41 +346,51 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
   .ctas {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+    gap: 12px;
+    padding: 4px 0;
   }
 
   .about {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 18px;
+    width: 100%;
     max-width: 760px;
+    align-self: center;
   }
   .about h2,
   .more-head h2 {
     margin: 0;
     font-family: var(--af-display);
     font-weight: 400;
+    line-height: 1.15;
     color: var(--a-ink);
   }
   .about h2 {
     font-size: 28px;
   }
 
+  /* Divider, then the head: padding [24, 0, 8] under a 1px rule. */
   .more {
-    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--a-line);
   }
   .more-head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
+    padding: 24px 0 8px;
   }
   .more-head h2 {
     font-size: 26px;
   }
   .more-head a {
     font-size: 13px;
-    font-weight: 600;
     color: var(--a-accent-text);
     text-decoration: none;
     white-space: nowrap;
@@ -370,13 +409,16 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
 
   @media (max-width: 1080px) {
     .detail {
-      padding: 32px 40px;
+      padding: 32px 40px 64px;
     }
   }
   @media (max-width: 720px) {
     .detail {
-      gap: 40px;
-      padding: 16px;
+      padding: 16px 16px 40px;
+    }
+    .wrap,
+    .pen {
+      gap: 24px;
     }
     .title {
       font-size: clamp(36px, 11vw, 48px);
@@ -385,7 +427,14 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
       font-size: 16.5px;
     }
     .preview {
-      border-radius: 12px;
+      margin: 0;
+    }
+    .more {
+      gap: 24px;
+      padding-top: 24px;
+    }
+    .more-head {
+      padding: 0;
     }
     .related {
       grid-template-columns: minmax(0, 1fr);

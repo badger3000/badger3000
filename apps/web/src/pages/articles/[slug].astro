@@ -3,12 +3,14 @@
  * Article — Detail. Pen `I4mvDB`, spec in docs/review/2026-10-22/design.md §D.
  * context: article · articleBySlugQuery ← articles
  *
- *   Header 856   Back · Tag ← topic · h1 display 56 · lede 18 · byline
- *   Hero   800×380 r14 ← main_image + caption overlay, else gradientFor(_id)
- *   Body   720   Portable Text (./components/portable)
- *   Aside        citation, only for a republished article
- *   Tags         the topic (the schema has no tags array)
- *   More         h2 + "View all →" · 3 × ProjectCard, same topic first
+ *   Content 856, padding [48, 80, 80], gap 40:
+ *   Back         "Back to Articles" 13 `$a-muted`
+ *   Header 800   centred · gap 20 · Tag ← topic · h1 display 56 · lede 18
+ *   Byline       centred · AvatarUser 24 · name · date · read time
+ *   Hero         800×380 r12 ← main_image + caption overlay, else gradientFor(_id)
+ *   Column 720   gap 22: Portable Text · citation (republished only) · tags
+ *                (the topic; the schema has no tags array) · divider ·
+ *                "More from the journal" + 3 × ProjectCard, same topic first
  *
  * Prerendered: one page per slug. With `SANITY_ALLOW_EMPTY=1` and no
  * credentials there are no slugs, so the route builds nothing.
@@ -62,23 +64,25 @@ const author = citation?.authorName?.trim();
   >
     <main class="detail" id="main">
       <article class="wrap">
+        <a class="back" href="/articles">
+          <Icon name="arrow-left" size={14} />
+          Back to Articles
+        </a>
+
         <header class="head">
-          <a class="back" href="/articles">
-            <Icon name="arrow-left" size={14} />
-            Articles
-          </a>
           {article.topic && <Tag label={article.topic} />}
           <h1 class="title">{title}</h1>
           {article.excerpt && <p class="lede">{article.excerpt}</p>}
-          <p class="byline">
-            {byline && <AvatarUser name={byline} size={24} />}
-            {byline && <span>{byline}</span>}
-            {byline && <span class="dot" aria-hidden="true">·</span>}
-            <time datetime={article.publishedAt}>{date}</time>
-            <span class="dot" aria-hidden="true">·</span>
-            <span>{article.readTime} min read</span>
-          </p>
         </header>
+
+        <p class="byline">
+          {byline && <AvatarUser name={byline} size={24} />}
+          {byline && <span>{byline}</span>}
+          {byline && <span class="dot" aria-hidden="true">·</span>}
+          <time datetime={article.publishedAt}>{date}</time>
+          <span class="dot" aria-hidden="true">·</span>
+          <span>{article.readTime} min read</span>
+        </p>
 
         {
           hero ? (
@@ -99,72 +103,74 @@ const author = citation?.authorName?.trim();
           )
         }
 
-        <PortableBody value={article.content ?? []} class="body" />
+        <div class="column">
+          <PortableBody value={article.content ?? []} gap={22} />
 
-        {
-          citation && (
-            <aside class="citation" aria-label="Original source">
-              <p class="cite-head">Originally published elsewhere</p>
-              <p class="cite-text">
-                {citation.disclaimer ??
-                  `This article was written by ${author ?? "another author"} and is shared here with credit.`}
-              </p>
-              <p class="cite-links">
-                {author &&
-                  (citation.authorProfileUrl ? (
-                    <a href={citation.authorProfileUrl} target="_blank" rel="noopener noreferrer">
-                      {author}
+          {
+            citation && (
+              <aside class="citation" aria-label="Original source">
+                <p class="cite-head">Originally published elsewhere</p>
+                <p class="cite-text">
+                  {citation.disclaimer ??
+                    `This article was written by ${author ?? "another author"} and is shared here with credit.`}
+                </p>
+                <p class="cite-links">
+                  {author &&
+                    (citation.authorProfileUrl ? (
+                      <a href={citation.authorProfileUrl} target="_blank" rel="noopener noreferrer">
+                        {author}
+                        <span class="sr">(opens in a new tab)</span>
+                      </a>
+                    ) : (
+                      <span>{author}</span>
+                    ))}
+                  {citation.originalArticleUrl && (
+                    <a href={citation.originalArticleUrl} target="_blank" rel="noopener noreferrer">
+                      Read the original
+                      <Icon name="arrow-up-right" size={13} />
                       <span class="sr">(opens in a new tab)</span>
                     </a>
-                  ) : (
-                    <span>{author}</span>
-                  ))}
-                {citation.originalArticleUrl && (
-                  <a href={citation.originalArticleUrl} target="_blank" rel="noopener noreferrer">
-                    Read the original
-                    <Icon name="arrow-up-right" size={13} />
-                    <span class="sr">(opens in a new tab)</span>
-                  </a>
-                )}
-              </p>
-            </aside>
-          )
-        }
+                  )}
+                </p>
+              </aside>
+            )
+          }
 
-        {
-          article.topic && (
-            <ul class="tags" aria-label="Topic">
-              <li>
-                <Tag label={article.topic} />
-              </li>
-            </ul>
-          )
-        }
-      </article>
-
-      {
-        article.related.length > 0 && (
-          <section class="more" aria-labelledby="more-head">
-            <div class="more-head">
-              <h2 id="more-head">More articles</h2>
-              <a href="/articles">View all →</a>
-            </div>
-            <ul class="related">
-              {article.related.map((item) => (
+          {
+            article.topic && (
+              <ul class="tags" aria-label="Topic">
                 <li>
-                  <ProjectCard
-                    title={item.title ?? "Untitled"}
-                    href={`/articles/${item.slug}`}
-                    seed={item.id}
-                    topic={item.topic ?? undefined}
-                    excerpt={item.excerpt ?? undefined}
-                  />
+                  <Tag label={article.topic} />
                 </li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
+              </ul>
+            )
+          }
+
+          {
+            article.related.length > 0 && (
+              <section class="more" aria-labelledby="more-head">
+                <div class="more-head">
+                  <h2 id="more-head">More from the journal</h2>
+                  <a href="/articles">View all →</a>
+                </div>
+                <ul class="related">
+                  {article.related.map((item) => (
+                    <li>
+                      <ProjectCard
+                        title={item.title ?? "Untitled"}
+                        href={`/articles/${item.slug}`}
+                        seed={item.id}
+                        topic={item.topic ?? undefined}
+                        excerpt={item.excerpt ?? undefined}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+        </div>
+      </article>
     </main>
   </AppShell>
 </Base>
@@ -172,42 +178,45 @@ const author = citation?.authorName?.trim();
 <style>
   .detail {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 56px;
-    padding: 40px 80px;
+    justify-content: center;
+    padding: 48px 80px 80px;
     background: var(--a-bg);
   }
-  .wrap,
-  .more {
+  .wrap {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 40px;
     width: 100%;
     max-width: 856px;
     min-width: 0;
   }
-  .wrap {
-    align-items: center;
-    gap: 36px;
-  }
 
-  .head {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    width: 100%;
-  }
   .back {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-size: 13px;
+    letter-spacing: 0.2px;
     color: var(--a-muted);
     text-decoration: none;
   }
   .back:hover {
     color: var(--a-ink);
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+  }
+  .head > :global(.tag) {
+    align-self: center;
   }
   .title {
     margin: 0;
@@ -219,18 +228,19 @@ const author = citation?.authorName?.trim();
     overflow-wrap: break-word;
   }
   .lede {
-    max-width: 720px;
     margin: 0;
     font-size: 18px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--a-muted);
   }
   .byline {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
-    margin: 4px 0 0;
+    justify-content: center;
+    gap: 8px 12px;
+    margin: 0;
+    padding: 8px;
     font-size: 13px;
     color: var(--a-muted);
   }
@@ -244,8 +254,9 @@ const author = citation?.authorName?.trim();
     width: 100%;
     max-width: 800px;
     aspect-ratio: 800 / 380;
-    margin: 0;
-    border-radius: 14px;
+    margin: 16px 0;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
   }
   .hero img {
     display: block;
@@ -255,43 +266,44 @@ const author = citation?.authorName?.trim();
   }
   .hero figcaption {
     position: absolute;
-    bottom: 12px;
-    left: 12px;
-    max-width: calc(100% - 24px);
-    padding: 5px 10px;
-    border-radius: 8px;
-    background: var(--a-scrim);
-    color: var(--a-on-cover);
-    font-size: 12px;
+    right: 24px;
+    bottom: 24px;
+    left: 24px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 13px;
     line-height: 1.4;
+    color: var(--a-on-cover-faint);
   }
 
-  .wrap > :global(.body) {
+  .column {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
     width: 100%;
     max-width: 720px;
+    min-width: 0;
   }
 
   .citation {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    width: 100%;
-    max-width: 720px;
-    padding: 18px 20px;
-    border-radius: 12px;
+    gap: 10px;
+    padding: 16px 24px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 8px;
     background: var(--a-accent-soft);
   }
   .cite-head {
     margin: 0;
     font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
+    font-weight: 500;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     color: var(--a-accent-text);
   }
   .cite-text {
     margin: 0;
-    font-size: 14.5px;
+    font-size: 14px;
     line-height: 1.55;
     color: var(--a-ink);
   }
@@ -322,33 +334,36 @@ const author = citation?.authorName?.trim();
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    width: 100%;
-    max-width: 720px;
     margin: 0;
-    padding: 20px 0 0;
-    border-top: 1px solid var(--a-line);
+    padding: 4px 0;
     list-style: none;
   }
 
+  /* Divider, then the head: padding [24, 0, 8] under a 1px rule. */
   .more {
-    gap: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--a-line);
   }
   .more-head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
+    padding: 24px 0 8px;
   }
   .more-head h2 {
     margin: 0;
     font-family: var(--af-display);
     font-size: 26px;
     font-weight: 400;
+    line-height: 1.15;
     color: var(--a-ink);
   }
   .more-head a {
     font-size: 13px;
-    font-weight: 600;
     color: var(--a-accent-text);
     text-decoration: none;
     white-space: nowrap;
@@ -367,13 +382,12 @@ const author = citation?.authorName?.trim();
 
   @media (max-width: 1080px) {
     .detail {
-      padding: 32px 40px;
+      padding: 40px 40px 64px;
     }
   }
   @media (max-width: 720px) {
     .detail {
-      gap: 40px;
-      padding: 16px;
+      padding: 16px 16px 40px;
     }
     .wrap {
       gap: 28px;
@@ -383,7 +397,10 @@ const author = citation?.authorName?.trim();
     }
     .hero {
       aspect-ratio: 16 / 10;
-      border-radius: 12px;
+      margin: 0;
+    }
+    .more-head {
+      padding: 0;
     }
     .related {
       grid-template-columns: minmax(0, 1fr);
