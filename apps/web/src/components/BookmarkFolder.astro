@@ -17,10 +17,12 @@ import type { Bookmark } from "../lib/sanity/types.ts";
 interface Props {
   name: string;
   bookmarks: Bookmark[];
+  /** Rendered open. The page opens only the first folder; the rest wait for a click. */
+  open?: boolean;
   class?: string;
 }
 
-const { name, bookmarks, class: className } = Astro.props;
+const { name, bookmarks, open = false, class: className } = Astro.props;
 
 const hostOf = (url: string): string => {
   try {
@@ -31,12 +33,15 @@ const hostOf = (url: string): string => {
 };
 ---
 
-<section class:list={["folder", className]}>
-  <h2 class="fh">
-    <span class="ico"><Icon name="folder" size={16} /></span>
-    <span class="fname">{name}</span>
-    <span class="count">{bookmarks.length}</span>
-  </h2>
+<details class:list={["folder", className]} open={open}>
+  <summary>
+    <h2 class="fh">
+      <span class="ico"><Icon name="folder" size={16} /></span>
+      <span class="fname">{name}</span>
+      <span class="count">{bookmarks.length}</span>
+      <Icon name="chevron-down" size={14} class="chev" />
+    </h2>
+  </summary>
 
   <ul class="rows">
     {
@@ -57,7 +62,7 @@ const hostOf = (url: string): string => {
       })
     }
   </ul>
-</section>
+</details>
 
 <style>
   .folder {
@@ -65,6 +70,25 @@ const hostOf = (url: string): string => {
     border: 1px solid var(--a-line);
     border-radius: 14px;
     background: var(--a-surface);
+  }
+  summary {
+    list-style: none;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .folder:not([open]) .fh {
+    padding-bottom: 2px;
+  }
+  .fh :global(.chev) {
+    flex: none;
+    color: var(--a-muted);
+    transition: transform var(--duration-quick) var(--ease-smooth-out);
+  }
+  .folder[open] .fh :global(.chev) {
+    transform: rotate(180deg);
   }
   .fh {
     display: flex;
@@ -76,6 +100,7 @@ const hostOf = (url: string): string => {
     font-weight: 600;
   }
   .fh :global(.ico) {
+    display: flex;
     color: var(--a-accent);
   }
   .fname {
@@ -96,6 +121,14 @@ const hostOf = (url: string): string => {
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  /*
+   * 888 rows on one page: rows off screen skip layout and paint until they
+   * scroll near (closed folders skip them entirely). 36px = the row's height.
+   */
+  .rows > li {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 36px;
   }
   .row {
     display: flex;
