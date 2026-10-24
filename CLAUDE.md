@@ -77,7 +77,7 @@ There is no unit test suite; verification is `check`/`lint`/`typecheck`/`build`/
 - Read the design through the **pencil MCP** (`get_app_state` first, then `execute`); the Pen app must be running with the file open, and the canvas can be ahead of the file on disk. Don't read `.pen` files with Read/Grep.
 - Each node's `context` string is the spec: semantic tag + component name + props, or the Sanity binding (`← project.title`).
 - Change the `.pen` first, then port to code.
-- **Tokens only:** components use `var(--a-*)` from `@badger3000/tokens`; never hardcode colors (`pnpm --filter @badger3000/tokens run check` keeps `tokens.ts` in step with the CSS). The nav list is `apps/web/src/lib/nav.ts`. Themes (light/dark/forest) are `[data-theme]` blocks on `<html>`.
+- **Tokens only:** components use `var(--a-*)` from `@badger3000/tokens`; never hardcode colors (`pnpm --filter @badger3000/tokens run check` keeps `tokens.ts` in step with the CSS). The nav list is `apps/web/src/lib/nav.ts`. Text uses `--a-subtle`, never `--a-faint` (decoration only); accent text uses `--a-accent-text`; coral fills that carry text use `--a-accent-text` with `--a-bg` text. Every link that opens a new tab goes through `ExternalLink` (`@badger3000/ui`). Themes (light/dark/forest) are `[data-theme]` blocks on `<html>`.
 - **No React in `apps/web`** — islands are vanilla TS until a component genuinely needs a framework. Components use scoped CSS, no Tailwind (Tailwind is only in the Next app).
 
 ## Docs
