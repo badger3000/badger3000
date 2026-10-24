@@ -36,7 +36,12 @@ const chips = [
 <Base title="Badger3000 — Kyle Ross's AI">
   <AppShell counts={counts} settings={settings} mobileBar="menu" mobileTab="chat" mobileBottom="footer">
     <main class="hero" id="main" data-chat-root>
-      <section class="thread" aria-label="Conversation" aria-live="polite" data-chat-log></section>
+      <section class="thread" aria-label="Conversation" data-chat-log></section>
+      {/*
+        The live region. The thread repaints as a whole, so it can't be live
+        itself; the island writes only the newest agent turn here.
+      */}
+      <p class="sr" role="status" data-chat-status></p>
 
       <Avatar size={76} mobileSize={66} class="hero-avatar" />
 
@@ -186,6 +191,18 @@ const chips = [
       width: 100%;
       padding: 4px 14px 8px;
     }
+  }
+
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>
 <script>

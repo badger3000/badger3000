@@ -21,8 +21,11 @@ const { line = "" } = Astro.props;
   <Avatar size={26} />
   <div class="body">
     <p class="line" data-slot="line">{line}</p>
-    {/* pen `A Pending` — the loading state while /api/chat is in flight. */}
-    <span class="typing" data-typing aria-label="Badger3000 is thinking">
+    {/*
+      pen `A Pending` — the loading state while /api/chat is in flight. The
+      dots are visual only; the page's status region says "thinking".
+    */}
+    <span class="typing" data-typing aria-hidden="true">
       <i></i><i></i><i></i>
     </span>
     <div class="cards" data-chat-cards></div>
