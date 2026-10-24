@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, envField } from "astro/config";
 import cloudflare from "@astrojs/cloudflare";
+import sitemap from "@astrojs/sitemap";
 
 /**
  * Static-first **with** the Cloudflare adapter (phase 4).
@@ -13,11 +14,28 @@ import cloudflare from "@astrojs/cloudflare";
  * Output stays "static" rather than "server" on purpose: content pages keep
  * shipping as immutable edge-cached assets and only the agent endpoint costs an
  * invocation (ADR 0009).
+ *
+ * **One URL per page:** `https://www.badger3000.com/projects` — the www host and
+ * no trailing slash, which is what the live site, Search Console and every
+ * internal link already use. `site` is the single source: canonicals, OG URLs,
+ * the feeds and the sitemap all read it. `trailingSlash: "never"` with
+ * `build.format: "file"` writes `projects.html`, which Workers Static Assets
+ * (`html_handling: "auto-trailing-slash"`, see wrangler.jsonc) serves at
+ * `/projects` and redirects `/projects/` to.
  */
 export default defineConfig({
-  site: "https://badger3000.com",
-  trailingSlash: "ignore",
+  site: "https://www.badger3000.com",
+  trailingSlash: "never",
   adapter: cloudflare(),
+  integrations: [
+    sitemap({
+      // Pages only: no error pages, no feeds or API routes.
+      filter: (page) => {
+        const { pathname } = new URL(page);
+        return pathname !== "/404" && !pathname.startsWith("/api/") && !pathname.endsWith(".xml");
+      },
+    }),
+  ],
 
   /**
    * Astro-native env: `PUBLIC_` is the only prefix exposed to the browser, so
@@ -69,12 +87,27 @@ export default defineConfig({
         values: ["off", "on"],
         default: "off",
       }),
+
+      /**
+       * `/api/contact` (parity with the Next route, PR #215). All `secret`: read
+       * on the Worker at request time with `wrangler secret put`, never baked
+       * into a build. Optional so builds work without them; the endpoint
+       * answers 503 until every required one is set.
+       */
+      RESEND_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      // Where messages are delivered.
+      OWNER_EMAIL: envField.string({ context: "server", access: "secret", optional: true }),
+      // The verified Resend sender, e.g. `Badger3000 <contact@badger3000.com>`.
+      CONTACT_FORM_EMAIL: envField.string({ context: "server", access: "secret", optional: true }),
+      // reCAPTCHA v3 score floor, 0–1. Unset → 0.5, as in the Next route.
+      RECAPTCHA_MIN_SCORE: envField.number({ context: "server", access: "secret", optional: true }),
     },
   },
   build: {
-    // Matches wrangler's html_handling: "auto-trailing-slash" — /about and
-    // /about/ both serve dist/about/index.html.
-    format: "directory",
+    // `projects.html`, not `projects/index.html`: with `trailingSlash: "never"`
+    // Astro's own links, `Astro.url` and the sitemap all drop the slash.
+    format: "file",
   },
   vite: {
     build: {
