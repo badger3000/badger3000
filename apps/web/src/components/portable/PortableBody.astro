@@ -8,7 +8,8 @@
  *
  * `astro-portabletext` walks the blocks; every node type maps to one component
  * in this folder, and each one carries its own scoped CSS. `size` sets the body
- * text through `--pt-size`, which the blocks read.
+ * text through `--pt-size`, which the blocks read; `gap` is the column rhythm
+ * (22 in the article body, 18 in the experiment's About).
  *
  * Unknown types render nothing (the schema is the list of what can appear), so
  * a type added in Studio before it lands here never breaks a build.
@@ -28,10 +29,11 @@ import SelfHostedVideo from "./SelfHostedVideo.astro";
 interface Props {
   value: PortableTextProps["value"];
   size?: number;
+  gap?: number;
   class?: string;
 }
 
-const { value, size = 17, class: className } = Astro.props;
+const { value, size = 17, gap = 22, class: className } = Astro.props;
 
 const components = {
   type: { image: Figure, code: CodeBlock, video: VideoEmbed, selfHostedVideo: SelfHostedVideo },
@@ -42,7 +44,7 @@ const components = {
 };
 ---
 
-<div class:list={["pt", className]} style={`--pt-size:${size}px`}>
+<div class:list={["pt", className]} style={`--pt-size:${size}px;--pt-gap:${gap}px`}>
   <PortableText value={value} components={components} onMissingComponent={false} />
 </div>
 
@@ -50,7 +52,7 @@ const components = {
   .pt {
     display: flex;
     flex-direction: column;
-    gap: 1.15em;
+    gap: var(--pt-gap);
     min-width: 0;
     font-size: var(--pt-size);
     line-height: 1.65;

@@ -3,8 +3,13 @@
  * CodeBlock — the blockContent `code` type. Pen `C2I66`.
  * context: figure · Code block ← code{language, code, filename}
  *
- *   Head   `$a-code-head` · 3 dots · filename (or the language) mono 11.5
- *   Body   `pre > code`, Shiki via Astro's `<Code>`, mono 13.5/1.6
+ *   Frame  r8 · 1px `$a-line`
+ *   Head   `$a-code-head` · padding [10, 16] · gap 8 · dots 8 · filename (or
+ *          the language) mono 12 `$a-code-comment`
+ *   Body   `pre > code` padding [16, 20, 20], mono 13 on a 24px line (the pen's
+ *          20px lines with a 4px gap), Shiki via Astro's `<Code>`
+ *
+ * The pen's "copy" control is left out: it needs a script for no content gain.
  *
  * Highlighted at build time with the `--a-code-*` theme in ./media.ts, so no
  * highlighter ships to the browser. A long line scrolls inside `pre`, never
@@ -42,15 +47,16 @@ const label = node.filename || (lang === "plaintext" ? "" : lang);
   .code {
     overflow: hidden;
     min-width: 0;
-    margin: 0.4em 0;
-    border-radius: 12px;
+    margin: 0;
+    border: 1px solid var(--a-line);
+    border-radius: 8px;
     background: var(--a-code-bg);
   }
   .head {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 14px;
+    gap: 8px;
+    padding: 10px 16px;
     background: var(--a-code-head);
   }
   .dots {
@@ -58,24 +64,29 @@ const label = node.filename || (lang === "plaintext" ? "" : lang);
     gap: 6px;
   }
   .dots span {
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: var(--a-code-comment);
-    opacity: 0.6;
+    background: var(--a-accent);
+  }
+  .dots span:nth-child(2) {
+    background: var(--a-code-keyword);
+  }
+  .dots span:nth-child(3) {
+    background: var(--a-code-string);
   }
   .file {
     font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--a-code-comment);
   }
   .code :global(pre) {
     margin: 0;
-    padding: 16px 18px;
+    padding: 16px 20px 20px;
     overflow-x: auto;
     font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 13.5px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 24px;
     tab-size: 2;
   }
   .code :global(pre:focus-visible) {

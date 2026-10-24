@@ -1,7 +1,8 @@
 ---
 /**
- * Figure — an inline image. Pen `kupWQ`: `figure` img 720 wide, radius 12,
- * `figcaption` 13 `$a-subtle`.
+ * Figure — an inline image. Pen `kupWQ`: `figure` gap 12 · img 720 wide, r10,
+ * 1px `$a-line-2` · `figcaption` 13 italic, centred, `$a-subtle` (the pen's
+ * `$a-faint` is below text contrast).
  *
  * The pen crops to 720×320; content images come in every shape (one is a
  * portrait), so the image keeps its own aspect ratio and only the width is
@@ -42,19 +43,22 @@ const image = node.asset?.url ? sources(node.asset, 720) : undefined;
   .figure {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 0.4em 0;
+    gap: 12px;
+    margin: 0;
   }
   img {
     display: block;
     width: 100%;
     height: auto;
-    border-radius: 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 10px;
     background: var(--a-line);
   }
   figcaption {
     font-size: 13px;
+    font-style: italic;
     line-height: 1.45;
+    text-align: center;
     color: var(--a-subtle);
   }
 </style>
