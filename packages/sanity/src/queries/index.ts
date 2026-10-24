@@ -30,6 +30,7 @@ import { settingsForChatQuery, settingsQuery } from "./settings.ts";
 import { skillsForChatQuery, skillsQuery } from "./skills.ts";
 import { testimonialsForChatQuery, testimonialsQuery } from "./testimonials.ts";
 import { topicsQuery } from "./topics.ts";
+import { feedQuery } from "./feed.ts";
 import { articleBySlugQuery, articleSlugsQuery, experimentBySlugQuery, experimentSlugsQuery } from "./detail.ts";
 
 export * from "./articles.ts";
@@ -86,7 +87,9 @@ export const detailQueries = {
 } as const;
 
 /** Every query by name, for linting, parsing and diffing (`sanity:check`). */
-export const queries = { ...browseQueries, ...chatQueries, ...detailQueries } as const;
+export const queries = { ...browseQueries, ...chatQueries, ...detailQueries, feed: feedQuery } as const;
 
 /** The real `groq` tag and `defineQuery`, for callers that write their own. */
 export { default as groq, defineQuery } from "groq";
+
+export * from "./feed.ts";
