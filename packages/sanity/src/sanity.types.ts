@@ -820,6 +820,196 @@ export type ProjectCountQueryResult = number;
 // Query: count(*[_type == "articles"])
 export type ArticleCountQueryResult = number;
 
+// Source: src/queries/detail.ts
+// Variable: articleSlugsQuery
+// Query: *[_type == "articles" && defined(slug.current)] | order(_createdAt desc).slug.current
+export type ArticleSlugsQueryResult = Array<string>;
+
+// Source: src/queries/detail.ts
+// Variable: experimentSlugsQuery
+// Query: *[_type == "codepen" && defined(slug.current)] | order(_createdAt desc).slug.current
+export type ExperimentSlugsQueryResult = Array<string>;
+
+// Source: src/queries/detail.ts
+// Variable: articleBySlugQuery
+// Query: *[_type == "articles" && slug.current == $slug][0] {  "id": _id,  title,  "slug": slug.current,  excerpt,  "topic": topic->title,  "publishedAt": _createdAt,  "readTime": math::max([1, round(length(pt::text(content)) / 1000)]),  "byline": coalesce(authorName, *[_type == "settings"][0].name),  "mainImage": main_image {  alt,  caption,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  "content": content []{  ...,  _type == "image" => {  alt,  caption,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  _type == "selfHostedVideo" => {    ...,    "videoFile": videoFile { "asset": asset->{ url, mimeType } },    "poster": poster { "asset": asset->{ url } }  }},  "citation": select(defined(authorName) || defined(originalArticleUrl) => {    authorName,    authorProfileUrl,    originalArticleUrl,    disclaimer  }),  "related": *[_type == "articles" && defined(slug.current) && _id != ^._id]    | order((topic._ref == ^.topic._ref) desc, _createdAt desc) [0...3] {      "id": _id,      title,      "slug": slug.current,      excerpt,      "topic": topic->title    }}
+export type ArticleBySlugQueryResult = {
+  id: string;
+  title: string | null;
+  slug: string | null;
+  excerpt: string | null;
+  topic: string | null;
+  publishedAt: string;
+  readTime: number | 1;
+  byline: string | null;
+  mainImage: {
+    alt: null;
+    caption: string | null;
+    asset: {
+      _id: string;
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+          aspectRatio: number;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  content: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        language?:
+          | "bash"
+          | "css"
+          | "html"
+          | "javascript"
+          | "json"
+          | "markdown"
+          | "php"
+          | "python"
+          | "ruby"
+          | "text"
+          | "typescript";
+        code?: string;
+        filename?: string;
+        _type: "code";
+        _key: string;
+      }
+    | {
+        asset: {
+          _id: string;
+          url: string;
+          metadata: {
+            dimensions: {
+              width: number;
+              height: number;
+              aspectRatio: number;
+            } | null;
+          } | null;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string | null;
+        caption: string | null;
+        _type: "image";
+        _key: string;
+      }
+    | {
+        videoFile: {
+          asset: {
+            url: string;
+            mimeType: string;
+          } | null;
+        };
+        poster: {
+          asset: {
+            url: string;
+          } | null;
+        } | null;
+        title?: string;
+        autoPlay?: boolean;
+        loop?: boolean;
+        muted?: boolean;
+        controls?: boolean;
+        _type: "selfHostedVideo";
+        _key: string;
+      }
+    | {
+        url?: string;
+        title?: string;
+        provider?: "vimeo" | "youtube";
+        _type: "video";
+        _key: string;
+      }
+  > | null;
+  citation: {
+    authorName: string | null;
+    authorProfileUrl: string | null;
+    originalArticleUrl: string | null;
+    disclaimer: string | null;
+  };
+  related: Array<{
+    id: string;
+    title: string | null;
+    slug: string | null;
+    excerpt: string | null;
+    topic: string | null;
+  }>;
+} | null;
+
+// Source: src/queries/detail.ts
+// Variable: experimentBySlugQuery
+// Query: *[_type == "codepen" && slug.current == $slug][0] {  "id": _id,  title,  "slug": slug.current,  excerpt,  "topic": topic->title,  penUrl,  embedCode,  "createdAt": _createdAt,  "thumbnail": thumbnail {  alt,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  "description": description []{  ...,  _type == "image" => {  alt,  caption,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  _type == "selfHostedVideo" => {    ...,    "videoFile": videoFile { "asset": asset->{ url, mimeType } },    "poster": poster { "asset": asset->{ url } }  }},  "related": *[_type == "codepen" && defined(slug.current) && _id != ^._id]    | order((topic._ref == ^.topic._ref) desc, _createdAt desc) [0...3] {      "id": _id,      title,      "slug": slug.current,      "excerpt": coalesce(excerpt, description[0].children[0].text),      "topic": topic->title    }}
+export type ExperimentBySlugQueryResult = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  topic: string | null;
+  penUrl: string;
+  embedCode: string | null;
+  createdAt: string;
+  thumbnail: {
+    alt: null;
+    asset: {
+      _id: string;
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+          aspectRatio: number;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  related: Array<{
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string | null;
+    topic: string | null;
+  }>;
+} | null;
+
 // Source: src/queries/experience.ts
 // Variable: experienceQuery
 // Query: *[_type == "experience"] | order(startDate desc) {  title,  company,  companyUrl,  location,  startDate,  endDate,  description,  order,  "logo": logo {  alt,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }}}
@@ -1130,6 +1320,10 @@ declare global {
     '{\n  "projects": count(*[_type == "projects"]),\n  "articles": count(*[_type == "articles"]),\n  "experiments": count(*[_type == "codepen"]),\n  "experience": count(*[_type == "experience"]),\n  "education": count(*[_type == "education"]),\n  "skills": count(*[_type == "skillCategory"]),\n  "testimonials": count(*[_type == "testimonial"]),\n  "bookmarks": count(*[_type == "bookmark"]),\n  "golf": count(*[_type == "golfScores"])\n}': CountsQueryResult;
     'count(*[_type == "projects"])': ProjectCountQueryResult;
     'count(*[_type == "articles"])': ArticleCountQueryResult;
+    '*[_type == "articles" && defined(slug.current)] | order(_createdAt desc).slug.current': ArticleSlugsQueryResult;
+    '*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc).slug.current': ExperimentSlugsQueryResult;
+    '*[_type == "articles" && slug.current == $slug][0] {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  "topic": topic->title,\n  "publishedAt": _createdAt,\n  "readTime": math::max([1, round(length(pt::text(content)) / 1000)]),\n  "byline": coalesce(authorName, *[_type == "settings"][0].name),\n  "mainImage": main_image {\n  alt,\n  caption,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "content": content []{\n  ...,\n  _type == "image" => {\n  alt,\n  caption,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  _type == "selfHostedVideo" => {\n    ...,\n    "videoFile": videoFile { "asset": asset->{ url, mimeType } },\n    "poster": poster { "asset": asset->{ url } }\n  }\n},\n  "citation": select(defined(authorName) || defined(originalArticleUrl) => {\n    authorName,\n    authorProfileUrl,\n    originalArticleUrl,\n    disclaimer\n  }),\n  "related": *[_type == "articles" && defined(slug.current) && _id != ^._id]\n    | order((topic._ref == ^.topic._ref) desc, _createdAt desc) [0...3] {\n      "id": _id,\n      title,\n      "slug": slug.current,\n      excerpt,\n      "topic": topic->title\n    }\n}': ArticleBySlugQueryResult;
+    '*[_type == "codepen" && slug.current == $slug][0] {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  "topic": topic->title,\n  penUrl,\n  embedCode,\n  "createdAt": _createdAt,\n  "thumbnail": thumbnail {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "description": description []{\n  ...,\n  _type == "image" => {\n  alt,\n  caption,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  _type == "selfHostedVideo" => {\n    ...,\n    "videoFile": videoFile { "asset": asset->{ url, mimeType } },\n    "poster": poster { "asset": asset->{ url } }\n  }\n},\n  "related": *[_type == "codepen" && defined(slug.current) && _id != ^._id]\n    | order((topic._ref == ^.topic._ref) desc, _createdAt desc) [0...3] {\n      "id": _id,\n      title,\n      "slug": slug.current,\n      "excerpt": coalesce(excerpt, description[0].children[0].text),\n      "topic": topic->title\n    }\n}': ExperimentBySlugQueryResult;
     '*[_type == "experience"] | order(startDate desc) {\n  title,\n  company,\n  companyUrl,\n  location,\n  startDate,\n  endDate,\n  description,\n  order,\n  "logo": logo {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ExperienceQueryResult;
     '*[_type == "education"] | order(startDate desc) {\n  degree,\n  institution,\n  institutionUrl,\n  location,\n  startDate,\n  endDate,\n  description,\n  order,\n  "logo": logo {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': EducationQueryResult;
     '*[_type == "experience"] | order(startDate desc) [0...8] {\n  title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl\n}': ExperienceForChatQueryResult;

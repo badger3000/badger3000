@@ -30,7 +30,8 @@
     "@fontsource/instrument-serif": "^5.3.0",
     "@fontsource/inter": "^5.3.0",
     "@sanity/client": "^8.10.1",
-    "astro": "^7.4.2"
+    "astro": "^7.4.2",
+    "astro-portabletext": "^1.0.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
