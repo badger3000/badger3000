@@ -43,6 +43,8 @@ Run from the repo root (or `pnpm run <script>` inside `apps/web`):
 
 `@astrojs/cloudflare` owns `main` and `assets` in `wrangler.jsonc` (ADR 0009, phase 4 reached). Every page is prerendered into `dist/client` and served as Workers Static Assets; only routes with `export const prerender = false` (today `src/pages/api/chat.ts`) run in the Worker. `wrangler.jsonc` adds the `AI` binding (ADR 0008), the `CHAT_LIMITER` rate limit and observability.
 
+Static prerendering deliberately uses Astro's Node environment (`prerenderEnvironment: "node"` in `astro.config.mjs`). The Workers AI binding has no local simulator, so the adapter's default `workerd` prerender opens an authenticated Cloudflare remote proxy during every build. That would force a Cloudflare token into GitHub CI even though no prerendered page uses a Workers binding. The deployed Worker still runs on `workerd`, and the AI binding remains available to `/api/chat` at runtime.
+
 `public/_headers` is honoured by Cloudflare and is the edge-cache layer for assets: `/_astro/*` is fingerprinted, so it ships `max-age=31536000, immutable`. It doesn't apply to Worker responses (`/api/*`).
 
 The adapter writes `dist/server/.dev.vars` with the local `SANITY_API_TOKEN` for `wrangler dev`. It isn't deployed (`verify-dist` checks), and Turbo excludes it from the cache.
