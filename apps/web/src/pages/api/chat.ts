@@ -14,11 +14,17 @@
  *   400 / 405 / 413  { error }
  */
 import type { APIRoute } from "astro";
-import { classify, type Intent } from "../../lib/agent/intents.ts";
-import { filterCards, retrieve } from "../../lib/agent/retrieve.ts";
-import { compose, fallback } from "../../lib/agent/compose.ts";
+import { CHAT_MODEL_TIER, SANITY_PREVIEW } from "astro:env/server";
+import { answer, type ChatResponse } from "../../lib/agent/answer.ts";
+import type { AiBinding } from "../../lib/agent/compose.ts";
+import { classify } from "../../lib/agent/intents.ts";
+import type { ChatFetch } from "../../lib/agent/retrieve.ts";
 import { bindings } from "../../lib/agent/bindings.ts";
+import { memoize } from "../../lib/agent/memo.ts";
+import { getClient } from "../../lib/sanity/client.ts";
 import { json, readBody } from "../../lib/http.ts";
+
+export type { ChatResponse };
 
 export const prerender = false;
 
@@ -26,26 +32,13 @@ const MAX_MESSAGE = 400;
 /** A question is a few hundred bytes; anything past this is not a question. */
 const MAX_BODY = 2048;
 
-/** Suggestions for the fallback answer, and the chips under the greeting. */
-const SUGGESTIONS = [
-  "What has Kyle shipped?",
-  "What has he written?",
-  "Walk me through his experience",
-  "What are his skills?",
-  "Show me his golf scores",
-];
-
-export interface ChatResponse {
-  intent: Intent;
-  text: string;
-  cards: Awaited<ReturnType<typeof retrieve>>["cards"];
-  /** Present on `suggest`, so the client can offer the chips. */
-  suggestions?: string[];
-  /** Which tier produced `text` — useful in the UI and in logs. */
-  composed: "model" | "template";
-  /** Set on a 503: Sanity failed, and `text` says so in visitor-facing words. */
-  degraded?: true;
-}
+/** Sanity reads for the agent, through the app's one client (lib/sanity/client.ts). */
+const readSanity: ChatFetch = (query, params = {}) => getClient().fetch(query, params);
+/** Published reads are reused for 60 s per isolate (lib/agent/memo.ts). */
+const memoized = memoize(readSanity, { ttlMs: 60_000 });
+/** Drafts bypass the memo. Read per call: `SANITY_PREVIEW` is a runtime secret. */
+const fetchFromSanity: ChatFetch = (query, params) =>
+  (SANITY_PREVIEW === "drafts" ? readSanity : memoized)(query, params);
 
 interface RateLimiter {
   limit(options: { key: string }): Promise<{ success: boolean }>;
@@ -82,35 +75,17 @@ export const POST: APIRoute = async ({ request }) => {
   const message = raw.trim().slice(0, MAX_MESSAGE);
   if (!message) return json({ error: "Ask something." }, { status: 400 });
 
-  const { intent, query } = classify(message);
-
-  if (intent === "suggest") {
-    return json({
-      intent,
-      text: fallback("suggest", 0, []),
-      cards: [],
-      suggestions: SUGGESTIONS,
-      composed: "template",
-    } satisfies ChatResponse);
-  }
-
   try {
-    const found = await retrieve(intent);
-    // Narrow to the words the visitor actually typed, but never to nothing.
-    const cards = filterCards(found.cards, query);
-
-    // The model's line is a bonus; the template is the contract.
-    const line = await compose(intent, found.facts);
-    const text = line ?? fallback(intent, found.count, found.facts);
-
-    return json({ intent, text, cards, composed: line ? "model" : "template" } satisfies ChatResponse);
+    const env = await bindings();
+    const model = { tier: CHAT_MODEL_TIER, ai: env?.AI as AiBinding | undefined };
+    return json(await answer(message, { fetch: fetchFromSanity, model }) satisfies ChatResponse);
   } catch (error) {
     // A Sanity outage, a 401 or a malformed row: still JSON, still something
     // the visitor can act on.
     console.error("[chat] retrieval failed:", error);
     return json(
       {
-        intent,
+        intent: classify(message).intent,
         text: "I can't reach the content right now — browse it instead.",
         cards: [],
         composed: "template",

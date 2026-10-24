@@ -14,6 +14,7 @@
     "check": "node scripts/node-guard.mjs -- astro check",
     "preview": "node scripts/node-guard.mjs -- astro preview",
     "sanity:check": "node scripts/sanity-check.ts",
+    "agent:check": "node scripts/agent-check.ts",
     "deploy": "pnpm run build && pnpm run deploy:worker",
     "deploy:worker": "node scripts/node-guard.mjs -- wrangler deploy",
     "deploy:dry": "pnpm run build && node scripts/node-guard.mjs -- wrangler deploy --dry-run",

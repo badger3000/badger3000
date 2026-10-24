@@ -26,12 +26,29 @@ export const educationQuery = defineQuery(`*[_type == "education"] | order(start
   "logo": logo ${IMAGE}
 }`);
 
-/** Chat — the agent's `experience` intent, in the shape it shares with education. */
-export const experienceForChatQuery = defineQuery(`*[_type == "experience"] | order(startDate desc) [0...8] {
-  title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl
+/**
+ * Chat — the agent's `experience` intent, in the shape it shares with
+ * education: matched on title, company, location and description.
+ */
+export const experienceForChatQuery = defineQuery(`{
+  "total": count(*[_type == "experience"]),
+  "matched": count(*[_type == "experience"
+    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]),
+  "rows": *[_type == "experience"
+    && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]
+    | order(startDate desc) [0...$limit] {
+    title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl
+  }
 }`);
 
-/** Chat — the agent's `education` intent. */
-export const educationForChatQuery = defineQuery(`*[_type == "education"] | order(startDate desc) [0...8] {
-  "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl
+/** Chat — the agent's `education` intent: matched on degree and institution. */
+export const educationForChatQuery = defineQuery(`{
+  "total": count(*[_type == "education"]),
+  "matched": count(*[_type == "education"
+    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]),
+  "rows": *[_type == "education"
+    && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]
+    | order(startDate desc) [0...$limit] {
+    "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl
+  }
 }`);
