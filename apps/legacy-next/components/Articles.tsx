@@ -82,9 +82,7 @@ export default async function Articles({
       )}
 
       {showFilter ? (
-        <ArticlesFilter articles={articlesData}>
-          {articleElements}
-        </ArticlesFilter>
+        <ArticlesFilter articles={articlesData} />
       ) : (
         <div className="space-y-1 mb-4">{articleElements}</div>
       )}

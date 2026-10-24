@@ -1,7 +1,6 @@
 import PortableTextComponents from "@/components/PortableText";
 import {client} from "@/lib/sanity";
 import {format} from "date-fns";
-import Image from "next/image";
 import Link from "next/link";
 import {notFound} from "next/navigation";
 import {PortableText} from "@portabletext/react";

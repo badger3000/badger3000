@@ -11,7 +11,7 @@ on:
 jobs:
   update-readme-with-blog:
     name: Update README with latest blog posts
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
       NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
@@ -19,12 +19,12 @@ jobs:
       NEXT_PUBLIC_AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
       SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           # Active LTS (Krypton) until 2028-04-30. Node 20 went EOL on
           # 2026-04-30 and no longer receives security patches; 22 is only in
@@ -36,7 +36,7 @@ jobs:
         run: node scripts/update-readme.js
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update README with latest blog posts

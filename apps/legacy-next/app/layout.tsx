@@ -31,13 +31,7 @@ export const viewport: Viewport = {
 /**
  * Generates metadata dynamically based on the current route.
  */
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: any;
-  searchParams: {[key: string]: string | string[] | undefined};
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   // In the root layout, the canonical URL should just be the base URL
   // Child pages will override this with their specific paths
   const baseUrl = process.env.SITE_URL || "https://www.badger3000.com";

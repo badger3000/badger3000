@@ -1,7 +1,6 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import React from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import Link from "next/link";
 
@@ -14,14 +13,10 @@ interface Article {
 }
 
 interface ArticlesFilterProps {
-  children: React.ReactNode;
   articles: Article[];
 }
 
-export default function ArticlesFilter({
-  children,
-  articles,
-}: ArticlesFilterProps) {
+export default function ArticlesFilter({articles}: ArticlesFilterProps) {
   const [searchFilter, setSearchFilter] = useState("");
   const [selectedType, setSelectedType] = useState<
     "all" | "articles" | "codepen"

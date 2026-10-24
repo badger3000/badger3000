@@ -81,7 +81,7 @@ export default async function ExperiencePage() {
           </h2>
           {items.length > 0 ? (
             <div className="space-y-1">
-              {items.map((item, index) => (
+              {items.map((item) => (
                 <article
                   key={item._id}
                   className="p-5 rounded-xl odd:bg-gradient-to-tr odd:from-gray-100 odd:to-gray-50 dark:odd:bg-gradient-to-tr dark:odd:from-gray-800 dark:odd:to-gray-800/[0.65]"

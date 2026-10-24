@@ -1,3 +1,6 @@
+// Badge URLs are dynamic (shields.io or custom hosts), so next/image would
+// require an open remote-pattern policy.
+/* eslint-disable @next/next/no-img-element */
 import {client} from "@/lib/sanity";
 
 interface Skill {

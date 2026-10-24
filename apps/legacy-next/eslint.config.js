@@ -53,6 +53,15 @@ export default tseslint.config(
     },
   },
   {
+    // App Router route files must export framework data such as metadata,
+    // viewport, generateMetadata and generateStaticParams alongside their
+    // component. The Fast Refresh rule does not understand those exports.
+    files: ["app/**/page.tsx", "app/**/layout.tsx"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+  {
     extends: [js.configs.recommended, nextPlugin],
     files: ["**/*.{js,jsx,mjs,cjs}"],
     languageOptions: {
