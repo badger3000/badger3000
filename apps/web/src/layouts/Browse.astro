@@ -11,6 +11,7 @@ import Base from "./Base.astro";
 import AppShell from "./AppShell.astro";
 import { PageHeader } from "@badger3000/ui";
 import type { SiteSettings } from "../lib/sanity/types.ts";
+import type { SeoProps } from "../lib/seo.ts";
 
 interface Props {
   title: string;
@@ -25,6 +26,8 @@ interface Props {
   sub?: string;
   /** Pen's Experience container is gap 20, the rest gap 22. */
   gap?: number;
+  /** Passed to Base's `<Seo>`; its title and description win over the ones above. */
+  seo?: SeoProps;
 }
 
 const {
@@ -37,10 +40,11 @@ const {
   countLabel,
   sub,
   gap = 22,
+  seo,
 } = Astro.props;
 ---
 
-<Base title={`${title} — Badger3000`} description={description}>
+<Base title={`${title} — Badger3000`} description={description} seo={seo}>
   <AppShell
     active={active}
     counts={counts}

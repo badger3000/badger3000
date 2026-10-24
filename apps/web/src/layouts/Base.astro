@@ -1,28 +1,46 @@
 ---
 /**
  * Base — the document shell every page uses.
- * Owns <head>, the token and base stylesheets (`@badger3000/tokens`), fonts,
- * the client router, and the pre-paint theme restore. Components never set data-theme themselves; the
+ * Owns <head> (search and share tags via `<Seo>`), the token and base
+ * stylesheets (`@badger3000/tokens`), fonts, the client router, and the
+ * pre-paint theme restore. Components never set data-theme themselves; the
  * toggle writes it.
  *
  * <ClientRouter /> turns navigation into client-side routing: the URL still
  * updates and the back button works, but only the named `content` group animates
  * (see AppShell) — the sidebar and topbar are replaced silently instead of
  * cross-fading, so the chrome appears not to move at all.
+ *
+ * Fonts are self-hosted (@fontsource), one family per token: `--af-ui` Inter,
+ * `--af-display` Instrument Serif, `--af-mono` Geist Mono. Each weight file
+ * covers every subset with `unicode-range`, so a page only downloads the
+ * subsets it renders. The two faces every page paints first are preloaded.
  */
 import { ClientRouter } from "astro:transitions";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/700.css";
+import interRegular from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
+import serifRegular from "@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url";
 import "@badger3000/tokens/tokens.css";
 import "@badger3000/tokens/base.css";
+import Seo from "../components/Seo.astro";
+import type { SeoProps } from "../lib/seo.ts";
 
 interface Props {
-  title: string;
+  /** Shorthand for `seo.title`; "— Badger3000" is added unless it is there. */
+  title?: string;
+  /** Shorthand for `seo.description`. */
   description?: string;
+  seo?: SeoProps;
 }
 
-const {
-  title,
-  description = "Badger3000 — Kyle Ross's AI. Ask about his projects, writing, and experience.",
-} = Astro.props;
+const { title, description, seo } = Astro.props;
 ---
 
 <!doctype html>
@@ -30,25 +48,11 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Seo {...seo} title={seo?.title ?? title} description={seo?.description ?? description} />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={interRegular} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifRegular} as="font" type="font/woff2" crossorigin />
     <ClientRouter />
-
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
-    />
 
     <!--
       Restore the stored skin before first paint (no flash of the wrong theme),
@@ -57,6 +61,8 @@ const {
       before the swap, while the view transition is still capturing it. This
       script sits in <head> unchanged on every page, so the router keeps it and
       it runs once per document.
+      The CSP in public/_headers allows this script by its sha256: change a
+      byte here and update the hash there.
     -->
     <script is:inline>
       (() => {

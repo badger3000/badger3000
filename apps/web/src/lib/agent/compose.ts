@@ -15,54 +15,112 @@
  * long, the deterministic phrasing is used instead. Chat never breaks.
  */
 import type { Intent } from "./intents.ts";
-import { CHAT_MODEL_TIER } from "astro:env/server";
-import { bindings } from "./bindings.ts";
+import type { Retrieved } from "./retrieve.ts";
 
-/** The Tier-1 phrasing. Always works, needs no model, costs nothing. */
-export function fallback(intent: Intent, count: number, facts: string[]): string {
+/** What the template needs from retrieval. */
+export type Found = Pick<Retrieved, "cards" | "facts" | "total" | "matched" | "narrowedBy" | "known">;
+
+/** Nothing retrieved: the `suggest` answer, and the empty case. */
+export const NOTHING: Found = { cards: [], facts: [], total: 0, matched: 0, narrowedBy: [] };
+
+/** What the list intents call one item and many. */
+const NOUN: Partial<Record<Intent, [string, string]>> = {
+  projects: ["project", "projects"],
+  articles: ["article", "articles"],
+  experiments: ["experiment", "experiments"],
+  experience: ["role", "roles"],
+  education: ["qualification", "qualifications"],
+  skills: ["skill group", "skill groups"],
+  testimonials: ["testimonial", "testimonials"],
+  bookmarks: ["bookmark", "bookmarks"],
+  golf: ["round", "rounds"],
+};
+
+const plural = (n: number, [one, many]: [string, string]) => (n === 1 ? one : many);
+const quote = (terms: string[]) => `“${terms.join(" ")}”`;
+
+/**
+ * "2 of his 28 experiments match “canvas”." Every count comes from the same
+ * query as the cards, and the first number is the number of cards shown.
+ */
+function narrowed(intent: Intent, { cards, matched, total, narrowedBy }: Found): string {
+  const noun = NOUN[intent] ?? ["result", "results"];
+  const shown = cards.length;
+  if (matched > shown) return `Here are ${shown} of the ${matched} ${noun[1]} that match ${quote(narrowedBy)}.`;
+  return `${shown} of his ${total} ${plural(total, noun)} ${shown === 1 ? "matches" : "match"} ${quote(narrowedBy)}.`;
+}
+
+/** "6 of his 28 experiments" when the cap cut the list, "6 experiments" when it didn't. */
+function some(intent: Intent, { cards, total }: Found): string {
+  const noun = NOUN[intent] ?? ["result", "results"];
+  const shown = cards.length;
+  return shown < total ? `${shown} of his ${total} ${noun[1]}` : `${shown} ${plural(shown, noun)}`;
+}
+
+/**
+ * The Tier-1 phrasing. Always works, needs no model, costs nothing. `terms` are
+ * the visitor's words; when they matched nothing, the reply says so rather than
+ * passing the unfiltered list off as an answer to them.
+ */
+export function fallback(intent: Intent, found: Found, terms: string[] = []): string {
+  const { cards, facts, narrowedBy } = found;
+  const shown = cards.length;
+  const missed = terms.length && !narrowedBy.length ? ` Nothing matched ${quote(terms)}.` : "";
+  const isNarrowed = narrowedBy.length > 0;
+
   switch (intent) {
     case "projects":
-      return count
-        ? `He's shipped ${count} of them — here's the short list.`
-        : "There are no published projects in the dataset yet.";
+      if (!shown) return "There are no published projects in the dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return (shown < found.total
+        ? `${some(intent, found)} — here's the short list.`
+        : `He's shipped ${shown} — here's the list.`) + missed;
     case "articles":
-      return count
-        ? `${count} of his articles, most recent first.`
-        : "No articles are published yet.";
+      if (!shown) return "No articles are published yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)}, most recent first.${missed}`;
     case "experiments":
-      return count
-        ? `${count} experiments — code sketches rather than finished work.`
-        : "No experiments yet.";
+      if (!shown) return "No experiments yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} — code sketches rather than finished work.${missed}`;
     case "experience":
-      return count
-        ? `${count} roles on the record, newest first.`
-        : "Nothing in the experience dataset yet.";
+      if (!shown) return "Nothing in the experience dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} on the record, newest first.${missed}`;
     case "education":
-      return count
-        ? `${count} qualification${count === 1 ? "" : "s"} on file.`
-        : "Nothing in the education dataset yet.";
-    case "skills":
-      return facts[0]
-        ? `${facts[0]}, grouped by category.`
-        : "No skills in the dataset yet.";
+      if (!shown) return "Nothing in the education dataset yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)} on file.${missed}`;
+    case "skills": {
+      if (!facts[0]) return "No skills in the dataset yet.";
+      // A skill asked about by name gets a yes or no, not just a list.
+      if (found.known?.length) {
+        const where = found.known.map(({ skill, category }) => `${skill} is under ${category}`);
+        return `Yes — ${where.join("; ")}.`;
+      }
+      if (isNarrowed) return narrowed(intent, found);
+      if (terms.length) return `No — ${quote(terms)} isn't on his skills list. ${facts[0]}, grouped by category.`;
+      return `${facts[0]}, grouped by category.`;
+    }
     case "testimonials":
-      return count
-        ? `${count} testimonial${count === 1 ? "" : "s"} from people he's worked with.`
-        : "No testimonials published yet.";
+      if (!shown) return "No testimonials published yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${some(intent, found)}, in their own words.${missed}`;
     case "bookmarks":
-      return count
-        ? `A slice of what he's saved — the full set is browsable.`
-        : "No bookmarks yet.";
+      if (!shown) return "No bookmarks yet.";
+      if (isNarrowed) return narrowed(intent, found);
+      return `${shown} of the ${found.total} links he's saved — the full set is browsable.${missed}`;
     case "golf":
-      return facts.length
-        ? `His golf card: ${facts.join(", ")}. Lower is better.`
-        : "No rounds logged yet.";
+      if (!facts.length) return "No rounds logged yet.";
+      if (isNarrowed) return `${narrowed(intent, found)} ${facts.join(", ")}. Lower is better.`;
+      return `His golf card: ${facts.join(", ")}. Lower is better.`;
     case "contact":
       return "Email is the surest way to reach him.";
-    case "about":
-      return facts[0]
-        ? `${facts[0]}. Everything on this site comes out of his own Sanity data.`
-        : "The bio document hasn't been filled in yet.";
+    case "about": {
+      if (!facts[0]) return "The bio document hasn't been filled in yet.";
+      const based = facts.find((fact) => fact.startsWith("based in "));
+      return `${facts[0]}${based ? `, ${based}` : ""}. Everything on this site comes out of his own Sanity data.`;
+    }
     default:
       return "I know his projects, writing, experiments, experience, skills, testimonials, bookmarks and golf scores. Try one of those.";
   }
@@ -105,64 +163,93 @@ const REJECT = [
 
 /**
  * Words that carry no checkable claim and so need no backing in the facts:
- * function words, the site's own subject, verbs of *existence* ("his skills span
- * four categories"), and intensifiers.
+ * function words, the site's own subject, the names of what is being listed
+ * ("his projects include…"), and verbs of *existence* ("his skills span four
+ * categories").
  *
- * Verbs and adjectives of *accomplishment* are deliberately absent — "built",
- * "created", "worked with", "partnered with" are where embellishment shows up,
- * and they assert something a reader could check.
+ * Verbs and adjectives of *accomplishment* or *judgement* are deliberately
+ * absent — "built", "created", "worked with", "partnered with", "impressive",
+ * "extensive" are where embellishment shows up, and they assert something a
+ * reader could check (or that the data never said). Number words are absent
+ * too: they are read as numbers, and numbers must be in the facts.
  */
 const ALLOWED = new Set(
   `a an the and or but so if of in on at by for to from with without across over under into
-   his her their its this that these those there here it he she they them we you your
+   his her their its this that these those there here it he him she they them we you your
    is are was were be been being has have had having do does did done
-   many several various few more most less than some any each both either neither
+   many several various few more most less than some any each both either neither multiple
    as up down out about around between within among while when where which who what how why
-   not no yes also just only still able us one two three
+   not no yes also just only still able us
    kyle ross badger badger3000 site website
+   project projects article articles experiment experiments role roles skill skills
+   testimonial testimonials bookmark bookmarks link links round rounds category categories
+   folder folders qualification qualifications
    include includes included listing lists listed show shows showed span spans spanned
    cover covers covered feature features featured contain contains contained
-   range ranges ranged run runs running
-   broad wide deep extensive diverse comprehensive solid strong notable impressive
-   valuable impressive key main multiple consistent genuine practical active current
-   growing serious hands useful current broad`.split(/\s+/).filter(Boolean),
+   range ranges ranged run runs running`.split(/\s+/).filter(Boolean),
 );
 
+const NUMBER_WORDS: Record<string, string> = {
+  zero: "0", one: "1", two: "2", three: "3", four: "4", five: "5", six: "6", seven: "7", eight: "8",
+  nine: "9", ten: "10", eleven: "11", twelve: "12", dozen: "12", twenty: "20", hundred: "100",
+};
+
+/** Lowercase whole words and digit runs; "8-round" is ["8", "round"], "Smart" never contains "art". */
+const tokens = (text: string) =>
+  text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .flatMap((token) => token.split(/(?<=\p{N})(?=\p{L})|(?<=\p{L})(?=\p{N})/u))
+    .filter(Boolean);
+
+/** A plural or an inflection of a supplied word ("rounds" / "round", "categories" / "category"). */
+const stem = (word: string) =>
+  word.length > 4 ? word.replace(/ies$/, "y").replace(/(?:es|s|ed|ing)$/, "") : word;
+
 /**
- * Checkable grounding: every content word in the model's sentence must appear in
- * the facts it was given.
+ * Checkable grounding: every content word in the model's sentence must be a
+ * whole word of the facts it was given (or an inflection of one), and every
+ * number must appear in them verbatim.
  *
  * ADR 0008 assumes a model limited to retrieved facts "cannot hallucinate". A
  * 3B model does not honour that by instruction — observed output invented
- * "guided meditations" for a project called Headspace, and a year nobody
- * supplied. So the claim is checked instead of trusted: a word with no backing
- * in the facts means the line is not grounded, and the deterministic phrasing
- * answers instead.
+ * "guided meditations" for a project called Headspace, a year nobody
+ * supplied, and an 8-round streak. So the claim is checked instead of trusted:
+ * one word or number with no backing in the facts means the line is not
+ * grounded, and the deterministic phrasing answers instead.
  */
 export function isGrounded(line: string, facts: string[]): boolean {
-  const haystack = facts.join(" ").toLowerCase();
-  const words = line
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .split(/\s+/)
-    .filter(Boolean);
+  const supplied = new Set(facts.flatMap(tokens));
+  const stems = new Set([...supplied].map(stem));
 
-  for (const word of words) {
-    if (ALLOWED.has(word) || word.length < 3) continue;
-    // Accept a plural or an inflection of a supplied word ("rounds" / "round").
-    const stem = word.replace(/(s|es|ed|ing)$/, "");
-    if (haystack.includes(word) || haystack.includes(stem)) continue;
+  for (const raw of tokens(line)) {
+    const word = NUMBER_WORDS[raw] ?? raw;
+    if (/^\p{N}+$/u.test(word)) {
+      if (supplied.has(word)) continue;
+      return false;
+    }
+    if (ALLOWED.has(word) || supplied.has(word) || stems.has(stem(word))) continue;
     return false;
   }
   return true;
 }
 
-interface AiBinding {
+export interface AiBinding {
   run(
     model: string,
     input: { messages: { role: string; content: string }[] },
     options?: { signal?: AbortSignal },
   ): Promise<{ response?: string }>;
+}
+
+/**
+ * What the model tier needs, passed in by the endpoint (env and bindings stay
+ * out of the agent): `tier` is CHAT_MODEL_TIER, `ai` the Workers AI binding if
+ * there is one.
+ */
+export interface Model {
+  tier?: "off" | "on";
+  ai?: AiBinding | null;
 }
 
 /** The template answers in ~0 ms; the model gets this long to beat it. */
@@ -176,14 +263,13 @@ const TIMEOUT_MS = 2500;
 export async function compose(
   intent: Intent,
   facts: string[],
+  { tier, ai }: Model,
 ): Promise<string | null> {
   if (!facts.length) return null;
 
   // Off by default — see the note above and on CHAT_MODEL_TIER in astro.config.
-  if (CHAT_MODEL_TIER !== "on") return null;
+  if (tier !== "on") return null;
 
-  const env = await bindings();
-  const ai = env?.AI as AiBinding | undefined;
   if (!ai) {
     console.info("[chat] no AI binding — using deterministic phrasing");
     return null;
@@ -218,7 +304,11 @@ export async function compose(
       ?.trim();
 
     if (!line) {
-      console.info("[chat] model returned no text — using deterministic phrasing");
+      console.info(
+        controller.signal.aborted
+          ? `[chat] model timed out after ${TIMEOUT_MS} ms — using deterministic phrasing`
+          : "[chat] model returned no text — using deterministic phrasing",
+      );
       return null;
     }
     if (REJECT.some((pattern) => pattern.test(line))) {

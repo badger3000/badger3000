@@ -19,6 +19,33 @@ export function json(body: unknown, init: ResponseInit = {}): Response {
   return new Response(JSON.stringify(body), { ...init, headers });
 }
 
+interface RateLimiter {
+  limit(options: { key: string }): Promise<{ success: boolean }>;
+}
+
+/**
+ * Whether this visitor (by IP) is over the Workers rate-limit binding `name`
+ * (`ratelimits` in wrangler.jsonc). A missing binding (a Node preview, or
+ * `astro dev`) or a limiter error means no limit rather than no endpoint.
+ */
+export async function rateLimited(name: string, request: Request): Promise<boolean> {
+  let limiter: RateLimiter | undefined;
+  try {
+    const { env } = await import("cloudflare:workers");
+    limiter = (env as unknown as Record<string, unknown>)[name] as RateLimiter | undefined;
+  } catch {
+    return false;
+  }
+  if (!limiter) return false;
+  try {
+    const { success } = await limiter.limit({ key: request.headers.get("cf-connecting-ip") ?? "anon" });
+    return !success;
+  } catch (error) {
+    console.error(`[${name}] rate limiter failed:`, error);
+    return false;
+  }
+}
+
 /**
  * The request body as bytes, or null once it passes `limit`. Reads the stream
  * rather than trusting `content-length`, which a client can omit or understate.

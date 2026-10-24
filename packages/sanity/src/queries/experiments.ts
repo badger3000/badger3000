@@ -14,7 +14,14 @@ export const experimentsQuery = defineQuery(`*[_type == "codepen" && defined(slu
   "thumbnail": thumbnail ${IMAGE}
 }`);
 
-/** Chat — the agent's `experiments` intent: the 6 newest pens. */
-export const experimentsForChatQuery = defineQuery(`*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) [0...6] {
-  title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title
+/** Chat — the agent's `experiments` intent: the newest pens, matched on title, topic and excerpt. */
+export const experimentsForChatQuery = defineQuery(`{
+  "total": count(*[_type == "codepen" && defined(slug.current)]),
+  "matched": count(*[_type == "codepen" && defined(slug.current)
+    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),
+  "rows": *[_type == "codepen" && defined(slug.current)
+    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]
+    | order(_createdAt desc) [0...$limit] {
+    title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title
+  }
 }`);

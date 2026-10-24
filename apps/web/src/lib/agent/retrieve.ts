@@ -1,15 +1,36 @@
 /**
- * Retrieval: intent → GROQ → cards (ADR 0008, step 2).
+ * Retrieval: intent + the visitor's terms → GROQ → cards (ADR 0008, step 2).
  *
  * Everything the agent says is traceable to a document. The GROQ lives in
  * @badger3000/sanity (`chatQueries`, so `sanity:check` parses and runs it);
- * each projection there is capped so one question cannot drag the whole
- * dataset across the edge. This module only maps rows to cards, and every card
- * carries only what the client's card components render.
+ * each list query takes the terms as `$q` and a `$limit` cap, so one question
+ * cannot drag the whole dataset across the edge, and returns its own counts.
+ * This module only maps rows to cards, and every card carries only what the
+ * client's card components render.
  */
 import { chatQueries as q } from "@badger3000/sanity/queries";
-import { getClient } from "../sanity/client.ts";
+import type {
+  ArticleCountQueryResult,
+  ArticlesForChatQueryResult,
+  BookmarksForChatQueryResult,
+  EducationForChatQueryResult,
+  ExperienceForChatQueryResult,
+  ExperimentsForChatQueryResult,
+  GolfScoresForChatQueryResult,
+  ProjectCountQueryResult,
+  ProjectsForChatQueryResult,
+  SettingsForChatQueryResult,
+  SkillsForChatQueryResult,
+  TestimonialsForChatQueryResult,
+} from "@badger3000/sanity/types";
 import type { Intent } from "./intents.ts";
+
+/**
+ * How retrieval reads Sanity. Passed in rather than imported, so the agent
+ * never touches env: the endpoint hands it the real client, `agent:check` a
+ * stub over fixture documents.
+ */
+export type ChatFetch = <T>(query: string, params?: Record<string, unknown>) => Promise<T>;
 
 /** One rendered answer. The client maps `kind` to a component. */
 export interface Card {
@@ -37,50 +58,87 @@ export interface Retrieved {
   cards: Card[];
   /** Short facts handed to the composer, so it can only talk about these. */
   facts: string[];
-  count: number;
+  /** Documents of this kind in the dataset. */
+  total: number;
+  /** How many of them match the visitor's terms; `total` when unfiltered. */
+  matched: number;
+  /** The terms that narrowed the answer; empty when there were none or nothing matched. */
+  narrowedBy: string[];
+  /** Skills only: the skills the terms named, with the category each is under. */
+  known?: { skill: string; category: string }[];
+}
+
+/** The most rows one answer carries, per intent. */
+const LIMIT = {
+  projects: 8,
+  articles: 6,
+  experiments: 6,
+  experience: 8,
+  education: 8,
+  skills: 20,
+  testimonials: 5,
+  bookmarks: 8,
+  golf: 10,
+} as const;
+
+interface Listed<Row> {
+  total: number;
+  matched: number;
+  rows: Row[];
 }
 
 const month = (iso?: string | null) =>
   iso ? new Date(iso).toLocaleDateString("en-US", { month: "short", year: "numeric" }) : undefined;
 
 /**
- * Narrow the answer with the visitor's own words. Never returns empty when the
- * retrieval did: filtering a real answer down to nothing reads as "no results"
- * when the content is simply there under different words.
- *
- * A word that matches most of the cards carries no information — "golf" on the
- * golf page matches every course name but one — so only words that are
- * discriminating are used. Without that, the word that picked the intent would
- * then delete results inside it.
+ * Terms → GROQ `match` patterns, as a param (never interpolated). A trailing
+ * `*` makes each a prefix, so "bookmark" finds "bookmarks"; anything that is
+ * not a letter, digit, `.` or `-` is dropped, so a term cannot carry its own
+ * wildcard.
  */
-export function filterCards(cards: Card[], query: string): Card[] {
-  const words = query.split(" ").filter((word) => word.length > 2);
-  if (!words.length || !cards.length) return cards;
-
-  const hay = (card: Card) =>
-    [card.title, card.subtitle, card.body, ...(card.tags ?? [])]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-  const discriminating = words.filter((word) => {
-    const hits = cards.filter((card) => hay(card).includes(word)).length;
-    return hits > 0 && hits * 2 < cards.length;
-  });
-  if (!discriminating.length) return cards;
-
-  const narrowed = cards.filter((card) => discriminating.some((word) => hay(card).includes(word)));
-  return narrowed.length ? narrowed : cards;
+export function patterns(terms: string[]): string[] {
+  return terms
+    .map((term) => term.toLowerCase().replace(/[^\p{L}\p{N}.-]/gu, ""))
+    .filter((term) => term.replace(/[.-]/g, "").length > 1)
+    .map((term) => `${term}*`);
 }
 
-export async function retrieve(intent: Intent): Promise<Retrieved> {
-  const client = getClient();
+/**
+ * One list query with the visitor's terms, falling back to the unfiltered list
+ * when nothing matches: a question whose words miss still gets the content,
+ * not "no results".
+ */
+async function list<Row>(
+  fetch: ChatFetch,
+  query: string,
+  terms: string[],
+  limit: number,
+): Promise<Listed<Row> & { narrowedBy: string[] }> {
+  const q = patterns(terms);
+  if (q.length) {
+    const hit = await fetch<Listed<Row>>(query, { q, limit });
+    if (hit.matched > 0) {
+      // Terms that match everything ("golf" among golf rounds) narrowed nothing.
+      return { ...hit, narrowedBy: hit.matched < hit.total ? terms : [] };
+    }
+  }
+  return { ...(await fetch<Listed<Row>>(query, { q: [], limit })), narrowedBy: [] };
+}
 
+/** Same rule as GROQ's `match` with a `term*` pattern: some word starts with the term. */
+const named = (text: string, term: string) =>
+  text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .some((word) => word && word.startsWith(term.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "")));
+
+export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch): Promise<Retrieved> {
   switch (intent) {
     case "projects": {
-      const rows = await client.fetch(q.projectsForChat);
+      const found = await list<ProjectsForChatQueryResult["rows"][number]>(fetch, q.projectsForChat, terms, LIMIT.projects);
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "project" as const,
           title: row.title,
           subtitle: row.topic ?? undefined,
@@ -88,19 +146,19 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
           href: row.url ?? undefined,
           tags: row.topic ? [row.topic] : undefined,
         })),
-        facts: rows.map((row) =>
+        facts: found.rows.map((row) =>
           // The topic is often literally "Project", which reads as
           // "a project project" — say it once, or not at all.
           row.topic && !/^project$/i.test(row.topic) ? `${row.title}, ${row.topic}` : row.title,
         ),
-        count: rows.length,
       };
     }
 
     case "articles": {
-      const rows = await client.fetch(q.articlesForChat);
+      const found = await list<ArticlesForChatQueryResult["rows"][number]>(fetch, q.articlesForChat, terms, LIMIT.articles);
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "article" as const,
           title: row.title,
           subtitle: row.excerpt || undefined,
@@ -108,35 +166,40 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
           href: `/articles/${row.slug}`,
           tags: row.topic ? [row.topic] : undefined,
         })),
-        facts: rows.map((row) => `${row.title}${row.date ? `, published ${month(row.date)}` : ""}`),
-        count: rows.length,
+        facts: found.rows.map((row) => `${row.title}${row.date ? `, published ${month(row.date)}` : ""}`),
       };
     }
 
     case "experiments": {
-      const rows = await client.fetch(q.experimentsForChat);
+      const found = await list<ExperimentsForChatQueryResult["rows"][number]>(
+        fetch,
+        q.experimentsForChat,
+        terms,
+        LIMIT.experiments,
+      );
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "experiment" as const,
           title: row.title,
           subtitle: row.excerpt || undefined,
           href: row.url ?? `/codepen/${row.slug}`,
           tags: row.topic ? [row.topic] : undefined,
         })),
-        facts: rows.map((row) => row.title),
-        count: rows.length,
+        facts: found.rows.map((row) => row.title),
       };
     }
 
     case "experience":
     case "education": {
       const isEducation = intent === "education";
-      const rows = isEducation
-        ? await client.fetch(q.educationForChat)
-        : await client.fetch(q.experienceForChat);
+      const found = isEducation
+        ? await list<EducationForChatQueryResult["rows"][number]>(fetch, q.educationForChat, terms, LIMIT.education)
+        : await list<ExperienceForChatQueryResult["rows"][number]>(fetch, q.experienceForChat, terms, LIMIT.experience);
 
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: isEducation ? ("education" as const) : ("role" as const),
           title: row.title,
           subtitle: [row.org, "loc" in row ? row.loc : null].filter(Boolean).join("  ·  ") || undefined,
@@ -144,76 +207,92 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
           meta: [row.startDate, row.endDate ?? "Present"].filter(Boolean).join(" — "),
           href: row.url ?? undefined,
         })),
-        facts: rows.map((row) => `${row.title}${row.org ? ` at ${row.org}` : ""}`),
-        count: rows.length,
+        facts: found.rows.map((row) => `${row.title}${row.org ? ` at ${row.org}` : ""}`),
       };
     }
 
     case "skills": {
-      const rows = await client.fetch(q.skillsForChat);
-      const total = rows.reduce((sum, row) => sum + row.skills.length, 0);
+      const found = await list<SkillsForChatQueryResult["rows"][number]>(fetch, q.skillsForChat, terms, LIMIT.skills);
+      const total = found.rows.reduce((sum, row) => sum + row.skills.length, 0);
+      // Which skills the visitor named, by the same rule the query matched on,
+      // so "does he know TypeScript?" can answer yes or no.
+      const known = found.narrowedBy.length
+        ? found.rows.flatMap((row) =>
+            row.skills
+              .filter((skill) => terms.some((term) => named(`${skill.name} ${skill.badgeLabel ?? ""}`, term)))
+              // The label is the display form ("TypeScript"); `name` can be a slug.
+              .map((skill) => ({ skill: skill.badgeLabel ?? skill.name, category: row.name.trim() })),
+          )
+        : [];
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        known,
+        cards: found.rows.map((row) => ({
           kind: "skillGroup" as const,
           title: row.name.trim(),
           tags: row.skills.map((skill) => skill.badgeLabel ?? skill.name),
         })),
         facts: [
-          `${total} skills across ${rows.length} categories`,
-          ...rows.map((row) => row.name.trim()),
+          `${total} skills across ${found.rows.length} categories`,
+          ...found.rows.map((row) => row.name.trim()),
         ],
-        count: total,
       };
     }
 
     case "testimonials": {
-      const rows = await client.fetch(q.testimonialsForChat);
+      const found = await list<TestimonialsForChatQueryResult["rows"][number]>(
+        fetch,
+        q.testimonialsForChat,
+        terms,
+        LIMIT.testimonials,
+      );
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "testimonial" as const,
           title: row.name,
           subtitle: [row.role, row.company].filter(Boolean).join(" · ") || undefined,
           body: row.content || undefined,
           href: row.profileUrl ?? undefined,
         })),
-        facts: rows.map((row) => `${row.name}${row.company ? `, who worked with him at ${row.company}` : ""}`),
-        count: rows.length,
+        // Only what the document says: `company` is the author's, not a claim
+        // that they worked with him.
+        facts: found.rows.map((row) =>
+          [row.name, [row.role, row.company].filter(Boolean).join(" at ")].filter(Boolean).join(", "),
+        ),
       };
     }
 
     case "bookmarks": {
-      const rows = await client.fetch(q.bookmarksForChat);
-      const folders = new Set(rows.map((row) => row.folder).filter(Boolean));
+      const found = await list<BookmarksForChatQueryResult["rows"][number]>(fetch, q.bookmarksForChat, terms, LIMIT.bookmarks);
+      const folders = new Set(found.rows.map((row) => row.folder).filter(Boolean));
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "bookmark" as const,
           title: row.title,
           subtitle: row.folder ?? undefined,
           href: row.url,
         })),
         facts: [`${folders.size} folders, including ${[...folders].slice(0, 3).join(", ")}`],
-        count: rows.length,
       };
     }
 
     case "golf": {
-      const rows = await client.fetch(q.golfScoresForChat);
-      const scores = rows.map((row) => row.score);
+      const found = await list<GolfScoresForChatQueryResult["rows"][number]>(fetch, q.golfScoresForChat, terms, LIMIT.golf);
+      // The query filters on `defined(score)`; typegen can't see that inside a projection.
+      const scores = found.rows.map((row) => row.score).filter((score) => score !== null);
       const best = scores.length ? Math.min(...scores) : 0;
       const average = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
       return {
-        cards: rows.map((row) => ({
+        ...found,
+        cards: found.rows.map((row) => ({
           kind: "golf" as const,
           title: row.course,
           meta: month(row.date),
           body: `Score ${row.score}`,
         })),
-        facts: [
-          `best round ${best}`,
-          `average ${average}`,
-          `${rows.length} most recent rounds`,
-        ],
-        count: rows.length,
+        facts: [`best round ${best}`, `average ${average}`, `${found.rows.length} most recent rounds`],
       };
     }
 
@@ -227,13 +306,17 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
           },
         ],
         facts: ["Kyle can be reached at hello@badger3000.com"],
-        count: 1,
+        total: 1,
+        matched: 1,
+        narrowedBy: [],
       };
 
     case "about": {
-      const settings = await client.fetch(q.settingsForChat);
-      const projects = await client.fetch(q.projectCount);
-      const articles = await client.fetch(q.articleCount);
+      const [settings, projects, articles] = await Promise.all([
+        fetch<SettingsForChatQueryResult>(q.settingsForChat),
+        fetch<ProjectCountQueryResult>(q.projectCount),
+        fetch<ArticleCountQueryResult>(q.articleCount),
+      ]);
 
       if (!settings) {
         return {
@@ -245,7 +328,9 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
             },
           ],
           facts: [],
-          count: 1,
+          total: 1,
+          matched: 1,
+          narrowedBy: [],
         };
       }
 
@@ -262,14 +347,17 @@ export async function retrieve(intent: Intent): Promise<Retrieved> {
         facts: [
           who,
           settings.occupation ?? "",
+          settings.location ? `based in ${settings.location}` : "",
           `${projects} projects and ${articles} articles on this site`,
         ].filter(Boolean),
-        count: 1,
+        total: 1,
+        matched: 1,
+        narrowedBy: [],
       };
     }
 
     default:
       // `suggest` asks nothing of Sanity — it is the always-there fallback.
-      return { cards: [], facts: [], count: 0 };
+      return { cards: [], facts: [], total: 0, matched: 0, narrowedBy: [] };
   }
 }

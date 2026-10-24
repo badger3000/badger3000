@@ -11,6 +11,7 @@ import type {
   Testimonial,
   Topic,
 } from "./types.ts";
+import type { FeedQueryResult } from "@badger3000/sanity/types";
 import {
   articlesQuery,
   bookmarksQuery,
@@ -19,6 +20,7 @@ import {
   educationQuery,
   experienceQuery,
   experimentsQuery,
+  feedQuery,
   golfScoresQuery,
   projectsQuery,
   settingsQuery,
@@ -74,4 +76,6 @@ export const createQuerySet = (run: Run) => ({
   topics: () => run<Topic[]>(topicsQuery, []),
   settings: () => run<SiteSettings | null>(settingsQuery, null),
   counts: () => run<Record<string, number>>(countsQuery, {}),
+  /** The RSS feeds (src/lib/feed.ts). */
+  feed: () => run<FeedQueryResult>(feedQuery, []),
 });
