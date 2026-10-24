@@ -8,7 +8,7 @@
  * inline; browsers only allow it muted, which is the author's call.
  */
 import type { TypedObjectProps } from "astro-portabletext/types";
-import { cdnUrl } from "./media.ts";
+import { imageUrl } from "@badger3000/sanity";
 
 type Props = TypedObjectProps;
 
@@ -22,7 +22,7 @@ const node = Astro.props.node as unknown as {
   poster?: { asset?: { url?: string } | null } | null;
 };
 const src = node.videoFile?.asset?.url;
-const poster = cdnUrl(node.poster?.asset?.url, 1440);
+const poster = imageUrl(node.poster?.asset?.url, { width: 1440 });
 ---
 
 {

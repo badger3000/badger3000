@@ -26,7 +26,8 @@ import PortableBody from "../../components/portable/PortableBody.astro";
 import { Button, Icon, ProjectCard, Tag } from "@badger3000/ui";
 import { gradientFor } from "@badger3000/tokens/covers";
 import { experimentBySlugQuery, experimentSlugsQuery } from "@badger3000/sanity/queries";
-import { getCounts, getSettings, isConfigured, sanity } from "../../lib/sanity/index.ts";
+import { getCounts, getSettings, imageUrl, isConfigured, sanity } from "../../lib/sanity/index.ts";
+import type { SeoProps } from "../../lib/seo.ts";
 
 /** Every pen in the dataset is on this account; an embed snippet can override it. */
 const CODEPEN_USER = "badger3000";
@@ -63,10 +64,18 @@ const date = new Date(pen.createdAt).toLocaleDateString("en-US", {
   year: "numeric",
   timeZone: "UTC",
 });
+const seo: SeoProps = {
+  title,
+  description: pen.excerpt ?? undefined,
+  type: "article",
+  publishedTime: pen.createdAt,
+  // Share cards want a plain JPEG: crawlers don't negotiate formats.
+  image: imageUrl(pen.thumbnail?.asset?.url, { width: 1200, format: "jpg" }),
+};
 const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.topic);
 ---
 
-<Base title={`${title} — Badger3000`} description={pen.excerpt ?? undefined}>
+<Base seo={seo}>
   <AppShell
     active="experiments"
     counts={counts}

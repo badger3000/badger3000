@@ -63,15 +63,20 @@ export function createSanity(config: SanityConfig): Sanity {
 /**
  * Sanity's image CDN takes query params for width/quality/format, which is all
  * Astro's `<Image>` needs on top of the asset URL.
+ *
+ * With no `format`, the CDN picks the best one the browser accepts
+ * (`auto=format`, the only value `auto` takes; anything else is a 400). A
+ * `format` (`jpg`, `png`, `webp`) pins it with `fm` instead.
  */
 export function imageUrl(
   assetUrl: string | null | undefined,
-  { width, quality = 80, format = "auto" }: { width?: number; quality?: number; format?: string } = {},
+  { width, quality = 80, format }: { width?: number; quality?: number; format?: "jpg" | "png" | "webp" } = {},
 ): string | undefined {
   if (!assetUrl) return undefined;
   const url = new URL(assetUrl);
   if (width) url.searchParams.set("w", String(width));
   url.searchParams.set("q", String(quality));
-  url.searchParams.set("auto", format);
+  if (format) url.searchParams.set("fm", format);
+  else url.searchParams.set("auto", "format");
   return url.toString();
 }

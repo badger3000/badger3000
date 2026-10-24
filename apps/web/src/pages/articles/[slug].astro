@@ -24,7 +24,8 @@ import { sources } from "../../components/portable/media.ts";
 import { AvatarUser, Icon, ProjectCard, Tag } from "@badger3000/ui";
 import { gradientFor } from "@badger3000/tokens/covers";
 import { articleBySlugQuery, articleSlugsQuery } from "@badger3000/sanity/queries";
-import { getCounts, getSettings, isConfigured, sanity } from "../../lib/sanity/index.ts";
+import { getCounts, getSettings, imageUrl, isConfigured, sanity } from "../../lib/sanity/index.ts";
+import type { SeoProps } from "../../lib/seo.ts";
 
 export const getStaticPaths = (async () => {
   if (!isConfigured && SANITY_ALLOW_EMPTY === "1") return [];
@@ -51,9 +52,17 @@ const byline = article.byline?.trim();
 const hero = article.mainImage?.asset?.url ? sources(article.mainImage.asset, 800) : undefined;
 const citation = article.citation;
 const author = citation?.authorName?.trim();
+const seo: SeoProps = {
+  title,
+  description: article.excerpt ?? undefined,
+  type: "article",
+  publishedTime: article.publishedAt,
+  // Share cards want a plain JPEG: crawlers don't negotiate formats.
+  image: imageUrl(article.mainImage?.asset?.url, { width: 1200, format: "jpg" }),
+};
 ---
 
-<Base title={`${title} — Badger3000`} description={article.excerpt ?? undefined}>
+<Base seo={seo}>
   <AppShell
     active="articles"
     counts={counts}

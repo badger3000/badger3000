@@ -15,13 +15,6 @@ export interface FigureAsset {
 const WIDTHS = [480, 720, 960, 1440, 1920];
 
 /**
- * A Sanity CDN URL at `width`. `imageUrl`'s default writes `auto=auto`, which
- * the CDN rejects with a 400 (the only valid value is `auto=format`), so pass
- * `format` explicitly until the package default is fixed.
- */
-export const cdnUrl = (url: string | undefined, width: number) => imageUrl(url, { width, format: "format" });
-
-/**
  * `src`/`srcset` and intrinsic `width`/`height` for a Sanity image shown at
  * `display` CSS pixels wide. Never asks the CDN to upscale: widths past the
  * original are dropped. The height keeps the original's aspect ratio, so the
@@ -35,8 +28,8 @@ export function sources(asset: FigureAsset, display: number) {
   const width = Math.min(display, max);
   const height = natural ? Math.round((width * natural.height) / natural.width) : undefined;
   return {
-    src: cdnUrl(asset.url, width)!,
-    srcset: unique.map((w) => `${cdnUrl(asset.url, w)} ${w}w`).join(", "),
+    src: imageUrl(asset.url, { width })!,
+    srcset: unique.map((w) => `${imageUrl(asset.url, { width: w })} ${w}w`).join(", "),
     width,
     height,
   };
