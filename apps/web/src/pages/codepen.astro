@@ -50,6 +50,7 @@ const chips = topics
         experiments.map((pen) => (
           <li data-item data-search={[pen.title, pen.topic ?? "", pen.excerpt ?? ""].join(" ").toLowerCase()}>
             <ContentCard
+              level={2}
               seed={pen.id}
               href={`/codepen/${pen.slug}`}
               title={pen.title}

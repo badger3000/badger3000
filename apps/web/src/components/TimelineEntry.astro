@@ -46,15 +46,17 @@ const searchSeed = heading;
   }
   <div class="tx">
     <div class="top">
-      {
-        href ? (
-          <ExternalLink class="role" href={href}>
-            {heading}
-          </ExternalLink>
-        ) : (
-          <span class="role">{heading}</span>
-        )
-      }
+      <h3 class="h">
+        {
+          href ? (
+            <ExternalLink class="role" href={href}>
+              {heading}
+            </ExternalLink>
+          ) : (
+            <span class="role">{heading}</span>
+          )
+        }
+      </h3>
       {dates && <span class="dates">{dates}</span>}
     </div>
     {org && <span class="org">{org}</span>}
@@ -63,6 +65,11 @@ const searchSeed = heading;
 </div>
 
 <style>
+  /* An h3 under the page's Work / Education h2; the look stays on .role. */
+  .h {
+    margin: 0;
+    font: inherit;
+  }
   .row {
     display: flex;
     gap: 14px;

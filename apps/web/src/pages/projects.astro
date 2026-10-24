@@ -109,6 +109,7 @@ const searchIndex = projects.map((p) =>
               {projects.map((project, i) => (
                 <li data-item data-topic={project.topicSlug ?? ""} data-search={searchIndex[i]}>
                   <FeatureCard
+                    level={2}
                     title={project.title ?? "Untitled"}
                     seed={project.id}
                     href={project.webUrl ?? undefined}

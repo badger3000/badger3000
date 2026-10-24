@@ -54,16 +54,17 @@ const index = (a: (typeof articles)[number]) =>
       featured && (
         <section class="featured" aria-label="Featured article">
           <a class="feature" href={`/articles/${featured.slug}`} style={`background:${gradientFor(featured.id)}`}>
-            <span class="fbody">
+            <div class="fbody">
               <span class="kicker">Featured</span>
-              <span class="ftitle">{featured.title}</span>
+              <h2 class="ftitle">{featured.title}</h2>
               {featured.excerpt && <span class="fex">{featured.excerpt}</span>}
               <span class="fmeta">{month(featured.publishedAt)}</span>
-            </span>
+            </div>
           </a>
           {rest[0] && (
             <div class="secondary">
               <ContentCard
+                level={2}
                 seed={rest[0].id}
                 href={`/articles/${rest[0].slug}`}
                 title={rest[0].title ?? "Untitled"}
@@ -84,6 +85,7 @@ const index = (a: (typeof articles)[number]) =>
         rest.slice(1).map((article) => (
           <li data-item data-search={index(article)}>
             <ContentCard
+              level={2}
               seed={article.id}
               href={`/articles/${article.slug}`}
               title={article.title ?? "Untitled"}
@@ -129,6 +131,8 @@ const index = (a: (typeof articles)[number]) =>
   }
   .ftitle {
     max-width: 20ch;
+    margin: 0;
+    font-weight: inherit;
     font-family: var(--af-display);
     font-size: 34px;
     line-height: 1.1;

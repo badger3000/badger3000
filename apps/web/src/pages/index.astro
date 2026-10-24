@@ -86,10 +86,19 @@ const chips = [
     display: flex;
     flex: 1;
   }
-  :global([data-has-thread="true"]) .greet,
+  :global([data-has-thread="true"]) .greet .sub,
   :global([data-has-thread="true"]) .chips,
   .hero[data-has-thread="true"] :global(.hero-avatar) {
     display: none;
+  }
+  /* The greeting goes, but its h1 stays for assistive tech: the page's title. */
+  :global([data-has-thread="true"]) .greet {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   :global(.chat-tag) {
     padding: 3px 8px;
