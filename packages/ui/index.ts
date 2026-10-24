@@ -12,6 +12,7 @@ export { default as Button } from "./src/Button.astro";
 export { default as Card } from "./src/Card.astro";
 export { default as ContentCard } from "./src/ContentCard.astro";
 export { default as CountBadge } from "./src/CountBadge.astro";
+export { default as ExternalLink } from "./src/ExternalLink.astro";
 export { default as FeatureCard } from "./src/FeatureCard.astro";
 export { default as FilterBar, type Chip } from "./src/FilterBar.astro";
 export { default as FilterChip } from "./src/FilterChip.astro";

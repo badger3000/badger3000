@@ -24,11 +24,15 @@ interface Props {
 }
 const { variant = "primary", size = "md", label, href, class: className, ...rest } = Astro.props;
 const Tag = href ? "a" : "button";
+// A link button that opens a new tab says so, like ExternalLink.
+const newTab = Boolean(href) && rest.target === "_blank";
+if (newTab) rest.rel = [...new Set(`noopener noreferrer ${rest.rel ?? ""}`.split(/\s+/).filter(Boolean))].join(" ");
 ---
 
 <Tag class:list={["btn", variant, size, className]} href={href} {...rest}>
   <slot name="icon" />
   <span>{label}</span>
+  {newTab && <span class="sr">(opens in a new tab)</span>}
   <slot name="trailing" />
 </Tag>
 
@@ -127,5 +131,13 @@ const Tag = href ? "a" : "button";
   }
   .soft:hover {
     filter: brightness(0.97);
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 </style>

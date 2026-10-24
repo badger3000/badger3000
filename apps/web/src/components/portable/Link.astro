@@ -1,10 +1,10 @@
 ---
 /**
- * Link — the `link` annotation. Links off this site open in a new tab, so they
- * get `rel="noopener noreferrer"`, an arrow and a spoken "(opens in a new tab)".
+ * Link — the `link` annotation. Links off this site open in a new tab through
+ * ExternalLink (`rel="noopener noreferrer"`, an arrow, a spoken new-tab note).
  */
 import type { Mark, MarkProps } from "astro-portabletext/types";
-import { Icon } from "@badger3000/ui";
+import { ExternalLink } from "@badger3000/ui";
 
 type Props = MarkProps<{ href?: string }>;
 
@@ -24,11 +24,9 @@ const external = (() => {
 {
   href ? (
     external ? (
-      <a class="link" href={href} target="_blank" rel="noopener noreferrer">
+      <ExternalLink class="link" href={href}>
         <slot />
-        <Icon name="arrow-up-right" size={12} stroke={2} class="cue" />
-        <span class="sr">(opens in a new tab)</span>
-      </a>
+      </ExternalLink>
     ) : (
       <a class="link" href={href}>
         <slot />
@@ -49,18 +47,5 @@ const external = (() => {
   }
   .link:hover {
     text-decoration-color: currentColor;
-  }
-  .link :global(.cue) {
-    display: inline;
-    margin-left: 1px;
-    vertical-align: -1px;
-  }
-  .sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 </style>

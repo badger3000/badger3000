@@ -21,7 +21,7 @@ import Base from "../../layouts/Base.astro";
 import AppShell from "../../layouts/AppShell.astro";
 import PortableBody from "../../components/portable/PortableBody.astro";
 import { sources } from "../../components/portable/media.ts";
-import { AvatarUser, Icon, ProjectCard, Tag } from "@badger3000/ui";
+import { AvatarUser, ExternalLink, Icon, ProjectCard, Tag } from "@badger3000/ui";
 import { gradientFor } from "@badger3000/tokens/covers";
 import { articleBySlugQuery, articleSlugsQuery } from "@badger3000/sanity/queries";
 import { getCounts, getSettings, imageUrl, isConfigured, sanity } from "../../lib/sanity/index.ts";
@@ -126,19 +126,12 @@ const seo: SeoProps = {
                 <p class="cite-links">
                   {author &&
                     (citation.authorProfileUrl ? (
-                      <a href={citation.authorProfileUrl} target="_blank" rel="noopener noreferrer">
-                        {author}
-                        <span class="sr">(opens in a new tab)</span>
-                      </a>
+                      <ExternalLink href={citation.authorProfileUrl}>{author}</ExternalLink>
                     ) : (
                       <span>{author}</span>
                     ))}
                   {citation.originalArticleUrl && (
-                    <a href={citation.originalArticleUrl} target="_blank" rel="noopener noreferrer">
-                      Read the original
-                      <Icon name="arrow-up-right" size={13} />
-                      <span class="sr">(opens in a new tab)</span>
-                    </a>
+                    <ExternalLink href={citation.originalArticleUrl}>Read the original</ExternalLink>
                   )}
                 </p>
               </aside>
@@ -329,14 +322,6 @@ const seo: SeoProps = {
     gap: 4px;
     color: var(--a-accent-text);
     font-weight: 600;
-  }
-  .sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 
   .tags {

@@ -23,7 +23,7 @@ import { SANITY_ALLOW_EMPTY } from "astro:env/server";
 import Base from "../../layouts/Base.astro";
 import AppShell from "../../layouts/AppShell.astro";
 import PortableBody from "../../components/portable/PortableBody.astro";
-import { Button, Icon, ProjectCard, Tag } from "@badger3000/ui";
+import { Button, ExternalLink, Icon, ProjectCard, Tag } from "@badger3000/ui";
 import { gradientFor } from "@badger3000/tokens/covers";
 import { experimentBySlugQuery, experimentSlugsQuery } from "@badger3000/sanity/queries";
 import { getCounts, getSettings, imageUrl, isConfigured, sanity } from "../../lib/sanity/index.ts";
@@ -128,10 +128,9 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
               penHref && (
                 <figcaption class="foot">
                   <span class="live" aria-hidden="true" />
-                  <a href={penHref} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink href={penHref}>
                     codepen.io/{user}/pen/{hash}
-                    <span class="sr">(opens in a new tab)</span>
-                  </a>
+                  </ExternalLink>
                 </figcaption>
               )
             }
@@ -140,11 +139,12 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
           {
             penHref && (
               <div class="ctas">
-                <Button variant="primary" label="View on CodePen" href={penHref} target="_blank" rel="noopener noreferrer">
+                <Button variant="primary" label="View on CodePen" href={penHref} target="_blank">
                   <Icon slot="icon" name="external-link" />
                 </Button>
-                <Button variant="secondary" label="Fork" href={forkHref} target="_blank" rel="noopener noreferrer">
+                <Button variant="secondary" label="Fork" href={forkHref} target="_blank">
                   <Icon slot="icon" name="git-fork" />
+                  <Icon slot="trailing" name="arrow-up-right" />
                 </Button>
               </div>
             )
@@ -342,14 +342,6 @@ const sameTopic = pen.topic && pen.related.every((item) => item.topic === pen.to
   }
   .foot a:hover {
     color: var(--a-accent-text);
-  }
-  .sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 
   .ctas {

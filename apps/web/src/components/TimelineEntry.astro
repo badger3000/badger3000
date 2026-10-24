@@ -10,6 +10,7 @@
  * derived from the entry — same placeholder idea as the card gradients.
  */
 import { tintFor } from "@badger3000/tokens/covers";
+import { ExternalLink } from "@badger3000/ui";
 import type { ExperienceEntry, EducationEntry } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -47,9 +48,9 @@ const searchSeed = heading;
     <div class="top">
       {
         href ? (
-          <a class="role" href={href} target="_blank" rel="noopener">
+          <ExternalLink class="role" href={href}>
             {heading}
-          </a>
+          </ExternalLink>
         ) : (
           <span class="role">{heading}</span>
         )

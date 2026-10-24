@@ -44,7 +44,16 @@ const ICONS: Record<string, string> = {
 <article class="card" data-chat-card data-kind={kind}>
   <span class="ico"><Icon name={ICONS[kind] ?? "sparkles"} size={15} /></span>
   <div class="body">
-    <a class="title" data-slot="title" href={href}>{title}</a>
+    {/*
+      The new-tab cue is ExternalLink's, kept here hidden: the island shows it
+      when it points the title off the site.
+    */}
+    <a class="title" data-title-link href={href}>
+      <span data-slot="title">{title}</span><span class="ext" data-external hidden>
+        <Icon name="arrow-up-right" size={12} stroke={2} />
+        <span class="sr">(opens in a new tab)</span>
+      </span>
+    </a>
     <span class="subtitle" data-slot="subtitle">{subtitle}</span>
     <p class="body-text" data-slot="body">{body}</p>
     <span class="tags" data-slot="tags">
@@ -94,6 +103,22 @@ const ICONS: Record<string, string> = {
   }
   a.title[href]:hover {
     color: var(--a-accent-text);
+  }
+  .ext:not([hidden]) {
+    display: inline;
+    margin-left: 2px;
+  }
+  .ext :global(svg) {
+    display: inline;
+    vertical-align: -1px;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   .subtitle {
     font-size: 12.5px;

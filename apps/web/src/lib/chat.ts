@@ -213,12 +213,13 @@ island("[data-chat-root]", (root) => {
         }
       }
 
-      const title = node.querySelector<HTMLAnchorElement>('[data-slot="title"]');
+      const title = node.querySelector<HTMLAnchorElement>("[data-title-link]");
       if (title && card.href) {
         title.href = card.href;
         if (card.href.startsWith("http")) {
           title.target = "_blank";
-          title.rel = "noopener";
+          title.rel = "noopener noreferrer";
+          title.querySelector<HTMLElement>("[data-external]")?.removeAttribute("hidden");
         }
       }
       // Cards stagger inside the turn, one token apart.

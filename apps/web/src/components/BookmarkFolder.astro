@@ -10,7 +10,7 @@
  * The dataset has no favicons, so the tile is an initial on a tint derived from
  * the hostname.
  */
-import { Icon } from "@badger3000/ui";
+import { ExternalLink, Icon } from "@badger3000/ui";
 import { tintFor } from "@badger3000/tokens/covers";
 import type { Bookmark } from "../lib/sanity/types.ts";
 
@@ -44,14 +44,14 @@ const hostOf = (url: string): string => {
         const host = hostOf(bookmark.url);
         return (
           <li>
-            <a class="row" href={bookmark.url} target="_blank" rel="noopener">
+            <ExternalLink class="row" href={bookmark.url} cue={false}>
               <span class="fav" style={`background:${tintFor(host)}`} aria-hidden="true">
                 {host.charAt(0).toUpperCase()}
               </span>
               <span class="t">{bookmark.title}</span>
               <span class="d">{host}</span>
               <Icon name="arrow-up-right" size={13} class="out" />
-            </a>
+            </ExternalLink>
           </li>
         );
       })

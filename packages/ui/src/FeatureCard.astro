@@ -19,6 +19,7 @@
  * Plain props, not a Sanity document: the page maps its rows onto these, so
  * this package never depends on the schema types.
  */
+import ExternalLink from "./ExternalLink.astro";
 import Icon from "./Icon.astro";
 import Tag from "./Tag.astro";
 import { gradientFor } from "@badger3000/tokens/covers";
@@ -52,9 +53,9 @@ const monogram = title.trim().charAt(0);
 
     {
       href ? (
-        <a class="ti" href={href} target="_blank" rel="noopener">
+        <ExternalLink class="ti" href={href} cue={tech.length === 0}>
           {title}
-        </a>
+        </ExternalLink>
       ) : (
         <span class="ti">{title}</span>
       )
@@ -71,15 +72,14 @@ const monogram = title.trim().charAt(0);
             ))}
           </span>
           {href && (
-            <a
+            <ExternalLink
               class="out"
               href={href}
-              target="_blank"
-              rel="noopener"
+              cue={false}
               aria-label={`${title} — opens ${new URL(href).hostname}`}
             >
               <Icon name="arrow-up-right" size={14} />
-            </a>
+            </ExternalLink>
           )}
         </div>
       )

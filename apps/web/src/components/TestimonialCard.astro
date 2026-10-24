@@ -9,7 +9,7 @@
  * `photo` is usually null in the dataset, so the avatar falls back to initials on
  * a tint — the same placeholder idea as the card gradients.
  */
-import { Icon } from "@badger3000/ui";
+import { ExternalLink, Icon } from "@badger3000/ui";
 import { tintFor } from "@badger3000/tokens/covers";
 import type { Testimonial } from "../lib/sanity/types.ts";
 
@@ -44,9 +44,9 @@ const photo = testimonial.photo?.asset?.url;
     <span class="who">
       {
         testimonial.profileUrl ? (
-          <a class="name" href={testimonial.profileUrl} target="_blank" rel="noopener">
+          <ExternalLink class="name" href={testimonial.profileUrl}>
             {testimonial.name}
-          </a>
+          </ExternalLink>
         ) : (
           <span class="name">{testimonial.name}</span>
         )

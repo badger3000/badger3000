@@ -9,6 +9,7 @@
  * icons. The `compact` variant is the mobile footer (pen `RQ1cQ`): padding
  * [6, 16], gap 8, and no CodePen.
  */
+import { ExternalLink } from "@badger3000/ui";
 import type { SiteSettings } from "../lib/sanity/types.ts";
 
 interface Props {
@@ -39,11 +40,14 @@ const socials = links?.length ? links : fallback;
   <span class="copy">© {year} Kyle Ross</span>
   <nav class="socials" aria-label="Elsewhere">
     {
-      socials.map((link) => (
-        <a href={link.webUrl ?? "#"} target="_blank" rel="me noopener">
-          {link.siteName}
-        </a>
-      ))
+      socials.map(
+        (link) =>
+          link.webUrl && (
+            <ExternalLink href={link.webUrl} rel="me">
+              {link.siteName}
+            </ExternalLink>
+          ),
+      )
     }
     <a href="mailto:hello@badger3000.com">Email</a>
   </nav>
