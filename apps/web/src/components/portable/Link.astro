@@ -1,0 +1,71 @@
+---
+/**
+ * Link — the `link` annotation. Links off this site open in a new tab, so they
+ * get `rel="noopener noreferrer"`, an arrow and a spoken "(opens in a new tab)".
+ */
+import type { Mark, MarkProps } from "astro-portabletext/types";
+import { Icon } from "@badger3000/ui";
+
+type Props = MarkProps<{ href?: string }>;
+
+const { node } = Astro.props;
+const href = (node as Mark<{ href?: string }>).markDef?.href;
+
+const external = (() => {
+  if (!href || !/^https?:/i.test(href)) return false;
+  try {
+    return !/(^|\.)badger3000\.com$/i.test(new URL(href).hostname);
+  } catch {
+    return false;
+  }
+})();
+---
+
+{
+  href ? (
+    external ? (
+      <a class="link" href={href} target="_blank" rel="noopener noreferrer">
+        <slot />
+        <Icon name="arrow-up-right" size={12} stroke={2} class="cue" />
+        <span class="sr">(opens in a new tab)</span>
+      </a>
+    ) : (
+      <a class="link" href={href}>
+        <slot />
+      </a>
+    )
+  ) : (
+    <slot />
+  )
+}
+
+<style>
+  .link {
+    color: var(--a-accent-text);
+    text-decoration: underline;
+    text-decoration-color: var(--a-accent-soft);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+  .link:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .link :global(.cue) {
+    display: inline;
+    margin-left: 1px;
+    vertical-align: -1px;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

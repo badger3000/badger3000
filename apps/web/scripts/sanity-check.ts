@@ -17,7 +17,7 @@
  */
 import { parse } from "groq-js";
 import { createSanity, type Sanity } from "@badger3000/sanity";
-import { queries } from "@badger3000/sanity/queries";
+import { detailSampleSlugs, queries } from "@badger3000/sanity/queries";
 import { isComplete } from "../src/lib/sanity/config.ts";
 
 // This app has no @types/node (nothing else needs it), so type the slice of
@@ -56,7 +56,7 @@ const config = {
 const { projectId, dataset } = config;
 const isConfigured = isComplete(config);
 let sanity: Sanity | undefined;
-const fetchQuery = (query: string, params: Record<string, unknown>) =>
+const fetchQuery = (query: string, params: Record<string, unknown> = {}) =>
   (sanity ??= createSanity({ ...config, projectId: projectId!, dataset: dataset! })).fetch<unknown>(query, params);
 
 /**
@@ -69,6 +69,14 @@ const fetchQuery = (query: string, params: Record<string, unknown>) =>
 const PARAMS = { q: [], limit: 3 };
 const PROBE = { q: ["a*"], limit: 3 };
 const takesTerms = (query: string) => /\$q\b/.test(query);
+
+/** The detail queries take a `$slug`: use the first one their slug list returns. */
+const paramsFor = async (name: string): Promise<Record<string, unknown>> => {
+  const slugs = detailSampleSlugs[name as keyof typeof detailSampleSlugs];
+  if (!slugs) return {};
+  const [slug] = (await fetchQuery(slugs)) as string[];
+  return { slug: slug ?? "" };
+};
 
 type QueryName = keyof typeof queries;
 type Result = { ok: boolean; count?: number; ms?: number; error?: string; parsed?: boolean };
@@ -127,7 +135,7 @@ if (!parseOnly && failures.length === 0) {
   for (const { name, label, params } of runs) {
     const started = Date.now();
     try {
-      const result = await fetchQuery(queries[name], params);
+      const result = await fetchQuery(queries[name], { ...params, ...(await paramsFor(name)) });
       // A bare count (`count(*[…])`) reports its value, a `{ total, rows }`
       // chat result its rows, anything else its rows.
       const rows =

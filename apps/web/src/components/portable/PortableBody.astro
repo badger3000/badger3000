@@ -1,0 +1,60 @@
+---
+/**
+ * PortableBody — the Portable Text renderer for the detail screens.
+ * context: div · Body ← article.content (blockContent) | codepen.description
+ *
+ *   Article — Detail `N7Lpy`   720 wide · p 17/1.65 `$a-ink` · h2 display 30
+ *   Experiments — Detail `nwKOV` 760 wide · p 16/1.65
+ *
+ * `astro-portabletext` walks the blocks; every node type maps to one component
+ * in this folder, and each one carries its own scoped CSS. `size` sets the body
+ * text through `--pt-size`, which the blocks read.
+ *
+ * Unknown types render nothing (the schema is the list of what can appear), so
+ * a type added in Studio before it lands here never breaks a build.
+ */
+import { PortableText } from "astro-portabletext";
+import type { PortableTextProps } from "astro-portabletext/types";
+import Block from "./Block.astro";
+import List from "./List.astro";
+import ListItem from "./ListItem.astro";
+import Mark from "./Mark.astro";
+import Link from "./Link.astro";
+import Figure from "./Figure.astro";
+import CodeBlock from "./CodeBlock.astro";
+import VideoEmbed from "./VideoEmbed.astro";
+import SelfHostedVideo from "./SelfHostedVideo.astro";
+
+interface Props {
+  value: PortableTextProps["value"];
+  size?: number;
+  class?: string;
+}
+
+const { value, size = 17, class: className } = Astro.props;
+
+const components = {
+  type: { image: Figure, code: CodeBlock, video: VideoEmbed, selfHostedVideo: SelfHostedVideo },
+  block: { normal: Block, h1: Block, h2: Block, h3: Block, h4: Block, blockquote: Block },
+  list: List,
+  listItem: ListItem,
+  mark: { strong: Mark, em: Mark, code: Mark, underline: Mark, highlight: Mark, link: Link },
+};
+---
+
+<div class:list={["pt", className]} style={`--pt-size:${size}px`}>
+  <PortableText value={value} components={components} onMissingComponent={false} />
+</div>
+
+<style>
+  .pt {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15em;
+    min-width: 0;
+    font-size: var(--pt-size);
+    line-height: 1.65;
+    color: var(--a-ink);
+    overflow-wrap: break-word;
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+/**
+ * Figure — an inline image. Pen `kupWQ`: `figure` img 720 wide, radius 12,
+ * `figcaption` 13 `$a-subtle`.
+ *
+ * The pen crops to 720×320; content images come in every shape (one is a
+ * portrait), so the image keeps its own aspect ratio and only the width is
+ * fixed. Sized from the asset's dimensions so nothing shifts as it loads.
+ */
+import type { TypedObjectProps } from "astro-portabletext/types";
+import { sources, type FigureAsset } from "./media.ts";
+
+type Props = TypedObjectProps;
+
+const node = Astro.props.node as unknown as {
+  alt?: string | null;
+  caption?: string | null;
+  asset?: FigureAsset | null;
+};
+const image = node.asset?.url ? sources(node.asset, 720) : undefined;
+---
+
+{
+  image && (
+    <figure class="figure">
+      <img
+        src={image.src}
+        srcset={image.srcset}
+        sizes="(max-width: 720px) calc(100vw - 32px), 720px"
+        width={image.width}
+        height={image.height}
+        alt={node.alt ?? ""}
+        loading="lazy"
+        decoding="async"
+      />
+      {node.caption && <figcaption>{node.caption}</figcaption>}
+    </figure>
+  )
+}
+
+<style>
+  .figure {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0.4em 0;
+  }
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    background: var(--a-line);
+  }
+  figcaption {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--a-subtle);
+  }
+</style>
