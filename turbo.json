@@ -15,6 +15,7 @@
       ]
     },
     "check":     { "dependsOn": ["^build"], "outputs": [".astro/**"] },
+    "@badger3000/tokens#check": { "dependsOn": ["^build"], "outputs": [] },
     "typecheck": { "dependsOn": ["^build"], "inputs": ["$TURBO_DEFAULT$", "!public/sitemap.xml", "!public/sitemap-0.xml", "!public/server-sitemap.xml"], "outputs": [] },
     "lint":      { "inputs": ["$TURBO_DEFAULT$", "!public/sitemap.xml", "!public/sitemap-0.xml", "!public/server-sitemap.xml"], "outputs": [] },
     "dev":       { "cache": false, "persistent": true },
