@@ -1,0 +1,397 @@
+---
+/**
+ * ContactForm — pen `avM9l` (desktop) and `sjuPH` (mobile).
+ * context: form · contact form — props: fields[], topics[], timelines[], submitLabel
+ *
+ *   desktop  520 wide · surface · stroke `$a-line` · radius 14 · gap 15 · padding 22
+ *   mobile   fill · gap 12 · padding 16 · no Timeline, no Clear, textarea 78
+ *
+ * Topic and Timeline are `div.chips · role=radiogroup`: real radio inputs drawn
+ * as chips, so arrow keys and form submission work. The selected chip is the
+ * pen's override (accent-soft fill, accent stroke, accent-text label), not
+ * FilterChip's ink state. A real form posting to `/api/contact`; `lib/contact.ts`
+ * intercepts the submit, gets a reCAPTCHA v3 token and sends JSON.
+ */
+import { PUBLIC_RECAPTCHA_SITE_KEY } from "astro:env/client";
+import { Button, Icon } from "@badger3000/ui";
+import { DEFAULT_TIMELINE, DEFAULT_TOPIC, TIMELINES, TOPICS } from "../lib/contact-content.ts";
+---
+
+<form
+  class="contactform"
+  action="/api/contact"
+  method="post"
+  novalidate
+  data-contact-form
+  data-site-key={PUBLIC_RECAPTCHA_SITE_KEY ?? ""}
+>
+  <div class="formhead">
+    <h2>Send a message</h2>
+    <span class="meta">avg. reply 24h</span>
+  </div>
+
+  <div class="row">
+    <label class="field">
+      <span class="label">Your name</span>
+      <span class="control"><input name="name" type="text" placeholder="Ada Lovelace" autocomplete="name" maxlength="200" required /></span>
+    </label>
+    <label class="field">
+      <span class="label">Your email</span>
+      <span class="control">
+        <Icon name="mail" size={15} class="ico" />
+        <input name="email" type="email" placeholder="ada@studio.co" autocomplete="email" required />
+      </span>
+    </label>
+  </div>
+
+  <fieldset class="field">
+    <legend class="label">What is this about?</legend>
+    <div class="chips" role="radiogroup">
+      {
+        TOPICS.map((topic) => (
+          <label class="chip">
+            <input type="radio" name="topic" value={topic} checked={topic === DEFAULT_TOPIC} />
+            <span>{topic}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <fieldset class="field timeline" data-contact-timeline>
+    <legend class="label">Timeline</legend>
+    <div class="chips" role="radiogroup">
+      {
+        TIMELINES.map((timeline) => (
+          <label class="chip">
+            <input type="radio" name="timeline" value={timeline} checked={timeline === DEFAULT_TIMELINE} />
+            <span>{timeline}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <label class="field">
+    <span class="label">Message</span>
+    <textarea
+      name="message"
+      placeholder="Tell me about the project, the timeline, and what a good outcome looks like."
+      rows="4"
+      maxlength="5000"
+      required></textarea>
+  </label>
+
+  <label class="check">
+    <input type="checkbox" name="includeLinks" />
+    <span class="box"><Icon name="check" size={12} stroke={2.5} /></span>
+    <span class="long">Include links to work you would like me to look at.</span>
+    <span class="short">Include links to relevant work.</span>
+  </label>
+
+  <p class="status" role="status" aria-live="polite" data-contact-status></p>
+  <noscript><p class="status">The form needs JavaScript. Email me instead.</p></noscript>
+
+  <div class="actions">
+    <Button type="submit" label="Send message" class="send" data-contact-send>
+      <Icon slot="icon" name="send" />
+    </Button>
+    <Button type="reset" variant="secondary" label="Clear" class="clear" data-contact-clear>
+      <Icon slot="icon" name="x" />
+    </Button>
+  </div>
+  <p class="note">No newsletter, no CRM — your note goes straight to my inbox.</p>
+  <p class="legal">
+    Protected by reCAPTCHA. Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy<span class="sr"> (opens in a new tab)</span></a>
+    and <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service<span class="sr"> (opens in a new tab)</span></a> apply.
+  </p>
+</form>
+
+<style>
+  .contactform {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 22px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .formhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .formhead h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .meta {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+
+  .row {
+    display: flex;
+    gap: 12px;
+  }
+  .row .field {
+    flex: 1;
+    min-width: 0;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  .label {
+    padding: 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--a-subtle);
+  }
+
+  .control {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 10px;
+    background: var(--a-bg);
+  }
+  .control :global(.ico) {
+    flex: none;
+    color: var(--a-faint);
+  }
+  .control:has(input:focus-visible),
+  textarea:focus-visible {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
+  }
+  .control:has([aria-invalid="true"]),
+  textarea[aria-invalid="true"] {
+    border-color: var(--a-accent-text);
+  }
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+  }
+  input[type="text"]:focus-visible,
+  input[type="email"]:focus-visible {
+    outline: none;
+  }
+  textarea {
+    box-sizing: border-box;
+    height: 112px;
+    padding: 12px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 10px;
+    background: var(--a-bg);
+    resize: vertical;
+  }
+  ::placeholder {
+    color: var(--a-subtle);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    position: relative;
+    cursor: pointer;
+  }
+  .chip input {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .chip span {
+    display: block;
+    padding: 7px 13px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 18px;
+    background: var(--a-surface);
+    color: var(--a-muted);
+    font-size: 12.5px;
+    font-weight: 500;
+    transition:
+      background 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .chip:hover span {
+    color: var(--a-ink);
+  }
+  .chip input:checked + span {
+    border-color: var(--a-accent);
+    background: var(--a-accent-soft);
+    color: var(--a-accent-text);
+  }
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
+  }
+
+  .check {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12.5px;
+    color: var(--a-subtle);
+    cursor: pointer;
+  }
+  .check input {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .box {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+    border: 1px solid var(--a-line-2);
+    border-radius: 5px;
+    background: var(--a-bg);
+    color: transparent;
+  }
+  .check input:checked + .box {
+    border-color: var(--a-accent-text);
+    background: var(--a-accent-text);
+    color: var(--a-bg);
+  }
+  .check input:focus-visible + .box {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
+  }
+  .short {
+    display: none;
+  }
+
+  .status {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-muted);
+  }
+  .status:empty {
+    display: none;
+  }
+  .status[data-state="error"] {
+    color: var(--a-accent-text);
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+  .actions :global(.send) {
+    flex: 1;
+  }
+  .actions :global(button:disabled) {
+    opacity: 0.6;
+    cursor: progress;
+  }
+  .note {
+    margin: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  .legal {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.4;
+    color: var(--a-subtle);
+  }
+  .legal a {
+    color: inherit;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* Mobile — Contact `sjuPH`: no Timeline, no Clear, a shorter textarea. */
+  @media (max-width: 720px) {
+    .contactform {
+      gap: 12px;
+      padding: 16px;
+    }
+    .formhead h2 {
+      font-size: 16px;
+    }
+    .meta {
+      font-size: 10.5px;
+    }
+    .row {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .field {
+      gap: 6px;
+    }
+    .label {
+      font-size: 11.5px;
+    }
+    .control {
+      height: 38px;
+      padding: 9px 11px;
+      gap: 8px;
+    }
+    textarea {
+      height: 78px;
+      padding: 11px;
+    }
+    .timeline,
+    .actions :global(.clear),
+    .note,
+    .long {
+      display: none;
+    }
+    .short {
+      display: inline;
+    }
+    .check {
+      font-size: 12px;
+    }
+  }
+</style>
+
+<script>
+  import "../lib/contact.ts";
+</script>

@@ -6,6 +6,8 @@
  *   browse  padding [14, 16] · back button 34/10 · title 16/600 + count chip
  *                                      · search button 34/10
  *
+ *   titled  Mobile — Contact (`CzR37`): menu button · page title 16/600 · user chip
+ *
  * Desktop keeps Sidebar + TopBar; this only exists below 720px, which is the
  * only way to reach the nav there. The menu, back and search buttons are
  * IconButton's `ghost` variant, delegated from `lib/shell.ts`.
@@ -13,7 +15,7 @@
 import { Avatar, IconButton } from "@badger3000/ui";
 
 interface Props {
-  variant?: "menu" | "page";
+  variant?: "menu" | "page" | "titled";
   /** Browse variant: the page name in the bar. */
   title?: string;
   /** Browse variant: the count chip beside the title. */
@@ -26,7 +28,17 @@ const { variant = "menu", title = "Badger3000", count, initials = "KR" } = Astro
 
 <header class="m-topbar">
   {
-    variant === "menu" ? (
+    variant === "titled" ? (
+      <>
+        <IconButton icon="menu" iconSize={18} label="Open menu" variant="ghost" data-drawer-open />
+        <span class="title">
+          <span class="page">{title}</span>
+        </span>
+        <a class="user" href="/bookmarks" aria-label="Your saved items">
+          {initials}
+        </a>
+      </>
+    ) : variant === "menu" ? (
       <>
         <IconButton icon="menu" iconSize={18} label="Open menu" variant="ghost" data-drawer-open />
         <span class="title">

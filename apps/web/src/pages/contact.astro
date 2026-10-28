@@ -1,0 +1,414 @@
+---
+/**
+ * Contact — pen `oq8cY` (desktop) and `jItDW` (mobile). Reached from the
+ * square-pen glyph in the sidebar brand row (`sj48H`).
+ *
+ *   desktop  head (title + availability pill) · two columns, gap 24:
+ *            left  intro, 3 StatTiles, Direct lines card, How it works, Note
+ *            right the form, 520 wide
+ *   mobile   head · form · Direct lines · Note. The intro, stats, steps and
+ *            availability pill are desktop-only, as in the pen.
+ *
+ * The availability pill is `settings.availability` (Sanity); it is omitted when
+ * the label is empty. The rest of the copy lives in `lib/contact-content.ts`
+ * (the schema has no fields for it yet).
+ * The pen has the title "Contact" on desktop and "Get in touch" on mobile, so
+ * the h1 carries both and CSS shows one.
+ */
+import Base from "../layouts/Base.astro";
+import AppShell from "../layouts/AppShell.astro";
+import ContactForm from "../components/ContactForm.astro";
+import { AvailabilityPill, ExternalLink, Icon, StatTile } from "@badger3000/ui";
+import { getCounts, getSettings } from "../lib/sanity/index.ts";
+import * as content from "../lib/contact-content.ts";
+
+const [counts, settings] = await Promise.all([getCounts(), getSettings()]);
+
+const availability = settings?.availability;
+
+const linkFor = (name: string, fallback: string) =>
+  settings?.links?.find((link) => link.siteName?.toLowerCase() === name)?.webUrl ?? fallback;
+const shown = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+
+// lucide has no brand glyphs (see Footer), so GitHub and LinkedIn borrow neutral ones.
+const lines = [
+  { label: "Email", icon: "mail", value: content.email, href: `mailto:${content.email}`, external: false },
+  { label: "GitHub", icon: "code-xml", value: shown(linkFor("github", content.github)), href: linkFor("github", content.github), external: true },
+  { label: "LinkedIn", icon: "briefcase", value: shown(linkFor("linkedin", content.linkedin)), href: linkFor("linkedin", content.linkedin), external: true },
+];
+---
+
+<Base
+  title="Contact — Badger3000"
+  description="Send Kyle a message about a project, a collaboration or a talk."
+>
+  <AppShell
+    active="contact"
+    counts={counts}
+    settings={settings}
+    mobileBar="titled"
+    mobileTitle="Contact"
+    mobileBottom="footer"
+  >
+    <main class="contact" id="main">
+      <div class="inner">
+        <header class="head">
+          <div class="titleblock">
+            <h1>
+              <span class="desk">Contact</span>
+              <span class="mob">Get in touch</span>
+            </h1>
+            <p class="sub">
+              <span class="desk">Building something, or just want to say hi? Send a note — I reply within a day or two.</span>
+              <span class="mob">Send a note below — I usually reply within a day.</span>
+            </p>
+          </div>
+          {availability?.label && <AvailabilityPill class="desk" status={availability.status ?? "available"} label={availability.label} />}
+        </header>
+
+        <div class="columns">
+          <div class="cola">
+            <p class="intro desk">{content.intro}<span class="more"> {content.introMore}</span></p>
+            <ul class="stats desk" aria-label="At a glance">
+              {content.stats.map((stat) => <li><StatTile {...stat} /></li>)}
+            </ul>
+
+            <section class="lines" aria-labelledby="lines-label">
+              <span class="eyebrow" id="lines-label">Direct lines</span>
+              {
+                lines.map((line) => {
+                  const Link = line.external ? ExternalLink : "a";
+                  return (
+                    <Link href={line.href} class="line" {...(line.external ? { cue: false } : {})}>
+                      <span class="lead"><Icon name={line.icon} size={16} class="lico" />{line.label}</span>
+                      <span class="value">{line.value}</span>
+                    </Link>
+                  );
+                })
+              }
+            </section>
+          </div>
+
+          <div class="right"><ContactForm /></div>
+
+          <div class="colb">
+            <section class="steps desk" aria-labelledby="steps-h">
+              <h2 id="steps-h">How it works</h2>
+              <ol>
+                {
+                  content.steps.map((step, i) => (
+                    <li>
+                      <span class="num" aria-hidden="true">{i + 1}</span>
+                      <span class="copy"><strong>{step.title}</strong><span>{step.text}</span></span>
+                    </li>
+                  ))
+                }
+              </ol>
+            </section>
+
+            <p class="where"><Icon name="globe" size={16} class="lico" /><span>{content.note}</span></p>
+            <p class="pref desk">Prefer email? <a href={`mailto:${content.email}`}>{content.email}</a></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .contact {
+    background: var(--a-bg);
+  }
+  .inner {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 28px 40px;
+  }
+
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .titleblock {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--af-display), serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  .sub {
+    max-width: 520px;
+    margin: 0;
+    font-size: 14px;
+    color: var(--a-muted);
+  }
+  /*
+   * Three layouts, one DOM. Default: left stack (cola + colb) beside a 520px
+   * form (pen `oq8cY`). Wide (`Nsfee`, 1920): 420 | 560 | 320 in a 1360 container, left-aligned.
+   * Mobile (`jItDW`): see the media query at the bottom.
+   */
+  .columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 520px;
+    grid-template-areas:
+      "a form"
+      "b form";
+    grid-template-rows: auto 1fr;
+    column-gap: 24px;
+    row-gap: 18px;
+    align-items: start;
+  }
+  .cola,
+  .colb {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+  }
+  .cola {
+    grid-area: a;
+  }
+  .colb {
+    grid-area: b;
+  }
+  .right {
+    grid-area: form;
+  }
+  .more {
+    display: inline;
+  }
+  .pref {
+    display: none;
+  }
+
+  @media (min-width: 1700px) {
+    .inner {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 1440px;
+    }
+    .columns {
+      grid-template-columns: 420px 560px 320px;
+      grid-template-areas: "a form b";
+      grid-template-rows: auto;
+      column-gap: 30px;
+    }
+    .more {
+      display: none;
+    }
+    .pref {
+      display: block;
+      margin: 0;
+      font-size: 13px;
+      color: var(--a-muted);
+    }
+    .pref a {
+      color: var(--a-ink);
+    }
+    .pref a:hover {
+      color: var(--a-accent-text);
+    }
+  }
+
+  .intro {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--a-muted);
+  }
+  .stats {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .stats li {
+    flex: 1;
+    min-width: 0;
+  }
+  .stats :global(.tile) {
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .lines {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .eyebrow {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .lines :global(.line) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--a-ink);
+    text-decoration: none;
+  }
+  .lead {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+  }
+  .lines :global(.lico),
+  .where :global(.lico) {
+    flex: none;
+    color: var(--a-muted);
+  }
+  .value {
+    min-width: 0;
+    overflow: hidden;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--a-subtle);
+    text-overflow: ellipsis;
+  }
+  .lines :global(.line:hover) .value {
+    color: var(--a-accent-text);
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .steps h2 {
+    margin: 0;
+    font-family: var(--af-display), serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  .steps ol {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .steps li {
+    display: flex;
+    gap: 12px;
+  }
+  .num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background: var(--a-accent-soft);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-accent-text);
+  }
+  .copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .copy strong {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .copy span {
+    font-size: 12.5px;
+    color: var(--a-muted);
+  }
+
+  .where {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 12px 14px;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
+    background: var(--a-surface);
+    font-size: 12.5px;
+    color: var(--a-subtle);
+  }
+
+  .mob {
+    display: none;
+  }
+
+  /* Mobile — Contact `jItDW`: the form leads, the direct lines follow bare. */
+  @media (max-width: 720px) {
+    .desk {
+      display: none;
+    }
+    .mob {
+      display: inline;
+    }
+    .inner {
+      gap: 14px;
+      padding: 18px 16px;
+    }
+    .head {
+      display: block;
+    }
+    h1 {
+      font-size: 28px;
+    }
+    .sub {
+      font-size: 13px;
+    }
+    .columns,
+    .cola,
+    .colb {
+      display: contents;
+    }
+    .right {
+      order: 1;
+      width: auto;
+    }
+    .lines {
+      order: 2;
+      gap: 8px;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .eyebrow {
+      font-size: 10px;
+    }
+    .lead {
+      gap: 9px;
+      font-size: 13px;
+    }
+    .value {
+      font-size: 11px;
+    }
+    .where {
+      order: 3;
+      gap: 9px;
+      padding: 0;
+      border: 0;
+      background: none;
+      font-size: 12px;
+    }
+  }
+</style>

@@ -37,7 +37,17 @@ Run from the repo root (or `pnpm run <script>` inside `apps/web`):
 4. `pnpm --filter @badger3000/web run deploy`: `astro build`, then `wrangler deploy`. `deploy:dry` stops before uploading.
 5. No-auth smoke test (ephemeral account, expires, gives a claimable URL): `pnpm --filter @badger3000/web exec wrangler deploy --temporary`.
 
-**Workers Builds** (the chosen CI deploy, not yet connected) must call the package scripts, never `turbo run`: Turbo's cache doesn't know about Sanity content. Settings: root directory `apps/web`; build command `pnpm run build`; deploy command `pnpm run deploy:worker`; non-production branch deploy command `pnpm exec wrangler versions upload`; build watch paths `apps/web/*`, `packages/*`, `pnpm-lock.yaml`, `pnpm-workspace.yaml`; build variables `NODE_VERSION=24`, `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL=https://www.badger3000.com`, and the `SANITY_API_TOKEN` secret.
+**CI deploy: GitHub Actions** (`.github/workflows/deploy-web.yml`, supersedes the Workers Builds plan). It calls the package scripts, never `turbo run`, because Turbo's cache doesn't know about Sanity content.
+
+- Push to `astro-dev` (paths under `apps/web`, `packages`, lockfile) → `check`, `build`, `deploy:worker`.
+- Pull request (same-repo only) → `check`, `build`, `wrangler versions upload`; the preview URL is in the job summary. Not promoted.
+- `repository_dispatch` type `sanity-publish`, or **Run workflow** → rebuild with fresh content.
+
+GitHub repo settings: secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SANITY_API_TOKEN`; variables `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL`, `PUBLIC_RECAPTCHA_SITE_KEY` (the reCAPTCHA v3 site key; the `/contact` form says it is not set up without it).
+
+Cloudflare side (one time): create an API token from the "Edit Cloudflare Workers" template (Workers Scripts: Edit, plus Workers AI and Account Settings read), note the account ID, run the first `deploy` locally so the Worker exists, then `wrangler secret put` each runtime secret (`SANITY_API_TOKEN`, `RECAPTCHA_SECRET_KEY`, `OWNER_EMAIL`, `SMTP_USER`, `SMTP_TOKEN`). Do not also connect Workers Builds, or every push deploys twice.
+
+Sanity webhook (optional): POST to `https://api.github.com/repos/badger3000/badger3000/dispatches` with body `{"event_type":"sanity-publish"}` and a fine-grained PAT scoped to this repo with Contents: read and write (the dispatches endpoint requires it).
 
 ## What gets deployed
 

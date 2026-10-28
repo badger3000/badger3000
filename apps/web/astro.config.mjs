@@ -59,6 +59,9 @@ export default defineConfig({
       // would silently point at a dataset that does not exist. Missing → the
       // client's MISSING error.
       PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true }),
+      // reCAPTCHA v3 site key for /contact. Public by design; the secret half is
+      // RECAPTCHA_SECRET_KEY on the Worker. Missing -> the form says it is not set up.
+      PUBLIC_RECAPTCHA_SITE_KEY: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_SANITY_API_VERSION: envField.string({ context: "client", access: "public", default: "2024-03-09" }),
       // The dataset is private, but the CDN serves it to a request that carries
       // the token, so published reads use it. Draft preview always bypasses it.
@@ -99,12 +102,17 @@ export default defineConfig({
        * into a build. Optional so builds work without them; the endpoint
        * answers 503 until every required one is set.
        */
-      RESEND_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
       RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret", optional: true }),
       // Where messages are delivered.
       OWNER_EMAIL: envField.string({ context: "server", access: "secret", optional: true }),
-      // The verified Resend sender, e.g. `Badger3000 <contact@badger3000.com>`.
-      CONTACT_FORM_EMAIL: envField.string({ context: "server", access: "secret", optional: true }),
+      // Proton SMTP submission (Settings > Domain names > SMTP submission). The
+      // username is the custom-domain address the token was made for; it is also
+      // the From address, since a token can't send as anyone else.
+      SMTP_USER: envField.string({ context: "server", access: "secret", optional: true }),
+      SMTP_TOKEN: envField.string({ context: "server", access: "secret", optional: true }),
+      // Default smtp.protonmail.ch / 587 (STARTTLS); 465 switches to implicit TLS.
+      SMTP_HOST: envField.string({ context: "server", access: "secret", optional: true }),
+      SMTP_PORT: envField.number({ context: "server", access: "secret", optional: true, int: true }),
       // reCAPTCHA v3 score floor, 0–1. Unset → 0.5, as in the Next route.
       RECAPTCHA_MIN_SCORE: envField.number({ context: "server", access: "secret", optional: true }),
     },

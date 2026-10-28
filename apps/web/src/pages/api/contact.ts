@@ -2,10 +2,11 @@
  * POST /api/contact — the contact form's endpoint, ported from the Next route
  * (`apps/legacy-next/app/api/contact/route.ts`, the PR #215 version).
  *
- *   validate → reCAPTCHA v3 siteverify (action + score) → Resend: owner, then an auto-reply
+ *   validate → reCAPTCHA v3 siteverify (action + score) → Proton Mail SMTP submission: owner, then an auto-reply
  *
- * Runs on the Worker. Resend is called with plain `fetch`, no SDK. Every
- * failure is logged with `console.error`, which Workers observability keeps:
+ * Runs on the Worker. Mail goes out over one SMTP session (`worker-mailer`,
+ * Workers TCP sockets) authenticated with a Proton SMTP token, from the
+ * custom-domain address the token belongs to. Every failure is logged with `console.error`, which Workers observability keeps:
  * the Next incident was a stripped `console.error` hiding a misconfiguration.
  *
  *   200  { success: true }
@@ -13,19 +14,23 @@
  *   405  { error } + Allow: POST
  *   413  { error } — body over MAX_BODY
  *   429  { error } + Retry-After — rate limited (CONTACT_LIMITER)
- *   502  { error } — Google or Resend failed
+ *   502  { error } — Google or the email send failed
  *   503  { error, errorCode: "config" } — a required secret is not set
  *
  * There is no form on the Astro site yet; this keeps the endpoint ready.
  */
 import type { APIRoute } from "astro";
 import {
-  CONTACT_FORM_EMAIL,
   OWNER_EMAIL,
   RECAPTCHA_MIN_SCORE,
   RECAPTCHA_SECRET_KEY,
-  RESEND_API_KEY,
+  SMTP_HOST,
+  SMTP_PORT,
+  SMTP_TOKEN,
+  SMTP_USER,
 } from "astro:env/server";
+import type { WorkerMailer } from "worker-mailer";
+import { TIMELINES, TOPICS } from "../../lib/contact-content.ts";
 import { json, rateLimited, readBody } from "../../lib/http.ts";
 
 export const prerender = false;
@@ -47,9 +52,9 @@ interface Siteverify {
 }
 
 interface Email {
-  from: string;
+  from: { email: string; name?: string };
   to: string;
-  reply_to?: string;
+  reply?: string;
   subject: string;
   text: string;
   html: string;
@@ -57,12 +62,13 @@ interface Email {
 
 export const POST: APIRoute = async ({ request }) => {
   // Configuration first, so a missing secret is the logged reason, not a
-  // confusing reCAPTCHA or Resend error further down.
-  if (!RESEND_API_KEY || !RECAPTCHA_SECRET_KEY || !OWNER_EMAIL) {
+  // confusing reCAPTCHA or SMTP error further down.
+  if (!RECAPTCHA_SECRET_KEY || !OWNER_EMAIL || !SMTP_USER || !SMTP_TOKEN) {
     const missing = [
-      !RESEND_API_KEY && "RESEND_API_KEY",
       !RECAPTCHA_SECRET_KEY && "RECAPTCHA_SECRET_KEY",
       !OWNER_EMAIL && "OWNER_EMAIL",
+      !SMTP_USER && "SMTP_USER",
+      !SMTP_TOKEN && "SMTP_TOKEN",
     ].filter(Boolean);
     console.error(`[contact] misconfigured, missing: ${missing.join(", ")}`);
     return json({ error: "The contact form is not configured.", errorCode: "config" }, { status: 503 });
@@ -90,11 +96,18 @@ export const POST: APIRoute = async ({ request }) => {
   const email = text(body.email);
   const message = text(body.message);
   const token = body.recaptchaToken;
+  // Chip choices are optional, but a value must be one the form offers.
+  const topic = text(body.topic);
+  const timeline = text(body.timeline);
+  const includeLinks = body.includeLinks === true;
 
   if (!name || !email || !message) {
     return json({ error: "Name, email and message are required." }, { status: 400 });
   }
   if (!EMAIL.test(email)) return json({ error: "Please provide a valid email address." }, { status: 400 });
+  if ((topic && !(TOPICS as readonly string[]).includes(topic)) || (timeline && !(TIMELINES as readonly string[]).includes(timeline))) {
+    return json({ error: "Pick one of the topics offered." }, { status: 400 });
+  }
   if (name.length > MAX_NAME || message.length > MAX_MESSAGE) {
     return json({ error: "Name or message is too long." }, { status: 400 });
   }
@@ -150,33 +163,52 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  // The resend.dev sender only delivers to the Resend account's own address,
-  // so without a verified-domain sender the auto-reply to visitors fails.
-  if (!CONTACT_FORM_EMAIL) console.warn("[contact] CONTACT_FORM_EMAIL is not set; using onboarding@resend.dev");
-  const ownerFrom = CONTACT_FORM_EMAIL ?? "Contact Form <onboarding@resend.dev>";
-  const replyFrom = CONTACT_FORM_EMAIL ?? "Kyle Ross | Badger3000 <onboarding@resend.dev>";
+  // A Proton SMTP token only sends as its own address, so SMTP_USER is the sender.
+  const ownerFrom = { email: SMTP_USER, name: "Contact Form" };
+  const replyFrom = { email: SMTP_USER, name: "Kyle Ross | Badger3000" };
+  // A CR/LF in the name would otherwise reach the Subject header.
+  const subjectName = name.replace(/[\r\n]+/g, " ");
 
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
   const safeMessage = escapeHtml(message).replace(/\n/g, "<br>");
 
-  const owner = await send(RESEND_API_KEY, {
+  let mailer: WorkerMailer;
+  try {
+    const { WorkerMailer: Mailer } = await import("worker-mailer");
+    mailer = await Mailer.connect({
+      host: SMTP_HOST ?? "smtp.protonmail.ch",
+      port: SMTP_PORT ?? 587,
+      // 587 upgrades with STARTTLS; set SMTP_PORT=465 and this flips to implicit TLS.
+      secure: (SMTP_PORT ?? 587) === 465,
+      credentials: { username: SMTP_USER, password: SMTP_TOKEN },
+      authType: "plain",
+    });
+  } catch (error) {
+    console.error("[contact] SMTP connect/auth failed:", error);
+    return json({ error: "Failed to send the message. Please try again." }, { status: 502 });
+  }
+
+  const owner = await send(mailer, {
     from: ownerFrom,
     to: OWNER_EMAIL,
-    reply_to: email,
-    subject: `New contact form submission from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}\nreCAPTCHA score: ${score}\n`,
+    reply: email,
+    subject: `New contact form submission from ${subjectName}`,
+    text: `Name: ${name}\nEmail: ${email}\n${topic ? `Topic: ${topic}\n` : ""}${timeline ? `Timeline: ${timeline}\n` : ""}${includeLinks ? "Includes links to work: yes\n" : ""}Message:\n${message}\nreCAPTCHA score: ${score}\n`,
     html: `<h2>New contact form submission</h2>
 <p><strong>Name:</strong> ${safeName}</p>
 <p><strong>Email:</strong> ${safeEmail}</p>
-<p><strong>Message:</strong></p>
+${topic ? `<p><strong>Topic:</strong> ${escapeHtml(topic)}</p>\n` : ""}${timeline ? `<p><strong>Timeline:</strong> ${escapeHtml(timeline)}</p>\n` : ""}${includeLinks ? "<p><strong>Includes links to work:</strong> yes</p>\n" : ""}<p><strong>Message:</strong></p>
 <p>${safeMessage}</p>
 <p><strong>reCAPTCHA score:</strong> ${score}</p>`,
   });
-  if (!owner) return json({ error: "Failed to send the message. Please try again." }, { status: 502 });
+  if (!owner) {
+    await mailer.close();
+    return json({ error: "Failed to send the message. Please try again." }, { status: 502 });
+  }
 
   // A soft failure: the owner already has the message.
-  await send(RESEND_API_KEY, {
+  await send(mailer, {
     from: replyFrom,
     to: email,
     subject: "Thank you for your message",
@@ -187,6 +219,7 @@ export const POST: APIRoute = async ({ request }) => {
 <p>Best regards,<br>Kyle Ross</p>`,
   });
 
+  await mailer.close();
   return json({ success: true });
 };
 
@@ -194,20 +227,15 @@ export const POST: APIRoute = async ({ request }) => {
 export const ALL: APIRoute = () =>
   json({ error: "POST only." }, { status: 405, headers: { allow: "POST" } });
 
-/** One Resend send. True on success; failures are logged, never thrown. */
-async function send(apiKey: string, email: Email): Promise<boolean> {
+/** One send on an open session. True on success; failures are logged, never thrown. */
+async function send(mailer: WorkerMailer, email: Email): Promise<boolean> {
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
-      body: JSON.stringify(email),
-    });
-    if (response.ok) return true;
-    console.error(`[contact] Resend ${response.status} sending to ${email.to === OWNER_EMAIL ? "owner" : "visitor"}:`, await response.text());
+    await mailer.send(email);
+    return true;
   } catch (error) {
-    console.error("[contact] Resend request failed:", error);
+    console.error(`[contact] SMTP send to ${email.to === OWNER_EMAIL ? "owner" : "visitor"} failed:`, error);
+    return false;
   }
-  return false;
 }
 
 const text = (value: unknown) => (typeof value === "string" ? value.trim() : "");

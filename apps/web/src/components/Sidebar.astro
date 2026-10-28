@@ -41,7 +41,16 @@ const { counts = {}, active, profile } = Astro.props;
       <strong>Badger3000</strong>
       <span>Kyle's AI</span>
     </span>
-    <Icon name="square-pen" size={17} class="dim" />
+    {/* pen `sj48H`: the square-pen glyph is the contact form link */}
+    <a
+      href="/contact"
+      class="contactlink"
+      aria-label="Contact"
+      aria-current={active === "contact" ? "page" : undefined}
+    >
+      <Icon name="square-pen" size={17} />
+      <span class="tip" aria-hidden="true">Contact</span>
+    </a>
   </div>
 
   {/* pen `P2anH`: a secondary Button, full width */}
@@ -127,8 +136,65 @@ const { counts = {}, active, profile } = Astro.props;
     font-weight: 500;
     color: var(--a-subtle);
   }
-  :global(.dim) {
-    color: var(--a-faint);
+  /*
+   * The tooltip is CSS-only and right-aligned under the glyph: the glyph sits at
+   * the sidebar's right edge, and the sidebar clips on x (overflow-y: auto), so
+   * a centred tip would be cut off. Hover or keyboard focus shows it; the
+   * link's accessible name is its aria-label, so the tip is hidden from AT.
+   */
+  .contactlink {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    color: var(--a-muted);
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .contactlink:hover,
+  .contactlink[aria-current="page"] {
+    background: var(--a-accent-soft);
+    color: var(--a-accent-text);
+  }
+  .contactlink:focus-visible {
+    outline: 2px solid var(--a-accent-text);
+    outline-offset: 2px;
+  }
+  .tip {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--a-ink);
+    color: var(--a-bg);
+    font-size: 11.5px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-2px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+    z-index: 2;
+  }
+  .contactlink:hover .tip,
+  .contactlink:focus-visible .tip {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.3s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tip {
+      transition: none;
+      transform: none;
+    }
   }
 
   .sidebar :global(.newchat) {
