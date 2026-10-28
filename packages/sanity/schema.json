@@ -1578,6 +1578,43 @@
         },
         "optional": true
       },
+      "availability": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "status": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "union",
+                "of": [
+                  {
+                    "type": "string",
+                    "value": "available"
+                  },
+                  {
+                    "type": "string",
+                    "value": "limited"
+                  },
+                  {
+                    "type": "string",
+                    "value": "closed"
+                  }
+                ]
+              },
+              "optional": false
+            },
+            "label": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            }
+          }
+        },
+        "optional": true
+      },
       "links": {
         "type": "objectAttribute",
         "value": {

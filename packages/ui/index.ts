@@ -6,6 +6,7 @@
  * these props and keeps the shell (Sidebar, bars, drawer) and the chat
  * templates itself. Styles use `var(--a-*)` from `@badger3000/tokens` only.
  */
+export { default as AvailabilityPill } from "./src/AvailabilityPill.astro";
 export { default as Avatar, type AvatarSize } from "./src/Avatar.astro";
 export { default as AvatarUser } from "./src/AvatarUser.astro";
 export { default as Button } from "./src/Button.astro";

@@ -8,6 +8,7 @@ export const settingsQuery = defineQuery(`*[_type == "settings"][0] {
   location,
   occupation,
   description,
+  availability{ status, label },
   "avatarImage": avatar_image ${IMAGE},
   "links": links[]->{ siteName, webUrl }
 }`);

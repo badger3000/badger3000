@@ -282,6 +282,10 @@ export type Settings = {
   name?: string;
   occupation?: string;
   description?: string;
+  availability?: {
+    status: "available" | "limited" | "closed";
+    label?: string;
+  };
   links?: Array<
     {
       _key: string;
@@ -1226,13 +1230,17 @@ export type ProjectsForChatQueryResult = {
 
 // Source: src/queries/settings.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0] {  name,  title,  location,  occupation,  description,  "avatarImage": avatar_image {  alt,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  "links": links[]->{ siteName, webUrl }}
+// Query: *[_type == "settings"][0] {  name,  title,  location,  occupation,  description,  availability{ status, label },  "avatarImage": avatar_image {  alt,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},  "links": links[]->{ siteName, webUrl }}
 export type SettingsQueryResult = {
   name: string | null;
   title: string | null;
   location: string | null;
   occupation: string | null;
   description: string | null;
+  availability: {
+    status: "available" | "closed" | "limited";
+    label: string | null;
+  } | null;
   avatarImage: {
     alt: null;
     asset: {
@@ -1371,7 +1379,7 @@ declare global {
     '{\n  "total": count(*[_type == "golfScores" && defined(score)]),\n  "matched": count(*[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]),\n  "rows": *[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]\n    | order(date desc) [0...$limit] {\n    "course": coalesce(course, "Unknown course"), date, score\n  }\n}': GolfScoresForChatQueryResult;
     '*[_type == "projects" && defined(slug.current)] | order(order asc, title asc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  // No monogram here: title[0] is null in GROQ (strings are not indexable).\n  // The pen binds the monogram to project.title[0]; the card takes\n  // title.charAt(0) instead.\n  "topic": topic->title,\n  "topicSlug": topic->slug.current,\n  "tech": tech[],\n  "webUrl": web_url,\n  cardLayout,\n  order,\n  // The pen binds "project.excerpt" but the schema declares no such field. The\n  // live documents carry a project_description (portable text) field instead,\n  // so the first block\'s text is the excerpt. Add a real excerpt field to the\n  // schema and this can go back to coalescing.\n  "excerpt": project_description[0].children[0].text,\n  "createdAt": _createdAt,\n  // project_image exists on every document but the pen\'s card is a gradient;\n  // kept out of the projection until the pen allows a cover image.\n  "coverImage": null\n}': ProjectsQueryResult;
     '{\n  "total": count(*[_type == "projects" && defined(slug.current)]),\n  "matched": count(*[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),\n  "rows": *[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url\n  }\n}': ProjectsForChatQueryResult;
-    '*[_type == "settings"][0] {\n  name,\n  title,\n  location,\n  occupation,\n  description,\n  "avatarImage": avatar_image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "links": links[]->{ siteName, webUrl }\n}': SettingsQueryResult;
+    '*[_type == "settings"][0] {\n  name,\n  title,\n  location,\n  occupation,\n  description,\n  availability{ status, label },\n  "avatarImage": avatar_image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "links": links[]->{ siteName, webUrl }\n}': SettingsQueryResult;
     '*[_type == "settings"][0] {\n  name, title, location, occupation, description\n}': SettingsForChatQueryResult;
     '*[_type == "skillCategory"] | order(order asc) {\n  name,\n  order,\n  "skills": skills[] {\n    name,\n    badgeType,\n    badgeLabel,\n    "badgeColor": select(\n      badgeColor == null => null,\n      string::startsWith(badgeColor, "#") => badgeColor,\n      true => "#" + badgeColor\n    )\n  }\n}': SkillsQueryResult;
     '{\n  "total": count(*[_type == "skillCategory"]),\n  "matched": count(*[_type == "skillCategory"\n    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]),\n  "rows": *[_type == "skillCategory"\n    && (count($q) == 0 || count($q[[^.name, ...coalesce(^.skills[].name, []), ...coalesce(^.skills[].badgeLabel, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "name": coalesce(name, ""), "skills": coalesce(skills[] { "name": coalesce(name, ""), badgeLabel }, [])\n  }\n}': SkillsForChatQueryResult;

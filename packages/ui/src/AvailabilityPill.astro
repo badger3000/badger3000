@@ -1,0 +1,59 @@
+---
+/**
+ * AvailabilityPill — pen master `ulwEQ`, states in `uvJOs` (Availability — States).
+ * context: span · status pill ← settings.availability
+ *
+ * padding [8, 12] · gap 9 · radius 20 · stroke `$a-line` · mono 11.5 · dot 7
+ *   available  surface fill · `$a-ok` dot · `$a-subtle` label
+ *   limited    surface fill · `$a-accent` dot · `$a-subtle` label
+ *   closed     `$a-bg` fill  · `$a-faint` dot · `$a-muted` label
+ *
+ * The dot is decoration; the label carries the meaning, so colour is never the
+ * only signal.
+ */
+interface Props {
+  status?: "available" | "limited" | "closed";
+  label: string;
+  class?: string;
+}
+
+const { status = "available", label, class: className } = Astro.props;
+---
+
+<span class:list={["pill", status, className]} data-status={status}>
+  <span class="dot" aria-hidden="true"></span>
+  {label}
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border: 1px solid var(--a-line);
+    border-radius: 20px;
+    background: var(--a-surface);
+    color: var(--a-subtle);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11.5px;
+    line-height: normal;
+  }
+  .dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--a-ok);
+  }
+  .limited .dot {
+    background: var(--a-accent);
+  }
+  .closed {
+    background: var(--a-bg);
+    color: var(--a-muted);
+  }
+  .closed .dot {
+    background: var(--a-faint);
+  }
+</style>
