@@ -22,10 +22,10 @@ ADR 0003 sent contact mail with Resend. The Astro site runs on a Cloudflare Work
 
 - Sending is bound by Proton's SMTP submission limits and the token must be rotated if leaked; the contact form's rate limit (5 a minute per IP) and reCAPTCHA keep volume low.
 - An SMTP handshake adds a second or two to the request.
-- `apps/legacy-next` still uses Resend until the cutover deletes it.
+- `apps/legacy-next` still uses Resend (ADR 0003) until the cutover deletes it, so ADR 0003 is not superseded yet.
 
 ## Links
 
 affects:: [[repo/badger3000]]
 uses:: [[service/cloudflare]] [[service/proton-mail]] [[service/recaptcha]]
-supersedes:: [[adr/badger3000-contact-form]]
+affects:: [[adr/badger3000-contact-form]]
