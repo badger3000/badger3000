@@ -1,4 +1,4 @@
-name: CI
+name: Verify (check, lint, build only, no deploy)
 on:
   pull_request:
   push:
