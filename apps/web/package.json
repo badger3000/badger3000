@@ -18,7 +18,9 @@
     "deploy": "pnpm run build && pnpm run deploy:worker",
     "deploy:worker": "node scripts/node-guard.mjs -- wrangler deploy",
     "deploy:dry": "pnpm run build && node scripts/node-guard.mjs -- wrangler deploy --dry-run",
-    "cf:dev": "node scripts/node-guard.mjs -- wrangler dev"
+    "cf:dev": "node scripts/node-guard.mjs -- wrangler dev",
+    "secret:put": "node scripts/node-guard.mjs -- wrangler secret put",
+    "secret:list": "node scripts/node-guard.mjs -- wrangler secret list"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.4.2",

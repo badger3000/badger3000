@@ -10,7 +10,15 @@
     "check": "turbo run check",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
-    "verify": "turbo run build check lint typecheck"
+    "verify": "turbo run build check lint typecheck",
+    "web:dev": "pnpm --filter @badger3000/web run dev",
+    "web:preview": "pnpm --filter @badger3000/web run preview",
+    "web:deploy": "pnpm --filter @badger3000/web run deploy",
+    "web:deploy:dry": "pnpm --filter @badger3000/web run deploy:dry",
+    "studio:dev": "pnpm --filter @badger3000/studio run dev",
+    "studio:deploy": "pnpm --filter @badger3000/studio run deploy",
+    "secret:put": "pnpm --filter @badger3000/web run secret:put",
+    "secret:list": "pnpm --filter @badger3000/web run secret:list"
   },
   "devDependencies": {
     "turbo": "^2.11.10"

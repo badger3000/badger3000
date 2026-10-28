@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "sanity dev --port 3333",
     "build": "sanity build",
+    "deploy": "sanity deploy",
     "typecheck": "tsc --noEmit",
     "schema:extract": "sanity schema extract --enforce-required-fields --force --path ../../packages/sanity/schema.json"
   },
