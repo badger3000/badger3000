@@ -151,13 +151,21 @@ const lines = [
     color: var(--a-muted);
   }
   /*
-   * Three layouts, one DOM. Default: left stack (cola + colb) beside a 520px
-   * form (pen `oq8cY`). Wide (`Nsfee`, 1920): 420 | 560 | 320 in a 1360 container, left-aligned.
-   * Mobile (`jItDW`): see the media query at the bottom.
+   * Four layouts, one DOM. Pen `lPYoL` sets the rules; widths below are
+   * viewport widths, so subtract the 264px sidebar and 80px of gutters. The text
+   * column stops at 564px: three stat tiles of at most 180px (the guide's
+   * 132-180px) and about 70 characters of intro.
+   * - >= 1704px (`Nsfee`): 420 | 560 | 320 in the 1360px container, centred.
+   * - >= 1308px (`oq8cY`): left stack (cola + colb) beside the 520px form. Below
+   *   this the stack is under 420px, which squeezes the three stat tiles past
+   *   the guide's 132px minimum.
+   * - 721-1307px: one column, intro, form, direct lines. Two columns would leave
+   *   the intro 136px wide at 1024.
+   * - <= 720px (`jItDW`): see the media query at the bottom.
    */
   .columns {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 520px;
+    grid-template-columns: minmax(0, 564px) 520px;
     grid-template-areas:
       "a form"
       "b form";
@@ -189,10 +197,43 @@ const lines = [
     display: none;
   }
 
-  @media (min-width: 1700px) {
+  @media (min-width: 721px) {
     .inner {
       box-sizing: border-box;
       width: 100%;
+      margin-inline: auto;
+    }
+  }
+  @media (min-width: 721px) and (max-width: 1307px) {
+    .inner {
+      max-width: 644px;
+    }
+    .head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .more {
+      display: none;
+    }
+    .columns {
+      grid-template-columns: minmax(0, 564px);
+      grid-template-areas:
+        "a"
+        "form"
+        "b";
+      grid-template-rows: auto;
+    }
+  }
+
+  /* Header and columns share one right edge: 564 + 24 + 520 + 80 of gutters. */
+  @media (min-width: 1308px) {
+    .inner {
+      max-width: 1188px;
+    }
+  }
+
+  @media (min-width: 1704px) {
+    .inner {
       max-width: 1440px;
     }
     .columns {
@@ -226,14 +267,18 @@ const lines = [
   }
   .stats {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
+  /* Pen `lPYoL`: tiles stay 132-180px. A narrow column wraps instead of
+     squeezing them. */
   .stats li {
-    flex: 1;
+    flex: 1 1 128px;
     min-width: 0;
+    max-width: 180px;
   }
   .stats :global(.tile) {
     height: 100%;

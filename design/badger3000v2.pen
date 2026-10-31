@@ -38857,7 +38857,7 @@
               "type": "frame",
               "id": "RoBvn",
               "name": "Content",
-              "context": "div.container",
+              "context": "div.container · fluid ≤1439 (gutter 40) · capped 1360 ≥1440",
               "width": "fill_container",
               "height": "fill_container",
               "layout": "vertical",
@@ -38912,42 +38912,20 @@
                       ]
                     },
                     {
-                      "type": "frame",
-                      "id": "cCZO0",
+                      "id": "WDVyC",
+                      "type": "ref",
+                      "ref": "ulwEQ",
                       "name": "Availability",
-                      "context": "div.availability · status pill",
-                      "fill": "$a-surface",
-                      "cornerRadius": 20,
-                      "stroke": "$a-line",
-                      "strokeWidth": 1,
-                      "gap": 9,
-                      "padding": [
-                        8,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "ellipse",
-                          "id": "ujLF2",
-                          "name": "dot",
-                          "context": "span.dot · availability indicator",
-                          "fill": "$a-ok",
-                          "width": 7,
-                          "height": 7
+                      "context": "span · AvailabilityPill — status=available",
+                      "descendants": {
+                        "wCrDF": {
+                          "fill": "$a-ok"
                         },
-                        {
-                          "type": "text",
-                          "id": "FZrNn",
-                          "name": "status",
-                          "context": "span ← settings.availability",
-                          "fill": "$a-subtle",
+                        "J32ig": {
                           "content": "Open to work · Oct 2026",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 11.5,
-                          "fontWeight": "normal"
+                          "fill": "$a-subtle"
                         }
-                      ]
+                      }
                     }
                   ]
                 },
@@ -40118,7 +40096,7 @@
           "type": "frame",
           "id": "P6300",
           "name": "Content",
-          "context": "div.container",
+          "context": "div.container · single column, padding 16",
           "width": "fill_container",
           "height": "fill_container",
           "layout": "vertical",
@@ -40781,6 +40759,1835 @@
               "enabled": false
             }
           }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ulwEQ",
+      "x": 2720,
+      "y": 11520,
+      "name": "AvailabilityPill",
+      "context": "span · AvailabilityPill — props: status(available|limited|closed), label",
+      "reusable": true,
+      "fill": "$a-surface",
+      "cornerRadius": 20,
+      "stroke": "$a-line",
+      "strokeWidth": 1,
+      "gap": 9,
+      "padding": [
+        8,
+        12
+      ],
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "ellipse",
+          "id": "wCrDF",
+          "name": "dot",
+          "context": "span.dot · status indicator",
+          "fill": "$a-ok",
+          "width": 7,
+          "height": 7
+        },
+        {
+          "type": "text",
+          "id": "J32ig",
+          "name": "label",
+          "context": "span ← availability.label",
+          "fill": "$a-subtle",
+          "content": "Open to work · Oct 2026",
+          "fontFamily": "$af-mono",
+          "fontSize": 11.5,
+          "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "uvJOs",
+      "x": 2720,
+      "y": 11612,
+      "name": "Availability — States",
+      "context": "section · status pill states",
+      "width": 520,
+      "fill": "$a-bg",
+      "cornerRadius": 14,
+      "stroke": "$a-line",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": 12,
+      "padding": 20,
+      "children": [
+        {
+          "type": "text",
+          "id": "tUugd",
+          "name": "eyebrow",
+          "fill": "$a-subtle",
+          "content": "AVAILABILITY",
+          "fontFamily": "$af-mono",
+          "fontSize": 10.5,
+          "fontWeight": "normal",
+          "letterSpacing": 1
+        },
+        {
+          "type": "text",
+          "id": "HQm17",
+          "name": "title",
+          "fill": "$a-ink",
+          "content": "One pill, three states",
+          "fontFamily": "$af-display",
+          "fontSize": 20,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "U3bBdP",
+          "name": "available",
+          "width": "fill_container",
+          "gap": 14,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "uUjPs",
+              "type": "ref",
+              "ref": "ulwEQ",
+              "name": "Pill · available",
+              "fill": "$a-surface",
+              "stroke": "$a-line",
+              "descendants": {
+                "wCrDF": {
+                  "fill": "$a-ok"
+                },
+                "J32ig": {
+                  "content": "Open to work · Oct 2026",
+                  "fill": "$a-subtle"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "TSce7",
+              "name": "caption",
+              "fill": "$a-muted",
+              "content": "Taking new projects",
+              "fontFamily": "$af-ui",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "aParO",
+          "name": "limited",
+          "width": "fill_container",
+          "gap": 14,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "Cq7JB",
+              "type": "ref",
+              "ref": "ulwEQ",
+              "name": "Pill · limited",
+              "fill": "$a-surface",
+              "stroke": "$a-line",
+              "descendants": {
+                "wCrDF": {
+                  "fill": "$a-accent"
+                },
+                "J32ig": {
+                  "content": "Limited availability · Oct 2026",
+                  "fill": "$a-subtle"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "YE5rd",
+              "name": "caption",
+              "fill": "$a-muted",
+              "content": "One slot left this month",
+              "fontFamily": "$af-ui",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "I7sG7j",
+          "name": "closed",
+          "width": "fill_container",
+          "gap": 14,
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "id": "dam1W",
+              "type": "ref",
+              "ref": "ulwEQ",
+              "name": "Pill · closed",
+              "fill": "$a-bg",
+              "stroke": "$a-line",
+              "descendants": {
+                "wCrDF": {
+                  "fill": "$a-faint"
+                },
+                "J32ig": {
+                  "content": "Not available — back in Jan",
+                  "fill": "$a-muted"
+                }
+              }
+            },
+            {
+              "type": "text",
+              "id": "Enw9F",
+              "name": "caption",
+              "fill": "$a-muted",
+              "content": "Booking from January",
+              "fontFamily": "$af-ui",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Nsfee",
+      "x": 720,
+      "y": 12558,
+      "name": "Contact — Wide (1920)",
+      "context": "section · page / app shell",
+      "clip": true,
+      "width": 1920,
+      "height": 1080,
+      "fill": "$a-bg",
+      "children": [
+        {
+          "id": "emVbC",
+          "type": "ref",
+          "ref": "pL9CR",
+          "name": "Sidebar",
+          "width": 264,
+          "height": "fill_container",
+          "context": "aside · Sidebar — content-type nav"
+        },
+        {
+          "type": "frame",
+          "id": "fgYCy",
+          "name": "Main",
+          "context": "main",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$a-bg",
+          "layout": "vertical",
+          "children": [
+            {
+              "id": "s3wR7",
+              "type": "ref",
+              "ref": "r30jlq",
+              "name": "TopBar",
+              "width": "fill_container",
+              "context": "header · TopBar"
+            },
+            {
+              "type": "frame",
+              "id": "KRfVf",
+              "name": "Content",
+              "context": "div.container · max-width 1360, centred — gutters absorb extra width",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "padding": [
+                28,
+                40
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "G8QUE",
+                  "name": "Container",
+                  "context": "div.container-inner · max-width 1360",
+                  "width": 1360,
+                  "layout": "vertical",
+                  "gap": 22,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "TazYH",
+                      "name": "Head",
+                      "context": "div.head",
+                      "width": "fill_container",
+                      "gap": 24,
+                      "justifyContent": "space_between",
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "sMeny",
+                          "name": "Titleblock",
+                          "context": "div.titleblock",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "IeTOi",
+                              "name": "Title",
+                              "context": "h1 ← title",
+                              "fill": "$a-ink",
+                              "content": "Contact",
+                              "fontFamily": "$af-display",
+                              "fontSize": 34,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Vhwz2",
+                              "name": "Sub",
+                              "context": "p.sub ← sub",
+                              "fill": "$a-muted",
+                              "textGrowth": "fixed-width",
+                              "width": 520,
+                              "content": "Building something, or just want to say hi? Send a note — I reply within a day or two.",
+                              "fontFamily": "$af-ui",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "SI3jN",
+                          "type": "ref",
+                          "ref": "ulwEQ",
+                          "name": "Availability",
+                          "context": "span · AvailabilityPill — status=available",
+                          "descendants": {
+                            "wCrDF": {
+                              "fill": "$a-ok"
+                            },
+                            "J32ig": {
+                              "content": "Open to work · Oct 2026",
+                              "fill": "$a-subtle"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zQoUv",
+                      "name": "Columns",
+                      "context": "div.columns · 3-up at ≥1440 — 420 / 560 / 320, fixed widths",
+                      "width": "fill_container",
+                      "gap": 30,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "bIlhk",
+                          "name": "Left",
+                          "context": "div.col-left",
+                          "width": 420,
+                          "layout": "vertical",
+                          "gap": 18,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hEBTq",
+                              "name": "Intro",
+                              "context": "p.intro · contact intro copy",
+                              "fill": "$a-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "I take on a few product and design-systems projects a year — new builds, rescues, and the occasional second pair of hands.",
+                              "lineHeight": 1.55,
+                              "fontFamily": "$af-ui",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "I70qx",
+                              "name": "Stats",
+                              "context": "div.stats",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "children": [
+                                {
+                                  "id": "UjdST",
+                                  "type": "ref",
+                                  "ref": "Saf7N",
+                                  "name": "Average reply",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "vmRst": {
+                                      "icon": "clock"
+                                    },
+                                    "cMjrv": {
+                                      "content": "24h"
+                                    },
+                                    "DyZsK": {
+                                      "content": "Average reply"
+                                    }
+                                  }
+                                },
+                                {
+                                  "id": "J62RBu",
+                                  "type": "ref",
+                                  "ref": "Saf7N",
+                                  "name": "Projects at once",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "vmRst": {
+                                      "icon": "layers"
+                                    },
+                                    "cMjrv": {
+                                      "content": "3"
+                                    },
+                                    "DyZsK": {
+                                      "content": "Projects at once"
+                                    }
+                                  }
+                                },
+                                {
+                                  "id": "NIHe4",
+                                  "type": "ref",
+                                  "ref": "Saf7N",
+                                  "name": "Shipping since",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "vmRst": {
+                                      "icon": "calendar-days"
+                                    },
+                                    "cMjrv": {
+                                      "content": "2018"
+                                    },
+                                    "DyZsK": {
+                                      "content": "Shipping since"
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "yFbzm",
+                              "name": "Direct lines",
+                              "context": "section · direct lines",
+                              "width": "fill_container",
+                              "fill": "$a-surface",
+                              "cornerRadius": 14,
+                              "stroke": "$a-line",
+                              "strokeWidth": 1,
+                              "layout": "vertical",
+                              "gap": 12,
+                              "padding": 18,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "otLYX",
+                                  "name": "label",
+                                  "context": "span.label · section eyebrow",
+                                  "fill": "$a-subtle",
+                                  "content": "DIRECT LINES",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10.5,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "WjLK1",
+                                  "name": "mail",
+                                  "context": "a · contact method",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "justifyContent": "space_between",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "zTsQn",
+                                      "name": "left",
+                                      "context": "span.link-group",
+                                      "gap": 10,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "icon",
+                                          "id": "lZC1v",
+                                          "name": "icon",
+                                          "context": "i · method icon",
+                                          "width": 16,
+                                          "height": 16,
+                                          "icon": "mail",
+                                          "library": "lucide",
+                                          "fill": "$a-muted"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "d8gFVv",
+                                          "name": "label",
+                                          "context": "span ← method.label",
+                                          "fill": "$a-ink",
+                                          "content": "Email",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "xrAd8",
+                                      "name": "value",
+                                      "context": "span ← method.value",
+                                      "fill": "$a-subtle",
+                                      "content": "kyle@badger3000.dev",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "l7GtJ",
+                                  "name": "github",
+                                  "context": "a · contact method",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "justifyContent": "space_between",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "d7UrlD",
+                                      "name": "left",
+                                      "context": "span.link-group",
+                                      "gap": 10,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "icon",
+                                          "id": "AeuHm",
+                                          "name": "icon",
+                                          "context": "i · method icon",
+                                          "width": 16,
+                                          "height": 16,
+                                          "icon": "github",
+                                          "library": "lucide",
+                                          "fill": "$a-muted"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "EFtb1",
+                                          "name": "label",
+                                          "context": "span ← method.label",
+                                          "fill": "$a-ink",
+                                          "content": "GitHub",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "lg50x",
+                                      "name": "value",
+                                      "context": "span ← method.value",
+                                      "fill": "$a-subtle",
+                                      "content": "github.com/kyle-ross",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "qydC9",
+                                  "name": "linkedin",
+                                  "context": "a · contact method",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "justifyContent": "space_between",
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "iN2Tk",
+                                      "name": "left",
+                                      "context": "span.link-group",
+                                      "gap": 10,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "icon",
+                                          "id": "Tk4ea",
+                                          "name": "icon",
+                                          "context": "i · method icon",
+                                          "width": 16,
+                                          "height": 16,
+                                          "icon": "linkedin",
+                                          "library": "lucide",
+                                          "fill": "$a-muted"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "sOZr7",
+                                          "name": "label",
+                                          "context": "span ← method.label",
+                                          "fill": "$a-ink",
+                                          "content": "LinkedIn",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "SOiBT",
+                                      "name": "value",
+                                      "context": "span ← method.value",
+                                      "fill": "$a-subtle",
+                                      "content": "linkedin.com/in/kyleross",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "aO79a",
+                          "name": "Form",
+                          "context": "form · contact form — props: fields[], topics[], timelines[], submitLabel",
+                          "width": 560,
+                          "fill": "$a-surface",
+                          "cornerRadius": 14,
+                          "stroke": "$a-line",
+                          "strokeWidth": 1,
+                          "layout": "vertical",
+                          "gap": 15,
+                          "padding": 22,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "jCCfe",
+                              "name": "Head",
+                              "context": "div.formhead",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "dlcBf",
+                                  "name": "t",
+                                  "context": "h2 ← form.title",
+                                  "fill": "$a-ink",
+                                  "content": "Send a message",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 17,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "RZzpL",
+                                  "name": "meta",
+                                  "context": "span ← form.meta",
+                                  "fill": "$a-subtle",
+                                  "content": "avg. reply 24h",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "piloc",
+                              "name": "Row",
+                              "context": "div.row · field pair",
+                              "width": "fill_container",
+                              "gap": 12,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "hvXCg",
+                                  "name": "Your name",
+                                  "context": "div.field — props: label, name, type, placeholder, required",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 7,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "EqHXY",
+                                      "name": "Label",
+                                      "context": "span ← field.label",
+                                      "fill": "$a-subtle",
+                                      "content": "Your name",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 12,
+                                      "fontWeight": "500"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "tc9k3",
+                                      "name": "Ada Lovelace",
+                                      "context": "input · field — props: type, name, placeholder, required",
+                                      "width": "fill_container",
+                                      "height": 40,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 10,
+                                      "stroke": "$a-line-2",
+                                      "strokeWidth": 1,
+                                      "gap": 9,
+                                      "padding": [
+                                        10,
+                                        12
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "SuUsF",
+                                          "name": "placeholder",
+                                          "context": "span ← field.placeholder",
+                                          "fill": "$a-muted",
+                                          "content": "Ada Lovelace",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "pP1BM",
+                                  "name": "Your email",
+                                  "context": "div.field — props: label, name, type, placeholder, required",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 7,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "z8raV",
+                                      "name": "Label",
+                                      "context": "span ← field.label",
+                                      "fill": "$a-subtle",
+                                      "content": "Your email",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 12,
+                                      "fontWeight": "500"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "v8s4Zt",
+                                      "name": "ada@studio.co",
+                                      "context": "input · field — props: type, name, placeholder, required",
+                                      "width": "fill_container",
+                                      "height": 40,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 10,
+                                      "stroke": "$a-line-2",
+                                      "strokeWidth": 1,
+                                      "gap": 9,
+                                      "padding": [
+                                        10,
+                                        12
+                                      ],
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "icon",
+                                          "id": "Z4ZuLE",
+                                          "name": "icon",
+                                          "context": "i · field icon",
+                                          "width": 15,
+                                          "height": 15,
+                                          "icon": "mail",
+                                          "library": "lucide",
+                                          "fill": "$a-faint"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "Rqldg",
+                                          "name": "placeholder",
+                                          "context": "span ← field.placeholder",
+                                          "fill": "$a-muted",
+                                          "content": "ada@studio.co",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "pZgp7",
+                              "name": "What is this about?",
+                              "context": "div.field — props: label, name, type, placeholder, required",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 7,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "BiJHZ",
+                                  "name": "Label",
+                                  "context": "span ← field.label",
+                                  "fill": "$a-subtle",
+                                  "content": "What is this about?",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "WM2Zg",
+                                  "name": "chips",
+                                  "context": "div.chips · role=radiogroup",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "children": [
+                                    {
+                                      "id": "mJNwv",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Project",
+                                      "context": "button · FilterChip ← option (selected)",
+                                      "fill": "$a-accent-soft",
+                                      "stroke": "$a-accent",
+                                      "strokeWidth": 1,
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Project",
+                                          "fill": "$a-accent-text"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "LtJnG",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Collaboration",
+                                      "context": "button · FilterChip ← option",
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Collaboration"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "QHGdB",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Speaking",
+                                      "context": "button · FilterChip ← option",
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Speaking"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "jRIzl",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Something else",
+                                      "context": "button · FilterChip ← option",
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Something else"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "A6RmD",
+                              "name": "Timeline",
+                              "context": "div.field — props: label, name, type, placeholder, required",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 7,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "nw5Uc",
+                                  "name": "Label",
+                                  "context": "span ← field.label",
+                                  "fill": "$a-subtle",
+                                  "content": "Timeline",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "L0tKoM",
+                                  "name": "chips",
+                                  "context": "div.chips · role=radiogroup",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "children": [
+                                    {
+                                      "id": "JvPtv",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Next 2 weeks",
+                                      "context": "button · FilterChip ← option",
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Next 2 weeks"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "F6hMa",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "This month",
+                                      "context": "button · FilterChip ← option (selected)",
+                                      "fill": "$a-accent-soft",
+                                      "stroke": "$a-accent",
+                                      "strokeWidth": 1,
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "This month",
+                                          "fill": "$a-accent-text"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "id": "g9T6HY",
+                                      "type": "ref",
+                                      "ref": "RA61q",
+                                      "name": "Just exploring",
+                                      "context": "button · FilterChip ← option",
+                                      "descendants": {
+                                        "ou8Ri": {
+                                          "content": "Just exploring"
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "UnjVC",
+                              "name": "Message",
+                              "context": "div.field — props: label, name, type, placeholder, required",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 7,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "fYxRC",
+                                  "name": "Label",
+                                  "context": "span ← field.label",
+                                  "fill": "$a-subtle",
+                                  "content": "Message",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 12,
+                                  "fontWeight": "500"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "qWO9y",
+                                  "name": "textarea",
+                                  "context": "textarea · field — props: name, placeholder, rows, required",
+                                  "width": "fill_container",
+                                  "height": 120,
+                                  "fill": "$a-bg",
+                                  "cornerRadius": 10,
+                                  "stroke": "$a-line-2",
+                                  "strokeWidth": 1,
+                                  "padding": 12,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "Q19LYt",
+                                      "name": "placeholder",
+                                      "context": "span ← field.placeholder",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Tell me about the project, the timeline, and what a good outcome looks like.",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 13,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "vrNKV",
+                              "name": "check",
+                              "context": "label · checkbox — props: name, checked",
+                              "gap": 9,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "WMjhl",
+                                  "name": "box",
+                                  "context": "span.box · checkbox control",
+                                  "width": 16,
+                                  "height": 16,
+                                  "fill": "$a-bg",
+                                  "cornerRadius": 5,
+                                  "stroke": "$a-line-2",
+                                  "strokeWidth": 1
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "nFO30",
+                                  "name": "l",
+                                  "context": "span ← checkbox.label",
+                                  "fill": "$a-subtle",
+                                  "content": "Include links to work you would like me to look at.",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 12.5,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "FChew",
+                              "name": "Actions",
+                              "context": "div.actions",
+                              "width": "fill_container",
+                              "gap": 10,
+                              "children": [
+                                {
+                                  "id": "X461hZ",
+                                  "type": "ref",
+                                  "ref": "CTvHL",
+                                  "name": "Send",
+                                  "context": "button · Button — variant=primary, icon=send, label ← form.submitLabel",
+                                  "width": "fill_container",
+                                  "descendants": {
+                                    "JBkQr": {
+                                      "icon": "send",
+                                      "fill": "$a-on-accent"
+                                    },
+                                    "rlJpG": {
+                                      "content": "Send message",
+                                      "fill": "$a-on-accent",
+                                      "fontWeight": "600"
+                                    }
+                                  }
+                                },
+                                {
+                                  "id": "zqK4V",
+                                  "type": "ref",
+                                  "ref": "CTvHL",
+                                  "name": "Clear",
+                                  "context": "button · Button — variant=secondary, icon=x, label",
+                                  "fill": "$a-surface",
+                                  "stroke": "$a-line-2",
+                                  "strokeWidth": 1,
+                                  "descendants": {
+                                    "JBkQr": {
+                                      "icon": "x",
+                                      "fill": "$a-muted"
+                                    },
+                                    "rlJpG": {
+                                      "content": "Clear",
+                                      "fill": "$a-ink",
+                                      "fontWeight": "500"
+                                    }
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "kPmna",
+                              "name": "note",
+                              "context": "p.note · privacy copy",
+                              "fill": "$a-subtle",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "No newsletter, no CRM — your note goes straight to my inbox.",
+                              "fontFamily": "$af-mono",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z1aih4",
+                          "name": "Aside",
+                          "context": "div.col-aside",
+                          "width": 320,
+                          "layout": "vertical",
+                          "gap": 18,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "sDDtx",
+                              "name": "How it works",
+                              "context": "section · steps",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 14,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "CtSKc",
+                                  "name": "heading",
+                                  "context": "h2 · section title",
+                                  "fill": "$a-ink",
+                                  "content": "How it works",
+                                  "fontFamily": "$af-display",
+                                  "fontSize": 20,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "yGg2V",
+                                  "name": "You send a note",
+                                  "context": "li · step",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "EEILT",
+                                      "name": "num",
+                                      "context": "span.num · step index",
+                                      "width": 22,
+                                      "height": 22,
+                                      "fill": "$a-accent-soft",
+                                      "cornerRadius": 11,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "oA2tw",
+                                          "name": "n",
+                                          "context": "span ← step.n",
+                                          "fill": "$a-accent-text",
+                                          "content": "1",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "UV9eY",
+                                      "name": "tx",
+                                      "context": "div.copy",
+                                      "width": "fill_container",
+                                      "layout": "vertical",
+                                      "gap": 2,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "IZyAm",
+                                          "name": "t",
+                                          "context": "span ← step.title",
+                                          "fill": "$a-ink",
+                                          "content": "You send a note",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "600"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "C7AE7F",
+                                          "name": "s",
+                                          "context": "p ← step.desc",
+                                          "fill": "$a-muted",
+                                          "textGrowth": "fixed-width",
+                                          "width": "fill_container",
+                                          "content": "A few lines on what you are building and why.",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 12.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "uFBEn",
+                                  "name": "I reply within a day",
+                                  "context": "li · step",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "rDKvt",
+                                      "name": "num",
+                                      "context": "span.num · step index",
+                                      "width": 22,
+                                      "height": 22,
+                                      "fill": "$a-accent-soft",
+                                      "cornerRadius": 11,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "CZ9fO",
+                                          "name": "n",
+                                          "context": "span ← step.n",
+                                          "fill": "$a-accent-text",
+                                          "content": "2",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "lIXMU",
+                                      "name": "tx",
+                                      "context": "div.copy",
+                                      "width": "fill_container",
+                                      "layout": "vertical",
+                                      "gap": 2,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "b1hWQ3",
+                                          "name": "t",
+                                          "context": "span ← step.title",
+                                          "fill": "$a-ink",
+                                          "content": "I reply within a day",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "600"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "tzgc2",
+                                          "name": "s",
+                                          "context": "p ← step.desc",
+                                          "fill": "$a-muted",
+                                          "textGrowth": "fixed-width",
+                                          "width": "fill_container",
+                                          "content": "With questions, my availability, and a next step.",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 12.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "AasEk",
+                                  "name": "We talk",
+                                  "context": "li · step",
+                                  "width": "fill_container",
+                                  "gap": 12,
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "ujwtZ",
+                                      "name": "num",
+                                      "context": "span.num · step index",
+                                      "width": 22,
+                                      "height": 22,
+                                      "fill": "$a-accent-soft",
+                                      "cornerRadius": 11,
+                                      "justifyContent": "center",
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "BJLrP",
+                                          "name": "n",
+                                          "context": "span ← step.n",
+                                          "fill": "$a-accent-text",
+                                          "content": "3",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 11,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "eHZw8",
+                                      "name": "tx",
+                                      "context": "div.copy",
+                                      "width": "fill_container",
+                                      "layout": "vertical",
+                                      "gap": 2,
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "zD3lV",
+                                          "name": "t",
+                                          "context": "span ← step.title",
+                                          "fill": "$a-ink",
+                                          "content": "We talk",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13.5,
+                                          "fontWeight": "600"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "t962F",
+                                          "name": "s",
+                                          "context": "p ← step.desc",
+                                          "fill": "$a-muted",
+                                          "textGrowth": "fixed-width",
+                                          "width": "fill_container",
+                                          "content": "A 30-minute call, or a written proposal if you prefer.",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 12.5,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "u1CHjD",
+                              "name": "Note",
+                              "context": "div.note · availability note",
+                              "width": "fill_container",
+                              "fill": "$a-surface",
+                              "cornerRadius": 12,
+                              "stroke": "$a-line",
+                              "strokeWidth": 1,
+                              "gap": 10,
+                              "padding": [
+                                12,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "icon",
+                                  "id": "DtQgS",
+                                  "name": "icon",
+                                  "context": "i · note icon",
+                                  "width": 16,
+                                  "height": 16,
+                                  "icon": "globe",
+                                  "library": "lucide",
+                                  "fill": "$a-muted"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "E5E5F",
+                                  "name": "t",
+                                  "context": "span ← note.text",
+                                  "fill": "$a-subtle",
+                                  "textGrowth": "fixed-width",
+                                  "width": "fill_container",
+                                  "content": "Manchester, UK — working with clients across GMT±3.",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 12.5,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "z2Jk6",
+                              "name": "pref",
+                              "context": "p.pref · alternative contact",
+                              "fill": "$a-muted",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Prefer email? kyle@badger3000.dev",
+                              "fontFamily": "$af-ui",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "lQfls",
+              "type": "ref",
+              "ref": "x1KGxY",
+              "name": "Footer",
+              "context": "footer · Footer",
+              "width": "fill_container"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "lPYoL",
+      "x": 3370,
+      "y": 11612,
+      "name": "Layout — Large screens",
+      "context": "section · responsive rules",
+      "width": 720,
+      "fill": "$a-bg",
+      "cornerRadius": 14,
+      "stroke": "$a-line",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": 16,
+      "padding": 24,
+      "children": [
+        {
+          "type": "text",
+          "id": "yS5QK",
+          "name": "eyebrow",
+          "fill": "$a-subtle",
+          "content": "LAYOUT · LARGE SCREENS",
+          "fontFamily": "$af-mono",
+          "fontSize": 10.5,
+          "fontWeight": "normal",
+          "letterSpacing": 1
+        },
+        {
+          "type": "text",
+          "id": "TBzLX",
+          "name": "title",
+          "fill": "$a-ink",
+          "content": "Cap the container, grow the gutters",
+          "fontFamily": "$af-display",
+          "fontSize": 24,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "text",
+          "id": "EeYPL",
+          "name": "body",
+          "fill": "$a-muted",
+          "textGrowth": "fixed-width",
+          "width": "fill_container",
+          "content": "Past 1440px the page stops getting wider. The content container stays at 1360px and centres, so extra space becomes margin — never stretched rows, never a 2000px-wide paragraph.",
+          "lineHeight": 1.55,
+          "fontFamily": "$af-ui",
+          "fontSize": 13.5,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "X7h483",
+          "name": "Diagram",
+          "context": "figure · container width per viewport",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "CTb40",
+              "name": "1280 × 800",
+              "context": "row · viewport + container",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TYNOa",
+                  "name": "labels",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "t6KZj5",
+                      "name": "vw",
+                      "fill": "$a-subtle",
+                      "content": "1280 × 800",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "QWaz6",
+                      "name": "mode",
+                      "fill": "$a-muted",
+                      "content": "2 cols · 936px",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "fwoOz",
+                  "name": "bar",
+                  "context": "div.viewport",
+                  "width": 320,
+                  "height": 22,
+                  "fill": "$a-surface",
+                  "cornerRadius": 6,
+                  "stroke": "$a-line-2",
+                  "strokeWidth": 1,
+                  "padding": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qSDST",
+                      "name": "container",
+                      "context": "div.container · max-width",
+                      "width": 234,
+                      "height": 16,
+                      "fill": "$a-accent-soft",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "NqLOE",
+              "name": "1440 × 900",
+              "context": "row · viewport + container",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "iuR4b",
+                  "name": "labels",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Mluy8",
+                      "name": "vw",
+                      "fill": "$a-subtle",
+                      "content": "1440 × 900",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "nNXAr",
+                      "name": "mode",
+                      "fill": "$a-muted",
+                      "content": "2 cols · 1096px",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nmVCh",
+                  "name": "bar",
+                  "context": "div.viewport",
+                  "width": 360,
+                  "height": 22,
+                  "fill": "$a-surface",
+                  "cornerRadius": 6,
+                  "stroke": "$a-line-2",
+                  "strokeWidth": 1,
+                  "padding": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nC7wL",
+                      "name": "container",
+                      "context": "div.container · max-width",
+                      "width": 274,
+                      "height": 16,
+                      "fill": "$a-accent-soft",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "w3Xst",
+              "name": "1920 × 1080",
+              "context": "row · viewport + container",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TUHuT",
+                  "name": "labels",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qzl0k",
+                      "name": "vw",
+                      "fill": "$a-subtle",
+                      "content": "1920 × 1080",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "AAtBD",
+                      "name": "mode",
+                      "fill": "$a-muted",
+                      "content": "3 cols · 1360px",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EQHgE",
+                  "name": "bar",
+                  "context": "div.viewport",
+                  "width": 480,
+                  "height": 22,
+                  "fill": "$a-surface",
+                  "cornerRadius": 6,
+                  "stroke": "$a-line-2",
+                  "strokeWidth": 1,
+                  "padding": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "BEsTh",
+                      "name": "container",
+                      "context": "div.container · max-width",
+                      "width": 340,
+                      "height": 16,
+                      "fill": "$a-accent-soft",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "a0efom",
+              "name": "2560 × 1440",
+              "context": "row · viewport + container",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "O45DP",
+                  "name": "labels",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "F68spZ",
+                      "name": "vw",
+                      "fill": "$a-subtle",
+                      "content": "2560 × 1440",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FHqJG",
+                      "name": "mode",
+                      "fill": "$a-muted",
+                      "content": "3 cols · 1360px",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "J8qMLC",
+                  "name": "bar",
+                  "context": "div.viewport",
+                  "width": 640,
+                  "height": 22,
+                  "fill": "$a-surface",
+                  "cornerRadius": 6,
+                  "stroke": "$a-line-2",
+                  "strokeWidth": 1,
+                  "padding": 3,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vJeZj",
+                      "name": "container",
+                      "context": "div.container · max-width",
+                      "width": 340,
+                      "height": 16,
+                      "fill": "$a-accent-soft",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "H58Jm",
+          "name": "Rules",
+          "context": "ul · rules",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 8,
+          "children": [
+            {
+              "type": "text",
+              "id": "z7uxRF",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· container: max-width 1360px, margin-inline auto",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "E1LX0R",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· gutters: 40px desktop · 16px mobile",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "skBTV",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· ≥1440px: 3 columns — 420 / 560 / 320, fixed widths",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "SF69U",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· 1024–1439px: 2 columns — intro + form, form 520px",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "JfjCv",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· <768px: single column, form first",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "xDF5n",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· never let a row fill the viewport — stats tiles stay 132–180px",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "TUdHk",
+              "name": "rule",
+              "fill": "$a-subtle",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "· body text caps at ~70 characters per line",
+              "fontFamily": "$af-mono",
+              "fontSize": 11.5,
+              "fontWeight": "normal"
+            }
+          ]
         }
       ]
     }

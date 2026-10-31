@@ -70,9 +70,15 @@ const {
   .archive {
     background: var(--a-bg);
   }
+  /* Pen `lPYoL` (Layout — Large screens): the container stops at 1360px and
+     centres; the 40px gutters sit inside the 1440px border-box. */
   .inner {
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
     padding: 28px 40px;
   }
   /* The filterable block is one child of .inner, so it needs the container's

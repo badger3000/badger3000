@@ -104,13 +104,34 @@ const [experience, education, counts, settings] = await Promise.all([
     text-transform: uppercase;
     color: var(--a-subtle);
   }
+  /* One column on mobile and tablet; a grid once the content area is wide
+     enough for a row to keep its logo, dates and a readable description:
+     2 columns from 1308px, 3 in the 1360px container from 1704px. */
   .timeline {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 10px;
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  .timeline > li {
+    min-width: 0;
+  }
+  .timeline > li > :global(.row) {
+    box-sizing: border-box;
+    height: 100%;
+  }
+  @media (min-width: 1308px) {
+    .timeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+  @media (min-width: 1704px) {
+    .timeline {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   @media print {
@@ -131,6 +152,10 @@ const [experience, education, counts, settings] = await Promise.all([
       --a-line-2: var(--p-200);
       --a-accent: var(--p-coral-700);
       --a-accent-text: var(--p-coral-700);
+    }
+    /* The résumé stays one column on paper. */
+    .timeline {
+      grid-template-columns: minmax(0, 1fr) !important;
     }
     /* The chrome and anything interactive. */
     :global(.skip),

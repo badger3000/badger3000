@@ -87,7 +87,13 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
 </div>
 
 <style>
+  /* `position: relative` makes the shell the containing block for anything
+     absolutely positioned inside it (the spoken "opens in a new tab" span, for
+     one). Without it that span's containing block is the viewport, so
+     `overflow: hidden` doesn't clip it and every link deep in a page stretches
+     the window's scroll height: a second scrollbar and a blank screen below. */
   .shell {
+    position: relative;
     display: grid;
     grid-template-columns: 264px 1fr;
     height: 100dvh;
