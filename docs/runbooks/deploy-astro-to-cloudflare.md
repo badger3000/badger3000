@@ -43,7 +43,7 @@ Run from the repo root (or `pnpm run <script>` inside `apps/web`):
 - Pull request (same-repo only) → `check`, `build`, `wrangler versions upload`; the preview URL is in the job summary. Not promoted.
 - `repository_dispatch` type `sanity-publish`, or **Run workflow** → rebuild with fresh content.
 
-GitHub repo settings: secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SANITY_API_TOKEN`; variables `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL`, `PUBLIC_RECAPTCHA_SITE_KEY` (the reCAPTCHA v3 site key; the `/contact` form says it is not set up without it).
+GitHub repo settings: secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SANITY_API_TOKEN`; variables `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL`, `PUBLIC_RECAPTCHA_SITE_KEY` (the reCAPTCHA v3 site key; the `/contact` form says it is not set up without it), and optionally `PUBLIC_GTM_ID` (the `GTM-XXXX` container id; unset means no tag loads, see ADR 0014).
 
 Cloudflare side (one time): create an API token from the "Edit Cloudflare Workers" template (Workers Scripts: Edit, plus Workers AI and Account Settings read), note the account ID, run the first `deploy` locally so the Worker exists, then `wrangler secret put` each runtime secret (`SANITY_API_TOKEN`, `RECAPTCHA_SECRET_KEY`, `OWNER_EMAIL`, `SMTP_USER`, `SMTP_TOKEN`). Do not also connect Workers Builds, or every push deploys twice.
 

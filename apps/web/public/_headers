@@ -15,13 +15,20 @@
 #           with it, or the theme stops restoring (a CSP error in the console).
 #   style   self + inline: Astro inlines small stylesheets, and cover
 #           gradients are `style` attributes.
-#   img     self, the Sanity image CDN, data: (inline SVG icons).
+#   img     self, the Sanity image CDN, data: (inline SVG icons), and the GA/GTM
+#           hosts (measurement pixels).
 #   font    self (@fontsource, bundled into /_astro/).
 #   frame   CodePen embeds and the YouTube/Vimeo players in articles.
 #   connect self (/api/chat). Workers AI runs on the Worker, not in the browser.
+#           Plus the GA/GTM hosts: GA4 beacons go to *.google-analytics.com and
+#           *.analytics.google.com.
+#   GTM     script-src carries www.googletagmanager.com for gtm.js, which
+#           src/lib/gtm.ts loads. Tags a container adds may need more hosts here
+#           (a Google Ads or Meta pixel, for example); a blocked one shows as a CSP
+#           error in the console. There is no <noscript> iframe, so no frame-src.
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-xNn/k3HQ3KDh0F62KumhvC6bOhaQuWcOqs5BheIS23k='; style-src 'self' 'unsafe-inline'; img-src 'self' https://cdn.sanity.io data:; font-src 'self'; connect-src 'self'; frame-src https://codepen.io https://www.youtube-nocookie.com https://player.vimeo.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-xNn/k3HQ3KDh0F62KumhvC6bOhaQuWcOqs5BheIS23k=' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://cdn.sanity.io data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://codepen.io https://www.youtube-nocookie.com https://player.vimeo.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -33,7 +40,7 @@
 # The inline-script hash is Base.astro's theme restore, same as above.
 /contact
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-xNn/k3HQ3KDh0F62KumhvC6bOhaQuWcOqs5BheIS23k=' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' https://cdn.sanity.io data:; font-src 'self'; connect-src 'self' https://www.google.com/recaptcha/; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-xNn/k3HQ3KDh0F62KumhvC6bOhaQuWcOqs5BheIS23k=' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' https://cdn.sanity.io data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://www.google.com/recaptcha/ https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'
 
 # Prerendered to an extensionless file, which would otherwise be served as
 # application/octet-stream.

@@ -1,0 +1,18 @@
+---
+/**
+ * Google Tag Manager, as cheaply as it can be loaded.
+ *
+ * Renders the container id as a <meta> and pulls in `lib/gtm.ts`, which loads
+ * gtm.js after the page's `load` event, in idle time. Nothing here is inline, so
+ * the CSP's one script hash (Base.astro's theme restore) is untouched.
+ *
+ * Production builds only, and only for a well-formed `GTM-XXXX` id. An unset or
+ * empty `PUBLIC_GTM_ID` renders nothing: no meta, no script, no request.
+ */
+import { PUBLIC_GTM_ID } from "astro:env/client";
+
+const id = import.meta.env.PROD && /^GTM-[A-Z0-9]+$/.test(PUBLIC_GTM_ID ?? "") ? PUBLIC_GTM_ID : undefined;
+---
+
+{id && <meta name="gtm-id" content={id} />}
+{id && <script>import "../lib/gtm.ts";</script>}

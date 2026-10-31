@@ -30,6 +30,7 @@ import serifRegular from "@fontsource/instrument-serif/files/instrument-serif-la
 import "@badger3000/tokens/tokens.css";
 import "@badger3000/tokens/base.css";
 import Seo from "../components/Seo.astro";
+import Gtm from "../components/Gtm.astro";
 import type { SeoProps } from "../lib/seo.ts";
 
 interface Props {
@@ -53,6 +54,7 @@ const { title, description, seo } = Astro.props;
     <link rel="preload" href={interRegular} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={serifRegular} as="font" type="font/woff2" crossorigin />
     <ClientRouter />
+    <Gtm />
 
     <!--
       Restore the stored skin before first paint (no flash of the wrong theme),

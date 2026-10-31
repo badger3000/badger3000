@@ -62,6 +62,11 @@ export default defineConfig({
       // reCAPTCHA v3 site key for /contact. Public by design; the secret half is
       // RECAPTCHA_SECRET_KEY on the Worker. Missing -> the form says it is not set up.
       PUBLIC_RECAPTCHA_SITE_KEY: envField.string({ context: "client", access: "public", optional: true }),
+      // Google Tag Manager container id (GTM-XXXX). Public by design. Unset (or an
+      // empty CI variable) → no tag loads; also never loads in `astro dev`. The
+      // shape is checked in Gtm.astro, not here, so an empty value cannot fail
+      // the build.
+      PUBLIC_GTM_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_SANITY_API_VERSION: envField.string({ context: "client", access: "public", default: "2024-03-09" }),
       // The dataset is private, but the CDN serves it to a request that carries
       // the token, so published reads use it. Draft preview always bypasses it.
