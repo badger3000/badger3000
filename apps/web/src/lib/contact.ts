@@ -45,6 +45,34 @@ island("[data-contact-form]", (root) => {
   const siteKey = form.dataset.siteKey ?? "";
   const status = form.querySelector<HTMLElement>("[data-contact-status]")!;
   const send = form.querySelector<HTMLButtonElement>("[data-contact-send]")!;
+  const sent = form.parentElement?.querySelector<HTMLElement>("[data-contact-success]") ?? null;
+
+  /** Swap the form for the success card (pen `x7QM0G`), filled with what was sent. */
+  const showSuccess = (name: string, topic: string, timeline: string) => {
+    if (!sent) return;
+    const first = name.split(/\s+/)[0] ?? "";
+    sent.querySelector("[data-contact-ack]")!.textContent = first
+      ? sent.dataset.ack!.replace("{name}", first)
+      : sent.dataset.ackAnonymous!;
+    for (const [selector, value] of [
+      ["[data-contact-sent-topic]", topic],
+      ["[data-contact-sent-timeline]", timeline],
+    ] as const) {
+      const row = sent.querySelector<HTMLElement>(selector)!;
+      row.hidden = !value;
+      row.querySelector("dd")!.textContent = value;
+    }
+    form.hidden = true;
+    sent.hidden = false;
+    sent.querySelector<HTMLElement>("h2")?.focus();
+  };
+  const again = sent?.querySelector<HTMLButtonElement>("[data-contact-again]");
+  const onAgain = () => {
+    sent!.hidden = true;
+    form.hidden = false;
+    form.querySelector<HTMLElement>("[name=name]")?.focus();
+  };
+  again?.addEventListener("click", onAgain);
   const say = (text: string, state: "info" | "error" = "info") => {
     status.textContent = text;
     status.dataset.state = state;
@@ -102,8 +130,12 @@ island("[data-contact-form]", (root) => {
         say(body.message ?? body.error ?? "Something went wrong. Please try again.", "error");
         return;
       }
+      const topic = String(data.get("topic") ?? "");
+      const timeline = timelineShown ? String(data.get("timeline") ?? "") : "";
       form.reset();
-      say("Thanks — your message is on its way. I'll get back to you soon.");
+      say("");
+      if (sent) showSuccess(name, topic, timeline);
+      else say("Thanks — your message is on its way. I'll get back to you soon.");
     } catch {
       say("Couldn't send the message. Check your connection and try again.", "error");
     } finally {
@@ -112,5 +144,8 @@ island("[data-contact-form]", (root) => {
   };
 
   form.addEventListener("submit", onSubmit);
-  return () => form.removeEventListener("submit", onSubmit);
+  return () => {
+    form.removeEventListener("submit", onSubmit);
+    again?.removeEventListener("click", onAgain);
+  };
 });

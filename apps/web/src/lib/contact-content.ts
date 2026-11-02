@@ -33,6 +33,20 @@ export const steps = [
   { title: "We talk", text: "A 30-minute call, or a written proposal if you prefer." },
 ];
 
+/** The form's success state — pen `x7QM0G` (master `h9O7Hb`). `{name}` is the visitor's first name. */
+export const success = {
+  title: "Message sent",
+  meta: "sent just now",
+  ack: "Thanks, {name} — your note is on its way.",
+  ackAnonymous: "Thanks — your note is on its way.",
+  body: "I read every message myself and usually reply within a day. Your note is in my inbox now — nothing else was stored.",
+  summaryLabel: "What you sent",
+  nextLabel: "What happens next",
+  next: ["Your note lands in my inbox.", "I reply within a day — usually sooner.", "If it fits, we set up a call."],
+  again: "Send another message",
+  note: "Reply lands in your inbox within a day. If it is urgent, email wins.",
+};
+
 export const note = "Manchester, UK — working across GMT±3.";
 
 export const email = "kyle@badger3000.dev";
