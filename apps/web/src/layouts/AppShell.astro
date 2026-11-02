@@ -186,34 +186,7 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
     body.scrollTop = read()[positionOf()] ?? 0;
   };
 
-  /**
-   * "Education" is `/experience#education`, so the server can only mark
-   * Experience as current. Move `aria-current` to it when the hash says so.
-   */
-  const markHash = () => {
-    const onExperience = location.pathname.replace(/\/$/, "") === "/experience";
-    const education = onExperience && location.hash === "#education";
-    const links = document.querySelectorAll<HTMLAnchorElement>(
-      'nav a[href="/experience"], nav a[href="/experience#education"]',
-    );
-    for (const link of links) {
-      const current = link.getAttribute("href") === "/experience" ? onExperience && !education : education;
-      if (current) link.setAttribute("aria-current", "page");
-      else link.removeAttribute("aria-current");
-    }
-  };
-
   document.addEventListener("astro:before-preparation", save);
-  document.addEventListener("astro:page-load", () => {
-    restore();
-    markHash();
-  });
-  // A same-page hash link is handled by the router with `pushState`, which
-  // fires neither `astro:page-load` nor `hashchange`; check again once it ran.
-  document.addEventListener("click", (event) => {
-    if ((event.target as Element).closest('nav a[href^="/experience"]')) setTimeout(markHash);
-  });
-  addEventListener("popstate", markHash);
-  addEventListener("hashchange", markHash);
+  document.addEventListener("astro:page-load", restore);
   addEventListener("pagehide", save);
 </script>
