@@ -9,6 +9,7 @@
 import { delegate } from "./island.ts";
 import { THEMES, applyTheme, isTheme, readTheme } from "./theme.ts";
 import { reset } from "./chat.ts";
+import { reveal } from "./scroll.ts";
 
 const drawer = () => document.querySelector<HTMLDialogElement>("[data-drawer]");
 const composer = () => document.querySelector<HTMLInputElement>("[data-composer-input]");
@@ -155,7 +156,7 @@ delegate("click", "[data-suggestion]", (chip) => {
   const field = composer();
   if (!prompt || !field) return;
   field.value = prompt;
-  field.focus();
+  field.focus({ preventScroll: true });
   field.dispatchEvent(new Event("input", { bubbles: true }));
 });
 
@@ -169,6 +170,30 @@ delegate("click", "[data-search-focus]", () => {
   if (!field) return;
   const header = field.closest<HTMLElement>("[data-pagehead]");
   if (header) header.dataset.searchOpen = "";
-  field.scrollIntoView({ block: "center" });
+  reveal(field, "center");
   field.focus({ preventScroll: true });
 });
+
+// --- Soft keyboard ----------------------------------------------------------
+
+// The shell is exactly one screen tall and never scrolls itself. Mobile
+// browsers still pan the page up when the keyboard opens to keep the focused
+// field in view, which slides the top bar and footer off the screen. Where the
+// browser supports it (`interactive-widget=resizes-content` in the viewport
+// meta) the layout simply shrinks; elsewhere (iOS) fit the shell to the visible
+// area and put the page back at the top whenever it is panned. Pinch-zoom
+// changes the visual viewport too, so do nothing while zoomed.
+const viewport = window.visualViewport;
+if (viewport) {
+  const fit = () => {
+    const root = document.documentElement;
+    if (viewport.scale !== 1) {
+      root.style.removeProperty("--app-h");
+      return;
+    }
+    root.style.setProperty("--app-h", `${Math.round(viewport.height)}px`);
+    if (window.scrollY || root.scrollTop) window.scrollTo(0, 0);
+  };
+  viewport.addEventListener("resize", fit);
+  viewport.addEventListener("scroll", fit);
+}

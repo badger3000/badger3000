@@ -48,7 +48,7 @@ const { title, description, seo } = Astro.props;
 <html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
     <Seo {...seo} title={seo?.title ?? title} description={seo?.description ?? description} />
     <meta name="generator" content={Astro.generator} />
     <link rel="preload" href={interRegular} as="font" type="font/woff2" crossorigin />

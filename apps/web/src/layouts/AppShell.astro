@@ -128,6 +128,11 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
          min-content inside it and push the page sideways. */
       grid-template-columns: minmax(0, 1fr);
     }
+    /* Follows the visible area while the keyboard is up (see lib/shell.ts). */
+    .shell,
+    .main {
+      height: var(--app-h, 100dvh);
+    }
   }
 </style>
 
