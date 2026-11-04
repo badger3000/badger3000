@@ -39,9 +39,9 @@ Run from the repo root (or `pnpm run <script>` inside `apps/web`):
 
 **CI deploy: GitHub Actions** (`.github/workflows/deploy-web.yml`, supersedes the Workers Builds plan). It calls the package scripts, never `turbo run`, because Turbo's cache doesn't know about Sanity content.
 
-- Push to `astro-dev` (paths under `apps/web`, `packages`, lockfile) → `check`, `build`, `deploy:worker`.
-- Pull request (same-repo only) → `check`, `build`, `wrangler versions upload`; the preview URL is in the job summary. Not promoted.
-- `repository_dispatch` type `sanity-publish`, or **Run workflow** → rebuild with fresh content.
+- Push to `master` (paths under `apps/web`, `packages`, lockfile) → `check`, `build`, `deploy:worker` (production).
+- Push to any other branch → `check`, `build`, `wrangler versions upload`; the preview URL is in the job summary. Not promoted. Pushes only run this when they touch those paths.
+- `repository_dispatch` type `sanity-publish`, or **Run workflow** on `master` → rebuild production with fresh content. **Run workflow** on another branch uploads a preview of it.
 
 GitHub repo settings: secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `SANITY_API_TOKEN`; variables `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SITE_URL`, `PUBLIC_RECAPTCHA_SITE_KEY` (the reCAPTCHA v3 site key; the `/contact` form says it is not set up without it), and optionally `PUBLIC_GTM_ID` (the `GTM-XXXX` container id; unset means no tag loads, see ADR 0014).
 
