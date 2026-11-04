@@ -79,12 +79,10 @@ function updateReadme(posts) {
     return false;
   }
 
-  // Generate new content for the blog posts section with HTML anchor tags
+  // Generate new content for the blog posts section as markdown links
   const postsList = posts
-    .map((post, index) => {
-      const listItem = `- <a href="${post.url}">${post.title}</a>`;
-      // Add <br/> after each item except the last one
-      return index < posts.length - 1 ? listItem + "\n<br/>" : listItem;
+    .map((post) => {
+      return `- [${post.title}](${post.url})`;
     })
     .join("\n");
 

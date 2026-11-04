@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="320" viewBox="0 0 900 320" role="img" aria-label="Hey — I'm Badger3000. Kyle Ross's AI.">
+  <rect width="900" height="320" rx="20" fill="#fafaf8"/>
+  <rect x="0.5" y="0.5" width="899" height="319" rx="19.5" fill="none" stroke="#eae7e0"/>
+  <circle cx="450" cy="62" r="30" fill="#e4572e"/>
+  <text x="450" y="72" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" fill="#ffffff">B</text>
+  <text x="450" y="140" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="46" fill="#1a1a18">Hey — I'm Badger3000<tspan fill="#e4572e">.</tspan></text>
+  <text x="450" y="176" text-anchor="middle" font-family="-apple-system, 'Inter', 'Segoe UI', sans-serif" font-size="16" fill="#6e6b64">Kyle Ross's AI. Ask about his projects, writing, and experience — or just say hi.</text>
+  <rect x="190" y="212" width="520" height="56" rx="28" fill="#ffffff" stroke="#ded9ce"/>
+  <text x="222" y="246" font-family="-apple-system, 'Inter', 'Segoe UI', sans-serif" font-size="15" fill="#6e6b64">Ask Badger3000 anything…</text>
+  <circle cx="680" cy="240" r="20" fill="#e4572e"/>
+  <path d="M672 240h16m-6-6 6 6-6 6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
