@@ -70,6 +70,34 @@ curl -s -X POST https://<worker>.workers.dev/api/chat -H 'content-type: applicat
 
 Then open the URL and click through the three skins (light / dark / forest) and the mobile width.
 
+## Custom domain
+
+Point `badger3000.com` and `www.badger3000.com` at the Worker (PRD phase 7 cutover step). The zone must already be on Cloudflare DNS.
+
+1. Delete any existing A/AAAA/CNAME records for the apex and `www` (the old Netlify ones). A custom domain can't be added over an existing record.
+2. Dashboard → **Workers & Pages** → **badger3000-web** → **Settings** → **Domains & Routes** → **Add** → **Custom domain**. Add the apex, then `www`. Cloudflare creates the proxied DNS record and the certificate; the domain shows **Active** within a few minutes.
+   - Doing it in `wrangler.jsonc` instead (`routes` with `"custom_domain": true`) works too, but a deploy then removes any dashboard-only domains. Use one method.
+3. Redirect the non-canonical host (`www` → apex, or the reverse) with a **Redirect Rule** (301). Set `PUBLIC_SITE_URL` to the canonical origin.
+4. Keep the Netlify site paused, not deleted, until you've verified; rolling back means removing the custom domain and restoring the old record.
+
+Verify it is the Astro build and not the Next one:
+
+```bash
+curl -sI https://badger3000.com | grep -iE "^(HTTP|server|cf-ray|content-security-policy)"  # cloudflare, CSP from public/_headers
+curl -s  https://badger3000.com | grep -c "/_astro/"                                        # > 0 (Next serves /_next/static)
+```
+
+**Propagation.** Domain already on Cloudflare DNS: 1–5 minutes (the certificate is the slow part, rarely up to ~15). Nameserver change at the registrar: minutes to 24 h. Old cached records live until their TTL; lower it to 60 s a day ahead of a cutover.
+
+**"I updated DNS but still see the old site"**: the edge is usually already right and a cache is stale. Check in order:
+
+1. `dig +short badger3000.com @1.1.1.1` returns Cloudflare IPs (104.21.x / 172.67.x for proxied records) and the curl above shows `/_astro/`: the cutover worked.
+2. Flush the local resolver: `sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder` (macOS). Chrome also keeps its own: `chrome://net-internals/#dns` → **Clear host cache**, and **Clear browsing data** for cached files.
+3. Try a private window, another network or a phone on cellular.
+4. Bypass the resolver: `curl --resolve badger3000.com:443:<cloudflare-ip> https://badger3000.com`.
+5. If dig still returns Netlify IPs or the Next markup (`/_next/static`), a record is still pointing at Netlify: re-check step 1 above, and make sure the zone's nameservers at the registrar are the ones Cloudflare assigned.
+6. HTML is `max-age=0, must-revalidate`, but `cf-cache-status: HIT` after a deploy means purge: **Caching → Configuration → Purge Everything**.
+
 ## Troubleshooting
 
 - **`Node.js vX is not supported by Astro`**: you ran `astro` outside the package scripts (so the guard never ran). Use the scripts, or `nvm use` first.
