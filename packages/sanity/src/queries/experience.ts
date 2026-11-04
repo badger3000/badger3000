@@ -2,7 +2,7 @@ import { defineQuery } from "groq";
 import { IMAGE } from "./fragments.ts";
 
 /** Browse — Experience (pen QTqA7): timeline plus education. */
-export const experienceQuery = defineQuery(`*[_type == "experience"] | order(startDate desc) {
+export const experienceQuery = defineQuery(`*[_type == "experience"] | order(coalesce(order, 9999) asc, startDate desc) {
   title,
   company,
   companyUrl,
@@ -14,7 +14,7 @@ export const experienceQuery = defineQuery(`*[_type == "experience"] | order(sta
   "logo": logo ${IMAGE}
 }`);
 
-export const educationQuery = defineQuery(`*[_type == "education"] | order(startDate desc) {
+export const educationQuery = defineQuery(`*[_type == "education"] | order(coalesce(order, 9999) asc, startDate desc) {
   degree,
   institution,
   institutionUrl,
@@ -36,7 +36,7 @@ export const experienceForChatQuery = defineQuery(`{
     && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]),
   "rows": *[_type == "experience"
     && (count($q) == 0 || count($q[[^.title, ^.company, ^.location, ^.description] match @]) > 0)]
-    | order(startDate desc) [0...$limit] {
+    | order(coalesce(order, 9999) asc, startDate desc) [0...$limit] {
     title, "org": company, "loc": location, startDate, endDate, description, "url": companyUrl
   }
 }`);
@@ -48,7 +48,7 @@ export const educationForChatQuery = defineQuery(`{
     && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]),
   "rows": *[_type == "education"
     && (count($q) == 0 || count($q[[^.degree, ^.institution] match @]) > 0)]
-    | order(startDate desc) [0...$limit] {
+    | order(coalesce(order, 9999) asc, startDate desc) [0...$limit] {
     "title": degree, "org": institution, startDate, endDate, description, "url": institutionUrl
   }
 }`);
