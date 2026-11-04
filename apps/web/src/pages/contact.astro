@@ -106,7 +106,13 @@ const lines = [
               </ol>
             </section>
 
-            <p class="where"><Icon name="globe" size={16} class="lico" /><span>{content.timezone.label}<span class="clock" data-clock={content.timezone.zone} hidden> · <time></time></span></span></p>
+            <div class="where">
+              <Icon name="globe" size={16} class="lico" />
+              <div class="clockbox" data-clock={content.timezone.zone}>
+                <span class="tzlabel"><span class="live" aria-hidden="true"></span>{content.timezone.eyebrow}</span>
+                <time></time>
+              </div>
+            </div>
             <p class="pref desk">Prefer email? <a href={`mailto:${content.email}`}>{content.email}</a></p>
           </div>
         </div>
@@ -383,10 +389,46 @@ const lines = [
     color: var(--a-muted);
   }
 
-  .clock {
+  .clockbox {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .tzlabel {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-family: var(--af-mono), ui-monospace, monospace;
-    font-size: 12px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .live {
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--a-ok);
+    animation: clock-live 2s ease-in-out infinite;
+  }
+  .clockbox time {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 14px;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
+    color: var(--a-ink);
+  }
+  /* Until the script has run there is no time to show, so no live dot either. */
+  .clockbox:not([data-live]) .live,
+  .clockbox:not([data-live]) time {
+    display: none;
+  }
+  @keyframes clock-live {
+    50% {
+      opacity: 0.35;
+    }
   }
   .where {
     display: flex;

@@ -48,7 +48,7 @@ export const success = {
 };
 
 /** Where the contact page says Kyle works from; the clock island ticks in `zone` (IANA, so MST/MDT follows the calendar). */
-export const timezone = { label: "US Mountain Time", zone: "America/Denver" };
+export const timezone = { eyebrow: "My local time · US Mountain", zone: "America/Denver" };
 
 export const email = "kyle@badger3000.dev";
 export const github = "https://github.com/kyle-ross";
