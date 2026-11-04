@@ -3,30 +3,23 @@
  * Avatar — pen master `Xu2VY`, the Badger3000 mark.
  * context: span · Avatar — Badger3000 agent mark
  *
- * `$a-ink` square, 🦡 glyph. The pen draws it at several sizes, each instance
- * overriding radius and glyph; those overrides are the size map below, so a
- * caller only picks a size:
+ * The traced badge logo (pen `Badger Mark`, `an3Jf`, 19 paths from
+ * mad_badger_studios_logo.jpeg) in `assets/badger-mark.svg`, with the pen's
+ * plate switched off. It is a brand mark with fixed colours (#010101 art, #fefefe
+ * inner plate), not design tokens, so it does not follow the theme. The pen
+ * draws it at several sizes; the mark itself is the shape, so a caller only
+ * picks a size:
  *
- *   24 r8/13  MobileTopBar title     30 r9/16   Sidebar brand
- *   26 r9/13  AgentMessage           32 r9/17   Mobile — Menu brand
- *   36 r11/18 the master             64 r20/32  404
- *   66 r19/28 Mobile — Home hero     76 r22/38  Agent UI — Home hero
+ *   24 MobileTopBar title     30 Sidebar brand       64 404
+ *   26 AgentMessage           32 Mobile — Menu brand 66 Mobile — Home hero
+ *   36 the master             76 Agent UI — Home hero
  *
  * `mobileSize` swaps to another size at ≤720px (the home hero is 76 → 66).
- * Decorative: the name is always next to it.
+ * Decorative: the name is always next to it, so the image has empty alt text.
  */
-const SIZES = {
-  24: [8, 13],
-  26: [9, 13],
-  30: [9, 16],
-  32: [9, 17],
-  36: [11, 18],
-  64: [20, 32],
-  66: [19, 28],
-  76: [22, 38],
-} as const;
+import mark from "./assets/badger-mark.svg";
 
-export type AvatarSize = keyof typeof SIZES;
+export type AvatarSize = 24 | 26 | 30 | 32 | 36 | 64 | 66 | 76;
 
 interface Props {
   size?: AvatarSize;
@@ -36,35 +29,24 @@ interface Props {
 
 const { size = 36, mobileSize, class: className } = Astro.props;
 
-const vars = (prefix: string, value: AvatarSize) => {
-  const [radius, glyph] = SIZES[value];
-  return `--${prefix}size:${value}px;--${prefix}radius:${radius}px;--${prefix}glyph:${glyph}px`;
-};
-const style = [vars("", size), mobileSize && vars("m-", mobileSize)].filter(Boolean).join(";");
+const style = [`--size:${size}px`, mobileSize && `--m-size:${mobileSize}px`].filter(Boolean).join(";");
 ---
 
-<span class:list={["avatar", className]} style={style} aria-hidden="true">🦡</span>
+<img class:list={["avatar", className]} src={mark.src} alt="" width={size} height={size} style={style} decoding="async" />
 
 <style>
   .avatar {
-    display: grid;
-    place-items: center;
+    display: block;
     flex: none;
     width: var(--size);
     height: var(--size);
-    border-radius: var(--radius);
-    background: var(--a-ink);
-    color: var(--a-surface);
-    font-family: var(--af-ui);
-    font-size: var(--glyph);
+    object-fit: contain;
   }
 
   @media (max-width: 720px) {
     .avatar {
       width: var(--m-size, var(--size));
       height: var(--m-size, var(--size));
-      border-radius: var(--m-radius, var(--radius));
-      font-size: var(--m-glyph, var(--glyph));
     }
   }
 </style>
