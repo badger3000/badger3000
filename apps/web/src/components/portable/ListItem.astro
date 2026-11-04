@@ -1,0 +1,17 @@
+---
+/** ListItem — one `li`; a nested list renders inside its slot. */
+import type { ListItemProps } from "astro-portabletext/types";
+
+type Props = ListItemProps;
+---
+
+<li class="item"><slot /></li>
+
+<style>
+  .item {
+    padding-left: 0.2em;
+  }
+  .item > :global(.list) {
+    margin-top: 0.45em;
+  }
+</style>

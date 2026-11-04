@@ -2,7 +2,7 @@
 
 <div align="center">
 
-**Frontend Developer • 15+ Years Experience**
+**Frontend Developer • 17+ Years Experience**
 
 _Building modern web experiences with enterprise-grade standards_
 

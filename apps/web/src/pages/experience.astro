@@ -1,0 +1,196 @@
+---
+/**
+ * Browse — Experience. Pen `QTqA7` (container gap 20, not 22).
+ *
+ *   PageHead (Experience + sub + Ask Badger + a Résumé download)
+ *   WORK label (mono 11 `$a-subtle`) · tl: one surface row per role
+ *   EDUCATION label · tl: one row per qualification
+ *
+ * The Résumé button points at the printable experience page until a PDF is added.
+ * Printing it gives the résumé (Next parity): the chrome, the filters and the
+ * actions drop out, the one-viewport shell unrolls, and every skin prints with
+ * the light palette.
+ */
+import Browse from "../layouts/Browse.astro";
+import { Button, FilterBar, Icon } from "@badger3000/ui";
+import TimelineEntry from "../components/TimelineEntry.astro";
+import { getExperience, getEducation, getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [experience, education, counts, settings] = await Promise.all([
+  getExperience(),
+  getEducation(),
+  getCounts(),
+  getSettings(),
+]);
+---
+
+<Browse
+  title="Experience"
+  description="Twelve years building for the web."
+  active="experience"
+  counts={counts}
+  settings={settings}
+  sub="Twelve years building for the web. Here's the short version."
+  gap={20}
+  seo={{ description: "Kyle Ross — work and education. Twelve years building for the web." }}
+>
+  <Fragment slot="actions">
+    <Button variant="soft" href="/" label="Ask Badger" class="ask">
+      <Icon slot="icon" name="sparkles" />
+    </Button>
+    <a class="download" href="/experience">
+      <Icon name="download" size={14} />
+      <span>Résumé</span>
+    </a>
+  </Fragment>
+
+  <div data-browse>
+    <FilterBar searchPlaceholder="Search roles…" searchLabel="Search experience" />
+
+    <h2 class="section">Work</h2>
+    <ul class="timeline">
+      {
+        experience.map((entry) => (
+          <li data-item data-search={`${entry.title} ${entry.company ?? ""} ${entry.location ?? ""}`}>
+            <TimelineEntry entry={entry} href={entry.companyUrl} />
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      education.length > 0 && (
+        <>
+          <h2 class="section" id="education">Education</h2>
+          <ul class="timeline">
+            {education.map((entry) => (
+              <li data-item data-search={`${entry.degree} ${entry.institution ?? ""}`}>
+                <TimelineEntry entry={entry} href={entry.institutionUrl} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    <p class="empty" data-empty hidden>Nothing matches that search.</p>
+  </div>
+</Browse>
+
+<style>
+  .download {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 14px;
+    border-radius: 10px;
+    background: var(--a-ink);
+    color: var(--a-surface);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .download:hover {
+    filter: brightness(1.15);
+  }
+
+  .section {
+    margin: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  /* One column on mobile and tablet; a grid once the content area is wide
+     enough for a row to keep its logo, dates and a readable description:
+     2 columns from 1308px, 3 in the 1360px container from 1704px. */
+  .timeline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .timeline > li {
+    min-width: 0;
+  }
+  .timeline > li > :global(.row) {
+    box-sizing: border-box;
+    height: 100%;
+  }
+  @media (min-width: 1308px) {
+    .timeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+  }
+  @media (min-width: 1704px) {
+    .timeline {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media print {
+    @page {
+      margin: 14mm 12mm;
+    }
+    /* Light palette in every skin: re-point the semantic tokens at the light
+       primitives, so a dark or forest reader still gets ink on paper. */
+    :global(html[data-theme]) {
+      --a-bg: var(--p-0);
+      --a-surface: var(--p-0);
+      --a-sidebar: var(--p-0);
+      --a-ink: var(--p-850);
+      --a-muted: var(--p-500);
+      --a-subtle: var(--p-500);
+      --a-faint: var(--p-500);
+      --a-line: var(--p-200);
+      --a-line-2: var(--p-200);
+      --a-accent: var(--p-coral-700);
+      --a-accent-text: var(--p-coral-700);
+    }
+    /* The résumé stays one column on paper. */
+    .timeline {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+    /* The chrome and anything interactive. */
+    :global(.skip),
+    :global(.sidebar),
+    :global(.topbar),
+    :global(.m-topbar),
+    :global(.tabbar),
+    :global(.drawer),
+    :global(.footer),
+    :global([data-pagehead] .actions),
+    :global([data-browse] .toolbar),
+    :global([data-empty]) {
+      display: none !important;
+    }
+    /* The shell is one viewport tall with an inner scroller; print the lot.
+       `!important` because AppShell's scoped rules outrank a page's. */
+    :global(.shell),
+    :global(.main),
+    :global(.body) {
+      display: block !important;
+      height: auto !important;
+      overflow: visible !important;
+    }
+    :global(.archive .inner) {
+      padding: 0 !important;
+    }
+    .timeline > :global(li) {
+      break-inside: avoid;
+    }
+    .section {
+      break-after: avoid;
+    }
+  }
+</style>
+
+<script>
+  import "../lib/browse.ts";
+</script>

@@ -1,0 +1,74 @@
+---
+/**
+ * FilterBar — the `nav · topic filters` row every browse screen carries. It
+ * renders as a labelled group, not a nav: filters are not a landmark.
+ *
+ * The page passes the chips: the topics that actually have items (the pen's
+ * labels — "Web App / Open Source / Client Work" — are placeholders). "All"
+ * always leads. The search box matches the pen's 200px `search` frame, and the
+ * `trailing` slot takes a control on the right, e.g. a sort.
+ */
+import FilterChip from "./FilterChip.astro";
+import Input from "./Input.astro";
+
+export interface Chip {
+  label: string;
+  /** What the filter applies, e.g. a topic slug. */
+  value: string;
+}
+
+interface Props {
+  chips?: Chip[];
+  /** Value of the pressed chip; "all" by default. */
+  active?: string;
+  searchPlaceholder?: string;
+  searchLabel?: string;
+  class?: string;
+}
+
+const { chips = [], active = "all", searchPlaceholder, searchLabel, class: className } = Astro.props;
+---
+
+<div class:list={["toolbar", className]}>
+  <div class="chips" role="group" aria-label="Filter by topic">
+    <FilterChip label="All" value="all" active={active === "all"} />
+    {chips.map((chip) => <FilterChip label={chip.label} value={chip.value} active={active === chip.value} />)}
+  </div>
+  {
+    searchPlaceholder && (
+      <Input
+        type="search"
+        label={searchLabel ?? searchPlaceholder}
+        placeholder={searchPlaceholder}
+        width={200}
+        class="search"
+      />
+    )
+  }
+  <slot name="trailing" />
+</div>
+
+<style>
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+
+  @media (max-width: 720px) {
+    .toolbar {
+      justify-content: stretch;
+    }
+    .search {
+      width: 100%;
+    }
+  }
+</style>

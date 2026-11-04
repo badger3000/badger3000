@@ -1,0 +1,51 @@
+---
+/**
+ * Link — the `link` annotation. Links off this site open in a new tab through
+ * ExternalLink (`rel="noopener noreferrer"`, an arrow, a spoken new-tab note).
+ */
+import type { Mark, MarkProps } from "astro-portabletext/types";
+import { ExternalLink } from "@badger3000/ui";
+
+type Props = MarkProps<{ href?: string }>;
+
+const { node } = Astro.props;
+const href = (node as Mark<{ href?: string }>).markDef?.href;
+
+const external = (() => {
+  if (!href || !/^https?:/i.test(href)) return false;
+  try {
+    return !/(^|\.)badger3000\.com$/i.test(new URL(href).hostname);
+  } catch {
+    return false;
+  }
+})();
+---
+
+{
+  href ? (
+    external ? (
+      <ExternalLink class="link" href={href}>
+        <slot />
+      </ExternalLink>
+    ) : (
+      <a class="link" href={href}>
+        <slot />
+      </a>
+    )
+  ) : (
+    <slot />
+  )
+}
+
+<style>
+  .link {
+    color: var(--a-accent-text);
+    text-decoration: underline;
+    text-decoration-color: var(--a-accent-soft);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+</style>

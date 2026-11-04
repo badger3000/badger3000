@@ -1,0 +1,49 @@
+---
+/**
+ * 404 — inside the app shell, so the nav and theme toggle still work from a
+ * dead link. `noindex` and no canonical: this page has no URL of its own.
+ */
+import Base from "../layouts/Base.astro";
+import AppShell from "../layouts/AppShell.astro";
+import { Avatar, Button } from "@badger3000/ui";
+import { getCounts, getSettings } from "../lib/sanity/index.ts";
+
+const [counts, settings] = await Promise.all([getCounts(), getSettings()]);
+---
+
+<Base seo={{ title: "Not found", description: "That page doesn't exist.", noindex: true }}>
+  <AppShell counts={counts} settings={settings} mobileBar="page" mobileTitle="Not found" mobileBottom="tabs">
+    <main class="wrap" id="main">
+      <Avatar size={64} />
+      <h1>Nothing burrowed here.</h1>
+      <p>That page doesn't exist. Ask me about Kyle's projects, writing, or experience instead.</p>
+      <Button label="Back to the agent" href="/" />
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .wrap {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 16px;
+    padding: 24px;
+    background: var(--a-bg);
+    text-align: center;
+  }
+  h1 {
+    margin: 0;
+    font-family: var(--af-display);
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  p {
+    max-width: 42ch;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+</style>

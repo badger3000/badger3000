@@ -1,0 +1,81 @@
+---
+/**
+ * TopBar — pen master `r30jlq`.
+ * context: header · TopBar
+ *
+ * The theme picker lives in the Sidebar profile block now, not here — the
+ * TopBar only owns status and the Résumé link. Routes that need a switch
+ * settle for the sidebar anyway, and stripping the duplicate toggle was the
+ * point: one place to change the skin, paired with the user it changes for.
+ */
+import { Button, Icon } from "@badger3000/ui";
+
+interface Props {
+  /** Where the Résumé link points until the printable résumé exists (phase 3). */
+  resumeHref?: string;
+}
+
+const { resumeHref = "/experience" } = Astro.props;
+---
+
+<header class="topbar">
+  <span class="left">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="name">Badger3000</span>
+    <span class="status">online</span>
+  </span>
+  <span class="right">
+    {/* pen `vqw23`: a secondary Button at the small size */}
+    <Button variant="secondary" size="sm" href={resumeHref} label="Résumé">
+      <Icon slot="icon" name="file-text" />
+    </Button>
+  </span>
+</header>
+
+<style>
+  .topbar {
+    position: relative;
+    z-index: 1;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 22px;
+    background: var(--a-surface);
+    border-bottom: 1px solid var(--a-line);
+  }
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--a-ok);
+  }
+  .name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .status {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 720px) {
+    /* The mobile bar (pen QIR7a / yM5Vm) replaces it below 720px. */
+    .topbar {
+      display: none;
+    }
+  }
+</style>

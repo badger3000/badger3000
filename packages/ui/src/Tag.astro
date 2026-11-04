@@ -1,0 +1,43 @@
+---
+/**
+ * Tag — pen master `rw7Gc`.
+ * context: span · Tag — props: label ← topic.title
+ *
+ * `onCover` is the FeatureCard's year stamp (`f3kriq` → `Year`): the fill
+ * switched off, the label 11/500 in `--a-on-cover-muted`, sitting straight on
+ * the cover gradient with no padding of its own.
+ */
+interface Props {
+  label: string;
+  tone?: "accent" | "onCover";
+  class?: string;
+}
+
+const { label, tone = "accent", class: className } = Astro.props;
+---
+
+<span class:list={["tag", tone, className]}>{label}</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent-text);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 400;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .onCover {
+    padding: 0;
+    background: transparent;
+    color: var(--a-on-cover-muted);
+    font-size: 11px;
+    font-weight: 500;
+  }
+</style>

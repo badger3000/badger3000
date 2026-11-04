@@ -1,0 +1,20 @@
+{
+  "name": "@badger3000/tokens",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/tokens.ts",
+    "./covers": "./src/covers.ts",
+    "./tokens.css": "./tokens.css",
+    "./base.css": "./base.css"
+  },
+  "scripts": {
+    "check": "node scripts/check.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@badger3000/config": "workspace:*",
+    "@types/node": "^24.19.2",
+    "typescript": "^6.0.3"
+  }
+}

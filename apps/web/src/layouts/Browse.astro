@@ -1,0 +1,97 @@
+---
+/**
+ * Browse — the shell every archive screen shares (pen frames `TpGPU`/`zhqXz`/
+ * `MZ8uYY`…: `main · archive` → `div.container` with padding [28, 40]).
+ *
+ * Every browse screen in the pen is the same shape — sidebar, top bar, a page
+ * header, then content — so the padding, the gap and the mobile chrome are
+ * declared once here instead of seven times.
+ */
+import Base from "./Base.astro";
+import AppShell from "./AppShell.astro";
+import { PageHeader } from "@badger3000/ui";
+import type { SiteSettings } from "../lib/sanity/types.ts";
+import type { SeoProps } from "../lib/seo.ts";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Sidebar nav id. */
+  active?: string;
+  counts?: Record<string, number | undefined>;
+  settings?: SiteSettings | null;
+  /** Shown in the CountBadge beside the title; omit for no badge. */
+  count?: number | string;
+  countLabel?: string;
+  sub?: string;
+  /** Pen's Experience container is gap 20, the rest gap 22. */
+  gap?: number;
+  /** Passed to Base's `<Seo>`; its title and description win over the ones above. */
+  seo?: SeoProps;
+}
+
+const {
+  title,
+  description,
+  active,
+  counts,
+  settings,
+  count,
+  countLabel,
+  sub,
+  gap = 22,
+  seo,
+} = Astro.props;
+---
+
+<Base title={`${title} — Badger3000`} description={description} seo={seo}>
+  <AppShell
+    active={active}
+    counts={counts}
+    settings={settings}
+    mobileBar="page"
+    mobileTitle={title}
+    mobileCount={typeof count === "number" ? count : undefined}
+    mobileTab={active === "bookmarks" ? "saved" : "explore"}
+    mobileBottom="tabs"
+  >
+    <main class="archive" id="main">
+      <div class="inner" style={`gap:${gap}px`}>
+        <PageHeader {title} {count} {countLabel} {sub}>
+          <Fragment slot="actions"><slot name="actions" /></Fragment>
+        </PageHeader>
+        <slot />
+      </div>
+    </main>
+  </AppShell>
+</Base>
+
+<style>
+  .archive {
+    background: var(--a-bg);
+  }
+  /* Pen `lPYoL` (Layout — Large screens): the container stops at 1360px and
+     centres; the 40px gutters sit inside the 1440px border-box. */
+  .inner {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 28px 40px;
+  }
+  /* The filterable block is one child of .inner, so it needs the container's
+     rhythm on the inside as well. */
+  .inner > :global([data-browse]) {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  @media (max-width: 720px) {
+    .inner {
+      padding: 16px;
+    }
+  }
+</style>

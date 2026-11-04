@@ -1,0 +1,82 @@
+[
+  { "_id": "topic.frontend", "_type": "topics", "title": "Front end", "slug": { "current": "front-end" } },
+  { "_id": "topic.project", "_type": "topics", "title": "Project", "slug": { "current": "project" } },
+  { "_id": "topic.golf", "_type": "topics", "title": "Golf", "slug": { "current": "golf" } },
+  { "_id": "topic.animation", "_type": "topics", "title": "Animation", "slug": { "current": "animation" } },
+
+  { "_id": "project.bookmarks", "_type": "projects", "_createdAt": "2025-01-10T00:00:00Z", "title": "Badger Bookmarks", "slug": { "current": "badger-bookmarks" }, "topic": { "_ref": "topic.project" }, "tech": ["React", "TypeScript", "Chrome"], "web_url": "https://example.com/bookmarks", "order": 1 },
+  { "_id": "project.headspace", "_type": "projects", "_createdAt": "2024-06-01T00:00:00Z", "title": "Headspace", "slug": { "current": "headspace" }, "topic": { "_ref": "topic.frontend" }, "tech": ["Figma", "CSS"], "web_url": "https://example.com/headspace", "order": 2 },
+  { "_id": "project.golf", "_type": "projects", "_createdAt": "2024-03-01T00:00:00Z", "title": "Golf Tracker", "slug": { "current": "golf-tracker" }, "topic": { "_ref": "topic.golf" }, "tech": ["Astro"], "order": 3 },
+  { "_id": "project.portfolio", "_type": "projects", "_createdAt": "2023-09-01T00:00:00Z", "title": "Portfolio v2", "slug": { "current": "portfolio-v2" }, "topic": { "_ref": "topic.frontend" }, "tech": ["Next.js", "React", "Tailwind"], "order": 4 },
+  { "_id": "project.weather", "_type": "projects", "_createdAt": "2023-02-01T00:00:00Z", "title": "Weather Widget", "slug": { "current": "weather-widget" }, "tech": ["Vue"], "order": 5 },
+  { "_id": "project.noslug", "_type": "projects", "_createdAt": "2023-01-01T00:00:00Z", "title": "Unlisted draft idea", "tech": ["React"], "order": 6 },
+
+  { "_id": "article.1", "_type": "articles", "_createdAt": "2026-09-01T00:00:00Z", "title": "Shipping a chat agent without an LLM key", "slug": { "current": "chat-agent" }, "topic": { "_ref": "topic.frontend" }, "excerpt": "Keyword routing and GROQ." },
+  { "_id": "article.2", "_type": "articles", "_createdAt": "2026-07-01T00:00:00Z", "title": "React Server Components explained", "slug": { "current": "rsc" }, "topic": { "_ref": "topic.frontend" }, "excerpt": "What runs where." },
+  { "_id": "article.3", "_type": "articles", "_createdAt": "2026-05-01T00:00:00Z", "title": "Why I golf", "slug": { "current": "why-i-golf" }, "topic": { "_ref": "topic.golf" }, "excerpt": "Eighteen holes of patience." },
+  { "_id": "article.4", "_type": "articles", "_createdAt": "2026-03-01T00:00:00Z", "title": "TypeScript tips for tired people", "slug": { "current": "ts-tips" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "article.5", "_type": "articles", "_createdAt": "2026-01-01T00:00:00Z", "title": "Design tokens in practice", "slug": { "current": "tokens" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "article.6", "_type": "articles", "_createdAt": "2025-11-01T00:00:00Z", "title": "CSS container queries", "slug": { "current": "container-queries" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "article.7", "_type": "articles", "_createdAt": "2025-06-01T00:00:00Z", "title": "Getting started with Astro", "slug": { "current": "astro" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "article.8", "_type": "articles", "_createdAt": "2025-02-01T00:00:00Z", "title": "Notes from a year of Sanity", "slug": { "current": "sanity-year" }, "topic": { "_ref": "topic.frontend" } },
+
+  { "_id": "pen.1", "_type": "codepen", "_createdAt": "2026-08-01T00:00:00Z", "title": "Canvas particles", "slug": { "current": "canvas-particles" }, "topic": { "_ref": "topic.animation" }, "excerpt": "Ten thousand dots.", "penUrl": "https://codepen.io/x/pen/1" },
+  { "_id": "pen.2", "_type": "codepen", "_createdAt": "2026-07-01T00:00:00Z", "title": "CSS grid gallery", "slug": { "current": "grid-gallery" }, "topic": { "_ref": "topic.frontend" }, "penUrl": "https://codepen.io/x/pen/2" },
+  { "_id": "pen.3", "_type": "codepen", "_createdAt": "2026-06-01T00:00:00Z", "title": "Animated logo", "slug": { "current": "animated-logo" }, "topic": { "_ref": "topic.animation" } },
+  { "_id": "pen.4", "_type": "codepen", "_createdAt": "2026-05-01T00:00:00Z", "title": "Toggle switch", "slug": { "current": "toggle" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "pen.5", "_type": "codepen", "_createdAt": "2026-04-01T00:00:00Z", "title": "Scroll timeline", "slug": { "current": "scroll-timeline" }, "topic": { "_ref": "topic.animation" } },
+  { "_id": "pen.6", "_type": "codepen", "_createdAt": "2026-03-01T00:00:00Z", "title": "Card hover", "slug": { "current": "card-hover" }, "topic": { "_ref": "topic.frontend" } },
+  { "_id": "pen.7", "_type": "codepen", "_createdAt": "2026-02-01T00:00:00Z", "title": "Canvas fireworks", "slug": { "current": "canvas-fireworks" }, "topic": { "_ref": "topic.animation" } },
+  { "_id": "pen.8", "_type": "codepen", "_createdAt": "2026-01-01T00:00:00Z", "title": "Text scramble", "slug": { "current": "text-scramble" }, "topic": { "_ref": "topic.animation" } },
+
+  { "_id": "exp.1", "_type": "experience", "title": "Senior Front-end Engineer", "company": "Initech", "location": "Remote", "startDate": "2023", "description": "Design systems and the web app.", "order": 1 },
+  { "_id": "exp.2", "_type": "experience", "title": "Front-end Developer", "company": "Globex", "companyUrl": "https://example.com/globex", "location": "Portland, Oregon", "startDate": "2019", "endDate": "2023", "description": "Marketing sites in React.", "order": 2 },
+  { "_id": "exp.3", "_type": "experience", "title": "Web Designer", "company": "Acme Studio", "location": "Seattle", "startDate": "2015", "endDate": "2019", "order": 3 },
+  { "_id": "exp.4", "_type": "experience", "title": "Intern", "company": "Hooli", "startDate": "2014", "endDate": "2015", "order": 4 },
+
+  { "_id": "edu.1", "_type": "education", "degree": "BFA, Graphic Design", "institution": "Portland State University", "startDate": "2010", "endDate": "2014", "order": 1 },
+  { "_id": "edu.2", "_type": "education", "degree": "Front-end Web Development certificate", "institution": "Online", "startDate": "2016", "endDate": "2016", "order": 2 },
+
+  { "_id": "skills.1", "_type": "skillCategory", "name": "Languages ", "order": 1, "skills": [
+    { "_key": "a", "name": "typescript", "badgeLabel": "TypeScript" },
+    { "_key": "b", "name": "JavaScript" },
+    { "_key": "c", "name": "Python" }
+  ] },
+  { "_id": "skills.2", "_type": "skillCategory", "name": "Tools & Frameworks", "order": 2, "skills": [
+    { "_key": "a", "name": "React" },
+    { "_key": "b", "name": "Astro" },
+    { "_key": "c", "name": "Node.js" },
+    { "_key": "d", "name": "Sanity" }
+  ] },
+  { "_id": "skills.3", "_type": "skillCategory", "name": "Design", "order": 3, "skills": [
+    { "_key": "a", "name": "Figma" }
+  ] },
+
+  { "_id": "t.1", "_type": "testimonial", "name": "Sam Rivera", "role": "Engineering Manager", "company": "Globex", "content": "Kyle made the design system real.", "order": 1 },
+  { "_id": "t.2", "_type": "testimonial", "name": "Alex Chen", "role": "Product Designer", "company": "Initech", "content": "Calm under deadlines.", "order": 2 },
+  { "_id": "t.3", "_type": "testimonial", "name": "Jordan Lee", "role": "Founder", "content": "Shipped our site in a month.", "order": 3 },
+
+  { "_id": "folder.dev", "_type": "bookmarkFolder", "name": "Development" },
+  { "_id": "folder.design", "_type": "bookmarkFolder", "name": "Design" },
+  { "_id": "folder.misc", "_type": "bookmarkFolder", "name": "Misc" },
+  { "_id": "bm.01", "_type": "bookmark", "title": " Fitness For Entrepreneurs", "url": "https://example.com/fitness", "folder": { "_ref": "folder.misc" } },
+  { "_id": "bm.02", "_type": "bookmark", "title": "0bin", "url": "https://example.com/0bin", "folder": { "_ref": "folder.dev" } },
+  { "_id": "bm.03", "_type": "bookmark", "title": "1 - Introduction to Rust", "url": "https://example.com/rust", "folder": { "_ref": "folder.dev" } },
+  { "_id": "bm.04", "_type": "bookmark", "title": "A11y checklist", "url": "https://example.com/a11y", "folder": { "_ref": "folder.design" } },
+  { "_id": "bm.05", "_type": "bookmark", "title": "Bezier curves", "url": "https://example.com/bezier", "folder": { "_ref": "folder.design" } },
+  { "_id": "bm.06", "_type": "bookmark", "title": "Color contrast checker", "url": "https://example.com/contrast", "folder": { "_ref": "folder.design" } },
+  { "_id": "bm.07", "_type": "bookmark", "title": "CSS Tricks flexbox guide", "url": "https://example.com/flexbox", "folder": { "_ref": "folder.dev" } },
+  { "_id": "bm.08", "_type": "bookmark", "title": "Every Layout", "url": "https://example.com/every-layout", "folder": { "_ref": "folder.design" } },
+  { "_id": "bm.09", "_type": "bookmark", "title": "Modern CSS solutions", "url": "https://example.com/modern-css", "folder": { "_ref": "folder.dev" } },
+  { "_id": "bm.10", "_type": "bookmark", "title": "React docs", "url": "https://react.dev", "folder": { "_ref": "folder.dev" } },
+  { "_id": "bm.11", "_type": "bookmark", "title": "Typography handbook", "url": "https://example.com/type", "folder": { "_ref": "folder.design" } },
+  { "_id": "bm.12", "_type": "bookmark", "title": "Zustand for React state", "url": "https://example.com/zustand", "folder": { "_ref": "folder.dev" } },
+
+  { "_id": "golf.1", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-09-20", "score": 84 },
+  { "_id": "golf.2", "_type": "golfScores", "course": "Heron Lakes", "date": "2026-08-30", "score": 79 },
+  { "_id": "golf.3", "_type": "golfScores", "course": "Pumpkin Ridge", "date": "2026-07-12", "score": 88 },
+  { "_id": "golf.4", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-06-01", "score": 82 },
+  { "_id": "golf.5", "_type": "golfScores", "course": "Rose City", "date": "2026-05-01" },
+
+  { "_id": "settings", "_type": "settings", "name": "Kyle Ross", "title": "Front-end engineer", "location": "Portland, Oregon", "occupation": "Design engineer", "description": "Builds design systems and the sites on top of them." }
+]

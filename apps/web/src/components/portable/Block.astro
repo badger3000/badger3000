@@ -1,0 +1,72 @@
+---
+/**
+ * Block — a text block: paragraph, heading or quote.
+ *
+ *   p           `--pt-size`/1.65 `$a-ink`
+ *   h2          display 30 (pen `N7Lpy`); an `h1` in the content renders as h2,
+ *               since the page title is the only h1
+ *   h3 / h4     ui 20/600 · 17/600
+ *   blockquote  pen `lbRdD` / `aoecx`: inset 32, 3px `$a-accent` bar, padding
+ *               [16, 24], display 24/1.35 italic `$a-ink`
+ *
+ * The column's gap is the only spacing between blocks, as in the pen.
+ */
+import type { BlockProps } from "astro-portabletext/types";
+
+type Props = BlockProps;
+
+const { node } = Astro.props;
+const style = node.style ?? "normal";
+const Tag = style === "h1" || style === "h2" ? "h2" : style === "h3" ? "h3" : style === "h4" ? "h4" : style === "blockquote" ? "blockquote" : "p";
+// Studio leaves empty blocks behind (a blank line, a cleared heading); they
+// would each take a gap in the column, so they render nothing.
+// `children` is the marks tree here (`@text` leaves inside `@span` marks).
+type Leaf = { text?: unknown; children?: Leaf[] };
+const text = (leaf: Leaf): string => (typeof leaf.text === "string" ? leaf.text : (leaf.children ?? []).map(text).join(""));
+const empty = !text(node as Leaf).trim();
+---
+
+{!empty && <Tag class={Tag}><slot /></Tag>}
+
+<style>
+  .p,
+  .h2,
+  .h3,
+  .h4,
+  .blockquote {
+    margin: 0;
+  }
+  .h2 {
+    font-family: var(--af-display);
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .h3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .h4 {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .blockquote {
+    margin: 4px 32px;
+    padding: 16px 24px;
+    border-left: 3px solid var(--a-accent);
+    font-family: var(--af-display);
+    font-size: 24px;
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 720px) {
+    .blockquote {
+      margin: 0;
+      padding: 8px 0 8px 18px;
+      font-size: 21px;
+    }
+  }
+</style>

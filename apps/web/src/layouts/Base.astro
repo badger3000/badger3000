@@ -1,0 +1,134 @@
+---
+/**
+ * Base — the document shell every page uses.
+ * Owns <head> (search and share tags via `<Seo>`), the token and base
+ * stylesheets (`@badger3000/tokens`), fonts, the client router, and the
+ * pre-paint theme restore. Components never set data-theme themselves; the
+ * toggle writes it.
+ *
+ * <ClientRouter /> turns navigation into client-side routing: the URL still
+ * updates and the back button works, but only the named `content` group animates
+ * (see AppShell) — the sidebar and topbar are replaced silently instead of
+ * cross-fading, so the chrome appears not to move at all.
+ *
+ * Fonts are self-hosted (@fontsource), one family per token: `--af-ui` Inter,
+ * `--af-display` Instrument Serif, `--af-mono` Geist Mono. Each weight file
+ * covers every subset with `unicode-range`, so a page only downloads the
+ * subsets it renders. The two faces every page paints first are preloaded.
+ */
+import { ClientRouter } from "astro:transitions";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/geist-mono/700.css";
+import interRegular from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
+import serifRegular from "@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2?url";
+import "@badger3000/tokens/tokens.css";
+import "@badger3000/tokens/base.css";
+import Seo from "../components/Seo.astro";
+import Gtm from "../components/Gtm.astro";
+import type { SeoProps } from "../lib/seo.ts";
+
+interface Props {
+  /** Shorthand for `seo.title`; "— Badger3000" is added unless it is there. */
+  title?: string;
+  /** Shorthand for `seo.description`. */
+  description?: string;
+  seo?: SeoProps;
+}
+
+const { title, description, seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Seo {...seo} title={seo?.title ?? title} description={seo?.description ?? description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={interRegular} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifRegular} as="font" type="font/woff2" crossorigin />
+    <ClientRouter />
+    <Gtm />
+
+    <!--
+      Restore the stored skin before first paint (no flash of the wrong theme),
+      and carry it onto every incoming page. A swap copies the new document's
+      `data-theme="light"` onto <html>, so the skin is set on that document
+      before the swap, while the view transition is still capturing it. This
+      script sits in <head> unchanged on every page, so the router keeps it and
+      it runs once per document.
+      The CSP in public/_headers allows this script by its sha256: change a
+      byte here and update the hash there.
+    -->
+    <script is:inline>
+      (() => {
+        const read = () => {
+          try {
+            const stored = localStorage.getItem("badger-theme");
+            return stored === "dark" || stored === "forest" || stored === "light" ? stored : "light";
+          } catch {
+            return "light"; /* private mode / storage disabled */
+          }
+        };
+        document.documentElement.dataset.theme = read();
+        document.addEventListener("astro:before-swap", (event) => {
+          event.newDocument.documentElement.dataset.theme =
+            document.documentElement.dataset.theme || read();
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  .skip {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 10px 14px;
+    border-radius: 0 0 9px 0;
+    /* as the primary Button: white on coral is under AA at 13px */
+    background: var(--a-accent-text);
+    color: var(--a-bg);
+    font-family: var(--af-ui);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .skip:focus {
+    left: 0;
+  }
+
+  /*
+   * View transitions. The default is a full-page cross-fade of the root group,
+   * which would fade the sidebar and topbar along with the content. The chrome
+   * must look untouched, so the root group does not animate and only the named
+   * `content` group (AppShell's scroll area) transitions.
+   */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+  ::view-transition-group(content) {
+    animation-duration: 0.2s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+      animation: none !important;
+    }
+  }
+</style>

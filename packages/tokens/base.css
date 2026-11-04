@@ -1,0 +1,69 @@
+/*
+ * BADGER3000 base — the document defaults that sit on top of tokens.css.
+ * Kept apart from the variables so a consumer that only wants the tokens
+ * (Studio, an embed) can import tokens.css without the reset.
+ */
+
+/* ---- reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+/* Forest is a light skin; said explicitly so it never inherits dark's. */
+[data-theme="forest"] {
+  color-scheme: light;
+}
+body {
+  margin: 0;
+  background: var(--a-bg);
+  color: var(--a-ink);
+  font-family: var(--af-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+/*
+ * ---- focus ----
+ * One keyboard ring for everything interactive. `--a-accent-text` clears 4.5:1
+ * on bg, surface, sidebar and accent-soft in every skin, so the ring reads
+ * wherever the control sits (WCAG 1.4.11 asks for 3:1). `:where()` keeps the
+ * specificity at zero, so a component that needs a different shape (a card
+ * whose title link covers it) can still move the ring.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--a-accent-text);
+  outline-offset: 2px;
+}
+
+/* ---- motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/*
+ * The theme picker has two ways to land on a skin: a direct pill pick
+ * (snap instantly to that token) or a gear-cycle (animate from current to
+ * next through `transition: background-color …`). `shell.ts` flips this class
+ * on the next two animation frames around the pill pick so the colour change
+ * the user just asked for snaps, but the next one — almost always through the
+ * gear again — animates from the new baseline.
+ */
+html.no-transitions,
+html.no-transitions *,
+html.no-transitions *::before,
+html.no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}

@@ -1,0 +1,96 @@
+---
+/**
+ * CodeBlock — the blockContent `code` type. Pen `C2I66`.
+ * context: figure · Code block ← code{language, code, filename}
+ *
+ *   Frame  r8 · 1px `$a-line`
+ *   Head   `$a-code-head` · padding [10, 16] · gap 8 · dots 8 · filename (or
+ *          the language) mono 12 `$a-code-comment`
+ *   Body   `pre > code` padding [16, 20, 20], mono 13 on a 24px line (the pen's
+ *          20px lines with a 4px gap), Shiki via Astro's `<Code>`
+ *
+ * The pen's "copy" control is left out: it needs a script for no content gain.
+ *
+ * Highlighted at build time with the `--a-code-*` theme in ./media.ts, so no
+ * highlighter ships to the browser. A long line scrolls inside `pre`, never
+ * the page; Shiki gives the `pre` a tabindex so the keyboard can scroll it.
+ */
+import { Code } from "astro:components";
+import type { TypedObjectProps } from "astro-portabletext/types";
+import { codeTheme } from "./media.ts";
+
+type Props = TypedObjectProps;
+
+const node = Astro.props.node as unknown as { code?: string; language?: string; filename?: string };
+const code = node.code?.replace(/\s+$/, "") ?? "";
+const lang = node.language && node.language !== "text" ? node.language : "plaintext";
+const label = node.filename || (lang === "plaintext" ? "" : lang);
+---
+
+{
+  code && (
+    <figure class="code">
+      <figcaption class="head">
+        <span class="dots" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+        {label && <span class="file">{label}</span>}
+      </figcaption>
+      <Code code={code} lang={lang as never} theme={codeTheme} />
+    </figure>
+  )
+}
+
+<style>
+  .code {
+    overflow: hidden;
+    min-width: 0;
+    margin: 0;
+    border: 1px solid var(--a-line);
+    border-radius: 8px;
+    background: var(--a-code-bg);
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--a-code-head);
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--a-accent);
+  }
+  .dots span:nth-child(2) {
+    background: var(--a-code-keyword);
+  }
+  .dots span:nth-child(3) {
+    background: var(--a-code-string);
+  }
+  .file {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--a-code-comment);
+  }
+  .code :global(pre) {
+    margin: 0;
+    padding: 16px 20px 20px;
+    overflow-x: auto;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 24px;
+    tab-size: 2;
+  }
+  /* the shared ring, drawn inside so the block's rounded clip doesn't cut it */
+  .code :global(pre:focus-visible) {
+    outline-offset: -2px;
+  }
+</style>

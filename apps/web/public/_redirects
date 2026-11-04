@@ -1,0 +1,18 @@
+# Cloudflare Workers Static Assets — redirects. Path rules only: host rules
+# (apex → www, http → https) can't live here; they are a Cloudflare Redirect
+# Rule on the zone. Applied before any asset or Worker route matches.
+# Static rules first: Cloudflare matches them faster than splats.
+
+# The deck is a directory with an index.html; its relative links need the slash.
+/slidedeck/giga      /slidedeck/giga/                          301
+
+# The Next app's sitemap URLs (Search Console has /sitemap.xml).
+/sitemap.xml         /sitemap-index.xml                        301
+/server-sitemap.xml  /sitemap-index.xml                        301
+
+# The Next app linked its feed here.
+/rss-feed.xml        /rss.xml                                  301
+
+# Studio is hosted by Sanity (`sanity deploy`), not by this site.
+/studio              https://badger3000.sanity.studio          301
+/studio/*            https://badger3000.sanity.studio/:splat   301

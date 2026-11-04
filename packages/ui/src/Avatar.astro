@@ -1,0 +1,52 @@
+---
+/**
+ * Avatar — pen master `Xu2VY`, the Badger3000 mark.
+ * context: span · Avatar — Badger3000 agent mark
+ *
+ * The traced badge logo (pen `Badger Mark`, `an3Jf`, 19 paths from
+ * mad_badger_studios_logo.jpeg) in `assets/badger-mark.svg`, with the pen's
+ * plate switched off. It is a brand mark with fixed colours (#010101 art, #fefefe
+ * inner plate), not design tokens, so it does not follow the theme. The pen
+ * draws it at several sizes; the mark itself is the shape, so a caller only
+ * picks a size:
+ *
+ *   24 MobileTopBar title     30 Sidebar brand       64 404
+ *   26 AgentMessage           32 Mobile — Menu brand 66 Mobile — Home hero
+ *   36 the master             76 Agent UI — Home hero
+ *
+ * `mobileSize` swaps to another size at ≤720px (the home hero is 76 → 66).
+ * Decorative: the name is always next to it, so the image has empty alt text.
+ */
+import mark from "./assets/badger-mark.svg";
+
+export type AvatarSize = 24 | 26 | 30 | 32 | 36 | 64 | 66 | 76;
+
+interface Props {
+  size?: AvatarSize;
+  mobileSize?: AvatarSize;
+  class?: string;
+}
+
+const { size = 36, mobileSize, class: className } = Astro.props;
+
+const style = [`--size:${size}px`, mobileSize && `--m-size:${mobileSize}px`].filter(Boolean).join(";");
+---
+
+<img class:list={["avatar", className]} src={mark.src} alt="" width={size} height={size} style={style} decoding="async" />
+
+<style>
+  .avatar {
+    display: block;
+    flex: none;
+    width: var(--size);
+    height: var(--size);
+    object-fit: contain;
+  }
+
+  @media (max-width: 720px) {
+    .avatar {
+      width: var(--m-size, var(--size));
+      height: var(--m-size, var(--size));
+    }
+  }
+</style>

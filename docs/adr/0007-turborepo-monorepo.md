@@ -47,6 +47,10 @@ Today the repo is a single Next.js app with the Sanity Studio embedded at `/stud
 - CI changes from "build the app" to "turbo run … with filters"; caching makes repeat builds near-instant.
 - The design `.pen` stays at the root so every package references one source of truth.
 
+## Revised 2026-10-22
+
+The skeleton (B1) is in: `apps/web` (`@badger3000/web`), `apps/legacy-next` (`@badger3000/legacy-next`, the Next app moved out of the root, deleted at cutover), `packages/config` and `packages/sanity`. `apps/studio`, `packages/tokens` and `packages/ui` follow in B2/B3. Corrections to the decision above: `apps/web` deploys to **Cloudflare Workers** via Workers Builds (Pages is not used, ADR 0009); package filters use the scoped names (`--filter=@badger3000/web`); `packages/ui` holds Astro components only (no React in `apps/web`). Deploy hosts (Netlify, Workers Builds) call package scripts, never `turbo run`, because the Turbo cache doesn't track Sanity content; Turbo is for local runs and CI, with remote caching off.
+
 ## Links
 
 affects:: [[repo/badger3000]]

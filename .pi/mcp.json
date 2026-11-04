@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "pencil": {
+      "command": "/Users/badger3g/.pencil/mcp/visual_studio_code/out/mcp-server-darwin-arm64",
+      "args": [
+        "--app",
+        "desktop",
+        "--agent",
+        "pi"
+      ],
+      "exposure": "direct",
+      "description": "Pencil (pen.dev) canvas: read/edit design/badger3000v2.pen nodes, app state, styles, skills, browser previews"
+    }
+  }
+}

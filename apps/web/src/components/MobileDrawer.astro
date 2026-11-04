@@ -1,0 +1,252 @@
+---
+/**
+ * MobileDrawer — pen frame `uaeM2` (Mobile — Menu).
+ * context: nav · mobile drawer
+ *
+ *   320 wide · `$a-sidebar` · gap 16 · padding [18, 16]
+ *   Brand = Avatar 32 + close 34/10 · New surface/12/pad 12 · EXPLORE mono 10.5
+ *   Nav gap 2, items radius 10, gap 12, padding 11, icon 17, label 14, count mono 11
+ *   Appearance (pad [4, 2]): seg surface/9/gap 2/pad 2, options radius 7 gap 5
+ *     pad [6, 10], icon 13 + label 12 — the pen shows Light and Dark only, so
+ *     forest stays desktop-only rather than being invented here.
+ *   Profile surface/12/gap 10/pad 9
+ *
+ * It is a real `<dialog>`: Esc closes it, focus is trapped, and `::backdrop` is
+ * the pen's scrim (`--a-scrim`) without a second element to manage. Opening,
+ * closing and the Appearance segment are delegated from `lib/shell.ts`, which
+ * looks the dialog up at event time — the router replaces it on every swap.
+ */
+import { Avatar, AvatarUser, Icon, NavItem } from "@badger3000/ui";
+import { nav } from "../lib/nav.ts";
+
+interface Props {
+  counts?: Record<string, number | undefined>;
+  active?: string;
+  profile?: { name: string; location: string };
+}
+
+const { counts = {}, active, profile } = Astro.props;
+---
+
+<dialog class="drawer" data-drawer aria-label="Menu">
+  <div class="brand">
+    <Avatar size={32} />
+    <span class="brandtext">
+      <strong>Badger3000</strong>
+      <span>Kyle's AI</span>
+    </span>
+    <button type="button" class="close" data-drawer-close aria-label="Close menu">
+      <Icon name="x" size={17} />
+    </button>
+  </div>
+
+  <a class="new" href="/" data-new-chat>
+    <Icon name="plus" size={17} />
+    <span>New conversation</span>
+  </a>
+
+  <span class="grp">Explore</span>
+  <nav class="nav" aria-label="Explore content">
+    {
+      nav.map((item) => (
+        <NavItem
+          href={item.href}
+          icon={item.icon}
+          label={item.label}
+          count={counts[item.id]}
+          active={item.id === active}
+          size="lg"
+        />
+      ))
+    }
+  </nav>
+
+  <div class="spacer" />
+
+  <div class="appearance">
+    <span class="a-label">Appearance</span>
+    <div class="seg" role="group" aria-label="Theme" data-theme-segment>
+      <button type="button" class="opt" data-theme-option="light" aria-pressed="false">
+        <Icon name="sun" size={13} />
+        <span>Light</span>
+      </button>
+      <button type="button" class="opt" data-theme-option="dark" aria-pressed="false">
+        <Icon name="moon" size={13} />
+        <span>Dark</span>
+      </button>
+    </div>
+  </div>
+
+  {
+    profile && (
+      <div class="profile">
+        <AvatarUser name={profile.name} />
+        <span class="ptext">
+          <strong>{profile.name}</strong>
+          {profile.location && <span>{profile.location}</span>}
+        </span>
+        <Icon name="settings" size={15} class="dim" />
+      </div>
+    )
+  }
+</dialog>
+
+<style>
+  .drawer {
+    width: min(320px, 86vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0 auto 0 0;
+    padding: 18px 16px;
+    border: 0;
+    background: var(--a-sidebar);
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+  /* The pen's scrim. */
+  .drawer::backdrop {
+    background: var(--a-scrim);
+  }
+  .drawer[open] {
+    display: flex;
+    animation: drawer-in 0.18s ease;
+  }
+  @keyframes drawer-in {
+    from {
+      transform: translateX(-100%);
+    }
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandtext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+    line-height: 1.2;
+  }
+  .brandtext strong {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .brandtext span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--a-subtle);
+  }
+  .close {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    cursor: pointer;
+  }
+
+  .new {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .grp {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--a-subtle);
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .spacer {
+    flex: 1;
+    min-height: 8px;
+  }
+
+  .appearance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 2px;
+  }
+  .a-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--a-muted);
+  }
+  .seg {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: 9px;
+    background: var(--a-surface);
+  }
+  .opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 10px;
+    border: 0;
+    border-radius: 7px;
+    background: transparent;
+    color: var(--a-muted);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .opt[aria-pressed="true"] {
+    background: var(--a-ink);
+    color: var(--a-surface);
+    font-weight: 600;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px;
+    border-radius: 12px;
+    background: var(--a-surface);
+  }
+  .ptext {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .ptext strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .ptext span {
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  :global(.dim) {
+    color: var(--a-muted);
+  }
+</style>

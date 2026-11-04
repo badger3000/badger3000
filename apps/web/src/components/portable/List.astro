@@ -1,0 +1,34 @@
+---
+/**
+ * List — `bullet` → `ul`, `number` → `ol`. Nested lists come through the same
+ * component inside a ListItem.
+ */
+import type { ListProps } from "astro-portabletext/types";
+
+type Props = ListProps;
+
+const { node } = Astro.props;
+const Tag = node.listItem === "number" ? "ol" : "ul";
+---
+
+<Tag class="list"><slot /></Tag>
+
+<style>
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45em;
+    margin: 0;
+    padding-left: 1.4em;
+  }
+  ul.list {
+    list-style: disc;
+  }
+  ol.list {
+    list-style: decimal;
+  }
+  .list::marker,
+  .list :global(li::marker) {
+    color: var(--a-muted);
+  }
+</style>

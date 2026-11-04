@@ -7,111 +7,69 @@ date: 2026-10-22
 
 # Turborepo monorepo migration
 
-Steps to restructure the repo into a pnpm + Turborepo monorepo ([ADR 0007](../adr/0007-turborepo-monorepo.md)). Do this on the `astro-conversion` branch (or a child of it) **after** the Astro web app under `web/` is stable, so you move working code, not a moving target. Each step ends green (`pnpm -w turbo run build lint typecheck`).
+Steps to restructure the repo into a pnpm + Turborepo monorepo ([ADR 0007](../adr/0007-turborepo-monorepo.md)). The skeleton (B1, below) is **done** on `astro-dev`; the shared packages (B2+) are next. Every step ends green.
 
-## 0. Prerequisites
+## Layout after B1
 
-- Node ≥ 22, **pnpm** (`corepack enable && corepack prepare pnpm@latest --activate`).
-- A clean working tree. Work in the worktree at `../badger3000-astro`.
-
-## 1. Root workspace scaffolding
-
-`pnpm-workspace.yaml`:
-
-```yaml
-packages:
-  - "apps/*"
-  - "packages/*"
+```
+apps/web          @badger3000/web          Astro, Cloudflare Workers (Workers Builds)
+apps/legacy-next  @badger3000/legacy-next  Next 16, Netlify, embedded /studio — deleted at cutover
+packages/config   @badger3000/config       tsconfig.base.json, eslint/astro.js (not wired into apps/web yet)
+packages/sanity   @badger3000/sanity       bookmark data scripts + data/ (B2: schemas, client, queries, types)
+scripts/update-readme.js                   the only root script; the weekly README workflow runs it
+netlify.toml                               root, base = "apps/legacy-next"
 ```
 
-Root `package.json` (private, no app code):
+`extensions/bookmark-saver` has no `package.json` and is not a workspace member. `apps/studio`, `packages/tokens` and `packages/ui` come in B2/B3.
 
-```jsonc
-{
-  "name": "badger3000",
-  "private": true,
-  "packageManager": "pnpm@9",
-  "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "typecheck": "turbo run typecheck"
-  },
-  "devDependencies": { "turbo": "^2" }
-}
-```
+## Prerequisites
 
-`turbo.json`:
+- `nvm use` (Node 24, `.nvmrc`). Every `package.json` says `"engines": {"node": ">=22.23.4"}`.
+- pnpm 11 (`packageManager` in the root `package.json`; `corepack enable` if `pnpm` is missing).
+- Env: `apps/web/.env` (copy `apps/web/.env.example`). Next reads the same `PUBLIC_*` names from `apps/legacy-next/.env.local`; a symlink `ln -s ../web/.env apps/legacy-next/.env.local` is enough.
 
-```jsonc
-{
-  "$schema": "https://turbo.build/schema.json",
-  "tasks": {
-    "build": { "dependsOn": ["^build"], "outputs": ["dist/**", ".astro/**"] },
-    "dev": { "cache": false, "persistent": true },
-    "lint": {},
-    "typecheck": { "dependsOn": ["^build"] }
-  }
-}
-```
+## B1 — skeleton move (done)
 
-## 2. The web app lives at `apps/web`
+Each step was one commit; run from the repo root.
 
-The Astro app is built directly under `apps/web` during the conversion (not `/web`, which is a personal `.gitignore` entry). Ensure it has its own `package.json` (name `web`, Astro deps). Nothing to move if it already started there.
+1. **Delete dead files.** The CJS-under-ESM root scripts that crashed on line 1 (`check-content`, `list-content`, `test-*`, `verify-sanity`, `manual-update-readme`, the ESM sitemap twins), `scripts/README.md`, `sanity.client.js` and `rss-feed.xml`.
+2. **Move Next to `apps/legacy-next`** with `git mv` (app, components, hooks, lib, types, schemas, public, configs, `sanity.*.ts`, `AGENTS.md`, `CHANGELOG.md`, `package.json`, `.env.example`; the three sitemap `.cjs` scripts into `apps/legacy-next/scripts/`). `next.config.mjs` sets `outputFileTracingRoot` and `turbopack.root` to the workspace root; `tsconfig.json` no longer excludes `apps`.
+3. **pnpm workspace.** `pnpm-workspace.yaml` (`apps/*`, `packages/*`), one `pnpm-lock.yaml`, both npm lockfiles and `allowScripts` deleted. Build scripts approved with `pnpm approve-builds esbuild workerd unrs-resolver` (written to `allowBuilds` in `pnpm-workspace.yaml`).
+4. **`packages/config` + `packages/sanity`** skeletons; the bookmark scripts and `data/` moved to `packages/sanity`.
+5. **Turborepo.** `turbo.json` with `cacheDir: .turbo/cache` (per worktree), build `env`/`inputs` that include the git-ignored `.env` files, and `!dist/server/.dev.vars` in outputs so the local token never enters the cache.
+6. **Netlify.** Root `netlify.toml` with `base = "apps/legacy-next"`, `command = "pnpm run build"`.
+7. **CI.** `.github/workflows/ci.yml` runs `pnpm turbo run check lint typecheck build --filter='!@badger3000/legacy-next'` with `SANITY_ALLOW_EMPTY=1` (no secrets), plus lint + typecheck for legacy-next. The README workflow no longer uses `cache: npm`, and `update-readme.js` follows redirects.
+8. **Docs and hygiene.** `.gitignore` (`node_modules/`, `.turbo/`, `.wrangler/`), `.vscode/launch.json`, this runbook, `CLAUDE.md`.
 
-## 3. Extract shared packages
-
-Create `packages/{tokens,ui,sanity,config}`, each with a `package.json` named `@badger3000/<pkg>`.
-
-- **`@badger3000/tokens`** — move `apps/web/src/styles/tokens.css` here; export the CSS and (optionally) a generated TS map. Ported from the pen **Design Tokens** board.
-- **`@badger3000/ui`** — the 20 components (`Button`, `Tag`, `Avatar`, `NavItem`, `ProjectCard`, `Sidebar`, `TopBar`, `PageHeader`, `Composer`, …). Depends on `@badger3000/tokens`.
-- **`@badger3000/sanity`** — move `schemas/`, `sanity.client.js`, `sanity.config.ts`, and GROQ queries here; export a typed client + query functions.
-- **`@badger3000/config`** — shared `tsconfig.base.json`, eslint preset.
-
-Wire dependencies with `workspace:*`:
-
-```jsonc
-// apps/web/package.json
-"dependencies": {
-  "@badger3000/ui": "workspace:*",
-  "@badger3000/sanity": "workspace:*",
-  "@badger3000/tokens": "workspace:*"
-}
-```
-
-## 4. Extract the Studio → `apps/studio`
-
-Pull the embedded Studio (currently `/studio`) into `apps/studio` as a standalone Sanity app that imports `@badger3000/sanity` for its schema. Decide hosting: `sanity deploy` (sanity.studio) or Cloudflare. (Open question in the PRD — may stay embedded short-term.)
-
-## 5. Convert the lockfile npm → pnpm
+### Verify
 
 ```bash
-rm -f package-lock.json
-corepack use pnpm@latest
-pnpm install          # writes pnpm-lock.yaml, links workspaces
+pnpm install --frozen-lockfile
+SANITY_ALLOW_EMPTY=1 pnpm turbo run check lint typecheck build --filter='!@badger3000/legacy-next'   # twice: 2nd is FULL TURBO
+pnpm --filter @badger3000/legacy-next run lint
+pnpm --filter @badger3000/legacy-next run typecheck
+pnpm --filter @badger3000/legacy-next run build
+git restore apps/legacy-next/public/sitemap*.xml apps/legacy-next/public/server-sitemap.xml
+pnpm --filter @badger3000/web run sanity:check -- --parse
+pnpm --filter @badger3000/web run deploy:dry
 ```
 
-## 6. Rewire imports
+## Deploy hosts never use `turbo run`
 
-Replace deep relative imports (`../../components/Button`) with package imports (`@badger3000/ui`). Move `scripts/` (sitemap generation, etc.) next to the app that runs them or into a small package.
+Turbo hashes files and env, not Sanity content, so a content-only rebuild would get a cache hit and redeploy yesterday's output. Turbo's strict env mode also drops host build vars it isn't told about. Netlify and Workers Builds call the package script directly (`pnpm run build` in the app dir). Turbo is for local runs and CI. Don't enable remote caching.
 
-## 7. CI & deploy
+## Next (B2+)
 
-- CI: `pnpm install --frozen-lockfile` then `pnpm turbo run build lint typecheck`. Scope with filters: `turbo run build --filter=web...`.
-- Deploy `apps/web` to Cloudflare Pages/Workers (build command `pnpm turbo run build --filter=web`, output `apps/web/dist`). Add `wrangler`/adapter config for the `/api/chat` Worker + Workers AI binding.
-- Retire `netlify.toml`.
-
-## 8. Verify
-
-```bash
-pnpm install
-pnpm turbo run build lint typecheck      # all green, cached on repeat
-pnpm --filter web dev                     # app runs locally
-```
+- **`@badger3000/tokens`**: `apps/web/src/styles/tokens.css` and a small TS map, from the pen **Design Tokens** board.
+- **`@badger3000/ui`**: the presentational pen masters; the app shell stays in `apps/web`.
+- **`@badger3000/sanity`**: `schemas/` (from `apps/legacy-next/schemas`), client, named GROQ queries, `sanity typegen`.
+- **`apps/studio`**: standalone Studio, `sanity deploy` to `badger3000.sanity.studio`; `/studio` then redirects.
+- Wire `@badger3000/config/eslint/astro` into `apps/web` and add a `lint` script there.
+- Use `workspace:*` dependencies and package imports instead of deep relative paths.
 
 ## Rollback
 
-The migration is a series of `git mv`s + config files on a branch; revert the branch or reset to the pre-migration commit. The old Next app remains on `master` untouched until cutover.
+B1 is a series of `git mv`s and config files on one branch: revert the merge commit on `astro-dev`. `master` (production) is untouched until cutover.
 
 ## Links
 

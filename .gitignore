@@ -2,7 +2,7 @@
 .cache
 /frontend/node_modules
 # package-lock.json
-/node_modules
+node_modules/
 .sanity
 
 # Build directory
@@ -11,8 +11,8 @@ dist
 tsconfig.tsbuildinfo
 .DS_Store
 .env
-.env.local
-.env.development
+.env.*
+!.env.example
 .envAiderSample
 
 /web
@@ -26,4 +26,5 @@ sanityConfig.js
 .next
 .serena
 .claude
-CLAUDE.md
+.turbo/
+.wrangler/

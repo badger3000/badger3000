@@ -1,0 +1,15 @@
+{
+  "name": "@badger3000/config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./eslint/astro": "./eslint/astro.js"
+  },
+  "peerDependencies": {
+    "eslint": "^10",
+    "typescript-eslint": "^8",
+    "eslint-plugin-astro": "^1",
+    "globals": "^17"
+  }
+}
