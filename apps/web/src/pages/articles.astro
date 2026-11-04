@@ -108,6 +108,7 @@ const index = (a: (typeof articles)[number]) =>
     gap: 16px;
   }
   .feature {
+    position: relative;
     display: flex;
     overflow: hidden;
     min-height: 300px;
@@ -119,7 +120,26 @@ const index = (a: (typeof articles)[number]) =>
   .feature:hover {
     filter: brightness(0.98);
   }
+  /* The cover is a placeholder gradient picked per article and some of its
+     stops are pale, so white text on it fails contrast. A scrim from the text's
+     corner, fading out on the right, keeps the cover vivid there and holds every
+     line of copy at 4.5:1 or better on all six covers (measured against the
+     gradient geometry, worst case the kicker/excerpt on cover 5). */
+  .feature::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top right,
+      color-mix(in srgb, var(--p-950) 60%, transparent) 0%,
+      color-mix(in srgb, var(--p-950) 48%, transparent) 60%,
+      color-mix(in srgb, var(--p-950) 20%, transparent) 85%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
   .fbody {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -127,7 +147,7 @@ const index = (a: (typeof articles)[number]) =>
   .kicker {
     font-family: var(--af-mono), ui-monospace, monospace;
     font-size: 10.5px;
-    color: var(--a-on-cover-muted);
+    color: var(--a-on-cover);
   }
   .ftitle {
     max-width: 20ch;
@@ -146,7 +166,7 @@ const index = (a: (typeof articles)[number]) =>
   .fmeta {
     margin-top: auto;
     font-size: 11.5px;
-    color: var(--a-on-cover-faint);
+    color: var(--a-on-cover);
   }
   .secondary {
     min-width: 0;
