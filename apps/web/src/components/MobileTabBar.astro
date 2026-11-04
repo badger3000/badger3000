@@ -16,7 +16,7 @@ import { Icon } from "@badger3000/ui";
 export type Tab = "chat" | "explore" | "saved" | "profile";
 
 interface Props {
-  active?: Tab;
+  active?: Tab | null;
 }
 
 const { active = "explore" } = Astro.props;

@@ -43,7 +43,7 @@ interface Props {
   mobileTitle?: string;
   mobileCount?: number;
   /** Which tab is active in the mobile tab bar. */
-  mobileTab?: Tab;
+  mobileTab?: Tab | null;
   /** "tabs" replaces the footer on browse routes (pen `nPhhS`); "footer" is the
       agent home (pen `RQ1cQ`). */
   mobileBottom?: "tabs" | "footer";
