@@ -47,7 +47,8 @@ export const success = {
   note: "Reply lands in your inbox within a day. If it is urgent, email wins.",
 };
 
-export const note = "Manchester, UK — working across GMT±3.";
+/** Where the contact page says Kyle works from; the clock island ticks in `zone` (IANA, so MST/MDT follows the calendar). */
+export const timezone = { label: "US Mountain Time", zone: "America/Denver" };
 
 export const email = "kyle@badger3000.dev";
 export const github = "https://github.com/kyle-ross";

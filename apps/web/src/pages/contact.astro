@@ -106,7 +106,7 @@ const lines = [
               </ol>
             </section>
 
-            <p class="where"><Icon name="globe" size={16} class="lico" /><span>{content.note}</span></p>
+            <p class="where"><Icon name="globe" size={16} class="lico" /><span>{content.timezone.label}<span class="clock" data-clock={content.timezone.zone} hidden> · <time></time></span></span></p>
             <p class="pref desk">Prefer email? <a href={`mailto:${content.email}`}>{content.email}</a></p>
           </div>
         </div>
@@ -383,6 +383,11 @@ const lines = [
     color: var(--a-muted);
   }
 
+  .clock {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
   .where {
     display: flex;
     align-items: center;
@@ -457,3 +462,7 @@ const lines = [
     }
   }
 </style>
+
+<script>
+  import "../lib/clock.ts";
+</script>
