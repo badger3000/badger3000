@@ -8,7 +8,9 @@
 import { island } from "./island.ts";
 
 const ACTION = "contact_form_submit";
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Domain labels exclude "." so each dot can only match one way (no polynomial backtracking).
+const EMAIL = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
+const MAX_EMAIL_LENGTH = 254;
 
 interface Grecaptcha {
   ready(cb: () => void): void;
@@ -98,7 +100,7 @@ island("[data-contact-form]", (root) => {
     for (const field of form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input, textarea")) {
       field.removeAttribute("aria-invalid");
     }
-    const bad = !name ? "name" : !EMAIL.test(email) ? "email" : !message ? "message" : null;
+    const bad = !name ? "name" : email.length > MAX_EMAIL_LENGTH || !EMAIL.test(email) ? "email" : !message ? "message" : null;
     if (bad) {
       const field = form.querySelector<HTMLElement>(`[name="${bad}"]`)!;
       field.setAttribute("aria-invalid", "true");

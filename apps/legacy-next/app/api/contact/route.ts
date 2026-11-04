@@ -6,7 +6,9 @@ const RECAPTCHA_ACTION = "contact_form_submit";
 
 const MAX_NAME_LENGTH = 200;
 const MAX_MESSAGE_LENGTH = 5000;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL_LENGTH = 254;
+// Domain labels exclude "." so each dot can only match one way (no polynomial backtracking)
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 
 // Escape user input before interpolating it into HTML emails
 function escapeHtml(value: string): string {
@@ -67,7 +69,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!EMAIL_PATTERN.test(email)) {
+    if (email.length > MAX_EMAIL_LENGTH || !EMAIL_PATTERN.test(email)) {
       return NextResponse.json(
         {error: "Please provide a valid email address"},
         {status: 400}

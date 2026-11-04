@@ -41,7 +41,9 @@ const MAX_NAME = 200;
 const MAX_MESSAGE = 5000;
 /** Name, email, message and a reCAPTCHA token (~2 KB) fit well inside this. */
 const MAX_BODY = 16 * 1024;
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Domain labels exclude "." so each dot can only match one way (no polynomial backtracking).
+const EMAIL = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
+const MAX_EMAIL_LENGTH = 254;
 
 interface Siteverify {
   success: boolean;
@@ -104,7 +106,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!name || !email || !message) {
     return json({ error: "Name, email and message are required." }, { status: 400 });
   }
-  if (!EMAIL.test(email)) return json({ error: "Please provide a valid email address." }, { status: 400 });
+  if (email.length > MAX_EMAIL_LENGTH || !EMAIL.test(email)) return json({ error: "Please provide a valid email address." }, { status: 400 });
   if ((topic && !(TOPICS as readonly string[]).includes(topic)) || (timeline && !(TIMELINES as readonly string[]).includes(timeline))) {
     return json({ error: "Pick one of the topics offered." }, { status: 400 });
   }
