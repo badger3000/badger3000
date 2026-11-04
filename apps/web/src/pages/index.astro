@@ -17,7 +17,7 @@
 import Base from "../layouts/Base.astro";
 import AppShell from "../layouts/AppShell.astro";
 import Composer from "../components/Composer.astro";
-import { Avatar, SuggestionChip } from "@badger3000/ui";
+import { Avatar, Button, Icon, SuggestionChip } from "@badger3000/ui";
 import MessageBubble from "../components/MessageBubble.astro";
 import AgentMessage from "../components/AgentMessage.astro";
 import ChatCard from "../components/ChatCard.astro";
@@ -34,8 +34,14 @@ const chips = [
 ---
 
 <Base title="Badger3000 — Kyle Ross's AI">
-  <AppShell counts={counts} settings={settings} mobileBar="menu" mobileTab="chat" mobileBottom="footer">
+  <AppShell counts={counts} settings={settings} mobileBar="menu" mobileTab="chat" mobileBottom="tabs">
     <main class="hero" id="main" data-chat-root>
+      {/* Shown once there is a thread. Clears it and keeps the visitor on the page. */}
+      <div class="thread-bar">
+        <Button variant="ghost" size="sm" label="Reset chat" type="button" data-reset-chat>
+          <Icon slot="icon" name="rotate-ccw" size={14} />
+        </Button>
+      </div>
       <section class="thread" aria-label="Conversation" data-chat-log></section>
       {/*
         The live region. The thread repaints as a whole, so it can't be live
@@ -71,6 +77,17 @@ const chips = [
 </Base>
 
 <style>
+  .thread-bar {
+    display: none;
+    order: 0;
+    justify-content: flex-end;
+    width: 720px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  :global([data-has-thread="true"]) .thread-bar {
+    display: flex;
+  }
   /* The thread sits above the greeting and takes the page once there is one. */
   .thread {
     display: none;

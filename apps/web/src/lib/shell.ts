@@ -142,6 +142,12 @@ delegate<MouseEvent>("click", "[data-new-chat]", (link, event) => {
   composer()?.focus();
 });
 
+/** "Reset chat" in the thread: forget the conversation and stay on the page. */
+delegate("click", "[data-reset-chat]", () => {
+  reset();
+  composer()?.focus();
+});
+
 // SuggestionChips fill the composer rather than sending, so the question can be
 // edited first.
 delegate("click", "[data-suggestion]", (chip) => {
