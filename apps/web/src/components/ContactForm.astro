@@ -13,7 +13,7 @@
  * intercepts the submit, gets a reCAPTCHA v3 token and sends JSON.
  */
 import { PUBLIC_RECAPTCHA_SITE_KEY } from "astro:env/client";
-import { Button, Icon } from "@badger3000/ui";
+import { Button, ExternalLink, Icon } from "@badger3000/ui";
 import { DEFAULT_TIMELINE, DEFAULT_TOPIC, TIMELINES, TOPICS, success } from "../lib/contact-content.ts";
 ---
 
@@ -102,8 +102,11 @@ import { DEFAULT_TIMELINE, DEFAULT_TOPIC, TIMELINES, TOPICS, success } from "../
   </div>
   <p class="note">No newsletter, no CRM — your note goes straight to my inbox.</p>
   <p class="legal">
-    Protected by reCAPTCHA. Google's <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy<span class="sr"> (opens in a new tab)</span></a>
-    and <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Terms of Service<span class="sr"> (opens in a new tab)</span></a> apply.
+    Protected by reCAPTCHA. Google's{" "}
+    <ExternalLink href="https://policies.google.com/privacy" cue={false}>Privacy Policy</ExternalLink>{" "}
+    and{" "}
+    <ExternalLink href="https://policies.google.com/terms" cue={false}>Terms of Service</ExternalLink>{" "}
+    apply.
   </p>
 </form>
 
@@ -495,16 +498,8 @@ import { DEFAULT_TIMELINE, DEFAULT_TOPIC, TIMELINES, TOPICS, success } from "../
     line-height: 1.4;
     color: var(--a-subtle);
   }
-  .legal a {
+  .legal :global(a) {
     color: inherit;
-  }
-  .sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
   }
 
   /* Mobile — Contact `sjuPH`: no Timeline, no Clear, a shorter textarea. */

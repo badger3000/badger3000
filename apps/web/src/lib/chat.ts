@@ -16,6 +16,7 @@
  * itself only mounts where `[data-chat-root]` exists.
  */
 import type { Card } from "./agent/retrieve.ts";
+import { reveal } from "./scroll.ts";
 import { island } from "./island.ts";
 
 interface Answer {
@@ -319,7 +320,7 @@ island("[data-chat-root]", (root) => {
     root.setAttribute("data-has-thread", String(thread.length > 0));
     sync();
     announce(said);
-    focus?.scrollIntoView?.({ block: "nearest" });
+    if (focus) reveal(focus);
   };
 
   const controller = new AbortController();
@@ -330,7 +331,7 @@ island("[data-chat-root]", (root) => {
     (event) => {
       event.preventDefault();
       if (ask(field?.value ?? "") && field) field.value = "";
-      field?.focus();
+      field?.focus({ preventScroll: true });
     },
     { signal },
   );

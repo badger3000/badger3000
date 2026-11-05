@@ -35,7 +35,7 @@ const { href, class: className, rel, cue = true, "aria-label": label, ...rest } 
 >
   <slot />
   {cue && <Icon name="arrow-up-right" size={12} stroke={2} class="ext-cue" />}
-  {!label && <span class="ext-sr">{NEW_TAB}</span>}
+  {!label && <span class="ext-sr">{` ${NEW_TAB}`}</span>}
 </a>
 
 <style>

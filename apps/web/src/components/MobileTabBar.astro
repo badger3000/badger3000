@@ -21,6 +21,11 @@ interface Props {
 
 const { active = "explore" } = Astro.props;
 
+// A tab can stand for a whole section (Explore covers every browse page), so it
+// is only `page` when its own href is the page; elsewhere in the section it is
+// `true`, which says "you are in here" without claiming the link is this page.
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
 const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
   { id: "chat", label: "Chat", icon: "message-circle", href: "/" },
   { id: "explore", label: "Explore", icon: "compass", href: "/articles" },
@@ -40,7 +45,7 @@ const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
         </>
       );
       return tab.href ? (
-        <a class="tab" href={tab.href} aria-current={isActive ? "page" : undefined}>
+        <a class="tab" href={tab.href} aria-current={isActive ? (tab.href === path ? "page" : "true") : undefined}>
           {inner}
         </a>
       ) : (
@@ -83,7 +88,7 @@ const tabs: { id: Tab; label: string; icon: string; href?: string }[] = [
     text-decoration: none;
     cursor: pointer;
   }
-  .tab[aria-current="page"] {
+  .tab[aria-current] {
     color: var(--a-accent-text);
     font-weight: 600;
   }

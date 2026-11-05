@@ -21,13 +21,34 @@ interface Props {
 }
 
 const { name, color, value, class: className } = Astro.props;
+
+// The colour is data: it may be missing or malformed (a truncated hex in the
+// CMS is dropped by the browser, leaving the neutral fill). Only a valid `#rgb`
+// / `#rrggbb` is applied, and the label picks whichever of white / ink reads
+// better on it (WCAG relative luminance) rather than assuming white.
+const hex = (() => {
+  const m = color?.match(/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (!m) return undefined;
+  const h = m[1].length === 3 ? [...m[1]].map((c) => c + c).join("") : m[1];
+  return h.toLowerCase();
+})();
+const lightFill = (() => {
+  if (!hex) return false;
+  const [r, g, b] = [0, 2, 4].map((i) => {
+    const c = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  const inkLum = 0.0103; // --p-850
+  return (lum + 0.05) / (inkLum + 0.05) > 1.05 / (lum + 0.05);
+})();
 ---
 
 <span class:list={["badge", className]}>
   <span class="key">{name}</span>
   {
-    (value || color) && (
-      <span class:list={["value", { swatch: !value }]} style={color ? `background:${color}` : undefined}>
+    (value || hex) && (
+      <span class:list={["value", { swatch: !value, onDark: Boolean(hex) && !lightFill, onLight: lightFill }]} style={hex ? `background:#${hex}` : undefined}>
         {value}
       </span>
     )
@@ -55,6 +76,13 @@ const { name, color, value, class: className } = Astro.props;
   }
   .value {
     background: var(--a-line-2);
+    color: var(--a-ink);
+  }
+  .onLight {
+    color: var(--p-850);
+  }
+  .onDark {
+    color: var(--a-on-accent);
   }
   .swatch {
     width: 8px;

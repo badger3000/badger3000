@@ -128,6 +128,11 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
          min-content inside it and push the page sideways. */
       grid-template-columns: minmax(0, 1fr);
     }
+    /* Follows the visible area while the keyboard is up (see lib/shell.ts). */
+    .shell,
+    .main {
+      height: var(--app-h, 100dvh);
+    }
   }
 </style>
 
@@ -160,9 +165,19 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
   const positionOf = () => `${location.pathname}${location.search}`;
   const scroller = () => document.querySelector<HTMLElement>(".body");
 
+  /**
+   * The URL whose page is on screen. `location` is not that during a back/forward
+   * navigation: the router hears `popstate` after the URL has already changed, so
+   * saving under `location` would file the leaving page's position under the
+   * page being returned to (and wipe its saved one). It moves on `page-load`.
+   */
+  let shown = positionOf();
+  /** How the navigation in flight was started; unset for a hard load. */
+  let navigationType: string | undefined;
+
   const save = () => {
     const body = scroller();
-    if (body) write({ ...read(), [positionOf()]: body.scrollTop });
+    if (body) write({ ...read(), [shown]: body.scrollTop });
   };
   /** The element `location.hash` names, if it is inside the scroll container. */
   const hashTarget = (body: HTMLElement) => {
@@ -181,12 +196,20 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
       target.scrollIntoView({ block: "start" });
       return;
     }
-    // A page visited for the first time starts at the top; back/forward returns
-    // to where that page was left.
-    body.scrollTop = read()[positionOf()] ?? 0;
+    // Following a link starts at the top, even for a page seen before; back and
+    // forward (and a reload) return to where that page was left.
+    const fresh = navigationType === "push" || navigationType === "replace";
+    body.scrollTop = fresh ? 0 : (read()[positionOf()] ?? 0);
   };
 
-  document.addEventListener("astro:before-preparation", save);
-  document.addEventListener("astro:page-load", restore);
+  document.addEventListener("astro:before-preparation", (event) => {
+    save();
+    navigationType = (event as Event & { navigationType?: string }).navigationType;
+  });
+  document.addEventListener("astro:page-load", () => {
+    shown = positionOf();
+    restore();
+    navigationType = undefined;
+  });
   addEventListener("pagehide", save);
 </script>
