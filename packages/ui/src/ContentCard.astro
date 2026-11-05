@@ -12,7 +12,7 @@
  *   meta: date · read, 11 `$a-subtle`, padding-top 2
  */
 import Tag from "./Tag.astro";
-import { gradientFor } from "@badger3000/tokens/covers";
+import { gradientFor, lineColor, WINDOW_PALETTES } from "@badger3000/tokens/covers";
 
 interface Props {
   /** Picks the cover gradient, usually the document id. */
@@ -26,7 +26,7 @@ interface Props {
   /** Cover height: 116 for articles, 132 for experiments. */
   coverHeight?: number;
   titleSize?: number;
-  /** Experiments use a dark window cover instead of the gradient. */
+  /** Experiments use a dark window cover (colourful code bars) instead of the gradient. */
   cover?: "gradient" | "window";
   /** Heading level of the title: 3 under a section heading, 2 straight under the page's h1. */
   level?: 2 | 3;
@@ -45,15 +45,36 @@ const {
   level = 3,
 } = Astro.props;
 const H = `h${level}` as "h2" | "h3";
+// The pen's first window (GWZwY) is the server-rendered default. The browser then
+// re-rolls palette and widths per visit (apps/web/src/lib/cover-window.ts).
+const [la, lb, lc] = WINDOW_PALETTES[0];
+const windowStyle = [
+  `--l1:${lineColor(la)}`,
+  `--l2:${lineColor(lb)}`,
+  `--l3:${lineColor(lc)}`,
+  "--w1:54%",
+  "--w2:76%",
+  "--w3:39%",
+  "--w4:64%",
+].join(";");
 ---
 
 <article class="card">
   <div class="cover" style={`height:${coverHeight}px;${cover === "gradient" ? `background:${gradientFor(seed)}` : ""}`}>
     {
       cover === "window" && (
-        <div class="window" aria-hidden="true">
-          <span class="dots"><i /><i /><i /></span>
-          <span class="lines"><b /><b /><b /></span>
+        <div class="window" aria-hidden="true" data-cover-window style={windowStyle}>
+          <span class="dots">
+            <i style="--i:0" />
+            <i style="--i:1" />
+            <i style="--i:2" />
+          </span>
+          <span class="lines">
+            <b style="--i:0" />
+            <b style="--i:1" />
+            <b style="--i:2" />
+            <b style="--i:3" />
+          </span>
         </div>
       )
     }
@@ -101,8 +122,15 @@ const H = `h${level}` as "h2" | "h3";
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--a-cover-window-dot);
+    background: var(--a-cover-window-dot-1);
   }
+  .dots i:nth-child(2) {
+    background: var(--a-cover-window-dot-2);
+  }
+  .dots i:nth-child(3) {
+    background: var(--a-cover-window-dot-3);
+  }
+  /* The pen's four bars alternate three colours: 1 and 4 share the first. */
   .lines {
     display: flex;
     flex-direction: column;
@@ -110,15 +138,64 @@ const H = `h${level}` as "h2" | "h3";
     padding-top: 6px;
   }
   .lines b {
+    width: var(--w1);
     height: 5px;
     border-radius: 3px;
-    background: var(--a-cover-window-line);
+    background: var(--l1);
+    opacity: 0.85;
+    transform-origin: left center;
   }
   .lines b:nth-child(2) {
-    width: 70%;
+    width: var(--w2);
+    background: var(--l2);
   }
   .lines b:nth-child(3) {
-    width: 45%;
+    width: var(--w3);
+    background: var(--l3);
+  }
+  .lines b:nth-child(4) {
+    width: var(--w4);
+  }
+
+  /*
+   * Arrival. With scripting on, the window waits hidden until the island marks it
+   * in view (no flash of the default before the re-roll); without scripting the
+   * default simply shows. `data-done` is the settled state: it outlives the
+   * animation so a filter hiding and re-showing the card does not replay it.
+   */
+  @media (scripting: enabled) {
+    .dots i,
+    .lines b {
+      opacity: 0;
+    }
+    .window[data-in-view] .dots i {
+      animation: window-dot-in var(--duration-fast) var(--ease-smooth-out) both;
+      animation-delay: calc(var(--i) * var(--duration-stagger));
+    }
+    .window[data-in-view] .lines b {
+      animation: window-line-draw var(--duration-slow) var(--ease-smooth-out) both;
+      animation-delay: calc(var(--duration-fast) + var(--i) * var(--duration-stagger));
+    }
+    .window[data-done] .dots i,
+    .window[data-done] .lines b {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+    .window[data-done] .lines b {
+      opacity: 0.85;
+    }
+  }
+  @media (prefers-reduced-motion: reduce), print {
+    .dots i,
+    .lines b {
+      animation: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+    .lines b {
+      opacity: 0.85 !important;
+    }
   }
 
   .bd {
