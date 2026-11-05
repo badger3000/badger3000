@@ -33,3 +33,25 @@ export function gradientFor(seed: string): string {
 export function tintFor(seed: string): string {
   return `var(--p-tint-${(hash(seed) % TINT_COUNT) + 1})`;
 }
+
+/**
+ * The experiment card's code window (pen `pv`, GWZwY). Its four bars alternate
+ * three colours — bar 1 and bar 4 share the first, bar 2 and bar 3 take the
+ * others — and the pen draws nine such triples. They name `--p-line-*` primitives
+ * in tokens.css; `scripts/check.ts` fails if one is missing there. The page
+ * picks a triple at random per visit (`apps/web/src/lib/cover-window.ts`).
+ */
+export const WINDOW_PALETTES = [
+  ["violet", "pink", "amber"],
+  ["green", "cyan", "blue"],
+  ["amber", "coral", "pink"],
+  ["indigo", "cyan", "green"],
+  ["pink", "violet", "blue"],
+  ["green", "amber", "coral"],
+  ["cyan", "indigo", "pink"],
+  ["coral", "amber", "green"],
+  ["blue", "violet", "cyan"],
+] as const;
+
+/** The CSS colour for a `--p-line-*` name. */
+export const lineColor = (name: string): string => `var(--p-line-${name})`;
