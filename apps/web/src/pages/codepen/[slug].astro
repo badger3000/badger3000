@@ -54,7 +54,9 @@ const hash = safe(embedAttr("slug-hash")) ?? safe(pen.penUrl?.trim());
 const user = safe(embedAttr("user")) ?? CODEPEN_USER;
 const tab = embedAttr("default-tab") ?? "result";
 const penHref = hash ? `https://codepen.io/${user}/pen/${hash}` : undefined;
-const forkHref = hash ? `https://codepen.io/${user}/pen/fork/${hash}` : undefined;
+// CodePen has no fork URL: Fork is a button that POSTs. `?template=` opens the editor
+// with the pen's HTML, CSS and JS loaded as a new pen (the old /pen/fork/ path 404s).
+const forkHref = hash ? `https://codepen.io/pen?template=${hash}` : undefined;
 const embedSrc = hash ? `https://codepen.io/${user}/embed/${hash}?default-tab=${encodeURIComponent(tab)}` : undefined;
 
 const title = pen.title;
