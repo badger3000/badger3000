@@ -133,11 +133,43 @@ const profile = settings?.name ? { name: settings.name, location: settings.locat
     .main {
       height: var(--app-h, 100dvh);
     }
+
+    /* The top bar and tab bar float over the content so they can slide away
+       without reflowing it; `.body` is padded by their heights (set in
+       lib/bars.ts) so nothing sits underneath them at rest. */
+    .main {
+      position: relative;
+    }
+    .main > :global(.m-topbar),
+    .main > :global(.tabbar) {
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      transition: transform var(--duration-fast) var(--ease-smooth-out);
+    }
+    .main > :global(.m-topbar) {
+      top: 0;
+    }
+    .main > :global(.tabbar) {
+      bottom: 0;
+    }
+    .main[data-bars="hidden"] > :global(.m-topbar) {
+      transform: translateY(-100%);
+    }
+    .main[data-bars="hidden"] > :global(.tabbar) {
+      transform: translateY(100%);
+    }
+    .body {
+      padding-top: var(--bar-top, 0px);
+      padding-bottom: var(--bar-bottom, 0px);
+    }
   }
 </style>
 
 <script>
   import "../lib/shell.ts";
+  import "../lib/bars.ts";
 
   /**
    * Scroll memory for the inner scroll container. Astro restores `window.scrollY`
