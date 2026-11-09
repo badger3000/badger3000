@@ -114,7 +114,6 @@ const lines = [
                 <time></time>
               </div>
             </div>
-            <p class="pref desk">Prefer email? <a href={`mailto:${content.email}`}>{content.email}</a></p>
           </div>
         </div>
       </div>
@@ -200,9 +199,6 @@ const lines = [
   .more {
     display: inline;
   }
-  .pref {
-    display: none;
-  }
 
   @media (min-width: 721px) {
     .inner {
@@ -251,18 +247,6 @@ const lines = [
     }
     .more {
       display: none;
-    }
-    .pref {
-      display: block;
-      margin: 0;
-      font-size: 13px;
-      color: var(--a-muted);
-    }
-    .pref a {
-      color: var(--a-ink);
-    }
-    .pref a:hover {
-      color: var(--a-accent-text);
     }
   }
 
