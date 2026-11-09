@@ -16,7 +16,7 @@ The Astro contact form (`apps/web`) verified a Google reCAPTCHA v3 score ([ADR 0
 - `apps/web` uses Cloudflare Turnstile in managed mode, rendered in the form (`lib/contact.ts` renders it explicitly; the token is sent as `turnstileToken`).
 - `/api/contact` verifies the token at `https://challenges.cloudflare.com/turnstile/v0/siteverify`. The result is pass or fail: there is no score, so `RECAPTCHA_MIN_SCORE`, the `suspicious-activity` error and the score in the owner email are removed. A failed check returns 400 `captcha-failed`.
 - Env: `PUBLIC_TURNSTILE_SITE_KEY` (build variable) and `TURNSTILE_SECRET_KEY` (Worker secret) replace `PUBLIC_RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET_KEY`.
-- The `/contact` CSP allows `https://challenges.cloudflare.com` for scripts and frames instead of the google.com and gstatic.com recaptcha hosts.
+- The site-wide CSP allows `https://challenges.cloudflare.com` for scripts and frames instead of the google.com and gstatic.com recaptcha hosts. It is site-wide, not `/contact`-only, because a CSP belongs to the document and `<ClientRouter />` keeps the entry page's document: a `/contact`-only policy blocked Turnstile on any client-side navigation to the form.
 - `apps/legacy-next` stays on reCAPTCHA: it is frozen and deleted at cutover.
 
 ## Alternatives rejected
