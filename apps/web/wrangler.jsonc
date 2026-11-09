@@ -27,7 +27,7 @@
   // limiting when the binding is missing. namespace_id is any account-unique
   // integer string.
   //
-  // /api/contact: 5 messages a minute per IP. Each one costs a reCAPTCHA verify
+  // /api/contact: 5 messages a minute per IP. Each one costs a Turnstile verify
   // and two email sends, so the bar is much lower. Skipped when missing, too.
   "ratelimits": [
     { "name": "CHAT_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } },
