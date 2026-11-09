@@ -59,9 +59,9 @@ export default defineConfig({
       // would silently point at a dataset that does not exist. Missing → the
       // client's MISSING error.
       PUBLIC_SANITY_DATASET: envField.string({ context: "client", access: "public", optional: true }),
-      // reCAPTCHA v3 site key for /contact. Public by design; the secret half is
-      // RECAPTCHA_SECRET_KEY on the Worker. Missing -> the form says it is not set up.
-      PUBLIC_RECAPTCHA_SITE_KEY: envField.string({ context: "client", access: "public", optional: true }),
+      // Turnstile site key for /contact. Public by design; the secret half is
+      // TURNSTILE_SECRET_KEY on the Worker. Missing -> the form says it is not set up.
+      PUBLIC_TURNSTILE_SITE_KEY: envField.string({ context: "client", access: "public", optional: true }),
       // Google Tag Manager container id (GTM-XXXX). Public by design. Unset (or an
       // empty CI variable) → no tag loads; also never loads in `astro dev`. The
       // shape is checked in Gtm.astro, not here, so an empty value cannot fail
@@ -107,7 +107,7 @@ export default defineConfig({
        * into a build. Optional so builds work without them; the endpoint
        * answers 503 until every required one is set.
        */
-      RECAPTCHA_SECRET_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      TURNSTILE_SECRET_KEY: envField.string({ context: "server", access: "secret", optional: true }),
       // Where messages are delivered.
       OWNER_EMAIL: envField.string({ context: "server", access: "secret", optional: true }),
       // Proton SMTP submission (Settings > Domain names > SMTP submission). The
@@ -118,8 +118,6 @@ export default defineConfig({
       // Default smtp.protonmail.ch / 587 (STARTTLS); 465 switches to implicit TLS.
       SMTP_HOST: envField.string({ context: "server", access: "secret", optional: true }),
       SMTP_PORT: envField.number({ context: "server", access: "secret", optional: true, int: true }),
-      // reCAPTCHA v3 score floor, 0–1. Unset → 0.5, as in the Next route.
-      RECAPTCHA_MIN_SCORE: envField.number({ context: "server", access: "secret", optional: true }),
     },
   },
   build: {

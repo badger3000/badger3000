@@ -1,46 +1,55 @@
 /**
  * The contact form island (`components/ContactForm.astro`).
  *
- * validate -> reCAPTCHA v3 token (action `contact_form_submit`, the one
- * `/api/contact` checks) -> POST JSON -> status line. api.js is loaded the
- * first time a form is on the page, never on other routes.
+ * Turnstile widget (managed, rendered in the form) -> validate -> POST JSON
+ * with the widget's token -> status line. api.js is loaded the first time a
+ * form is on the page, never on other routes. A token is single-use, so the
+ * widget resets after every send attempt.
  */
 import { island } from "./island.ts";
 
-const ACTION = "contact_form_submit";
 // Domain labels exclude "." so each dot can only match one way (no polynomial backtracking).
 const EMAIL = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
 const MAX_EMAIL_LENGTH = 254;
 
-interface Grecaptcha {
-  ready(cb: () => void): void;
-  execute(siteKey: string, options: { action: string }): Promise<string>;
+interface TurnstileOptions {
+  sitekey: string;
+  theme?: "auto" | "light" | "dark";
+  callback?: (token: string) => void;
+  "expired-callback"?: () => void;
+  "error-callback"?: () => void;
 }
-const recaptcha = () => (window as unknown as { grecaptcha?: Grecaptcha }).grecaptcha;
+interface Turnstile {
+  render(container: HTMLElement, options: TurnstileOptions): string;
+  reset(widgetId: string): void;
+  remove(widgetId: string): void;
+}
+const turnstile = () => (window as unknown as { turnstile?: Turnstile }).turnstile;
 
-let loading: Promise<void> | undefined;
-function loadRecaptcha(siteKey: string): Promise<void> {
-  if (recaptcha()) return Promise.resolve();
-  loading ??= new Promise<void>((resolve, reject) => {
+let loading: Promise<Turnstile> | undefined;
+function loadTurnstile(): Promise<Turnstile> {
+  const ready = turnstile();
+  if (ready) return Promise.resolve(ready);
+  loading ??= new Promise<Turnstile>((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+    script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async = true;
-    script.onload = () => resolve();
+    script.onload = () => {
+      const api = turnstile();
+      if (api) resolve(api);
+      else {
+        loading = undefined;
+        reject(new Error("Turnstile unavailable"));
+      }
+    };
     script.onerror = () => {
       loading = undefined;
-      reject(new Error("reCAPTCHA failed to load"));
+      reject(new Error("Turnstile failed to load"));
     };
     document.head.append(script);
   });
   return loading;
 }
-
-const token = (siteKey: string) =>
-  new Promise<string>((resolve, reject) => {
-    const g = recaptcha();
-    if (!g) return reject(new Error("reCAPTCHA unavailable"));
-    g.ready(() => g.execute(siteKey, { action: ACTION }).then(resolve, reject));
-  });
 
 island("[data-contact-form]", (root) => {
   const form = root as HTMLFormElement;
@@ -85,8 +94,38 @@ island("[data-contact-form]", (root) => {
     send.disabled = true;
     return;
   }
-  // Warm up so the click doesn't wait on the script.
-  loadRecaptcha(siteKey).catch(() => {});
+
+  let token = "";
+  let widgetId: string | undefined;
+  let api: Turnstile | undefined;
+  let gone = false;
+  const container = form.querySelector<HTMLElement>("[data-turnstile]");
+  const resetWidget = () => {
+    token = "";
+    if (api && widgetId !== undefined) api.reset(widgetId);
+  };
+  loadTurnstile().then(
+    (loaded) => {
+      // The island may have been torn down (navigation) while the script loaded.
+      if (gone || !container) return;
+      api = loaded;
+      widgetId = loaded.render(container, {
+        sitekey: siteKey,
+        theme: "auto",
+        callback: (value) => {
+          token = value;
+        },
+        "expired-callback": () => {
+          token = "";
+        },
+        "error-callback": () => {
+          token = "";
+          say("The security check failed to load. Please refresh the page.", "error");
+        },
+      });
+    },
+    () => say("The security check failed to load. Please refresh the page.", "error"),
+  );
 
   const onSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
@@ -109,11 +148,15 @@ island("[data-contact-form]", (root) => {
       return;
     }
 
+    if (!token) {
+      say("Please complete the security check, then send again.", "error");
+      return;
+    }
+
     send.disabled = true;
     say("Sending…");
+    const turnstileToken = token;
     try {
-      await loadRecaptcha(siteKey);
-      const recaptchaToken = await token(siteKey);
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -124,7 +167,7 @@ island("[data-contact-form]", (root) => {
           topic: data.get("topic") ?? "",
           timeline: timelineShown ? (data.get("timeline") ?? "") : "",
           includeLinks: data.get("includeLinks") === "on",
-          recaptchaToken,
+          turnstileToken,
         }),
       });
       const body = (await response.json().catch(() => ({}))) as { error?: string; message?: string };
@@ -141,12 +184,15 @@ island("[data-contact-form]", (root) => {
     } catch {
       say("Couldn't send the message. Check your connection and try again.", "error");
     } finally {
+      resetWidget();
       send.disabled = false;
     }
   };
 
   form.addEventListener("submit", onSubmit);
   return () => {
+    gone = true;
+    if (api && widgetId !== undefined) api.remove(widgetId);
     form.removeEventListener("submit", onSubmit);
     again?.removeEventListener("click", onAgain);
   };

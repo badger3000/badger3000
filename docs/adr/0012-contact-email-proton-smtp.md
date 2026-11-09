@@ -15,8 +15,8 @@ ADR 0003 sent contact mail with Resend. The Astro site runs on a Cloudflare Work
 
 - `/api/contact` opens one SMTP session with `worker-mailer` (Workers TCP sockets, `nodejs_compat`) to `smtp.protonmail.ch:587` (STARTTLS) and sends the owner notification and the visitor auto-reply on it.
 - Auth is a Proton SMTP token. `SMTP_USER` is the custom-domain address the token belongs to and is also the From address. `SMTP_TOKEN` is a Worker secret; `SMTP_HOST` and `SMTP_PORT` are optional overrides.
-- `RESEND_API_KEY` and `CONTACT_FORM_EMAIL` are gone. reCAPTCHA v3 verification is unchanged.
-- The endpoint answers 503 until `RECAPTCHA_SECRET_KEY`, `OWNER_EMAIL`, `SMTP_USER` and `SMTP_TOKEN` are set.
+- `RESEND_API_KEY` and `CONTACT_FORM_EMAIL` are gone. reCAPTCHA v3 verification was unchanged here; ADR 0015 later replaced it with Turnstile.
+- The endpoint answers 503 until `TURNSTILE_SECRET_KEY` (was `RECAPTCHA_SECRET_KEY`), `OWNER_EMAIL`, `SMTP_USER` and `SMTP_TOKEN` are set.
 
 ## Consequences
 
