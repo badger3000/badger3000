@@ -15,7 +15,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
-const SECRETS = ["SANITY_API_TOKEN"];
+const SECRETS = ["SANITY_API_TOKEN", "SMTP_TOKEN", "TURNSTILE_SECRET_KEY"];
 const DIST = "dist";
 
 /**
