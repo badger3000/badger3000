@@ -3,8 +3,9 @@
  *
  * None of this is in Sanity yet (the pen binds it to `stat (…)`,
  * `method.value`, `note.text`, but the schema has no such fields),
- * so it lives here, in one place, until the schema grows them. GitHub and
- * LinkedIn prefer `settings.links` when the document has them.
+ * so it lives here, in one place, until the schema grows them. The Direct
+ * lines come from `settings.links`; `github` and `linkedin` below only stand in
+ * when the document has no links.
  *
  * `TOPICS` and `TIMELINES` are also what `/api/contact` accepts.
  */
