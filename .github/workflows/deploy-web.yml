@@ -64,11 +64,14 @@ jobs:
         if: github.ref != 'refs/heads/master'
         run: |
           pnpm --filter @badger3000/web exec wrangler versions upload \
-            --message "${{ github.ref_name }} ${{ github.sha }}" | tee upload.log
+            --message "$REF_NAME $GITHUB_SHA" | tee upload.log
           {
             echo "### Preview"
             grep -Eo 'https://[^ ]+\.workers\.dev' upload.log | head -1 || echo "see wrangler output"
           } >> "$GITHUB_STEP_SUMMARY"
         env:
+          # Through env, never interpolated into the script: a branch name is
+          # attacker-shaped text and this step holds the Cloudflare token.
+          REF_NAME: ${{ github.ref_name }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
