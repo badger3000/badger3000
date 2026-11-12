@@ -13,11 +13,8 @@ jobs:
     name: Update README with latest blog posts
     runs-on: ubuntu-24.04
     env:
+      # The only value scripts/update-readme.js reads: it fetches the public feed.
       PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.SANITY_PROJECT_ID }}
-      NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.SANITY_DATASET }}
-      NEXT_PUBLIC_AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
-      SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
     steps:
       - uses: actions/checkout@v7
         with:
@@ -36,7 +33,7 @@ jobs:
         run: node scripts/update-readme.js
 
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v8
+        uses: peter-evans/create-pull-request@3ffccacd46053766916f087ce41d627c0b8cf2d1 # v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Update README with latest blog posts
