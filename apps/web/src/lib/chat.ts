@@ -215,9 +215,12 @@ island("[data-chat-root]", (root) => {
       }
 
       const title = node.querySelector<HTMLAnchorElement>("[data-title-link]");
-      if (title && card.href) {
+      // Only a site path or an http(s) URL becomes a link: card hrefs come from
+      // Sanity (bookmark imports take whatever an HTML export holds), and a
+      // `javascript:` or `data:` value must never reach an anchor.
+      if (title && card.href && /^(\/(?!\/)|https?:\/\/)/i.test(card.href)) {
         title.href = card.href;
-        if (card.href.startsWith("http")) {
+        if (/^https?:/i.test(card.href)) {
           title.target = "_blank";
           title.rel = "noopener noreferrer";
           title.querySelector<HTMLElement>("[data-external]")?.removeAttribute("hidden");

@@ -23,7 +23,7 @@ Worse, there was no `.env` file and no `.env.example` in the repo at all, and `a
 | `NEXT_PUBLIC_SANITY_DATASET` | `PUBLIC_SANITY_DATASET` | defaults to `production` |
 | `NEXT_PUBLIC_SITE_URL` / `SITE_URL` | `PUBLIC_SITE_URL` | the two spellings are unified on one name |
 | `NEXT_PUBLIC_AUTHOR_NAME` | `PUBLIC_AUTHOR_NAME` | RSS feed |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | `PUBLIC_RECAPTCHA_SITE_KEY` | public half of ADR 0003 |
+| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | `PUBLIC_RECAPTCHA_SITE_KEY` (apps/web now `PUBLIC_TURNSTILE_SITE_KEY`, ADR 0015) | public half of ADR 0003 |
 | — | `PUBLIC_SANITY_API_VERSION` | new; pinned so a Sanity API bump cannot change a deployed build |
 | `SANITY_API_TOKEN` | unchanged | already correct: server-only |
 

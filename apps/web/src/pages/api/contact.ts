@@ -2,7 +2,7 @@
  * POST /api/contact — the contact form's endpoint, ported from the Next route
  * (`apps/legacy-next/app/api/contact/route.ts`, the PR #215 version).
  *
- *   validate → reCAPTCHA v3 siteverify (action + score) → Proton Mail SMTP submission: owner, then an auto-reply
+ *   validate → Turnstile siteverify → Proton Mail SMTP submission: owner, then an auto-reply
  *
  * Runs on the Worker. Mail goes out over one SMTP session (`worker-mailer`,
  * Workers TCP sockets) authenticated with a Proton SMTP token, from the
@@ -10,24 +10,21 @@
  * the Next incident was a stripped `console.error` hiding a misconfiguration.
  *
  *   200  { success: true }
- *   400  { error, errorCode? } — bad body, failed reCAPTCHA, low score
+ *   400  { error, errorCode? } — bad body, failed Turnstile check
  *   405  { error } + Allow: POST
  *   413  { error } — body over MAX_BODY
  *   429  { error } + Retry-After — rate limited (CONTACT_LIMITER)
- *   502  { error } — Google or the email send failed
+ *   502  { error } — Cloudflare or the email send failed
  *   503  { error, errorCode: "config" } — a required secret is not set
- *
- * There is no form on the Astro site yet; this keeps the endpoint ready.
  */
 import type { APIRoute } from "astro";
 import {
   OWNER_EMAIL,
-  RECAPTCHA_MIN_SCORE,
-  RECAPTCHA_SECRET_KEY,
   SMTP_HOST,
   SMTP_PORT,
   SMTP_TOKEN,
   SMTP_USER,
+  TURNSTILE_SECRET_KEY,
 } from "astro:env/server";
 import type { WorkerMailer } from "worker-mailer";
 import { TIMELINES, TOPICS } from "../../lib/contact-content.ts";
@@ -35,11 +32,9 @@ import { json, rateLimited, readBody } from "../../lib/http.ts";
 
 export const prerender = false;
 
-/** Must match the action the form passes to `grecaptcha.execute`. */
-const RECAPTCHA_ACTION = "contact_form_submit";
 const MAX_NAME = 200;
 const MAX_MESSAGE = 5000;
-/** Name, email, message and a reCAPTCHA token (~2 KB) fit well inside this. */
+/** Name, email, message and a Turnstile token (~2 KB) fit well inside this. */
 const MAX_BODY = 16 * 1024;
 // Domain labels exclude "." so each dot can only match one way (no polynomial backtracking).
 const EMAIL = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)+$/;
@@ -47,8 +42,7 @@ const MAX_EMAIL_LENGTH = 254;
 
 interface Siteverify {
   success: boolean;
-  score?: number;
-  action?: string;
+  challenge_ts?: string;
   hostname?: string;
   "error-codes"?: string[];
 }
@@ -64,10 +58,10 @@ interface Email {
 
 export const POST: APIRoute = async ({ request }) => {
   // Configuration first, so a missing secret is the logged reason, not a
-  // confusing reCAPTCHA or SMTP error further down.
-  if (!RECAPTCHA_SECRET_KEY || !OWNER_EMAIL || !SMTP_USER || !SMTP_TOKEN) {
+  // confusing Turnstile or SMTP error further down.
+  if (!TURNSTILE_SECRET_KEY || !OWNER_EMAIL || !SMTP_USER || !SMTP_TOKEN) {
     const missing = [
-      !RECAPTCHA_SECRET_KEY && "RECAPTCHA_SECRET_KEY",
+      !TURNSTILE_SECRET_KEY && "TURNSTILE_SECRET_KEY",
       !OWNER_EMAIL && "OWNER_EMAIL",
       !SMTP_USER && "SMTP_USER",
       !SMTP_TOKEN && "SMTP_TOKEN",
@@ -97,7 +91,7 @@ export const POST: APIRoute = async ({ request }) => {
   const name = text(body.name);
   const email = text(body.email);
   const message = text(body.message);
-  const token = body.recaptchaToken;
+  const token = body.turnstileToken;
   // Chip choices are optional, but a value must be one the form offers.
   const topic = text(body.topic);
   const timeline = text(body.timeline);
@@ -114,15 +108,15 @@ export const POST: APIRoute = async ({ request }) => {
     return json({ error: "Name or message is too long." }, { status: 400 });
   }
   if (typeof token !== "string" || !token) {
-    return json({ error: "reCAPTCHA verification failed.", errorCode: "recaptcha-failed" }, { status: 400 });
+    return json({ error: "Security check failed.", errorCode: "captcha-failed" }, { status: 400 });
   }
 
   let verdict: Siteverify;
   try {
-    const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
       body: new URLSearchParams({
-        secret: RECAPTCHA_SECRET_KEY,
+        secret: TURNSTILE_SECRET_KEY,
         response: token,
         remoteip: request.headers.get("cf-connecting-ip") ?? "",
       }),
@@ -130,36 +124,21 @@ export const POST: APIRoute = async ({ request }) => {
     if (!response.ok) throw new Error(`siteverify ${response.status}`);
     verdict = (await response.json()) as Siteverify;
   } catch (error) {
-    console.error("[contact] reCAPTCHA siteverify failed:", error);
+    console.error("[contact] Turnstile siteverify failed:", error);
     return json({ error: "Couldn't verify the form right now. Please try again." }, { status: 502 });
   }
 
-  if (!verdict.success || verdict.action !== RECAPTCHA_ACTION) {
-    console.error("[contact] reCAPTCHA rejected:", {
+  if (!verdict.success) {
+    console.error("[contact] Turnstile rejected:", {
       success: verdict.success,
-      action: verdict.action,
       hostname: verdict.hostname,
       errorCodes: verdict["error-codes"],
     });
     return json(
       {
-        error: "reCAPTCHA verification failed.",
-        errorCode: "recaptcha-failed",
-        message: "We couldn't verify that you're a human. Please refresh the page and submit again.",
-      },
-      { status: 400 },
-    );
-  }
-
-  const minScore = RECAPTCHA_MIN_SCORE ?? 0.5;
-  const score = verdict.score ?? 0;
-  if (score < minScore) {
-    console.error("[contact] reCAPTCHA score below threshold:", { score, minScore, hostname: verdict.hostname });
-    return json(
-      {
-        error: "Suspicious activity detected.",
-        errorCode: "suspicious-activity",
-        message: "For security reasons we couldn't process this submission. Please try again later.",
+        error: "Security check failed.",
+        errorCode: "captcha-failed",
+        message: "We couldn't verify that you're a human. Please try the check again and resend.",
       },
       { status: 400 },
     );
@@ -196,13 +175,12 @@ export const POST: APIRoute = async ({ request }) => {
     to: OWNER_EMAIL,
     reply: email,
     subject: `New contact form submission from ${subjectName}`,
-    text: `Name: ${name}\nEmail: ${email}\n${topic ? `Topic: ${topic}\n` : ""}${timeline ? `Timeline: ${timeline}\n` : ""}${includeLinks ? "Includes links to work: yes\n" : ""}Message:\n${message}\nreCAPTCHA score: ${score}\n`,
+    text: `Name: ${name}\nEmail: ${email}\n${topic ? `Topic: ${topic}\n` : ""}${timeline ? `Timeline: ${timeline}\n` : ""}${includeLinks ? "Includes links to work: yes\n" : ""}Message:\n${message}\n`,
     html: `<h2>New contact form submission</h2>
 <p><strong>Name:</strong> ${safeName}</p>
 <p><strong>Email:</strong> ${safeEmail}</p>
 ${topic ? `<p><strong>Topic:</strong> ${escapeHtml(topic)}</p>\n` : ""}${timeline ? `<p><strong>Timeline:</strong> ${escapeHtml(timeline)}</p>\n` : ""}${includeLinks ? "<p><strong>Includes links to work:</strong> yes</p>\n" : ""}<p><strong>Message:</strong></p>
-<p>${safeMessage}</p>
-<p><strong>reCAPTCHA score:</strong> ${score}</p>`,
+<p>${safeMessage}</p>`,
   });
   if (!owner) {
     await mailer.close();

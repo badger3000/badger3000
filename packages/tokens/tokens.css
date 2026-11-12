@@ -61,6 +61,22 @@
   --p-tint-6: #36c3d6;
   --p-tint-7: #ec4899;
   --p-tint-8: #7c3aed;
+  /*
+   * The experiment card's code window (pen pv, GWZwY): macOS traffic-light dots and
+   * the line colours its bars draw from. src/covers.ts (WINDOW_PALETTES) names
+   * the line colours; the check script keeps the two in step.
+   */
+  --p-window-dot-red: #ff5f56;
+  --p-window-dot-yellow: #ffbd2e;
+  --p-window-dot-green: #27c93f;
+  --p-line-violet: #7c3aed;
+  --p-line-pink: #ec4899;
+  --p-line-amber: #f59e0b;
+  --p-line-indigo: #6366f1;
+  --p-line-cyan: #36c3d6;
+  --p-line-blue: #5b7cc2;
+  --p-line-coral: var(--p-coral);
+  --p-line-green: var(--p-green);
   /* code-block primitives (the pen's article code block, C2I66) */
   --p-code-900: #1a1a22;
   --p-code-800: #26262c;
@@ -115,8 +131,9 @@
   --a-cover-overlay: #ffffff29;
   /* the experiment card's dark "window" cover */
   --a-cover-window: #17171c;
-  --a-cover-window-dot: #ffffff26;
-  --a-cover-window-line: #ffffff1f;
+  --a-cover-window-dot-1: var(--p-window-dot-red);
+  --a-cover-window-dot-2: var(--p-window-dot-yellow);
+  --a-cover-window-dot-3: var(--p-window-dot-green);
   /* behind a modal (the mobile drawer) */
   --a-scrim: var(--p-scrim);
   /* code blocks — dark in every skin */
@@ -171,6 +188,28 @@
   30% {
     opacity: 1;
     transform: translateY(-2px);
+  }
+}
+
+/* The experiment card's window arriving: dots pop in, then the bars draw out. */
+@keyframes window-dot-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes window-line-draw {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 0.85;
+    transform: none;
   }
 }
 
