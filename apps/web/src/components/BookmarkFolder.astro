@@ -168,8 +168,14 @@ const hostOf = (url: string): string => {
   .row :global(.out) {
     flex: none;
     color: var(--a-faint);
+    transform-origin: center;
+    transition:
+      transform 0.2s ease,
+      color 0.15s ease;
   }
-  .row:hover :global(.out) {
+  .row:hover :global(.out),
+  .row:focus-visible :global(.out) {
     color: var(--a-accent);
+    transform: rotate(45deg);
   }
 </style>

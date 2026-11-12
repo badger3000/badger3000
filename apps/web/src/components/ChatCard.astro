@@ -109,8 +109,14 @@ const ICONS: Record<string, string> = {
     margin-left: 2px;
   }
   .ext :global(svg) {
-    display: inline;
+    display: inline-block;
     vertical-align: -1px;
+    transform-origin: center;
+    transition: transform 0.2s ease;
+  }
+  .title:hover .ext :global(svg),
+  .title:focus-visible .ext :global(svg) {
+    transform: rotate(45deg);
   }
   .sr {
     position: absolute;

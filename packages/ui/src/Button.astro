@@ -64,6 +64,16 @@ if (newTab) rest.rel = [...new Set(`noopener noreferrer ${rest.rel ?? ""}`.split
     height: 16px;
   }
 
+  /* A trailing arrow-up-right (class "turn") points flat on hover. */
+  .btn :global(.turn) {
+    transform-origin: center;
+    transition: transform 0.2s ease;
+  }
+  .btn:hover :global(.turn),
+  .btn:focus-visible :global(.turn) {
+    transform: rotate(45deg);
+  }
+
   /* sm and soft keep the text's own line box, as the pills they replace did. */
   .sm {
     gap: 7px;
