@@ -209,14 +209,16 @@ ${topic ? `<p><strong>Topic:</strong> ${escapeHtml(topic)}</p>\n` : ""}${timelin
     return json({ error: "Failed to send the message. Please try again." }, { status: 502 });
   }
 
-  // A soft failure: the owner already has the message.
+  // A soft failure: the owner already has the message. Nothing the sender typed
+  // goes into this one: the address is unverified, so a reply that quoted the
+  // name would deliver a stranger's text to a third party from this domain.
   await send(mailer, {
     from: replyFrom,
     to: email,
     subject: "Thank you for your message",
-    text: `Dear ${name},\n\nThank you for contacting me. I have received your message and will get back to you as soon as possible.\n\nBest regards,\nKyle Ross\n`,
+    text: `Hello,\n\nThank you for contacting me. I have received your message and will get back to you as soon as possible.\n\nBest regards,\nKyle Ross\n`,
     html: `<h2>Thank you for your message</h2>
-<p>Dear ${safeName},</p>
+<p>Hello,</p>
 <p>Thank you for contacting me. I have received your message and will get back to you as soon as possible.</p>
 <p>Best regards,<br>Kyle Ross</p>`,
   });
