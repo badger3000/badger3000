@@ -179,7 +179,16 @@ const monogram = title.trim().charAt(0);
     place-items: center;
     color: var(--a-subtle);
   }
-  .out:hover {
+  .out :global(svg) {
+    transform-origin: center;
+    transition: transform 0.2s ease;
+  }
+  .out:hover,
+  .out:focus-visible {
     color: var(--a-accent);
+  }
+  .out:hover :global(svg),
+  .out:focus-visible :global(svg) {
+    transform: rotate(45deg);
   }
 </style>

@@ -40,10 +40,16 @@ const { href, class: className, rel, cue = true, "aria-label": label, ...rest } 
 
 <style>
   .ext :global(.ext-cue) {
-    display: inline;
+    display: inline-block;
     flex: none;
     margin-left: 2px;
     vertical-align: -1px;
+    transform-origin: center;
+    transition: transform 0.2s ease;
+  }
+  .ext:hover :global(.ext-cue),
+  .ext:focus-visible :global(.ext-cue) {
+    transform: rotate(45deg);
   }
   .ext-sr {
     position: absolute;
