@@ -31,7 +31,7 @@ The bookmark appears in Studio (`/studio`) and, within an hour, on `/bookmarks`.
 ## Troubleshooting
 
 - **"Permission denied"**: the token is a Viewer token; create an Editor token.
-- **CORS error**: the `rules.json` rule that removes the `Origin` header isn't active. Reload the extension.
+- **CORS error**: the rule that removes the `Origin` header (registered by `background.js` when the service worker starts) isn't active. Reload the extension.
 
 ## Links
 
