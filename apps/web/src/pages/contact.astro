@@ -30,11 +30,16 @@ const linkFor = (name: string, fallback: string) =>
   settings?.links?.find((link) => link.siteName?.toLowerCase() === name)?.webUrl ?? fallback;
 const shown = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
-// lucide has no brand glyphs (see Footer), so GitHub and LinkedIn borrow neutral ones.
+// lucide has no brand glyphs (see Footer), so GitHub, LinkedIn and CodePen borrow neutral ones.
 const lines = [
   { label: "GitHub", icon: "code-xml", value: shown(linkFor("github", content.github)), href: linkFor("github", content.github), external: true },
   { label: "LinkedIn", icon: "briefcase", value: shown(linkFor("linkedin", content.linkedin)), href: linkFor("linkedin", content.linkedin), external: true },
 ];
+// CodePen has no fallback URL: the row appears only when Sanity's settings.links has it.
+const codepen = settings?.links?.find((link) => link.siteName?.toLowerCase() === "codepen")?.webUrl;
+if (codepen) {
+  lines.push({ label: "CodePen", icon: "pen-tool", value: shown(codepen), href: codepen, external: true });
+}
 ---
 
 <Base

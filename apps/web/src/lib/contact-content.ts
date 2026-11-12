@@ -51,5 +51,5 @@ export const success = {
 export const timezone = { eyebrow: "My local time · US Mountain", zone: "America/Denver" };
 
 export const email = "kyle@badger3000.dev";
-export const github = "https://github.com/kyle-ross";
+export const github = "https://github.com/badger3000";
 export const linkedin = "https://www.linkedin.com/in/kyleross";
