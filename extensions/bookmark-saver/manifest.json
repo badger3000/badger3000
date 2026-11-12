@@ -9,15 +9,6 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "declarative_net_request": {
-    "rule_resources": [
-      {
-        "id": "strip_origin",
-        "enabled": true,
-        "path": "rules.json"
-      }
-    ]
-  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {

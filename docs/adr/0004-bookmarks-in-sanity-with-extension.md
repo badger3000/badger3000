@@ -18,7 +18,7 @@ The `/bookmarks` page needs a low-effort way to add links while browsing.
 - `extensions/bookmark-saver` ("Badger Bookmarks", Chrome Manifest V3) saves the current tab straight to Sanity's API:
   - the project ID and dataset are kept in synced storage;
   - the API token is kept in local storage and needs Editor permission.
-- A `declarativeNetRequest` rule (`rules.json`) removes the `Origin` header on requests to `*.api.sanity.io`, so Sanity's CORS check doesn't block the extension.
+- A `declarativeNetRequest` rule (registered in `background.js`, scoped to the extension's own requests with `initiatorDomains`) removes the `Origin` header on requests to `*.api.sanity.io`, so Sanity's CORS check doesn't block the extension.
 
 ## Options rejected
 
