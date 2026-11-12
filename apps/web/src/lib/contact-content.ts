@@ -3,8 +3,9 @@
  *
  * None of this is in Sanity yet (the pen binds it to `stat (…)`,
  * `method.value`, `note.text`, but the schema has no such fields),
- * so it lives here, in one place, until the schema grows them. GitHub and
- * LinkedIn prefer `settings.links` when the document has them.
+ * so it lives here, in one place, until the schema grows them. The Direct
+ * lines come from `settings.links`; `github` and `linkedin` below only stand in
+ * when the document has no links.
  *
  * `TOPICS` and `TIMELINES` are also what `/api/contact` accepts.
  */
@@ -51,5 +52,5 @@ export const success = {
 export const timezone = { eyebrow: "My local time · US Mountain", zone: "America/Denver" };
 
 export const email = "kyle@badger3000.dev";
-export const github = "https://github.com/kyle-ross";
+export const github = "https://github.com/badger3000";
 export const linkedin = "https://www.linkedin.com/in/kyleross";

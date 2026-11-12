@@ -10,7 +10,8 @@
  *            availability pill are desktop-only, as in the pen.
  *
  * The availability pill is `settings.availability` (Sanity); it is omitted when
- * the label is empty. The rest of the copy lives in `lib/contact-content.ts`
+ * the label is empty. The Direct lines are Email plus every entry in
+ * `settings.links`, in Sanity's order. The rest of the copy lives in `lib/contact-content.ts`
  * (the schema has no fields for it yet).
  * The pen has the title "Contact" on desktop and "Get in touch" on mobile, so
  * the h1 carries both and CSS shows one.
@@ -26,14 +27,33 @@ const [counts, settings] = await Promise.all([getCounts(), getSettings()]);
 
 const availability = settings?.availability;
 
-const linkFor = (name: string, fallback: string) =>
-  settings?.links?.find((link) => link.siteName?.toLowerCase() === name)?.webUrl ?? fallback;
 const shown = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
-// lucide has no brand glyphs (see Footer), so GitHub and LinkedIn borrow neutral ones.
+// lucide has no brand glyphs (see Footer), so known networks borrow neutral ones.
+const ICONS: Record<string, string> = { github: "code-xml", linkedin: "briefcase", codepen: "pen-tool" };
+const iconFor = (name: string) => ICONS[name.toLowerCase()] ?? "link";
+
+// Every link in Sanity's settings.links, in its order. The hardcoded GitHub and
+// LinkedIn URLs only stand in when the document has none (credential-less builds).
+const sanityLinks = (settings?.links ?? []).flatMap((link) =>
+  link.webUrl ? [{ label: link.siteName || shown(link.webUrl), href: link.webUrl }] : [],
+);
+const social = sanityLinks.length
+  ? sanityLinks
+  : [
+      { label: "GitHub", href: content.github },
+      { label: "LinkedIn", href: content.linkedin },
+    ];
+
 const lines = [
-  { label: "GitHub", icon: "code-xml", value: shown(linkFor("github", content.github)), href: linkFor("github", content.github), external: true },
-  { label: "LinkedIn", icon: "briefcase", value: shown(linkFor("linkedin", content.linkedin)), href: linkFor("linkedin", content.linkedin), external: true },
+  { label: "Email", icon: "mail", value: content.email, href: `mailto:${content.email}`, external: false },
+  ...social.map((link) => ({
+    label: link.label,
+    icon: iconFor(link.label),
+    value: shown(link.href),
+    href: link.href,
+    external: true,
+  })),
 ];
 ---
 
