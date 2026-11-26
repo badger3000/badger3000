@@ -17,7 +17,7 @@ The pen has been redesigned (`design/badger3000v2.pen`):
 | --- | --- | --- |
 | Browse — Golf | `oH8H5` (main `F43dJ`) | Handicap card + 3 StatTiles, 20-bar chart, "Courses played" cards, "Last 20 rounds" table with an All / Counted filter |
 | Browse — Golf · Course drawer | `pe68N` (drawer `hSxF6`) | The same page with a right-hand `CourseDrawer` open |
-| Browse — Golf (Dark) | `FNKx0` | **Out of date**: a dark copy of the *old* golf page. Re-copy from `oH8H5` in phase 1 |
+| Browse — Golf (Dark) | `oAQkk` | Dark copy of `oH8H5` (re-copied in phase 1; replaces `FNKx0`) |
 
 Every node carries a `context` spec (tag · role ← binding). This plan turns those bindings into schema, queries and code. The pen uses sample data (20 rounds at 7 courses).
 
