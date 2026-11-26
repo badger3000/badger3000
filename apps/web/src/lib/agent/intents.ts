@@ -37,6 +37,8 @@ interface Rule {
   intent: Exclude<Intent, "suggest">;
   /** Whole words or phrases, weight 1. */
   words: string[];
+  /** Phrases that settle it: weight 2, so they beat a single word from another rule. */
+  heavy?: string[];
   /** Whole words or phrases that only lean towards this intent, weight ½. */
   weak?: string[];
 }
@@ -80,6 +82,12 @@ const RULES: Rule[] = [
   {
     intent: "golf",
     words: ["golf", "golfing", "golfer", "round", "rounds", "par", "handicap", "putt", "putting", "18 holes", "tee", "birdie", "score", "scores"],
+    // Course questions: "course" alone is a school word, so these outweigh it.
+    heavy: [
+      "golf courses", "golf course", "home course", "favorite course", "favourite course",
+      "where does kyle play", "where does he play", "where kyle plays", "where he plays", "where do you play",
+      "courses kyle plays", "courses he plays", "courses does kyle play", "courses does he play",
+    ],
   },
   {
     intent: "contact",
@@ -109,6 +117,7 @@ const COMPILED = RULES.map((rule) => ({
   intent: rule.intent,
   strong: pattern(rule.words),
   weak: rule.weak ? pattern(rule.weak) : null,
+  heavy: rule.heavy ? pattern(rule.heavy) : null,
 }));
 
 export interface Classification {
@@ -156,7 +165,11 @@ export function classify(message: string): Classification {
     const strong = text.match(rule.strong) ?? [];
     const weak = rule.weak ? (text.match(rule.weak) ?? []) : [];
     // Distinct hits, so "project project project" is not three times as sure.
-    const score = new Set(strong.map((w) => w.toLowerCase())).size + new Set(weak.map((w) => w.toLowerCase())).size / 2;
+    const heavy = rule.heavy ? (text.match(rule.heavy) ?? []) : [];
+    const score =
+      new Set(strong.map((w) => w.toLowerCase())).size +
+      new Set(weak.map((w) => w.toLowerCase())).size / 2 +
+      new Set(heavy.map((w) => w.toLowerCase())).size * 2;
     return { rule, score };
   });
 
@@ -167,7 +180,8 @@ export function classify(message: string): Classification {
 
   // Drop the words that picked the intent, then the stopwords: what is left is
   // what the visitor wants *within* it.
-  let rest = text.replace(winner.rule.strong, " ");
+  let rest = winner.rule.heavy ? text.replace(winner.rule.heavy, " ") : text;
+  rest = rest.replace(winner.rule.strong, " ");
   if (winner.rule.weak) rest = rest.replace(winner.rule.weak, " ");
   const seen = new Set<string>();
   const terms = keywords(rest)
