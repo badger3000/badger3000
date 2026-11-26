@@ -9,6 +9,7 @@ export default defineCliConfig({
   // badger3000.sanity.studio, for `sanity deploy` (an owner step, never CI).
   studioHost: "badger3000",
   deployment: {
+    appId: "ekl6rkybua8gh27nacgayzdy",
     autoUpdates: true,
   },
 });

@@ -17,9 +17,9 @@
     "groq": "^6.20.0"
   },
   "peerDependencies": {
+    "@sanity/ui": "^4.4.9",
     "react": "^19",
-    "sanity": "^6",
-    "@sanity/ui": "^4.4.9"
+    "sanity": "^6"
   },
   "peerDependenciesMeta": {
     "react": {
@@ -34,9 +34,9 @@
   },
   "devDependencies": {
     "@badger3000/config": "workspace:*",
+    "@sanity/ui": "^4.4.9",
     "react": "19.3.1",
-    "sanity": "^6.20.0",
-    "typescript": "^6.0.3",
-    "@sanity/ui": "^4.4.9"
+    "sanity": "^6.25.0",
+    "typescript": "^6.0.3"
   }
 }
