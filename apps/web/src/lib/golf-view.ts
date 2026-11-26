@@ -154,11 +154,8 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
     if (estimated) note += ` Includes ${estimated} estimated ${estimated === 1 ? "round" : "rounds"}.`;
   }
 
-  const stats = courseStats(
-    // `courseStats` aggregates the scored rounds in the shown 20.
-    (cur?.window ?? []).filter((w) => shown.some((s) => s.id === w.id)),
-    counted,
-  );
+  // Every shown round counts for its course, differential or not.
+  const stats = courseStats(shown, counted);
   const byCourse = new Map(page.courses.map((c) => [c.slug ?? c.name, c]));
 
   const courses: CourseView[] = stats.map((s) => {

@@ -242,7 +242,8 @@ export type CourseStat = {
   rounds: number;
   best: number;
   avg: number;
-  bestDiff: number;
+  /** Lowest differential among the rounds that have one; null when none do. */
+  bestDiff: number | null;
   lastPlayed: string;
   /** How many of this course's rounds are counted in the index. */
   counting: number;
@@ -252,10 +253,11 @@ export type CourseStat = {
 /**
  * Per-course aggregates over the rounds shown (the last 20), sorted by rounds
  * desc, then lastPlayed desc. `best`/`avg` are gross scores; `bestDiff` the
- * lowest differential. Rounds without a course are skipped.
+ * lowest differential. Rounds without a course are skipped; rounds without a
+ * differential still count as rounds (and for `best`/`avg`).
  */
-export function courseStats(window: WindowRound[], counted: Set<string>): CourseStat[] {
-  const by = new Map<string, WindowRound[]>();
+export function courseStats(window: Array<Round & { diff: number | null }>, counted: Set<string>): CourseStat[] {
+  const by = new Map<string, Array<Round & { diff: number | null }>>();
   for (const r of window) {
     if (!r.course) continue;
     by.set(r.course.slug, [...(by.get(r.course.slug) ?? []), r]);
@@ -270,7 +272,7 @@ export function courseStats(window: WindowRound[], counted: Set<string>): Course
         rounds: rs.length,
         best: Math.min(...rs.map((r) => r.score)),
         avg: round1(rs.reduce((s, r) => s + r.score, 0) / rs.length),
-        bestDiff: Math.min(...rs.map((r) => r.diff)),
+        bestDiff: rs.some((r) => r.diff !== null) ? Math.min(...rs.flatMap((r) => (r.diff === null ? [] : [r.diff]))) : null,
         lastPlayed: rs.map((r) => r.date).reduce((a, b) => (a > b ? a : b)),
         counting: rs.filter((r) => counted.has(r.id)).length,
         teesPlayed,
