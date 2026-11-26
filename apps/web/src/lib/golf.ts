@@ -205,6 +205,24 @@ export function history(rounds: Round[]): HistoryEntry[] {
   return entries;
 }
 
+export type ShownRound = Round & { diff: number | null; estimated: boolean };
+
+/**
+ * The `n` most recent non-excluded rounds (oldest first), for the table and
+ * chart. Unlike the scoring record, rounds with no differential stay in, with
+ * `diff: null` (shown as "—", can't count).
+ */
+export function lastRounds(rounds: Round[], n = WINDOW): ShownRound[] {
+  return rounds
+    .filter((r) => !r.excluded)
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : a.id < b.id ? -1 : 1))
+    .slice(-n)
+    .map((r) => {
+      const d = differential(r);
+      return { ...r, diff: d?.value ?? null, estimated: d?.estimated ?? false };
+    });
+}
+
 /** The latest entry, or null with no scored rounds. */
 export const current = (h: HistoryEntry[]): HistoryEntry | null => h[h.length - 1] ?? null;
 

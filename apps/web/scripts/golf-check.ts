@@ -14,6 +14,7 @@ import {
   barHeight,
   courseStats,
   current,
+  lastRounds,
   differential,
   history,
   round1,
@@ -208,6 +209,18 @@ console.log("aggregates");
   check("trend with nothing before → null", trend(history(rounds), day(0)), null);
   check("barHeight: lowest is the floor, highest is 1", [barHeight(11, entry.window), barHeight(14, entry.window)], [0.15, 1]);
   check("barHeight: flat window", barHeight(10, last(series([10, 10, 10]))!.window), 0.6);
+}
+
+// 11. Rounds shown in the table.
+console.log("last rounds");
+{
+  const noTee: Round = { id: "nt", date: day(30), score: 80, tee: null };
+  const many = [...series(Array.from({ length: 22 }, (_, i) => 20 - i * 0.1)), noTee, r(40, 1, { excluded: true })];
+  const shown = lastRounds(many);
+  check("20 most recent, excluded left out", [shown.length, shown.at(-1)?.id, shown[0].id], [20, "nt", "r3"]);
+  check("round with no differential stays with diff null", [shown.at(-1)?.diff, shown.at(-1)?.estimated], [null, false]);
+  check("oldest first", shown.map((x) => x.date).join() === [...shown.map((x) => x.date)].sort().join(), true);
+  check("fewer than 20 returns all", lastRounds(series([10, 11])).length, 2);
 }
 
 // GHIN agreement (hook): the schema/query for golfProfile.ghinIndex is built elsewhere.
