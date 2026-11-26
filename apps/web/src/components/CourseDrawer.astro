@@ -375,7 +375,7 @@ const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
     overflow: hidden;
   }
   .drawer::backdrop {
-    background: var(--a-scrim);
+    background: color-mix(in srgb, var(--a-scrim) 45%, transparent);
   }
   .drawer[open] {
     display: flex;
