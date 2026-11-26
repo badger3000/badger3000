@@ -1,5 +1,6 @@
 import TeePicker from "../components/TeePicker";
 import DifferentialInput from "../components/DifferentialInput";
+import {API_VERSION} from "../../index";
 
 export default {
   title: "Golf Scores",
@@ -23,6 +24,7 @@ export default {
         {name: "teeKey", type: "string", title: "Tee key"},
         {name: "name", type: "string", title: "Name"},
         {name: "color", type: "string", title: "Color"},
+        {name: "customColor", type: "string", title: "Custom color"},
         {name: "gender", type: "string", title: "Gender"},
         {name: "par", type: "number", title: "Par"},
         {name: "yardage", type: "number", title: "Yardage"},
@@ -30,12 +32,22 @@ export default {
         {name: "slope", type: "number", title: "Slope", validation: (Rule) => Rule.min(55).max(155)},
       ],
       // Required for new rounds; migrated rounds without a tee stay valid if they have a differential.
+      // A picked tee must still be one of the selected course's tees (drafts + published).
       validation: (Rule) =>
-        Rule.custom((tee, context) => {
+        Rule.custom(async (tee, context) => {
           const doc = context.document;
-          if (tee?.teeKey) return true;
-          if (doc?.score == null) return true;
-          return doc?.differential != null ? true : "Pick the tee played, or enter the differential";
+          if (!tee?.teeKey) {
+            if (doc?.score == null || doc?.differential != null) return true;
+            return "Pick the tee played, or enter the differential";
+          }
+          const courseId = doc?.course?._ref?.replace(/^drafts\./, "");
+          if (!courseId) return "Pick a course first";
+          const tees = await context
+            .getClient({apiVersion: API_VERSION})
+            .fetch(`coalesce(*[_id == "drafts." + $id][0].tees, *[_id == $id][0].tees)`, {id: courseId}, {perspective: "raw"});
+          return (tees ?? []).some((t) => t._key === tee.teeKey)
+            ? true
+            : "This tee is not on the selected course. Pick one again.";
         }),
     },
     {title: "Date", name: "date", type: "date", options: {}},

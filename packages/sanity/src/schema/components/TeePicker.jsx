@@ -2,6 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import {Box, Button, Card, Flex, Stack, Text} from "@sanity/ui";
 import {set, unset, useClient, useFormValue} from "sanity";
 import {IntentLink} from "sanity/router";
+import {API_VERSION} from "../../index";
 
 const SWATCH = {black: "#111", blue: "#1d4ed8", white: "#fff", gold: "#d4a017", red: "#c62828", green: "#2e7d32", silver: "#b0b4ba"};
 
@@ -11,6 +12,7 @@ const snapshot = (t) => ({
   teeKey: t._key,
   name: t.name,
   color: t.color,
+  customColor: t.customColor,
   gender: t.gender,
   par: t.par,
   yardage: t.yardage,
@@ -22,7 +24,7 @@ export default function TeePicker(props) {
   const {value, onChange} = props;
   const courseRef = useFormValue(["course"])?._ref;
   const courseId = courseRef?.replace(/^drafts\./, "");
-  const client = useClient({apiVersion: "2024-03-09"});
+  const client = useClient({apiVersion: API_VERSION});
   const [tees, setTees] = useState(null);
 
   // Fetch tees including drafts, so a course you just created works straight away.
@@ -88,7 +90,7 @@ export default function TeePicker(props) {
               <Flex align="center" gap={3}>
                 <span
                   aria-hidden="true"
-                  style={{width: 16, height: 16, borderRadius: "50%", background: SWATCH[t.color] ?? t.color ?? "transparent", border: "1px solid rgba(128,128,128,.6)"}}
+                  style={{width: 16, height: 16, borderRadius: "50%", background: t.color === "custom" ? t.customColor : SWATCH[t.color] ?? "transparent", border: "1px solid rgba(128,128,128,.6)"}}
                 />
                 <Box flex={1}>
                   <Text size={1} weight="semibold">{t.name} {t.gender ? `(${t.gender})` : ""}</Text>

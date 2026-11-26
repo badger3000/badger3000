@@ -12,8 +12,20 @@ export const golfTee = {
       type: "string",
       description: "Drives the swatch on the site.",
       options: {
-        list: ["black", "blue", "white", "gold", "red", "green", "silver"],
+        list: ["black", "blue", "white", "gold", "red", "green", "silver", "custom"],
       },
+    },
+    {
+      title: "Custom color",
+      name: "customColor",
+      type: "string",
+      description: "Hex, e.g. #1d4ed8",
+      hidden: ({parent}) => parent?.color !== "custom",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (context.parent?.color !== "custom") return true;
+          return /^#[0-9a-fA-F]{6}$/.test(value ?? "") ? true : "Use a hex color like #1d4ed8";
+        }),
     },
     {
       title: "Gender",

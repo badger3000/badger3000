@@ -242,8 +242,19 @@
               {
                 "type": "string",
                 "value": "silver"
+              },
+              {
+                "type": "string",
+                "value": "custom"
               }
             ]
+          },
+          "optional": true
+        },
+        "customColor": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         },
@@ -1639,6 +1650,13 @@
               "optional": true
             },
             "color": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string"
+              },
+              "optional": true
+            },
+            "customColor": {
               "type": "objectAttribute",
               "value": {
                 "type": "string"

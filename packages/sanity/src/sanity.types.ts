@@ -56,7 +56,9 @@ export type GolfProfile = {
 export type GolfTee = {
   _type: "golfTee";
   name: string;
-  color?: "black" | "blue" | "white" | "gold" | "red" | "green" | "silver";
+  color?:
+    "black" | "blue" | "white" | "gold" | "red" | "green" | "silver" | "custom";
+  customColor?: string;
   gender: "M" | "F";
   par?: number;
   yardage?: number;
@@ -285,6 +287,7 @@ export type GolfScores = {
     teeKey?: string;
     name?: string;
     color?: string;
+    customColor?: string;
     gender?: string;
     par?: number;
     yardage?: number;
