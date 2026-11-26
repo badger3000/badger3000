@@ -117,7 +117,12 @@ export const cases: Case[] = [
   // golf
   { q: "Show me his golf scores", intent: "golf", count: 4 },
   { q: "What's his best round?", intent: "golf", text: [/\b79\b/] },
-  { q: "What's his handicap?", intent: "golf" },
+  { q: "What's his handicap?", intent: "golf", text: [/handicap index 8\.8/, /WHS/, /1 lowest of 4 rounds/], why: "WHS index from the rounds (GHIN's is older than the last round)" },
+  { q: "Who has the lowest handicap index here?", intent: "golf", cards: ["Heron Lakes"], text: [/counted rounds 79 at Heron Lakes/] },
+  { q: "Where does Kyle play?", intent: "golf", count: 4, text: [/plays 3 courses/, /most played Eastmoreland, 2 rounds/] },
+  { q: "Which golf courses does he play?", intent: "golf", text: [/courses Eastmoreland, Heron Lakes, Pumpkin Ridge/] },
+  { q: "What's his home course?", intent: "golf", text: [/most played Eastmoreland/] },
+  { q: "How does he score at Heron Lakes?", intent: "golf", cards: ["Heron Lakes"], count: 1, text: [/Heron Lakes/], why: "course names are matched in retrieval" },
 
   // contact
   { q: "How do I contact him?", intent: "contact" },
@@ -144,12 +149,15 @@ export interface GroundingCase {
 
 const PROJECT_FACTS = ["Badger Bookmarks, Project", "Headspace, Front end", "Golf Tracker, Golf", "Smart Home dashboard"];
 const GOLF_FACTS = ["best round 79", "average 83", "4 most recent rounds"];
+const HANDICAP_FACTS = ["handicap index 8.8, WHS, from the 1 lowest of 4 rounds", "counted rounds 79 at Heron Lakes"];
 
 export const grounding: GroundingCase[] = [
   { line: "His projects include Headspace and Golf Tracker", facts: PROJECT_FACTS, grounded: true, why: "names from the facts" },
   { line: "He partnered with Headspace to promote mindfulness", facts: PROJECT_FACTS, grounded: false, why: "observed: invented partnership" },
   { line: "His 12 projects include Headspace", facts: PROJECT_FACTS, grounded: false, why: "#8a: invented number" },
   { line: "An 8-round streak at Eastmoreland", facts: GOLF_FACTS, grounded: false, why: "#8a: invented number" },
+  { line: "His handicap index is 8.8", facts: HANDICAP_FACTS, grounded: true, why: "index from the facts" },
+  { line: "His handicap index is 9.1", facts: HANDICAP_FACTS, grounded: false, why: "invented index" },
   { line: "His best round is 79", facts: GOLF_FACTS, grounded: true, why: "number from the facts" },
   { line: "His best round is 7", facts: GOLF_FACTS, grounded: false, why: "#8: a digit run must match whole" },
   {

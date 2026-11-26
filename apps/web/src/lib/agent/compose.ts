@@ -145,8 +145,9 @@ export function fallback(intent: Intent, found: Found, terms: string[] = [], see
       return `${shown} of the ${found.total} links he's saved. The full set is there to browse.${missed}`;
     case "golf":
       if (!facts.length) return "No rounds logged yet. The clubs are still in the bag.";
-      if (isNarrowed) return `${narrowed(intent, found, seed)} ${facts.join(", ")}. Lower is better.`;
-      return `Here's his golf card: ${facts.join(", ")}. Lower is better, in case you're wondering.`;
+      // Facts carry their own commas ("handicap index 12.3, WHS, from…"), so they are split on semicolons.
+      if (isNarrowed) return `${narrowed(intent, found, seed)} ${facts.join("; ")}. Lower is better.`;
+      return `Here's his golf card: ${facts.join("; ")}. Lower is better, in case you're wondering.`;
     case "contact":
       return "Email is the surest way to reach him. He'd be glad to hear from you.";
     case "about": {

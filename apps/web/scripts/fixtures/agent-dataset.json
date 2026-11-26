@@ -72,11 +72,13 @@
   { "_id": "bm.11", "_type": "bookmark", "title": "Typography handbook", "url": "https://example.com/type", "folder": { "_ref": "folder.design" } },
   { "_id": "bm.12", "_type": "bookmark", "title": "Zustand for React state", "url": "https://example.com/zustand", "folder": { "_ref": "folder.dev" } },
 
-  { "_id": "golf.1", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-09-20", "score": 84 },
-  { "_id": "golf.2", "_type": "golfScores", "course": "Heron Lakes", "date": "2026-08-30", "score": 79 },
-  { "_id": "golf.3", "_type": "golfScores", "course": "Pumpkin Ridge", "date": "2026-07-12", "score": 88 },
-  { "_id": "golf.4", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-06-01", "score": 82 },
+  { "_id": "golf.1", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-09-20", "score": 84, "differential": 12.4, "tee": { "teeKey": "white", "name": "White", "rating": 70.1, "slope": 120 } },
+  { "_id": "golf.2", "_type": "golfScores", "course": "Heron Lakes", "date": "2026-08-30", "score": 79, "differential": 9.8, "tee": { "teeKey": "white", "name": "White", "rating": 70.1, "slope": 120 } },
+  { "_id": "golf.3", "_type": "golfScores", "course": "Pumpkin Ridge", "date": "2026-07-12", "score": 88, "differential": 15.1, "tee": { "teeKey": "white", "name": "White", "rating": 70.1, "slope": 120 } },
+  { "_id": "golf.4", "_type": "golfScores", "course": "Eastmoreland", "date": "2026-06-01", "score": 82, "differential": 13.0, "tee": { "teeKey": "white", "name": "White", "rating": 70.1, "slope": 120 } },
   { "_id": "golf.5", "_type": "golfScores", "course": "Rose City", "date": "2026-05-01" },
+
+  { "_id": "golfProfile", "_type": "golfProfile", "ghinIndex": 10.2, "ghinIndexDate": "2026-08-01" },
 
   { "_id": "settings", "_type": "settings", "name": "Kyle Ross", "title": "Front-end engineer", "location": "Portland, Oregon", "occupation": "Design engineer", "description": "Builds design systems and the sites on top of them." }
 ]

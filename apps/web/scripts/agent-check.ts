@@ -28,10 +28,13 @@ const dataset = (
 ).default as Record<string, unknown>[];
 
 /** Sanity, offline: the same GROQ, the same params, fixture documents. */
-const fetchFixtures: ChatFetch = async <T>(query: string, params: Record<string, unknown> = {}) => {
-  const tree = parse(query, { params });
-  return (await (await evaluate(tree, { dataset, params })).get()) as T;
-};
+const over =
+  (docs: Record<string, unknown>[]): ChatFetch =>
+  async <T>(query: string, params: Record<string, unknown> = {}) => {
+    const tree = parse(query, { params });
+    return (await (await evaluate(tree, { dataset: docs, params })).get()) as T;
+  };
+const fetchFixtures = over(dataset);
 
 const LISTS = new Set(["projects", "articles", "experiments", "experience", "education", "testimonials", "bookmarks"]);
 
@@ -81,6 +84,27 @@ for (const c of picked(cases)) {
     if (problems.length) problems.push(`→ ${res.intent}: “${res.text}” [${titles.join(" | ")}]`);
   }
   report(`${c.q}${c.why ? `  (${c.why})` : ""}`, problems);
+}
+
+// 1b. The handicap index source: GHIN's own number wins once it is as new as the last round.
+console.log("\nhandicap source");
+{
+  const withProfile = (ghinIndex: number | undefined, ghinIndexDate: string) =>
+    dataset.map((doc) => (doc._type === "golfProfile" ? { ...doc, ghinIndex, ghinIndexDate } : doc));
+  const ask = async (docs: Record<string, unknown>[]) =>
+    (await answer("What's his handicap?", { fetch: over(docs), model: {} })).text;
+  const ghin = await ask(withProfile(10.2, "2026-09-20"));
+  report("GHIN set and as new as the last round: handicap index 10.2, from GHIN", [
+    ...(/handicap index 10\.2, from GHIN/.test(ghin) && !/WHS/.test(ghin) ? [] : [`got “${ghin}”`]),
+  ]);
+  const stale = await ask(withProfile(10.2, "2026-08-01"));
+  report("GHIN older than the last round: the WHS index", [
+    ...(/handicap index 8\.8, WHS/.test(stale) ? [] : [`got “${stale}”`]),
+  ]);
+  const few = await ask(dataset.filter((doc) => !["golf.1", "golf.2"].includes(String(doc._id)) && doc._type !== "golfProfile"));
+  report("under 3 rounds with a differential: needs more rounds", [
+    ...(/handicap index needs 1 more rounds/.test(few) ? [] : [`got “${few}”`]),
+  ]);
 }
 
 // 2. The grounding check on its own.
