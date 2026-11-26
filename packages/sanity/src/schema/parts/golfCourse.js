@@ -81,6 +81,12 @@ export default {
   type: "document",
   fields: [
     {title: "Name", name: "name", type: "string", validation: (Rule) => Rule.required()},
+    {
+      title: "Facility",
+      name: "facility",
+      type: "string",
+      description: "Shared name when one club has several courses, e.g. 'Antelope Hills Golf Courses'. Leave empty for a single-course club.",
+    },
     {title: "Slug", name: "slug", type: "slug", options: {source: "name", maxLength: 96}},
     {title: "Location", name: "location", type: "string", description: 'e.g. "Dewey, AZ"'},
     {title: "Address", name: "address", type: "string"},
@@ -166,6 +172,11 @@ export default {
   ],
   orderings: [{title: "Name (A-Z)", name: "nameAsc", by: [{field: "name", direction: "asc"}]}],
   preview: {
-    select: {title: "name", subtitle: "location", media: "image"},
+    select: {title: "name", facility: "facility", location: "location", media: "image"},
+    prepare: ({title, facility, location, media}) => ({
+      title,
+      subtitle: [facility, location].filter(Boolean).join(" · "),
+      media,
+    }),
   },
 };

@@ -107,6 +107,7 @@ Everything about a course lives on one Studio form, entered once. Tees are an ar
 | Field | Type | Notes |
 | --- | --- | --- |
 | `name` | string, required | "Prescott Golf Club" |
+| `facility` | string, optional | Shared name when one club has several courses, e.g. "Antelope Hills Golf Courses". Groups layouts; the drawer lists the others as "also here" |
 | `slug` | slug from `name` | drawer id, `data-course` key |
 | `location` | string | "Dewey, AZ" |
 | `address`, `phone` | string, optional | Not displayed yet |
@@ -218,7 +219,7 @@ Sanity (golfScores + golfCourse + golfProfile)
 `golfPageQuery` returns:
 
 - `rounds`: **every** acceptable round with a score, oldest first: `{ _id, date, score, holes, nine, tee, differential, excluded, "course": course->{ name, "slug": slug.current } }`. `tee` is the snapshot object, so no join on tees is needed. Caps and ESR need the full history; at a few dozen rows a year this is cheap.
-- `courses`: `*[_type == "golfCourse"]`, with `{ name, slug, location, access, holes, par, image IMAGE, description, website, tees[]{ _key, name, color, gender, par, yardage, rating, slope } }`
+- `courses`: `*[_type == "golfCourse"]`, with `{ name, slug, facility, location, access, holes, par, image IMAGE, description, website, tees[]{ _key, name, color, gender, par, yardage, rating, slope } }`
 - `profile`: `*[_type == "golfProfile"][0]{ ghinIndex, ghinIndexDate }`
 
 Grouping and the WHS maths stay in TypeScript. Delete `golfScoresQuery` in the same PR that switches the page over. Run `pnpm turbo run typegen --filter=@badger3000/sanity`, then commit `schema.json` and `sanity.types.ts`. Add the projection to `sanity:check`.
@@ -350,6 +351,7 @@ The schema PR changes the existing queries to `coalesce(course->name, course)`, 
 | 4 | More courses than fit | Horizontal scroller with prev/next controls |
 | 5 | Course photos | Owner supplies them; token cover until then |
 | 6 | Tees | Track the tee for every round. Tees are part of the course form; the round form picks the course, then one of its tees, and keeps a copy of that tee's rating and slope |
+| 7 | Multi-course facilities | One `golfCourse` per layout (e.g. Antelope Hills North / South, as GHIN lists them) plus an optional `facility` string; rejected: layouts nested inside one course (two-step TeePicker, stats per facility) |
 
 ## Links
 

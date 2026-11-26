@@ -27,9 +27,13 @@ delegate("click", '[data-chip-group="rounds"]', (chip) => {
 
 // --- Course drawer ----------------------------------------------------------
 
-/** The button that opened the drawer and its course, so focus can go back. */
+/**
+ * The card or table button that opened the drawer, and its course, so focus can
+ * go back there. A sibling button inside the drawer ("also here") swaps the body
+ * but never replaces these: that button is gone after the swap.
+ */
 let opener: HTMLElement | null = null;
-let openSlug: string | null = null;
+let openerSlug: string | null = null;
 
 function openCourse(slug: string) {
   const el = dialog();
@@ -38,9 +42,12 @@ function openCourse(slug: string) {
   );
   const slot = el?.querySelector<HTMLElement>("[data-course-slot]");
   if (!el || !template || !slot) return;
+  const swapping = el.open;
   slot.replaceChildren(template.content.cloneNode(true));
-  openSlug = slug;
   if (!el.open) el.showModal();
+  // The clicked sibling button no longer exists: put focus on the new title.
+  if (swapping) slot.querySelector<HTMLElement>("[data-course-title]")?.focus({ preventScroll: true });
+  slot.querySelector(".body")?.scrollTo?.({ top: 0 });
   const url = new URL(location.href);
   if (url.searchParams.get("course") !== slug) {
     url.searchParams.set("course", slug);
@@ -51,7 +58,10 @@ function openCourse(slug: string) {
 delegate("click", "[data-course]", (button) => {
   const slug = button.dataset.course;
   if (!slug) return;
-  opener = button;
+  if (!dialog()?.contains(button)) {
+    opener = button;
+    openerSlug = slug;
+  }
   openCourse(slug);
 });
 
@@ -82,12 +92,12 @@ document.addEventListener(
     const back =
       opener && document.contains(opener)
         ? opener
-        : openSlug
-          ? document.querySelector<HTMLElement>(`[data-course="${CSS.escape(openSlug)}"]`)
+        : openerSlug
+          ? document.querySelector<HTMLElement>(`[data-course="${CSS.escape(openerSlug)}"]:not([data-course-drawer] *)`)
           : null;
     back?.focus({ preventScroll: true });
     opener = null;
-    openSlug = null;
+    openerSlug = null;
     el.querySelector("[data-course-slot]")?.replaceChildren();
   },
   true,

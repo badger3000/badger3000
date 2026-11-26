@@ -87,6 +87,7 @@ const RULES: Rule[] = [
       "golf courses", "golf course", "home course", "favorite course", "favourite course",
       "where does kyle play", "where does he play", "where kyle plays", "where he plays", "where do you play",
       "courses kyle plays", "courses he plays", "courses does kyle play", "courses does he play",
+      "has kyle played", "has he played", "have you played", "played at",
     ],
   },
   {
