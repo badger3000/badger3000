@@ -24,7 +24,7 @@ import {
   experienceQuery,
 } from "./experience.ts";
 import { experimentsForChatQuery, experimentsQuery } from "./experiments.ts";
-import { golfScoresForChatQuery, golfScoresQuery } from "./golf.ts";
+import { golfPageQuery, golfScoresForChatQuery } from "./golf.ts";
 import { projectsForChatQuery, projectsQuery } from "./projects.ts";
 import { settingsForChatQuery, settingsQuery } from "./settings.ts";
 import { skillsForChatQuery, skillsQuery } from "./skills.ts";
@@ -54,7 +54,7 @@ export const browseQueries = {
   skills: skillsQuery,
   testimonials: testimonialsQuery,
   bookmarks: bookmarksQuery,
-  golfScores: golfScoresQuery,
+  golfPage: golfPageQuery,
   experience: experienceQuery,
   education: educationQuery,
   topics: topicsQuery,
