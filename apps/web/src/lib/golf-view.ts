@@ -91,7 +91,7 @@ export type GolfView = {
   used: number;
   handicap: { index: number | null; trend: number | null; since: string; note: string; source: "ghin" | "computed"; needs: number };
   summary: { best: number; avg: string; courses: number };
-  chart: { cols: ChartCol[]; first?: string; last?: string };
+  chart: { cols: ChartCol[]; basis: "differential" | "score"; first?: string; last?: string };
   courses: CourseView[];
   range?: string;
 };
@@ -217,10 +217,18 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
   const window = cur?.window ?? [];
   // Pen: lower differential = taller bar. `barHeight` runs the other way round
   // (its lowest is the floor), so mirror it; a round with no differential gets a stub.
+  // With no differential anywhere in the window, scale by gross score instead:
+  // lowest = shortest bar, floor 0.15, a flat window 0.6 (the `barHeight` rules).
+  const basis: "differential" | "score" = scored.length ? "differential" : "score";
+  const scores = shown.map((r) => r.score);
+  const lo = Math.min(...scores);
+  const hi = Math.max(...scores);
+  const byScore = (v: number) => (hi === lo ? 0.6 : 0.15 + 0.85 * ((v - lo) / (hi - lo)));
   const cols: ChartCol[] = shown.map((r, i) => ({
     id: r.id,
     score: r.score,
-    height: r.diff === null ? 0.08 : Math.max(0.15, 1.15 - barHeight(r.diff, window)),
+    height:
+      basis === "score" ? byScore(r.score) : r.diff === null ? 0.08 : Math.max(0.15, 1.15 - barHeight(r.diff, window)),
     counts: counted.has(r.id),
     label: shownViews[i].label,
   }));
@@ -241,7 +249,7 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
       needs: Math.max(1, 3 - scored.length),
     },
     summary: { best, avg, courses: courses.length },
-    chart: { cols, first: shown.length ? monthYear(shown[0].date) : undefined, last: shown.length ? monthYear(shown.at(-1)!.date) : undefined },
+    chart: { cols, basis, first: shown.length ? monthYear(shown[0].date) : undefined, last: shown.length ? monthYear(shown.at(-1)!.date) : undefined },
     courses,
     range: shown.length
       ? (() => {

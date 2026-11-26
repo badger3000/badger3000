@@ -13,17 +13,21 @@ import type { ChartCol } from "../lib/golf-view.ts";
 
 interface Props {
   cols: ChartCol[];
+  basis?: "differential" | "score";
   used: number;
   first?: string;
   last?: string;
 }
 
-const { cols, used, first, last } = Astro.props;
+const { cols, basis = "differential", used, first, last } = Astro.props;
 ---
 
 <figure class="chart" data-item data-search="last 20 rounds chart bars handicap counts">
   <figcaption class="head">
     <span class="cl">Last {cols.length === 1 ? "round" : `${cols.length} rounds`}</span>
+    {
+      basis === "score" && <span class="basis">Bars scaled by score — no differentials yet</span>
+    }
     {
       used > 0 && (
         <ul class="legend" aria-hidden="true">
@@ -77,6 +81,10 @@ const { cols, used, first, last } = Astro.props;
     letter-spacing: 1.2px;
     text-transform: uppercase;
     color: var(--a-subtle);
+  }
+  .basis {
+    font-size: 11.5px;
+    color: var(--a-muted);
   }
   .legend {
     display: flex;

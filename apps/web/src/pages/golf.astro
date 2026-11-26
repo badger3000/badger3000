@@ -74,7 +74,7 @@ const empty = view.shown.length === 0;
         </p>
       ) : (
         <>
-          <GolfChart cols={view.chart.cols} used={view.used} first={view.chart.first} last={view.chart.last} />
+          <GolfChart cols={view.chart.cols} basis={view.chart.basis} used={view.used} first={view.chart.first} last={view.chart.last} />
           <CourseStrip courses={view.courses} />
           <RoundsTable rounds={view.shown} countedCount={view.countedCount} range={view.range} />
         </>
