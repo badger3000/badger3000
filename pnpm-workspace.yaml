@@ -8,3 +8,8 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - miniflare@5.20261019.2-beta
   - wrangler@4.152.0
+# @astrojs/check (via @volar) accepts @emnapi 2.0.0-beta.2, which crashes on load
+# ("this.bridge.setLastError is not a function") and breaks packages/ui's astro check.
+overrides:
+  '@emnapi/runtime': ^1.11.3
+  '@emnapi/core': ^1.11.3
