@@ -1,11 +1,13 @@
 ---
 slug: prd/badger3000-ghin-golf-scores
 title: badger3000 — GHIN handicap index & recent scores
-status: draft
+status: superseded
 date: 2026-11-11
 ---
 
 # GHIN handicap index & recent scores
+
+> **Superseded (2026-11-26).** There is no public GHIN API, the official USGA Golfer Product Access program is vendor-only, and the unofficial flow below breaches the GHIN terms of service. Rounds are entered by hand in Studio, copying GHIN's differential. See [Golf page: WHS handicap, last 20 rounds, courses](golf-handicap-and-courses.md#ghin-no-feed-or-api-available-to-us).
 
 ## Problem
 
@@ -59,4 +61,5 @@ The wrapper's README lists score fetching under both "features" and "TODO", so c
 ## Links
 
 affects:: [[repo/badger3000]]
+superseded-by:: [[prd/badger3000-golf-handicap-and-courses]]
 uses:: [[adr/badger3000-public-env-prefix]]

@@ -1,7 +1,7 @@
 ---
 slug: prd/badger3000-golf-handicap-and-courses
 title: badger3000 — Golf page: WHS handicap, last 20 rounds, courses
-status: draft
+status: active
 date: 2026-11-26
 ---
 
@@ -80,6 +80,8 @@ The 3/4/6/19-score rows were confirmed against the USGA rule. Check the rest aga
 - **Hard cap (5.8):** the index can never be more than 5.0 above the Low HI.
 - **Exceptional score reduction (5.9):** a differential 7.0–9.9 below the index takes −1.0 off the most recent 20 differentials; 10.0 or more takes −2.0. Reductions add up.
 - **Maximum index (5.3):** 54.0.
+
+Timing details: the caps and the Low HI apply only once there are 20 scores, and ESR compares each new differential with the index *before* that round.
 
 Caps and ESR need the index *history*, so `lib/golf.ts` replays every stored round in date order rather than looking only at the last 20.
 
@@ -288,7 +290,6 @@ Follow `MobileDrawer.astro`: a real `<dialog>` with `showModal()`, Esc and a bac
 - `retrieve.ts` golf case: add facts for the index (`handicap index 12.3, WHS, from the 2 lowest of 8 rounds`) and the counted rounds. Match terms against course names, and change `golfScoresForChatQuery` to read `course->name`.
 - `intents.ts` already routes "handicap". Add "course" phrasing such as "where does Kyle play".
 - The drawer's "Ask Badger about {course}" links to `/?q=…`.
-- `answer.ts` and `compose.ts` have uncommitted changes on the current branch, so land those first or rebase onto them.
 
 ## Phased plan
 
@@ -302,13 +303,13 @@ Follow `MobileDrawer.astro`: a real `<dialog>` with `showModal()`, Esc and a bac
 | 5 | UI | `packages/ui` components, `GolfChart`, `RoundsTable`, `CourseDrawer`, new `golf.astro`, island `lib/golf-page.ts` | |
 | 6 | Agent | Handicap and course facts, query and intent updates; `agent-check` fixtures | |
 
-Each phase is its own PR off `astro-dev`; only `apps/web`, `apps/studio` and `packages/*` change. Order matters once data moves:
+Each phase is its own PR off `master` (`astro-dev` is merged); only `apps/web`, `apps/studio` and `packages/*` change. Order matters once data moves:
 
 1. Run the migration (2).
 2. Deploy the Studio (3).
 3. Merge the page (4–5) together.
 
-The current `golf.astro` reads `course` as a string, so its course column breaks between the migration and the page switch. Until 3b is done, the engine has no differentials and the HandicapCard shows the empty state.
+The schema PR changes the existing queries to `coalesce(course->name, course)`, so the current `golf.astro` keeps working before and after the migration. Until 3b is done, the engine has no differentials and the HandicapCard shows the empty state.
 
 ## Verification
 
