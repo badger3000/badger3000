@@ -43,6 +43,33 @@ export type Poster = {
   _type: "image";
 };
 
+export type GolfProfile = {
+  _id: string;
+  _type: "golfProfile";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  ghinIndex?: number;
+  ghinIndexDate?: string;
+};
+
+export type GolfTee = {
+  _type: "golfTee";
+  name: string;
+  color?:
+    "black" | "blue" | "white" | "gold" | "red" | "green" | "silver" | "custom";
+  customColor?: string;
+  gender: "M" | "F";
+  par?: number;
+  yardage?: number;
+  rating: number;
+  slope: number;
+  front9Rating?: number;
+  front9Slope?: number;
+  back9Rating?: number;
+  back9Slope?: number;
+};
+
 export type BookmarkFolderReference = {
   _ref: string;
   _type: "reference";
@@ -242,71 +269,84 @@ export type Slug = {
 
 export type PostCategories = Array<string>;
 
+export type GolfCourseReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "golfCourse";
+};
+
 export type GolfScores = {
   _id: string;
   _type: "golfScores";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  course?: string;
+  course: GolfCourseReference;
+  tee?: {
+    teeKey?: string;
+    name?: string;
+    color?: string;
+    customColor?: string;
+    gender?: string;
+    par?: number;
+    yardage?: number;
+    rating?: number;
+    slope?: number;
+  };
   date?: string;
   score?: number;
+  adjustedScore?: number;
+  differential?: number;
+  holes?: 9 | 18;
+  nine?: "front" | "back";
+  scoreType?: "home" | "away" | "competition";
+  excluded?: boolean;
 };
 
-export type SocialLinks = {
+export type GolfCourse = {
   _id: string;
-  _type: "socialLinks";
+  _type: "golfCourse";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  webUrl?: string;
-  siteName?: string;
-};
-
-export type SocialLinksReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "socialLinks";
-};
-
-export type Settings = {
-  _id: string;
-  _type: "settings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  label?: string;
-  title?: string;
+  name: string;
+  slug?: Slug;
   location?: string;
-  name?: string;
-  occupation?: string;
-  description?: string;
-  availability?: {
-    status: "available" | "limited" | "closed";
-    label?: string;
+  address?: string;
+  phone?: string;
+  access?: "public" | "private" | "resort" | "municipal";
+  holes?: 9 | 18;
+  par?: number;
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt: string;
+    credit?: string;
+    _type: "image";
   };
-  links?: Array<
+  description?: BlockContent;
+  website?: string;
+  tees: Array<
     {
       _key: string;
-    } & SocialLinksReference
+    } & GolfTee
   >;
-  avatar_image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    attribution?: string;
-    _type: "image";
-  };
-  share_image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    attribution?: string;
-    _type: "image";
-  };
+  scorecard?: Array<{
+    hole?: number;
+    par?: number;
+    strokeIndex?: number;
+    yardages?: Array<{
+      teeKey?: string;
+      yards?: number;
+      _type: "teeYardage";
+      _key: string;
+    }>;
+    _type: "golfHole";
+    _key: string;
+  }>;
 };
 
 export type BlockContent = Array<
@@ -375,6 +415,62 @@ export type BlockContent = Array<
       _key: string;
     }
 >;
+
+export type SocialLinks = {
+  _id: string;
+  _type: "socialLinks";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  webUrl?: string;
+  siteName?: string;
+};
+
+export type SocialLinksReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "socialLinks";
+};
+
+export type Settings = {
+  _id: string;
+  _type: "settings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  label?: string;
+  title?: string;
+  location?: string;
+  name?: string;
+  occupation?: string;
+  description?: string;
+  availability?: {
+    status: "available" | "limited" | "closed";
+    label?: string;
+  };
+  links?: Array<
+    {
+      _key: string;
+    } & SocialLinksReference
+  >;
+  avatar_image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    attribution?: string;
+    _type: "image";
+  };
+  share_image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    attribution?: string;
+    _type: "image";
+  };
+};
 
 export type ProjectComponent = {
   _type: "projectComponent";
@@ -705,6 +801,8 @@ export type AllSanitySchemaTypes =
   | VideoFile
   | SanityImageAssetReference
   | Poster
+  | GolfProfile
+  | GolfTee
   | BookmarkFolderReference
   | Bookmark
   | BookmarkFolder
@@ -718,11 +816,13 @@ export type AllSanitySchemaTypes =
   | Codepen
   | Slug
   | PostCategories
+  | GolfCourseReference
   | GolfScores
+  | GolfCourse
+  | BlockContent
   | SocialLinks
   | SocialLinksReference
   | Settings
-  | BlockContent
   | ProjectComponent
   | ContactForm
   | Hero
@@ -1176,21 +1276,21 @@ export type FeedQueryResult = Array<
 
 // Source: src/queries/golf.ts
 // Variable: golfScoresQuery
-// Query: *[_type == "golfScores"] | order(date desc) {  course,  date,  score}
+// Query: *[_type == "golfScores"] | order(date desc) {  // Bridge: a reference after the migration, a string before it.  "course": coalesce(course->name, course),  date,  score}
 export type GolfScoresQueryResult = Array<{
-  course: string | null;
+  course: string;
   date: string | null;
   score: number | null;
 }>;
 
 // Source: src/queries/golf.ts
 // Variable: golfScoresForChatQuery
-// Query: {  "total": count(*[_type == "golfScores" && defined(score)]),  "matched": count(*[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[^.course match @]) > 0)]),  "rows": *[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[^.course match @]) > 0)]    | order(date desc) [0...$limit] {    "course": coalesce(course, "Unknown course"), date, score  }}
+// Query: {  "total": count(*[_type == "golfScores" && defined(score)]),  "matched": count(*[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]),  "rows": *[_type == "golfScores" && defined(score)    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]    | order(date desc) [0...$limit] {    "course": coalesce(course->name, course, "Unknown course"), date, score  }}
 export type GolfScoresForChatQueryResult = {
   total: number;
   matched: number;
   rows: Array<{
-    course: string | "Unknown course";
+    course: string;
     date: string | null;
     score: number | null;
   }>;
@@ -1375,8 +1475,8 @@ declare global {
     '*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  "excerpt": coalesce(excerpt, description[0].children[0].text, "Read more..."),\n  "topic": topic->title,\n  penUrl,\n  cardLayout,\n  "createdAt": _createdAt,\n  "thumbnail": thumbnail {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ExperimentsQueryResult;
     '{\n  "total": count(*[_type == "codepen" && defined(slug.current)]),\n  "matched": count(*[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),\n  "rows": *[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]\n    | order(_createdAt desc) [0...$limit] {\n    title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title\n  }\n}': ExperimentsForChatQueryResult;
     '*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path("drafts.**"))] | order(_createdAt desc) [0...10] {\n  "type": _type,\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  "publishedAt": _createdAt\n}': FeedQueryResult;
-    '*[_type == "golfScores"] | order(date desc) {\n  course,\n  date,\n  score\n}': GolfScoresQueryResult;
-    '{\n  "total": count(*[_type == "golfScores" && defined(score)]),\n  "matched": count(*[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]),\n  "rows": *[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[^.course match @]) > 0)]\n    | order(date desc) [0...$limit] {\n    "course": coalesce(course, "Unknown course"), date, score\n  }\n}': GolfScoresForChatQueryResult;
+    '*[_type == "golfScores"] | order(date desc) {\n  // Bridge: a reference after the migration, a string before it.\n  "course": coalesce(course->name, course),\n  date,\n  score\n}': GolfScoresQueryResult;
+    '{\n  "total": count(*[_type == "golfScores" && defined(score)]),\n  "matched": count(*[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]),\n  "rows": *[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]\n    | order(date desc) [0...$limit] {\n    "course": coalesce(course->name, course, "Unknown course"), date, score\n  }\n}': GolfScoresForChatQueryResult;
     '*[_type == "projects" && defined(slug.current)] | order(order asc, title asc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  // No monogram here: title[0] is null in GROQ (strings are not indexable).\n  // The pen binds the monogram to project.title[0]; the card takes\n  // title.charAt(0) instead.\n  "topic": topic->title,\n  "topicSlug": topic->slug.current,\n  "tech": tech[],\n  "webUrl": web_url,\n  cardLayout,\n  order,\n  // The pen binds "project.excerpt" but the schema declares no such field. The\n  // live documents carry a project_description (portable text) field instead,\n  // so the first block\'s text is the excerpt. Add a real excerpt field to the\n  // schema and this can go back to coalescing.\n  "excerpt": project_description[0].children[0].text,\n  "createdAt": _createdAt,\n  // project_image exists on every document but the pen\'s card is a gradient;\n  // kept out of the projection until the pen allows a cover image.\n  "coverImage": null\n}': ProjectsQueryResult;
     '{\n  "total": count(*[_type == "projects" && defined(slug.current)]),\n  "matched": count(*[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),\n  "rows": *[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url\n  }\n}': ProjectsForChatQueryResult;
     '*[_type == "settings"][0] {\n  name,\n  title,\n  location,\n  occupation,\n  description,\n  availability{ status, label },\n  "avatarImage": avatar_image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n  "links": links[]->{ siteName, webUrl }\n}': SettingsQueryResult;

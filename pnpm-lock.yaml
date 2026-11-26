@@ -271,6 +271,9 @@ importers:
       '@badger3000/config':
         specifier: workspace:*
         version: link:../config
+      '@sanity/ui':
+        specifier: ^4.4.9
+        version: 4.4.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(styled-components@6.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
       react:
         specifier: 19.3.1
         version: 19.3.1

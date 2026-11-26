@@ -17,6 +17,8 @@ import skillCategory from "./parts/skillCategory";
 import testimonial from "./parts/testimonials";
 import bookmark from "./parts/bookmark";
 import bookmarkFolder from "./parts/bookmarkFolder";
+import golfCourse, {golfTee} from "./parts/golfCourse";
+import golfProfile from "./parts/golfProfile";
 
 export const schemaTypes = [
   pages,
@@ -38,4 +40,7 @@ export const schemaTypes = [
   testimonial,
   bookmark,
   bookmarkFolder,
+  golfTee,
+  golfCourse,
+  golfProfile,
 ];

@@ -2,7 +2,8 @@ import { defineQuery } from "groq";
 
 /** Browse — Golf (pen oH8H5): `table · rounds`, newest first. */
 export const golfScoresQuery = defineQuery(`*[_type == "golfScores"] | order(date desc) {
-  course,
+  // Bridge: a reference after the migration, a string before it.
+  "course": coalesce(course->name, course),
   date,
   score
 }`);
@@ -11,10 +12,10 @@ export const golfScoresQuery = defineQuery(`*[_type == "golfScores"] | order(dat
 export const golfScoresForChatQuery = defineQuery(`{
   "total": count(*[_type == "golfScores" && defined(score)]),
   "matched": count(*[_type == "golfScores" && defined(score)
-    && (count($q) == 0 || count($q[^.course match @]) > 0)]),
+    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]),
   "rows": *[_type == "golfScores" && defined(score)
-    && (count($q) == 0 || count($q[^.course match @]) > 0)]
+    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]
     | order(date desc) [0...$limit] {
-    "course": coalesce(course, "Unknown course"), date, score
+    "course": coalesce(course->name, course, "Unknown course"), date, score
   }
 }`);
