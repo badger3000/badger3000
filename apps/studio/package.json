@@ -15,10 +15,10 @@
   "dependencies": {
     "@badger3000/sanity": "workspace:*",
     "@sanity/color-input": "^6.1.8",
-    "@sanity/vision": "^6.20.0",
+    "@sanity/vision": "^6.25.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "sanity": "^6.20.0",
+    "sanity": "^6.25.0",
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
