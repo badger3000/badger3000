@@ -223,6 +223,23 @@ console.log("last rounds");
   check("fewer than 20 returns all", lastRounds(series([10, 11])).length, 2);
 }
 
+// 12. Rounds with a course but no differential (a freshly migrated dataset).
+console.log("course stats without differentials");
+{
+  const other = { name: "Stoneridge Golf Course", slug: "stoneridge" };
+  const bare = (i: number, score: number, c = course): Round => ({ id: `n${i}`, date: day(i), score, tee: null, course: c });
+  const rounds = [bare(0, 90), bare(1, 84), bare(2, 88, other)];
+  const shown = lastRounds(rounds);
+  check("shown rounds keep their course", shown.map((x) => x.course?.slug), ["prescott-golf-club", "prescott-golf-club", "stoneridge"]);
+  const stats = courseStats(shown, new Set());
+  check("they still count in course stats", stats.map((s) => [s.slug, s.rounds, s.best, s.avg, s.bestDiff, s.counting]), [
+    ["prescott-golf-club", 2, 84, 87, null, 0],
+    ["stoneridge", 1, 88, 88, null, 0],
+  ]);
+  const mixed = courseStats(lastRounds([r(0, 12, { score: 86 }), bare(1, 84)]), new Set());
+  check("bestDiff ignores rounds with none", [mixed[0].rounds, mixed[0].bestDiff], [2, 12]);
+}
+
 // GHIN agreement (hook): the schema/query for golfProfile.ghinIndex is built elsewhere.
 /** Warns when the computed index differs from GHIN's by more than 0.1. */
 export function checkGhin(rounds: Round[], ghinIndex?: number | null): string | null {

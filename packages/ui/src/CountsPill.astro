@@ -1,0 +1,45 @@
+---
+/**
+ * CountsPill — pen master `SmYxa`, the accent Tag variant.
+ * context: span · CountsPill — props: label ← "Counts" | "Counted · N"; icon? check
+ *
+ * Soft-accent fill, accent-text mono 11. `muted` is the course card's "none of
+ * these count" state (bg fill, subtle label). The check is decorative; turn it
+ * off for count labels.
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  label: string;
+  icon?: boolean;
+  muted?: boolean;
+  class?: string;
+}
+
+const { label, icon = true, muted = false, class: className } = Astro.props;
+---
+
+<span class:list={["pill", muted && "muted", className]}>
+  {icon && <Icon name="check" size={11} stroke={2.4} />}
+  <span>{label}</span>
+</span>
+
+<style>
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent-text);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .muted {
+    background: var(--a-bg);
+    color: var(--a-subtle);
+  }
+</style>

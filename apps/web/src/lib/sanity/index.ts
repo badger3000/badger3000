@@ -12,7 +12,7 @@ export {
   getSkills,
   getTestimonials,
   getBookmarks,
-  getGolfScores,
+  getGolfPage,
   getExperience,
   getEducation,
   getTopics,

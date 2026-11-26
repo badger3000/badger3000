@@ -71,7 +71,7 @@ export const {
   skills: getSkills,
   testimonials: getTestimonials,
   bookmarks: getBookmarks,
-  golfScores: getGolfScores,
+  golfPage: getGolfPage,
   experience: getExperience,
   education: getEducation,
   topics: getTopics,

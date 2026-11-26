@@ -1,0 +1,267 @@
+---
+/**
+ * RoundsTable — pen `RoundsHead` + `Table` (`UsVzY`, `ufeMY`).
+ * context: table ← golfPageQuery.rounds | order(date desc)[0...20]
+ *
+ * COURSE · TEE · DATE · SCORE · DIFF · HANDICAP. Each row is a `GolfRow` with
+ * `data-counts`; the All / Counted chips (`FilterChip group="rounds"`) set
+ * `data-filter` on the table and CSS hides the rows that do not count. The
+ * course is a button that opens the drawer (`data-course`). Newest first.
+ * `~` marks a differential estimated from score, rating and slope.
+ * On a phone the TEE and DATE columns fold into the course cell.
+ */
+import { CountsPill, FilterChip, TeeSwatch } from "@badger3000/ui";
+import type { RoundView } from "../lib/golf-view.ts";
+
+interface Props {
+  rounds: RoundView[];
+  countedCount: number;
+  range?: string;
+}
+
+const { rounds, countedCount, range } = Astro.props;
+const rows = [...rounds].reverse();
+---
+
+<section class="rounds" data-item data-search={`last 20 rounds table all counted ${rounds.map((r) => `${r.course?.name ?? ""} ${r.teeName ?? ""} ${r.date}`).join(" ")}`}>
+  <header class="head">
+    <div class="hl">
+      <h2>{rounds.length > 1 ? `Last ${rounds.length} rounds` : "Rounds"}</h2>
+      {range && <span class="meta">{range}</span>}
+    </div>
+    {
+      countedCount > 0 && (
+        <div class="filter" role="group" aria-label="Show rounds">
+          <FilterChip group="rounds" value="all" label="All" active />
+          <FilterChip group="rounds" value="counted" label={`Counted · ${countedCount}`} />
+        </div>
+      )
+    }
+  </header>
+
+  <div class="wrap">
+    <table class="table" data-rounds-table data-filter="all">
+      <thead>
+        <tr>
+          <th scope="col" class="course">Course</th>
+          <th scope="col" class="tee">Tee</th>
+          <th scope="col" class="date">Date</th>
+          <th scope="col" class="num">Score</th>
+          <th scope="col" class="num">Diff</th>
+          <th scope="col" class="hcp">Handicap</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((r) => (
+            <tr data-counts={r.counts ? "true" : "false"}>
+              <td class="course">
+                {r.course ? (
+                  <button type="button" class="open" aria-haspopup="dialog" aria-controls="course-drawer" data-course={r.course.slug}>
+                    {r.course.name}
+                  </button>
+                ) : (
+                  <span class="none" title="Course not recorded">—</span>
+                )}
+                <span class="sub">{r.date}{r.teeName ? ` · ${r.teeName}` : ""}</span>
+              </td>
+              <td class="tee">
+                {r.teeName ? (
+                  <span class="teecell">
+                    <TeeSwatch color={r.teeColor} />
+                    <span>{r.teeName}</span>
+                  </span>
+                ) : (
+                  <span class="none">—</span>
+                )}
+              </td>
+              <td class="date"><time datetime={r.dateIso}>{r.date}</time></td>
+              <td class:list={["num", "score", r.counts && "on"]}>{r.score}</td>
+              <td class:list={["num", "diff", r.counts && "on"]}>
+                {r.diff}
+                {r.estimated && <span class="est" title="Estimated from score, rating and slope" aria-label="estimated">~</span>}
+              </td>
+              <td class="hcp">{r.counts ? <CountsPill label="Counts" /> : <span class="none" aria-label="Not counted">—</span>}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="sr" aria-live="polite" role="status" data-rounds-live></p>
+  <p class="none-shown" data-rounds-empty hidden>No rounds to show.</p>
+</section>
+
+<style>
+  .rounds {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hl {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .meta {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  .filter {
+    display: flex;
+    gap: 7px;
+  }
+  .wrap {
+    overflow-x: auto;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  th {
+    padding: 11px 16px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+    background: var(--a-bg);
+  }
+  td {
+    padding: 10px 16px;
+    border-top: 1px solid var(--a-line);
+    font-size: 13px;
+    color: var(--a-muted);
+    vertical-align: middle;
+  }
+  .tee {
+    width: 100px;
+  }
+  .date {
+    width: 130px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .num {
+    width: 70px;
+  }
+  .hcp {
+    width: 110px;
+  }
+  td.score {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  td.diff {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12.5px;
+    color: var(--a-subtle);
+  }
+  td.on.score,
+  td.on.diff {
+    color: var(--a-accent-text);
+  }
+  td.on.diff {
+    color: var(--a-ink);
+  }
+  .teecell {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--a-ink);
+  }
+  .open {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--a-ink);
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+  }
+  .open:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .none {
+    color: var(--a-subtle);
+  }
+  .sub {
+    display: none;
+  }
+  .est {
+    margin-left: 2px;
+    color: var(--a-subtle);
+  }
+  .none-shown {
+    margin: 0;
+    padding: 18px;
+    border: 1px dashed var(--a-line-2);
+    border-radius: 14px;
+    color: var(--a-muted);
+    font-size: 13px;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  [data-filter="counted"] tbody tr[data-counts="false"] {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    th,
+    td {
+      padding-inline: 12px;
+    }
+    th.tee,
+    td.tee,
+    th.date,
+    td.date {
+      display: none;
+    }
+    .sub {
+      display: block;
+      margin-top: 2px;
+      font-family: var(--af-mono), ui-monospace, monospace;
+      font-size: 11px;
+      color: var(--a-subtle);
+    }
+    .num {
+      width: 52px;
+    }
+    .hcp {
+      width: 84px;
+    }
+  }
+</style>

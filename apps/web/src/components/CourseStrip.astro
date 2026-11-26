@@ -1,0 +1,131 @@
+---
+/**
+ * CourseStrip — pen `Courses` (`XGN3L`).
+ * context: section · courses ← golfPageQuery.courses[] with last-20 stats
+ *
+ * Head: h2 + "N courses · last 20 rounds", and two IconButtons (prev/next,
+ * `aria-controls=courses-track`). The track is a focusable scroll region:
+ * `scroll-snap-type: x mandatory`, fixed 254px cards (≈78vw on mobile) so the
+ * next one peeks. `lib/golf-page.ts` disables prev/next at the ends and hides
+ * them when nothing overflows.
+ */
+import { CourseCard, IconButton } from "@badger3000/ui";
+import type { CourseView } from "../lib/golf-view.ts";
+
+interface Props {
+  courses: CourseView[];
+}
+
+const { courses } = Astro.props;
+---
+
+{
+  courses.length > 0 && (
+    <section class="courses" data-courses data-item data-search={`courses played ${courses.map((c) => c.name).join(" ")}`}>
+      <header class="head">
+        <div class="hl">
+          <h2>Courses played</h2>
+          <span class="meta">
+            {courses.length} {courses.length === 1 ? "course" : "courses"} · last 20 rounds
+          </span>
+        </div>
+        <div class="controls" data-courses-controls hidden>
+          <IconButton icon="chevron-left" label="Previous courses" aria-controls="courses-track" data-courses-prev disabled />
+          <IconButton icon="chevron-right" label="Next courses" aria-controls="courses-track" data-courses-next />
+        </div>
+      </header>
+      <ul class="track" id="courses-track" role="region" aria-label="Courses played" tabindex="0" data-courses-track>
+        {
+          courses.map((c) => (
+            <li>
+              <CourseCard
+                name={c.name}
+                location={c.location}
+                rating={c.card.rating}
+                image={c.card.image}
+                cover={c.cover}
+                rounds={c.rounds}
+                best={c.best}
+                avg={c.avg}
+                lastPlayed={c.lastPlayed}
+                counting={c.counting}
+                trigger={{ "data-course": c.slug, "aria-controls": "course-drawer" }}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .courses {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .hl {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  h2 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .meta {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  .controls {
+    display: flex;
+    gap: 6px;
+  }
+  .controls[hidden] {
+    display: none;
+  }
+  .controls :global(.iconbtn:disabled) {
+    opacity: 0.4;
+    cursor: default;
+  }
+  .track {
+    display: flex;
+    gap: 14px;
+    margin: 0;
+    padding: 2px 2px 12px;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--a-line-2) transparent;
+    overscroll-behavior-x: contain;
+  }
+  .track:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+    border-radius: 14px;
+  }
+  .track li {
+    flex: none;
+    width: 254px;
+    scroll-snap-align: start;
+  }
+  @media (max-width: 720px) {
+    .track li {
+      width: 78vw;
+      max-width: 300px;
+    }
+  }
+</style>

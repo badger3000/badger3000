@@ -1275,13 +1275,83 @@ export type FeedQueryResult = Array<
 >;
 
 // Source: src/queries/golf.ts
-// Variable: golfScoresQuery
-// Query: *[_type == "golfScores"] | order(date desc) {  // Bridge: a reference after the migration, a string before it.  "course": coalesce(course->name, course),  date,  score}
-export type GolfScoresQueryResult = Array<{
-  course: string;
-  date: string | null;
-  score: number | null;
-}>;
+// Variable: golfPageQuery
+// Query: {  "rounds": *[_type == "golfScores" && defined(score) && defined(date)] | order(date asc, _id asc) {    _id,    date,    score,    holes,    nine,    excluded,    differential,    tee { teeKey, name, color, customColor, gender, par, yardage, rating, slope },    "course": course->{ name, "slug": slug.current }  },  "courses": *[_type == "golfCourse"] | order(name asc) {    _id,    name,    "slug": slug.current,    location,    access,    holes,    par,    image {  alt,  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }},    "description": pt::text(description[0]),    website,    tees[] { _key, name, color, customColor, gender, par, yardage, rating, slope }  },  "profile": *[_type == "golfProfile"][0] { ghinIndex, ghinIndexDate }}
+export type GolfPageQueryResult = {
+  rounds: Array<{
+    _id: string;
+    date: string;
+    score: number;
+    holes: 18 | 9 | null;
+    nine: "back" | "front" | null;
+    excluded: boolean | null;
+    differential: number | null;
+    tee: {
+      teeKey: string | null;
+      name: string | null;
+      color: string | null;
+      customColor: string | null;
+      gender: string | null;
+      par: number | null;
+      yardage: number | null;
+      rating: number | null;
+      slope: number | null;
+    } | null;
+    course: {
+      name: string;
+      slug: string | null;
+    };
+  }>;
+  courses: Array<{
+    _id: string;
+    name: string;
+    slug: string | null;
+    location: string | null;
+    access: "municipal" | "private" | "public" | "resort" | null;
+    holes: 18 | 9 | null;
+    par: number | null;
+    image: {
+      alt: string;
+      asset: {
+        _id: string;
+        url: string;
+        metadata: {
+          dimensions: {
+            width: number;
+            height: number;
+            aspectRatio: number;
+          } | null;
+        } | null;
+      } | null;
+    } | null;
+    description: string;
+    website: string | null;
+    tees: Array<{
+      _key: string;
+      name: string;
+      color:
+        | "black"
+        | "blue"
+        | "custom"
+        | "gold"
+        | "green"
+        | "red"
+        | "silver"
+        | "white"
+        | null;
+      customColor: string | null;
+      gender: "F" | "M";
+      par: number | null;
+      yardage: number | null;
+      rating: number;
+      slope: number;
+    }>;
+  }>;
+  profile: {
+    ghinIndex: number | null;
+    ghinIndexDate: string | null;
+  } | null;
+};
 
 // Source: src/queries/golf.ts
 // Variable: golfScoresForChatQuery
@@ -1498,7 +1568,7 @@ declare global {
     '*[_type == "codepen" && defined(slug.current)] | order(_createdAt desc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  "excerpt": coalesce(excerpt, description[0].children[0].text, "Read more..."),\n  "topic": topic->title,\n  penUrl,\n  cardLayout,\n  "createdAt": _createdAt,\n  "thumbnail": thumbnail {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n}\n}': ExperimentsQueryResult;
     '{\n  "total": count(*[_type == "codepen" && defined(slug.current)]),\n  "matched": count(*[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]),\n  "rows": *[_type == "codepen" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ^.excerpt] match @]) > 0)]\n    | order(_createdAt desc) [0...$limit] {\n    title, "slug": slug.current, "excerpt": coalesce(excerpt, ""), "url": penUrl, "topic": topic->title\n  }\n}': ExperimentsForChatQueryResult;
     '*[_type in ["articles", "codepen"] && defined(slug.current) && !(_id in path("drafts.**"))] | order(_createdAt desc) [0...10] {\n  "type": _type,\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  "publishedAt": _createdAt\n}': FeedQueryResult;
-    '*[_type == "golfScores"] | order(date desc) {\n  // Bridge: a reference after the migration, a string before it.\n  "course": coalesce(course->name, course),\n  date,\n  score\n}': GolfScoresQueryResult;
+    '{\n  "rounds": *[_type == "golfScores" && defined(score) && defined(date)] | order(date asc, _id asc) {\n    _id,\n    date,\n    score,\n    holes,\n    nine,\n    excluded,\n    differential,\n    tee { teeKey, name, color, customColor, gender, par, yardage, rating, slope },\n    "course": course->{ name, "slug": slug.current }\n  },\n  "courses": *[_type == "golfCourse"] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    location,\n    access,\n    holes,\n    par,\n    image {\n  alt,\n  "asset": asset->{ _id, url, metadata { dimensions { width, height, aspectRatio } } }\n},\n    "description": pt::text(description[0]),\n    website,\n    tees[] { _key, name, color, customColor, gender, par, yardage, rating, slope }\n  },\n  "profile": *[_type == "golfProfile"][0] { ghinIndex, ghinIndexDate }\n}': GolfPageQueryResult;
     '{\n  "total": count(*[_type == "golfScores" && defined(score)]),\n  "matched": count(*[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]),\n  "rows": *[_type == "golfScores" && defined(score)\n    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]\n    | order(date desc) [0...$limit] {\n    "course": coalesce(course->name, course, "Unknown course"), date, score\n  },\n  "history": *[_type == "golfScores" && defined(score) && defined(date)] | order(date asc) {\n    "id": _id, date, score, differential, excluded, holes,\n    "tee": tee{teeKey, name, color, gender, par, yardage, rating, slope},\n    "course": coalesce(course->name, course)\n  },\n  "profile": *[_type == "golfProfile"][0]{ghinIndex, ghinIndexDate}\n}': GolfScoresForChatQueryResult;
     '*[_type == "projects" && defined(slug.current)] | order(order asc, title asc) {\n  "id": _id,\n  title,\n  "slug": slug.current,\n  // No monogram here: title[0] is null in GROQ (strings are not indexable).\n  // The pen binds the monogram to project.title[0]; the card takes\n  // title.charAt(0) instead.\n  "topic": topic->title,\n  "topicSlug": topic->slug.current,\n  "tech": tech[],\n  "webUrl": web_url,\n  cardLayout,\n  order,\n  // The pen binds "project.excerpt" but the schema declares no such field. The\n  // live documents carry a project_description (portable text) field instead,\n  // so the first block\'s text is the excerpt. Add a real excerpt field to the\n  // schema and this can go back to coalescing.\n  "excerpt": project_description[0].children[0].text,\n  "createdAt": _createdAt,\n  // project_image exists on every document but the pen\'s card is a gradient;\n  // kept out of the projection until the pen allows a cover image.\n  "coverImage": null\n}': ProjectsQueryResult;
     '{\n  "total": count(*[_type == "projects" && defined(slug.current)]),\n  "matched": count(*[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]),\n  "rows": *[_type == "projects" && defined(slug.current)\n    && (count($q) == 0 || count($q[[^.title, ^.topic->title, ...coalesce(^.tech, [])] match @]) > 0)]\n    | order(order asc) [0...$limit] {\n    "title": coalesce(title, "Untitled"), "topic": topic->title, "tech": coalesce(tech, []), "url": web_url\n  }\n}': ProjectsForChatQueryResult;
