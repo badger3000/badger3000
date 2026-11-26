@@ -1,0 +1,174 @@
+---
+/**
+ * CourseCard — pen master `q73kDI`.
+ * context: article · CourseCard ← course{name, location, rounds, best, avg, lastPlayed, counting}
+ *
+ * surface · stroke `$a-line` · radius 14. Photo 104 tall (the course image, or
+ * the token `cover` gradient when it has none), a body of padding 16 / gap 12:
+ * title (display 19) + `location · rating / slope` (12 `$a-muted`), a ROUNDS /
+ * BEST / AVG strip (mono 10 labels, 16/600 values, best in accent-text), and a
+ * foot with the last-played date and a CountsPill. The width is the track's,
+ * not the card's. The title is a button that opens the course drawer; its
+ * `::after` stretches over the whole card so the card is the hit target.
+ * `trigger` carries the data attributes (`data-course`, `aria-controls`) the
+ * page's island reads.
+ */
+import CountsPill from "./CountsPill.astro";
+
+interface Props {
+  name: string;
+  location?: string;
+  /** `rating / slope` of the most-played tee, already formatted. */
+  rating?: string;
+  image?: { src: string; srcset?: string; alt: string };
+  /** CSS background (a token gradient) for a course without a photo. */
+  cover: string;
+  rounds: number;
+  best: number;
+  avg: string;
+  /** Already formatted, e.g. "Nov 15". */
+  lastPlayed: string;
+  counting: number;
+  trigger?: Record<string, string>;
+  class?: string;
+}
+
+const { name, location, rating, image, cover, rounds, best, avg, lastPlayed, counting, trigger = {}, class: className } =
+  Astro.props;
+const place = [location, rating].filter(Boolean).join(" · ");
+---
+
+<article class:list={["card", className]}>
+  <div class="photo" style={image ? undefined : `background:${cover}`}>
+    {image && <img src={image.src} srcset={image.srcset} sizes="254px" alt={image.alt} width="254" height="104" loading="lazy" decoding="async" />}
+  </div>
+  <div class="body">
+    <header class="title">
+      <h3><button type="button" class="open" aria-haspopup="dialog" {...trigger}>{name}</button></h3>
+      {place && <p class="loc">{place}</p>}
+    </header>
+    <dl class="stats">
+      <div><dt>Rounds</dt><dd>{rounds}</dd></div>
+      <div><dt>Best</dt><dd class="best">{best}</dd></div>
+      <div><dt>Avg</dt><dd>{avg}</dd></div>
+    </dl>
+    <footer class="foot">
+      <time class="last">Last · {lastPlayed}</time>
+      <CountsPill label={`Counts · ${counting}`} icon={counting > 0} muted={counting === 0} />
+    </footer>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+    transition: border-color 0.15s ease;
+  }
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--a-line-2);
+  }
+  .photo {
+    flex: none;
+    height: 104px;
+    background-color: var(--a-bg);
+  }
+  .photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  h3 {
+    margin: 0;
+    font: inherit;
+  }
+  .open {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--a-ink);
+    font-family: var(--af-display), ui-serif, Georgia, serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+  }
+  .open::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .open:focus-visible {
+    outline: none;
+  }
+  .card:has(.open:focus-visible) {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 2px;
+  }
+  .loc {
+    margin: 0;
+    font-size: 12px;
+    color: var(--a-muted);
+  }
+  .stats {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 0;
+    border-block: 1px solid var(--a-line);
+  }
+  .stats div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+  }
+  dt {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  dd {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .best {
+    color: var(--a-accent-text);
+  }
+  .foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .last {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+</style>

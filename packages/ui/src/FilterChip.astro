@@ -14,15 +14,23 @@ interface Props {
   active?: boolean;
   /** Value the filter applies, e.g. a topic slug. */
   value?: string;
+  /**
+   * A chip that filters something other than the browse topics (the golf
+   * rounds table): it carries `data-chip-group`/`data-chip-value` instead of
+   * `data-filter-chip`, so `lib/browse.ts` leaves it alone.
+   */
+  group?: string;
 }
 
-const { label, active = false, value } = Astro.props;
+const { label, active = false, value, group } = Astro.props;
 ---
 
 <button
   type="button"
   class="chip"
-  data-filter-chip={value ?? label}
+  data-filter-chip={group ? undefined : (value ?? label)}
+  data-chip-group={group}
+  data-chip-value={group ? (value ?? label) : undefined}
   aria-pressed={active ? "true" : "false"}
 >
   {label}

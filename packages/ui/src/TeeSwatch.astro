@@ -1,0 +1,49 @@
+---
+/**
+ * TeeSwatch — pen master `o0Q55N`.
+ * context: span[aria-hidden] · TeeSwatch — props: color ← tee.color
+ *
+ * 10px dot with a 1px `--a-line-2` ring so a white tee still shows. The colour
+ * is content data (a tee's colour in the real world), the only place a colour
+ * is not a token: a name from the schema's list, or a custom `#rrggbb`.
+ */
+interface Props {
+  color?: string | null;
+  size?: number;
+  class?: string;
+}
+
+const NAMED: Record<string, string> = {
+  black: "#1a1a1a",
+  blue: "#2f6fdb",
+  white: "#ffffff",
+  gold: "#d6a529",
+  red: "#d23b3b",
+  green: "#2e9455",
+  silver: "#b4b8bd",
+};
+
+const { color, size = 10, class: className } = Astro.props;
+const fill = color ? (NAMED[color.toLowerCase()] ?? (/^#[0-9a-f]{3,8}$/i.test(color) ? color : undefined)) : undefined;
+---
+
+<span
+  class:list={["dot", !fill && "none", className]}
+  style={`--tee:${fill ?? "transparent"};--size:${size}px`}
+  aria-hidden="true"></span>
+
+<style>
+  .dot {
+    display: inline-block;
+    flex: none;
+    box-sizing: border-box;
+    width: var(--size);
+    height: var(--size);
+    border: 1px solid var(--a-line-2);
+    border-radius: 50%;
+    background: var(--tee);
+  }
+  .none {
+    border-style: dashed;
+  }
+</style>

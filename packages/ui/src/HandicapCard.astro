@@ -1,0 +1,115 @@
+---
+/**
+ * HandicapCard — pen master `Yofc0`.
+ * context: div · HandicapCard — props: index, trend, note, source (ghin|computed)
+ *
+ * surface · stroke `$a-line` · radius 14 · padding [18, 20] · gap 10.
+ * HANDICAP INDEX eyebrow (mono 10.5, +1), index 60 display `$a-ink`, a trend
+ * pill (soft-accent, mono 12; down is better so the arrow follows the sign),
+ * then the method note 12.5 `$a-muted`. With no index (`needs`) the number
+ * is replaced by "Needs N more rounds".
+ */
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** To 1 dp; null when there is no index yet. */
+  index: number | null;
+  /** Change since `since`; negative is an improvement. */
+  trend?: number | null;
+  /** The label after the delta, e.g. "Oct". */
+  since?: string;
+  note?: string;
+  source?: "ghin" | "computed";
+  /** Rounds still needed before an index exists. */
+  needs?: number;
+  class?: string;
+}
+
+const { index, trend, since, note, source = "computed", needs, class: className } = Astro.props;
+const fmt = (n: number) => (Object.is(n, -0) ? 0 : n).toFixed(1);
+const hasTrend = typeof trend === "number" && index !== null;
+---
+
+<div class:list={["card", className]} data-source={source}>
+  <h2 class="k">Handicap index</h2>
+  <div class="vr">
+    {
+      index !== null ? (
+        <span class="v">{fmt(index)}</span>
+      ) : (
+        <span class="needs">Needs {needs ?? 3} more {needs === 1 ? "round" : "rounds"}</span>
+      )
+    }
+    {
+      hasTrend && (
+        <span class="trend">
+          <Icon name={trend! > 0 ? "trending-up" : "trending-down"} size={13} />
+          <span>
+            {trend === 0 ? "No change" : `${fmt(Math.abs(trend!))} ${trend! > 0 ? "up" : "down"}`}
+            {since ? ` since ${since}` : ""}
+          </span>
+        </span>
+      )
+    }
+  </div>
+  {note && <p class="note">{note}</p>}
+</div>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .k {
+    margin: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .vr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 6px 12px;
+  }
+  .v {
+    font-family: var(--af-display), ui-serif, Georgia, serif;
+    font-size: 60px;
+    line-height: 1;
+    color: var(--a-ink);
+  }
+  .needs {
+    font-family: var(--af-display), ui-serif, Georgia, serif;
+    font-size: 28px;
+    line-height: 1.15;
+    color: var(--a-ink);
+  }
+  .trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--a-accent-soft);
+    color: var(--a-accent-text);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+  }
+  .note {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--a-muted);
+  }
+</style>
