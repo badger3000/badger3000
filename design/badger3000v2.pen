@@ -38920,6 +38920,39 @@
                               "fontWeight": "normal"
                             },
                             {
+                              "type": "frame",
+                              "id": "s2zRDp",
+                              "name": "also here",
+                              "context": "p · also-here ← course.facility; siblings = golfCourse with same facility (optional: omit when there are none)",
+                              "width": "fill_container",
+                              "gap": 5,
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "JyUx6",
+                                  "name": "facility",
+                                  "context": "span ← course.facility + \" · also:\"",
+                                  "fill": "$a-muted",
+                                  "content": "Antelope Hills Golf Courses · also:",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "PjmVy",
+                                  "name": "sibling",
+                                  "context": "button[data-course=slug][aria-haspopup=dialog] ← sibling short name (opens that course's drawer; underlined text button, one per sibling)",
+                                  "fill": "$a-accent-text",
+                                  "content": "South",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
                               "type": "text",
                               "id": "nN04T",
                               "name": "desc",

@@ -17,7 +17,9 @@ import {
   lastRounds,
   differential,
   history,
+  listNames,
   round1,
+  shortCourseName,
   trend,
   usedCount,
   type Round,
@@ -239,6 +241,14 @@ console.log("course stats without differentials");
   const mixed = courseStats(lastRounds([r(0, 12, { score: 86 }), bare(1, 84)]), new Set());
   check("bestDiff ignores rounds with none", [mixed[0].rounds, mixed[0].bestDiff], [2, 12]);
 }
+
+console.log("\nfacility labels");
+check("short label strips the shared words", shortCourseName("Antelope Hills North", "Antelope Hills Golf Courses"), "North");
+check("short label is case-insensitive", shortCourseName("antelope hills South", "Antelope Hills Golf Courses"), "South");
+check("no shared prefix keeps the full name", shortCourseName("Desert Mountain", "Antelope Hills Golf Courses"), "Desert Mountain");
+check("a name equal to the facility stays whole", shortCourseName("Antelope Hills", "Antelope Hills"), "Antelope Hills");
+check("no facility keeps the name", shortCourseName("Eastmoreland", undefined), "Eastmoreland");
+check("listNames joins", [listNames([]), listNames(["North"]), listNames(["North", "South"]), listNames(["A", "B", "C"])], ["", "North", "North and South", "A, B and C"]);
 
 // GHIN agreement (hook): the schema/query for golfProfile.ghinIndex is built elsewhere.
 /** Warns when the computed index differs from GHIN's by more than 0.1. */

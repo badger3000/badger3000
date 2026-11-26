@@ -294,3 +294,22 @@ export function barHeight(diff: number | null, window: WindowRound[]): number {
   if (max === min) return 0.6;
   return 0.15 + 0.85 * ((diff - min) / (max - min));
 }
+
+/**
+ * A layout's short label inside its facility: the course name without the
+ * words it shares with the facility's start ("Antelope Hills North" at
+ * "Antelope Hills Golf Courses" → "North"). Falls back to the full name when
+ * nothing is shared or nothing would be left.
+ */
+export function shortCourseName(name: string, facility?: string | null): string {
+  const f = (facility ?? "").trim().split(/\s+/).filter(Boolean);
+  const n = name.trim().split(/\s+/).filter(Boolean);
+  let i = 0;
+  while (i < f.length && i < n.length && f[i].toLowerCase() === n[i].toLowerCase()) i++;
+  return i > 0 && i < n.length ? n.slice(i).join(" ") : name;
+}
+
+/** "North", "North and South", "East, North and South". */
+export function listNames(names: string[]): string {
+  return names.length < 2 ? (names[0] ?? "") : `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+}

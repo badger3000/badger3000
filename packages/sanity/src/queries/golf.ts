@@ -24,6 +24,7 @@ export const golfPageQuery = defineQuery(`{
     _id,
     name,
     "slug": slug.current,
+    facility,
     location,
     access,
     holes,
@@ -44,16 +45,17 @@ export const golfPageQuery = defineQuery(`{
 export const golfScoresForChatQuery = defineQuery(`{
   "total": count(*[_type == "golfScores" && defined(score)]),
   "matched": count(*[_type == "golfScores" && defined(score)
-    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]),
+    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @ || ^.course->facility match @]) > 0)]),
   "rows": *[_type == "golfScores" && defined(score)
-    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @]) > 0)]
+    && (count($q) == 0 || count($q[coalesce(^.course->name, ^.course) match @ || ^.course->facility match @]) > 0)]
     | order(date desc) [0...$limit] {
-    "course": coalesce(course->name, course, "Unknown course"), date, score
+    "course": coalesce(course->name, course, "Unknown course"), "facility": course->facility, date, score
   },
   "history": *[_type == "golfScores" && defined(score) && defined(date)] | order(date asc) {
     "id": _id, date, score, differential, excluded, holes,
     "tee": tee{teeKey, name, color, gender, par, yardage, rating, slope},
-    "course": coalesce(course->name, course)
+    "course": coalesce(course->name, course),
+    "facility": course->facility
   },
   "profile": *[_type == "golfProfile"][0]{ghinIndex, ghinIndexDate}
 }`);

@@ -23,7 +23,7 @@ import type {
   SkillsForChatQueryResult,
   TestimonialsForChatQueryResult,
 } from "@badger3000/sanity/types";
-import { current, history, usedCount, type Round } from "../golf.ts";
+import { current, history, listNames, shortCourseName, usedCount, type Round } from "../golf.ts";
 import type { Intent } from "./intents.ts";
 
 /**
@@ -186,10 +186,20 @@ function golfCourseFacts(rows: GolfChat["history"]): string[] {
   for (const row of rows) if (row.course) counts.set(row.course, (counts.get(row.course) ?? 0) + 1);
   if (!counts.size) return [];
   const ranked = [...counts].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+  // Layouts at one club: "Antelope Hills Golf Courses: North and South".
+  const facilities = new Map<string, Set<string>>();
+  for (const row of rows) {
+    if (!row.course || !row.facility) continue;
+    facilities.set(row.facility, (facilities.get(row.facility) ?? new Set()).add(row.course));
+  }
+  const shared = [...facilities]
+    .filter(([, names]) => names.size >= 2)
+    .map(([facility, names]) => `${facility}: ${listNames([...names].sort().map((name) => shortCourseName(name, facility)))}`);
   return [
     `plays ${ranked.length} courses`,
     `most played ${ranked[0][0]}, ${ranked[0][1]} rounds`,
     `courses ${ranked.map(([name]) => name).join(", ")}`,
+    ...shared,
   ];
 }
 

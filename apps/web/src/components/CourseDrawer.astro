@@ -10,7 +10,8 @@
  *
  *   bar       COURSE eyebrow + close (pinned)
  *   body      photo 180 · title block (name 30 display, location · access ·
- *             holes, first description block) · TEES table (the most-played
+ *             holes, optional "{facility} · also: {siblings}" buttons that swap
+ *             the drawer to that layout, first description block) · TEES table (the most-played
  *             tee highlighted, `aria-current`) · YOUR ROUNDS HERE (best / avg /
  *             best diff, then one spark row per round)
  *   actions   Ask Badger about {course} + the course website (pinned)
@@ -47,8 +48,19 @@ const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
         </div>
 
         <header class="title">
-          <h2 id="course-drawer-title">{c.name}</h2>
+          <h2 id="course-drawer-title" tabindex="-1" data-course-title>{c.name}</h2>
           {c.meta && <p class="loc">{c.meta}</p>}
+          {c.facility && c.siblings.length > 0 && (
+            <p class="also">
+              {c.facility} · also:{" "}
+              {c.siblings.map((s, i) => (
+                <>
+                  {i > 0 && ", "}
+                  <button type="button" class="also-btn" data-course={s.slug} aria-haspopup="dialog" aria-label={`Open ${s.name}`}>{s.label}</button>
+                </>
+              ))}
+            </p>
+          )}
           {c.description && <p class="desc">{c.description}</p>}
         </header>
 
@@ -90,17 +102,20 @@ const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
         <section class="sec" aria-labelledby="rec-h">
           <header class="sh">
             <h3 id="rec-h">Your rounds here</h3>
-            <span class="m acc">
-              {c.rounds} of last {windowSize}
-              {c.counting > 0 ? ` · ${c.counting} counted` : ""}
-            </span>
+            {c.rounds > 0 && (
+              <span class="m acc">
+                {c.rounds} of last {windowSize}
+                {c.counting > 0 ? ` · ${c.counting} counted` : ""}
+              </span>
+            )}
           </header>
           <dl class="rec">
-            <div><dt>Best</dt><dd class="acc">{c.best}</dd></div>
+            <div><dt>Best</dt><dd class="acc">{c.rounds ? c.best : "—"}</dd></div>
             <div><dt>Avg</dt><dd>{c.avg}</dd></div>
             <div><dt>Best diff</dt><dd>{c.bestDiff}</dd></div>
           </dl>
-          <ol class="rounds">
+          {c.rounds === 0 && <p class="none">No rounds here yet.</p>}
+          {c.rounds > 0 && <ol class="rounds">
             {c.recent.map((r) => (
               <li>
                 <span class="d">{r.label}</span>
@@ -110,7 +125,7 @@ const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
                 {r.counts && <CountsPill label="Counts" icon={false} class="cp" />}
               </li>
             ))}
-          </ol>
+          </ol>}
         </section>
       </div>
 
@@ -170,6 +185,30 @@ const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
     margin: 0;
     font-size: 13px;
     color: var(--a-muted);
+  }
+  .drawer .title h2:focus {
+    outline: none;
+  }
+  .drawer .also {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-muted);
+  }
+  .drawer .also-btn {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--a-accent-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .drawer .none {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-subtle);
   }
   .drawer .desc {
     margin: 0;

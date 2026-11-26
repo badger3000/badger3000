@@ -107,6 +107,31 @@ console.log("\nhandicap source");
   ]);
 }
 
+// 1c. Several layouts at one facility: "Antelope" finds both, and the facts name the club.
+console.log("\nfacilities");
+{
+  const facility = "Antelope Hills Golf Courses";
+  const tee = { teeKey: "white", name: "White", rating: 70.1, slope: 120 };
+  const docs = [
+    { _id: "golfCourse.north", _type: "golfCourse", name: "Antelope Hills North", facility },
+    { _id: "golfCourse.south", _type: "golfCourse", name: "Antelope Hills South", facility },
+    { _id: "golfCourse.solo", _type: "golfCourse", name: "Eastmoreland" },
+    { _id: "g.1", _type: "golfScores", course: { _type: "reference", _ref: "golfCourse.north" }, date: "2026-09-20", score: 84, tee },
+    { _id: "g.2", _type: "golfScores", course: { _type: "reference", _ref: "golfCourse.south" }, date: "2026-08-30", score: 86, tee },
+    { _id: "g.3", _type: "golfScores", course: { _type: "reference", _ref: "golfCourse.solo" }, date: "2026-07-12", score: 80, tee },
+  ];
+  const res = await answer("has Kyle played Antelope Hills?", { fetch: over(docs), model: {} });
+  const titles = res.cards.map((card) => card.title).sort();
+  report("has Kyle played Antelope Hills? names both layouts", [
+    ...(res.intent === "golf" ? [] : [`intent ${res.intent}`]),
+    ...(titles.join("|") === "Antelope Hills North|Antelope Hills South" ? [] : [`cards ${titles.join(" | ")}`]),
+  ]);
+  const all = await answer("Which golf courses does he play?", { fetch: over(docs), model: {} });
+  report("two layouts at one facility: a fact names the club", [
+    ...(/Antelope Hills Golf Courses: North and South/.test(all.text) ? [] : [`got “${all.text}”`]),
+  ]);
+}
+
 // 2. The grounding check on its own.
 console.log("\ngrounding");
 for (const g of picked(grounding)) {

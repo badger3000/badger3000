@@ -6,7 +6,7 @@
  */
 import { gradientFor } from "@badger3000/tokens/covers";
 import { imageUrl } from "@badger3000/sanity";
-import { barHeight, courseStats, current, history, lastRounds, trend, usedCount, WINDOW, type ShownRound } from "./golf.ts";
+import { barHeight, courseStats, current, history, lastRounds, shortCourseName, trend, usedCount, WINDOW, type CourseStat, type ShownRound } from "./golf.ts";
 import { toRound } from "./sanity/golf.ts";
 import type { GolfCourse, GolfPage } from "./sanity/types.ts";
 
@@ -66,6 +66,10 @@ export type CourseView = {
   slug: string;
   name: string;
   location?: string;
+  /** Shared club name when this course has sibling layouts. */
+  facility?: string;
+  /** Other layouts at the same facility, played or not. */
+  siblings: { slug: string; name: string; label: string }[];
   meta: string;
   parLine: string;
   description?: string;
@@ -92,7 +96,10 @@ export type GolfView = {
   handicap: { index: number | null; trend: number | null; since: string; note: string; source: "ghin" | "computed"; needs: number };
   summary: { best: number; avg: string; courses: number };
   chart: { cols: ChartCol[]; basis: "differential" | "score"; first?: string; last?: string };
+  /** Courses played in the last 20: the strip. */
   courses: CourseView[];
+  /** Every course in Sanity, for the drawer: siblings may be unplayed. */
+  drawerCourses: CourseView[];
   range?: string;
 };
 
@@ -158,9 +165,17 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
   const stats = courseStats(shown, counted);
   const byCourse = new Map(page.courses.map((c) => [c.slug ?? c.name, c]));
 
-  const courses: CourseView[] = stats.map((s) => {
-    const meta = byCourse.get(s.slug);
-    const rs = shownViews.filter((r) => r.course?.slug === s.slug).reverse();
+  const siblingsOf = (slug: string, facility?: string) =>
+    facility
+      ? page.courses
+          .filter((c) => (c.slug ?? c.name) !== slug && c.facility?.trim() === facility)
+          .map((c) => ({ slug: c.slug ?? c.name, name: c.name, label: shortCourseName(c.name, facility) }))
+      : [];
+
+  /** A course's drawer/card model; `s` is absent for a course not played in the window. */
+  const toCourse = (slug: string, name: string, s?: CourseStat): CourseView => {
+    const meta = byCourse.get(slug);
+    const rs = shownViews.filter((r) => r.course?.slug === slug).reverse();
     const tees: TeeView[] = (meta?.tees ?? []).map((t) => ({
       key: t._key,
       name: t.name,
@@ -168,36 +183,39 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
       yardage: t.yardage ?? undefined,
       rating: t.rating,
       slope: t.slope,
-      played: s.teesPlayed.get(t._key) ?? 0,
+      played: s?.teesPlayed.get(t._key) ?? 0,
       mostPlayed: false,
     }));
     const top = Math.max(0, ...tees.map((t) => t.played));
     if (top > 0) tees.find((t) => t.played === top)!.mostPlayed = true;
     const main = tees.find((t) => t.mostPlayed);
     const par = meta?.par;
+    const facility = meta?.facility?.trim() || undefined;
     return {
-      slug: s.slug,
-      name: s.name,
+      slug,
+      name,
       location: meta?.location ?? undefined,
+      facility,
+      siblings: siblingsOf(slug, facility),
       meta: [meta?.location, meta?.access && cap(meta.access), meta?.holes && `${meta.holes} holes`].filter(Boolean).join(" · "),
       parLine: [par != null && `Par ${par}`, tees.length > 0 && `${tees.length} ${tees.length === 1 ? "tee" : "tees"}`]
         .filter(Boolean)
         .join(" · "),
       description: meta?.description || undefined,
       website: meta?.website ?? undefined,
-      cover: gradientFor(s.slug),
+      cover: gradientFor(slug),
       image: meta ? photo(meta, 432) : undefined,
       card: {
         rating: main ? `${main.rating} / ${main.slope}` : undefined,
         image: meta ? photo(meta, 254) : undefined,
       },
       tees,
-      rounds: s.rounds,
-      best: s.best,
-      avg: s.avg.toFixed(1),
-      bestDiff: diffText(s.bestDiff),
-      counting: s.counting,
-      lastPlayed: shortDate(s.lastPlayed),
+      rounds: s?.rounds ?? 0,
+      best: s?.best ?? 0,
+      avg: s ? s.avg.toFixed(1) : "—",
+      bestDiff: s ? diffText(s.bestDiff) : "—",
+      counting: s?.counting ?? 0,
+      lastPlayed: s ? shortDate(s.lastPlayed) : "",
       recent: rs.map((r) => ({
         id: r.id,
         label: `${r.date}${r.teeName ? ` · ${r.teeName}` : ""}`,
@@ -207,7 +225,14 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
         width: spark(r.diff === "—" ? null : Number(r.diff)),
       })),
     };
-  });
+  };
+
+  const courses: CourseView[] = stats.map((s) => toCourse(s.slug, s.name, s));
+  const played = new Set(courses.map((c) => c.slug));
+  const drawerCourses: CourseView[] = [
+    ...courses,
+    ...page.courses.filter((c) => !played.has(c.slug ?? c.name)).map((c) => toCourse(c.slug ?? c.name, c.name)),
+  ];
 
   const best = shown.length ? Math.min(...shown.map((r) => r.score)) : 0;
   const avg = shown.length ? (shown.reduce((sum, r) => sum + r.score, 0) / shown.length).toFixed(1) : "0.0";
@@ -248,6 +273,7 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
     summary: { best, avg, courses: courses.length },
     chart: { cols, basis, first: shown.length ? monthYear(shown[0].date) : undefined, last: shown.length ? monthYear(shown.at(-1)!.date) : undefined },
     courses,
+    drawerCourses,
     range: shown.length
       ? (() => {
           const a = parts(shown[0].date);
