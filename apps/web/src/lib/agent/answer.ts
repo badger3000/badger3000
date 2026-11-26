@@ -9,7 +9,7 @@
  */
 import { classify, type Intent } from "./intents.ts";
 import { retrieve, type Card, type ChatFetch } from "./retrieve.ts";
-import { NOTHING, compose, fallback, type Model } from "./compose.ts";
+import { NOTHING, compose, fallback, seedOf, type Model } from "./compose.ts";
 
 /** Suggestions for the fallback answer, and the chips under the greeting. */
 export const SUGGESTIONS = [
@@ -57,7 +57,7 @@ export async function answer(message: string, { fetch, model }: AnswerDeps): Pro
   // The model's line is a bonus; the template is the contract.
   const line = await compose(intent, found.facts, model);
   // Counted from the same query as the cards, so the two never disagree.
-  const text = line ?? fallback(intent, found, terms);
+  const text = line ?? fallback(intent, found, terms, seedOf(message));
 
   return { intent, text, cards, composed: line ? "model" : "template" };
 }

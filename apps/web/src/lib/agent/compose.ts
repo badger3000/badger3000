@@ -40,14 +40,37 @@ const plural = (n: number, [one, many]: [string, string]) => (n === 1 ? one : ma
 const quote = (terms: string[]) => `“${terms.join(" ")}”`;
 
 /**
+ * Deterministic variety: the same question always gets the same wording (so the
+ * reply is stable and testable), but different questions don't all sound alike.
+ */
+const pick = <T,>(options: T[], seed: number): T => options[Math.abs(seed) % options.length]!;
+
+/** A small stable hash of the visitor's message, for `pick`. */
+export const seedOf = (text: string) => [...text].reduce((h, c) => (h * 31 + c.charCodeAt(0)) | 0, 7);
+
+/**
  * "2 of his 28 experiments match “canvas”." Every count comes from the same
  * query as the cards, and the first number is the number of cards shown.
  */
-function narrowed(intent: Intent, { cards, matched, total, narrowedBy }: Found): string {
+function narrowed(intent: Intent, { cards, matched, total, narrowedBy }: Found, seed: number): string {
   const noun = NOUN[intent] ?? ["result", "results"];
   const shown = cards.length;
-  if (matched > shown) return `Here are ${shown} of the ${matched} ${noun[1]} that match ${quote(narrowedBy)}.`;
-  return `${shown} of his ${total} ${plural(total, noun)} ${shown === 1 ? "matches" : "match"} ${quote(narrowedBy)}.`;
+  if (matched > shown) {
+    return pick(
+      [
+        `Quite a few match ${quote(narrowedBy)}. Here are ${shown} of the ${matched} ${noun[1]}.`,
+        `Plenty of ${noun[1]} touch on ${quote(narrowedBy)}. Here are ${shown} of the ${matched}.`,
+      ],
+      seed,
+    );
+  }
+  return pick(
+    [
+      `${shown} of his ${total} ${plural(total, noun)} ${shown === 1 ? "matches" : "match"} ${quote(narrowedBy)}.`,
+      `Found it. ${shown} of his ${total} ${plural(total, noun)} ${shown === 1 ? "mentions" : "mention"} ${quote(narrowedBy)}.`,
+    ],
+    seed,
+  );
 }
 
 /** "6 of his 28 experiments" when the cap cut the list, "6 experiments" when it didn't. */
@@ -60,69 +83,79 @@ function some(intent: Intent, { cards, total }: Found): string {
 /**
  * The Tier-1 phrasing. Always works, needs no model, costs nothing. `terms` are
  * the visitor's words; when they matched nothing, the reply says so rather than
- * passing the unfiltered list off as an answer to them.
+ * passing the unfiltered list off as an answer to them. `seed` only picks between
+ * equivalent wordings.
  */
-export function fallback(intent: Intent, found: Found, terms: string[] = []): string {
+export function fallback(intent: Intent, found: Found, terms: string[] = [], seed = 0): string {
   const { cards, facts, narrowedBy } = found;
   const shown = cards.length;
-  const missed = terms.length && !narrowedBy.length ? ` Nothing matched ${quote(terms)}.` : "";
+  const missed = terms.length && !narrowedBy.length ? ` Nothing matched ${quote(terms)}, so this is the general picture.` : "";
   const isNarrowed = narrowedBy.length > 0;
 
   switch (intent) {
     case "projects":
-      if (!shown) return "There are no published projects in the dataset yet.";
-      if (isNarrowed) return narrowed(intent, found);
+      if (!shown) return "Nothing published here just yet. Check back soon.";
+      if (isNarrowed) return narrowed(intent, found, seed);
       return (shown < found.total
-        ? `${some(intent, found)} — here's the short list.`
-        : `He's shipped ${shown} — here's the list.`) + missed;
+        ? pick(
+            [
+              `Happy to show you. ${some(intent, found)}, starting with the newest.`,
+              `Here's a taste: ${some(intent, found)}.`,
+            ],
+            seed,
+          )
+        : `Here's everything he's shipped so far, ${shown} in all.`) + missed;
     case "articles":
-      if (!shown) return "No articles are published yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${some(intent, found)}, most recent first.${missed}`;
+      if (!shown) return "He hasn't published any articles yet.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return pick(
+        [`Here's what he's been writing lately: ${some(intent, found)}, newest first.`, `Have a read. ${some(intent, found)}, newest first.`],
+        seed,
+      ) + missed;
     case "experiments":
-      if (!shown) return "No experiments yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${some(intent, found)} — code sketches rather than finished work.${missed}`;
+      if (!shown) return "No experiments up yet. He's probably tinkering on one right now.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return `These are his playground: ${some(intent, found)}, mostly code sketches rather than finished work.${missed}`;
     case "experience":
-      if (!shown) return "Nothing in the experience dataset yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${some(intent, found)} on the record, newest first.${missed}`;
+      if (!shown) return "His work history isn't filled in yet.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return `Here's where he's worked: ${some(intent, found)}, newest first.${missed}`;
     case "education":
-      if (!shown) return "Nothing in the education dataset yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${some(intent, found)} on file.${missed}`;
+      if (!shown) return "His education isn't filled in yet.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return `Here's his schooling: ${some(intent, found)} on file.${missed}`;
     case "skills": {
-      if (!facts[0]) return "No skills in the dataset yet.";
+      if (!facts[0]) return "His skills aren't listed yet.";
       // A skill asked about by name gets a yes or no, not just a list.
       if (found.known?.length) {
         const where = found.known.map(({ skill, category }) => `${skill} is under ${category}`);
-        return `Yes — ${where.join("; ")}.`;
+        return `Yes, ${where.join("; ")}.`;
       }
-      if (isNarrowed) return narrowed(intent, found);
-      if (terms.length) return `No — ${quote(terms)} isn't on his skills list. ${facts[0]}, grouped by category.`;
-      return `${facts[0]}, grouped by category.`;
+      if (isNarrowed) return narrowed(intent, found, seed);
+      if (terms.length) return `No, ${quote(terms)} isn't on his skills list. Here's what is: ${facts[0]}, grouped by category.`;
+      return `Here's what he works with: ${facts[0]}, grouped by category.`;
     }
     case "testimonials":
-      if (!shown) return "No testimonials published yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${some(intent, found)}, in their own words.${missed}`;
+      if (!shown) return "No testimonials are published yet.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return `Don't take my word for it. Here's ${some(intent, found)}, in their own words.${missed}`;
     case "bookmarks":
-      if (!shown) return "No bookmarks yet.";
-      if (isNarrowed) return narrowed(intent, found);
-      return `${shown} of the ${found.total} links he's saved — the full set is browsable.${missed}`;
+      if (!shown) return "He hasn't saved any bookmarks yet.";
+      if (isNarrowed) return narrowed(intent, found, seed);
+      return `${shown} of the ${found.total} links he's saved. The full set is there to browse.${missed}`;
     case "golf":
-      if (!facts.length) return "No rounds logged yet.";
-      if (isNarrowed) return `${narrowed(intent, found)} ${facts.join(", ")}. Lower is better.`;
-      return `His golf card: ${facts.join(", ")}. Lower is better.`;
+      if (!facts.length) return "No rounds logged yet. The clubs are still in the bag.";
+      if (isNarrowed) return `${narrowed(intent, found, seed)} ${facts.join(", ")}. Lower is better.`;
+      return `Here's his golf card: ${facts.join(", ")}. Lower is better, in case you're wondering.`;
     case "contact":
-      return "Email is the surest way to reach him.";
+      return "Email is the surest way to reach him. He'd be glad to hear from you.";
     case "about": {
-      if (!facts[0]) return "The bio document hasn't been filled in yet.";
+      if (!facts[0]) return "His bio isn't filled in yet.";
       const based = facts.find((fact) => fact.startsWith("based in "));
-      return `${facts[0]}${based ? `, ${based}` : ""}. Everything on this site comes out of his own Sanity data.`;
+      return `${facts[0]}${based ? `, ${based}` : ""}. Everything on this site comes straight out of his own content.`;
     }
     default:
-      return "I know his projects, writing, experiments, experience, skills, testimonials, bookmarks and golf scores. Try one of those.";
+      return "Not sure I caught that. I can tell you about his projects, writing, experiments, experience, skills, testimonials, bookmarks or golf scores. Pick one and I'll pull it up.";
   }
 }
 
