@@ -20,5 +20,13 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+    // golfProfile is a singleton: hide it from the "create new" menu.
+    templates: (templates) => templates.filter(({schemaType}) => schemaType !== "golfProfile"),
+  },
+  document: {
+    actions: (input, {schemaType}) =>
+      schemaType === "golfProfile"
+        ? input.filter(({action}) => action && !["unpublish", "delete", "duplicate"].includes(action))
+        : input,
   },
 });

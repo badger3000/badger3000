@@ -3,9 +3,9 @@ import type {StructureResolver} from "sanity/structure";
 import {API_VERSION} from "@badger3000/sanity";
 
 export const bookmarkStructure: StructureResolver = (S, context) => {
-  // All default items except bookmark and bookmarkFolder (handled manually below)
+  // All default items except bookmark and bookmarkFolder (handled manually below); golfProfile is a singleton
   const defaultItems = S.documentTypeListItems().filter(
-    (item) => !["bookmark", "bookmarkFolder"].includes(item.getId() ?? "")
+    (item) => !["bookmark", "bookmarkFolder", "golfProfile"].includes(item.getId() ?? "")
   );
 
   const bookmarksItem = S.listItem()
@@ -45,5 +45,11 @@ export const bookmarkStructure: StructureResolver = (S, context) => {
       }
     });
 
-  return S.list().title("Content").items([...defaultItems, bookmarksItem]);
+  // Singleton: one fixed document id, no list and no "create new".
+  const golfProfileItem = S.listItem()
+    .title("Golf Profile")
+    .id("golfProfile")
+    .child(S.document().schemaType("golfProfile").documentId("golfProfile"));
+
+  return S.list().title("Content").items([...defaultItems, bookmarksItem, golfProfileItem]);
 };
