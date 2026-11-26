@@ -23,6 +23,7 @@ import type {
   SkillsForChatQueryResult,
   TestimonialsForChatQueryResult,
 } from "@badger3000/sanity/types";
+import { current, history, usedCount, type Round } from "../golf.ts";
 import type { Intent } from "./intents.ts";
 
 /**
@@ -108,21 +109,21 @@ export function patterns(terms: string[]): string[] {
  * when nothing matches: a question whose words miss still gets the content,
  * not "no results".
  */
-async function list<Row>(
+async function list<Row, Extra extends object = object>(
   fetch: ChatFetch,
   query: string,
   terms: string[],
   limit: number,
-): Promise<Listed<Row> & { narrowedBy: string[] }> {
+): Promise<Listed<Row> & Extra & { narrowedBy: string[] }> {
   const q = patterns(terms);
   if (q.length) {
-    const hit = await fetch<Listed<Row>>(query, { q, limit });
+    const hit = await fetch<Listed<Row> & Extra>(query, { q, limit });
     if (hit.matched > 0) {
       // Terms that match everything ("golf" among golf rounds) narrowed nothing.
       return { ...hit, narrowedBy: hit.matched < hit.total ? terms : [] };
     }
   }
-  return { ...(await fetch<Listed<Row>>(query, { q: [], limit })), narrowedBy: [] };
+  return { ...(await fetch<Listed<Row> & Extra>(query, { q: [], limit })), narrowedBy: [] };
 }
 
 /** Same rule as GROQ's `match` with a `term*` pattern: some word starts with the term. */
@@ -131,6 +132,66 @@ const named = (text: string, term: string) =>
     .toLowerCase()
     .split(/[^\p{L}\p{N}]+/u)
     .some((word) => word && word.startsWith(term.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "")));
+
+type GolfChat = GolfScoresForChatQueryResult;
+
+/** Chat rows → the engine's `Round`. A tee without a rating and slope can't make an estimate, so it is dropped. */
+function toRounds(rows: GolfChat["history"]): Round[] {
+  return rows.map((row) => ({
+    id: row.id,
+    date: row.date,
+    score: row.score,
+    holes: row.holes,
+    differential: row.differential,
+    excluded: row.excluded,
+    tee:
+      row.tee && typeof row.tee.rating === "number" && typeof row.tee.slope === "number"
+        ? { ...row.tee, teeKey: row.tee.teeKey ?? "", name: row.tee.name ?? "", rating: row.tee.rating, slope: row.tee.slope }
+        : null,
+    course: row.course ? { name: row.course, slug: row.course.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "-") } : null,
+  }));
+}
+
+/**
+ * The handicap index and the rounds behind it, from the WHS engine. GHIN's own
+ * number wins when it is set and at least as new as the last round: it is the
+ * official one, and the engine only has the rounds entered here.
+ */
+function golfIndexFacts(rows: GolfChat["history"], profile: GolfChat["profile"]): string[] {
+  const rounds = toRounds(rows);
+  const entry = current(history(rounds));
+  const lastRound = rows.reduce((latest, row) => (row.date > latest ? row.date : latest), "");
+
+  if (typeof profile?.ghinIndex === "number" && profile.ghinIndexDate && profile.ghinIndexDate >= lastRound) {
+    return [`handicap index ${profile.ghinIndex}, from GHIN`];
+  }
+  if (entry?.index != null) {
+    const n = entry.window.length;
+    const counted = entry.window.filter((w) => entry.counted.has(w.id));
+    return [
+      `handicap index ${entry.index}, WHS, from the ${usedCount(n)} lowest of ${n} rounds`,
+      `counted rounds ${counted.map((w) => `${w.score} at ${w.course?.name ?? "an unknown course"}`).join(", ")}`,
+    ];
+  }
+  const have = entry?.window.length ?? 0;
+  if (typeof profile?.ghinIndex === "number") return [`handicap index ${profile.ghinIndex}, from GHIN`];
+  return have || rounds.length
+    ? [`handicap index needs ${Math.max(1, 3 - have)} more rounds with a differential`]
+    : [];
+}
+
+/** The courses he plays, busiest first. */
+function golfCourseFacts(rows: GolfChat["history"]): string[] {
+  const counts = new Map<string, number>();
+  for (const row of rows) if (row.course) counts.set(row.course, (counts.get(row.course) ?? 0) + 1);
+  if (!counts.size) return [];
+  const ranked = [...counts].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+  return [
+    `plays ${ranked.length} courses`,
+    `most played ${ranked[0][0]}, ${ranked[0][1]} rounds`,
+    `courses ${ranked.map(([name]) => name).join(", ")}`,
+  ];
+}
 
 export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch): Promise<Retrieved> {
   switch (intent) {
@@ -279,7 +340,7 @@ export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch
     }
 
     case "golf": {
-      const found = await list<GolfScoresForChatQueryResult["rows"][number]>(fetch, q.golfScoresForChat, terms, LIMIT.golf);
+      const found = await list<GolfScoresForChatQueryResult["rows"][number], Pick<GolfScoresForChatQueryResult, "history" | "profile">>(fetch, q.golfScoresForChat, terms, LIMIT.golf);
       // The query filters on `defined(score)`; typegen can't see that inside a projection.
       const scores = found.rows.map((row) => row.score).filter((score) => score !== null);
       const best = scores.length ? Math.min(...scores) : 0;
@@ -292,7 +353,13 @@ export async function retrieve(intent: Intent, terms: string[], fetch: ChatFetch
           meta: month(row.date),
           body: `Score ${row.score}`,
         })),
-        facts: [`best round ${best}`, `average ${average}`, `${found.rows.length} most recent rounds`],
+        facts: [
+          ...golfIndexFacts(found.history, found.profile),
+          `best round ${best}`,
+          `average ${average}`,
+          `${found.rows.length} most recent rounds`,
+          ...golfCourseFacts(found.history),
+        ],
       };
     }
 
