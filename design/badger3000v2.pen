@@ -33783,7 +33783,7 @@
       "name": "Components — Library",
       "clip": true,
       "width": 1240,
-      "height": 4381,
+      "height": 7559,
       "fill": "$a-bg",
       "cornerRadius": 16,
       "stroke": "$a-line",
@@ -38189,6 +38189,2103 @@
                       "fontFamily": "$af-mono",
                       "fontSize": 10,
                       "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Geusd",
+          "name": "CountsPill-sec",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "NFOc1",
+              "name": "l",
+              "fill": "$a-accent",
+              "content": "CountsPill",
+              "fontFamily": "$af-mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "frame",
+              "id": "JuYcf",
+              "name": "stage",
+              "width": "fill_container",
+              "fill": "$a-bg",
+              "cornerRadius": 14,
+              "stroke": "$a-line",
+              "strokeWidth": 1,
+              "gap": 22,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "SmYxa",
+                  "name": "CountsPill",
+                  "context": "span · CountsPill — accent Tag variant (soft-accent fill, accent-text mono). props: label ← \"Counts\" | count(rounds[counts]) + \" in best 8\" | \"Counted · N\"; icon? check (decorative, aria-hidden)",
+                  "reusable": true,
+                  "fill": "$a-accent-soft",
+                  "cornerRadius": 20,
+                  "gap": 4,
+                  "padding": [
+                    2,
+                    8
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "S6iNDx",
+                      "name": "i",
+                      "context": "icon · check (decorative, aria-hidden); disable for count labels",
+                      "width": 11,
+                      "height": 11,
+                      "icon": "check",
+                      "library": "lucide",
+                      "fill": "$a-accent-text"
+                    },
+                    {
+                      "type": "text",
+                      "id": "I4p1vu",
+                      "name": "t",
+                      "context": "span ← label",
+                      "fill": "$a-accent-text",
+                      "content": "Counts",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 11,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "zlRhs",
+          "name": "TeeSwatch-sec",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "W5WEyu",
+              "name": "l",
+              "fill": "$a-accent",
+              "content": "TeeSwatch",
+              "fontFamily": "$af-mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "frame",
+              "id": "VTtiG",
+              "name": "stage",
+              "width": "fill_container",
+              "fill": "$a-bg",
+              "cornerRadius": 14,
+              "stroke": "$a-line",
+              "strokeWidth": 1,
+              "gap": 22,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "o0Q55N",
+                  "name": "TeeSwatch",
+                  "context": "span[aria-hidden] · TeeSwatch — props: color ← tee.color (content data, the only non-token colour); 1px --a-line-2 ring so white tees show",
+                  "reusable": true,
+                  "fill": "#FFFFFF",
+                  "width": 10,
+                  "height": 10,
+                  "stroke": "$a-line-2",
+                  "strokeWidth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xWBQq",
+          "name": "HandicapCard-sec",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "Am91J",
+              "name": "l",
+              "fill": "$a-accent",
+              "content": "HandicapCard",
+              "fontFamily": "$af-mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "frame",
+              "id": "wVwAO",
+              "name": "stage",
+              "width": "fill_container",
+              "fill": "$a-bg",
+              "cornerRadius": 14,
+              "stroke": "$a-line",
+              "strokeWidth": 1,
+              "gap": 22,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "Yofc0",
+                  "name": "HandicapCard",
+                  "context": "div · HandicapCard — props: index ← handicap.index (1 dp) | empty (\"Needs N more rounds\", no number), trend ← index − index at start of previous month, note, source (ghin|computed). Computed = WHS Rule 5.2 (lowest 8 of last 20 differentials; 5.2a table when < 20), soft/hard cap vs Low HI (5.8), ESR (5.9); ghin = golfProfile.ghinIndex when newer than the last round",
+                  "reusable": true,
+                  "width": 360,
+                  "height": 164,
+                  "fill": "$a-surface",
+                  "cornerRadius": 14,
+                  "stroke": "$a-line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    18,
+                    20
+                  ],
+                  "justifyContent": "space_between",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "C70b3",
+                      "name": "k",
+                      "context": "h2 · eyebrow (mono) · static copy",
+                      "fill": "$a-subtle",
+                      "content": "HANDICAP INDEX",
+                      "fontFamily": "$af-mono",
+                      "fontSize": 10.5,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "DISSo",
+                      "name": "vr",
+                      "context": "div · value row",
+                      "gap": 12,
+                      "alignItems": "end",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "XIpta",
+                          "name": "v",
+                          "context": "data ← handicap.index (1 dp) = golfProfile.ghinIndex ?? computed WHS index",
+                          "fill": "$a-ink",
+                          "content": "7.2",
+                          "lineHeight": 1,
+                          "fontFamily": "$af-display",
+                          "fontSize": 60,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JfQfI",
+                          "name": "trend",
+                          "context": "span · trend pill ← handicap.index − index at start of previous month; down = better (icon trending-down/up)",
+                          "fill": "$a-accent-soft",
+                          "cornerRadius": 20,
+                          "gap": 4,
+                          "padding": [
+                            3,
+                            9
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "xykDT",
+                              "name": "i",
+                              "context": "icon · trending-down (decorative, aria-hidden)",
+                              "width": 13,
+                              "height": 13,
+                              "icon": "trending-down",
+                              "library": "lucide",
+                              "fill": "$a-accent-text"
+                            },
+                            {
+                              "type": "text",
+                              "id": "EaPpp",
+                              "name": "t",
+                              "context": "span · static copy",
+                              "fill": "$a-accent-text",
+                              "content": "0.6 since Oct",
+                              "fontFamily": "$af-mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kj81y",
+                      "name": "note",
+                      "context": "p · method note ← source=ghin: \"From GHIN, {ghinIndexDate}\"; computed: \"Average of the {usedCount} lowest score differentials from the last {n} rounds, per the World Handicap System.\" + \" Includes N estimated rounds\" when any differential is estimated",
+                      "fill": "$a-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Average of the 8 lowest score differentials from the last 20 rounds, per the World Handicap System.",
+                      "lineHeight": 1.45,
+                      "fontFamily": "$af-ui",
+                      "fontSize": 12.5,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Q17Xd",
+          "name": "CourseCard-sec",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "Z7ftTz",
+              "name": "l",
+              "fill": "$a-accent",
+              "content": "CourseCard",
+              "fontFamily": "$af-mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "frame",
+              "id": "RgupM",
+              "name": "stage",
+              "width": "fill_container",
+              "fill": "$a-bg",
+              "cornerRadius": 14,
+              "stroke": "$a-line",
+              "strokeWidth": 1,
+              "gap": 22,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "q73kDI",
+                  "name": "CourseCard",
+                  "context": "article · CourseCard — props: name, location, image? | cover (token gradient when no photo), rating/slope of most-played tee, rounds, best, avg, lastPlayed, counting ← course{name, location, image, tees[]} + rounds in last 20; fixed 254 wide (set by the track)",
+                  "reusable": true,
+                  "clip": true,
+                  "width": 254,
+                  "fill": "$a-surface",
+                  "cornerRadius": 14,
+                  "stroke": "$a-line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "jfLkH",
+                      "name": "photo",
+                      "context": "img ← course.image (alt ← course.name); no photo → fill = gradientFor(course.slug) token gradient",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "robin3051010",
+                        "link": "https://unsplash.com/@robin3051010",
+                        "author": "Robin van Holst"
+                      },
+                      "width": "fill_container",
+                      "height": 104,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "https://images.unsplash.com/photo-1740944777406-65b6900b8d94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTU3MTIxMDF8&ixlib=rb-4.1.0&q=80&w=1080",
+                        "mode": "cover"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LLu7b",
+                      "name": "body",
+                      "context": "div · card body",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 12,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "LVpRC",
+                          "name": "title",
+                          "context": "header · title block",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 3,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "q8ETT",
+                              "name": "name",
+                              "context": "h3 ← course.name",
+                              "fill": "$a-ink",
+                              "content": "Torrey Pines",
+                              "fontFamily": "$af-display",
+                              "fontSize": 19,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "B4act",
+                              "name": "loc",
+                              "context": "p ← course.location + \" · \" + mostPlayedTee.rating + \" / \" + mostPlayedTee.slope (course.tees[] · tee most played in last 20)",
+                              "fill": "$a-muted",
+                              "content": "La Jolla, CA · 74.6 / 136",
+                              "fontFamily": "$af-ui",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "GXdTs",
+                          "name": "stats",
+                          "context": "dl · course stats",
+                          "width": "fill_container",
+                          "stroke": "$a-line",
+                          "strokeWidth": {
+                            "top": 1,
+                            "bottom": 1
+                          },
+                          "gap": 8,
+                          "padding": [
+                            10,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "IewY6",
+                              "name": "ROUNDS",
+                              "context": "div · dt/dd ← rounds (count in last 20)",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "pg5zT",
+                                  "name": "k",
+                                  "context": "dt (mono)",
+                                  "fill": "$a-subtle",
+                                  "content": "ROUNDS",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 0.8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "E2BA4",
+                                  "name": "v",
+                                  "context": "dd",
+                                  "fill": "$a-ink",
+                                  "content": "5",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "E1LFrx",
+                              "name": "BEST",
+                              "context": "div · dt/dd ← min(score) (accent-text)",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "ZaRuq",
+                                  "name": "k",
+                                  "context": "dt (mono)",
+                                  "fill": "$a-subtle",
+                                  "content": "BEST",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 0.8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "ciP9A",
+                                  "name": "v",
+                                  "context": "dd",
+                                  "fill": "$a-accent-text",
+                                  "content": "81",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "l8MdmL",
+                              "name": "AVG",
+                              "context": "div · dt/dd ← avg(score) (1 dp)",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "tjnnt",
+                                  "name": "k",
+                                  "context": "dt (mono)",
+                                  "fill": "$a-subtle",
+                                  "content": "AVG",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 0.8
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "x5lJQ",
+                                  "name": "v",
+                                  "context": "dd",
+                                  "fill": "$a-ink",
+                                  "content": "84.2",
+                                  "fontFamily": "$af-ui",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ulI1f",
+                          "name": "foot",
+                          "context": "footer · card foot",
+                          "width": "fill_container",
+                          "justifyContent": "space_between",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "n1sAeL",
+                              "name": "last",
+                              "context": "time ← course.lastPlayed (MMM D)",
+                              "fill": "$a-subtle",
+                              "content": "Last · Nov 15",
+                              "fontFamily": "$af-mono",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "id": "brs1D",
+                              "type": "ref",
+                              "ref": "SmYxa",
+                              "name": "counting",
+                              "context": "span · CountsPill ← count(rounds in best 8); accent-soft if > 0, else bg/subtle",
+                              "descendants": {
+                                "S6iNDx": {
+                                  "enabled": false
+                                },
+                                "I4p1vu": {
+                                  "content": "3 in best 8"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ThElz",
+          "name": "CourseDrawer-sec",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 14,
+          "children": [
+            {
+              "type": "text",
+              "id": "fc473",
+              "name": "l",
+              "fill": "$a-accent",
+              "content": "CourseDrawer",
+              "fontFamily": "$af-mono",
+              "fontSize": 11,
+              "fontWeight": "normal",
+              "letterSpacing": 1.2
+            },
+            {
+              "type": "frame",
+              "id": "Ob4JG",
+              "name": "stage",
+              "width": "fill_container",
+              "fill": "$a-bg",
+              "cornerRadius": 14,
+              "stroke": "$a-line",
+              "strokeWidth": 1,
+              "gap": 22,
+              "padding": [
+                22,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "R4UF9",
+                  "name": "CourseDrawer",
+                  "context": "dialog#course-drawer[aria-modal=true][aria-labelledby] · CourseDrawer — props: course{name, slug, location, access, holes, par, image, description, website, tees[]{_key, name, color, gender, par, yardage, rating, slope}} + rounds at course from last 20 (date, tee.name, score, differential, counts); slides in from right 240ms, Esc/scrim/close dismiss, focus returns to trigger; ≤640px: full width",
+                  "reusable": true,
+                  "clip": true,
+                  "width": 480,
+                  "height": 1000,
+                  "fill": "$a-surface",
+                  "stroke": "$a-line",
+                  "strokeWidth": {
+                    "left": 1
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000033",
+                    "offset": {
+                      "x": -6,
+                      "y": 0
+                    },
+                    "blur": 30
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WhxJW",
+                      "name": "bar",
+                      "context": "header · drawer bar",
+                      "width": "fill_container",
+                      "stroke": "$a-line",
+                      "strokeWidth": {
+                        "bottom": 1
+                      },
+                      "padding": [
+                        14,
+                        20
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "U5xua",
+                          "name": "k",
+                          "context": "span · eyebrow (mono)",
+                          "fill": "$a-subtle",
+                          "content": "COURSE",
+                          "fontFamily": "$af-mono",
+                          "fontSize": 10.5,
+                          "fontWeight": "normal",
+                          "letterSpacing": 1
+                        },
+                        {
+                          "id": "k0lupU",
+                          "type": "ref",
+                          "ref": "HFjfa",
+                          "name": "Close",
+                          "context": "button[aria-label=\"Close course details\"] · IconButton — icon: x",
+                          "width": 32,
+                          "height": 32,
+                          "descendants": {
+                            "PQHSe": {
+                              "width": 16,
+                              "height": 16,
+                              "icon": "x"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vA5bA",
+                      "name": "body",
+                      "context": "div · drawer body (scrolls; bar + actions stay pinned)",
+                      "width": "fill_container",
+                      "height": "fill_container",
+                      "layout": "vertical",
+                      "gap": 22,
+                      "padding": [
+                        20,
+                        24
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "J7YJu",
+                          "name": "photo",
+                          "context": "img ← course.image (alt ← course.name)",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "randomlies",
+                            "link": "https://unsplash.com/@randomlies",
+                            "author": "Ashim D’Silva"
+                          },
+                          "width": "fill_container",
+                          "height": 180,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "https://images.unsplash.com/photo-1547024842-fe39037cf223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTU3MTIzOTZ8&ixlib=rb-4.1.0&q=80&w=1080",
+                            "mode": "cover"
+                          },
+                          "cornerRadius": 12
+                        },
+                        {
+                          "type": "frame",
+                          "id": "pCRYy",
+                          "name": "title",
+                          "context": "header · title block",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "uiaCQ",
+                              "name": "name",
+                              "context": "h2#course-drawer-title ← course.name",
+                              "fill": "$a-ink",
+                              "content": "Torrey Pines",
+                              "fontFamily": "$af-display",
+                              "fontSize": 30,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "PUvri",
+                              "name": "loc",
+                              "context": "p ← course.location + \" · \" + course.access + \" · \" + course.holes + \" holes\"",
+                              "fill": "$a-muted",
+                              "content": "La Jolla, CA · Public · 18 holes",
+                              "fontFamily": "$af-ui",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "nN04T",
+                              "name": "desc",
+                              "context": "p ← course.description (portable text, first block)",
+                              "fill": "$a-ink",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Clifftop municipal track above the Pacific. Long, exposed to the wind off the water, and home of my best round of the year.",
+                              "lineHeight": 1.5,
+                              "fontFamily": "$af-ui",
+                              "fontSize": 13.5,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "vh9sD",
+                          "name": "tees",
+                          "context": "section · tees ← course.tees[]{name, color, par, yardage, rating, slope}; highlight = the tee played most in the last 20",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 10,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "WlI8J",
+                              "name": "head",
+                              "context": "header · h3 + meta",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "BO6A1",
+                                  "name": "k",
+                                  "context": "h3 · eyebrow (mono)",
+                                  "fill": "$a-subtle",
+                                  "content": "TEES",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10.5,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "g0se3p",
+                                  "name": "m",
+                                  "context": "span ← \"Par \" + course par + \" · \" + count(tees) + \" tees\"",
+                                  "fill": "$a-subtle",
+                                  "content": "Par 72 · 4 tees",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "kpnkm",
+                              "name": "table",
+                              "context": "table · tees",
+                              "clip": true,
+                              "width": "fill_container",
+                              "cornerRadius": 12,
+                              "stroke": "$a-line",
+                              "strokeWidth": 1,
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "HBCG5",
+                                  "name": "thead",
+                                  "context": "thead · tr",
+                                  "width": "fill_container",
+                                  "fill": "$a-bg",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 8,
+                                  "padding": [
+                                    8,
+                                    12
+                                  ],
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "m9mzC",
+                                      "name": "TEE",
+                                      "context": "th[scope=col]",
+                                      "width": "fill_container",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "aqspn",
+                                          "name": "t",
+                                          "context": "span · column label (static)",
+                                          "fill": "$a-subtle",
+                                          "content": "TEE",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 10,
+                                          "fontWeight": "normal",
+                                          "letterSpacing": 0.6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "uZB9e",
+                                      "name": "YARDS",
+                                      "context": "th[scope=col]",
+                                      "width": 64,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "g6c0fy",
+                                          "name": "t",
+                                          "context": "span · column label (static)",
+                                          "fill": "$a-subtle",
+                                          "content": "YARDS",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 10,
+                                          "fontWeight": "normal",
+                                          "letterSpacing": 0.6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "CfG3r",
+                                      "name": "RATING",
+                                      "context": "th[scope=col]",
+                                      "width": 58,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "IaCHs",
+                                          "name": "t",
+                                          "context": "span · column label (static)",
+                                          "fill": "$a-subtle",
+                                          "content": "RATING",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 10,
+                                          "fontWeight": "normal",
+                                          "letterSpacing": 0.6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "ti8Nv",
+                                      "name": "SLOPE",
+                                      "context": "th[scope=col]",
+                                      "width": 48,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "K4TnPj",
+                                          "name": "t",
+                                          "context": "span · column label (static)",
+                                          "fill": "$a-subtle",
+                                          "content": "SLOPE",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 10,
+                                          "fontWeight": "normal",
+                                          "letterSpacing": 0.6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "kijWO",
+                                      "name": "PLAYED",
+                                      "context": "th[scope=col]",
+                                      "width": 52,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "dasRO",
+                                          "name": "t",
+                                          "context": "span · column label (static)",
+                                          "fill": "$a-subtle",
+                                          "content": "PLAYED",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 10,
+                                          "fontWeight": "normal",
+                                          "letterSpacing": 0.6
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "JdUkd",
+                                  "name": "Black",
+                                  "context": "tr · tee row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 8,
+                                  "padding": [
+                                    9,
+                                    12
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "ANdJt",
+                                      "name": "name",
+                                      "context": "th[scope=row] · swatch + tee.name",
+                                      "width": "fill_container",
+                                      "gap": 7,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "L5K04I",
+                                          "type": "ref",
+                                          "ref": "o0Q55N",
+                                          "name": "dot",
+                                          "context": "span[aria-hidden] · TeeSwatch ← tee.color",
+                                          "fill": "#1E1E1E"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "SXRbr",
+                                          "name": "t",
+                                          "context": "← tee.name",
+                                          "fill": "$a-ink",
+                                          "content": "Black",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "zQ0df",
+                                      "name": "tee.yardage",
+                                      "context": "td ← tee.yardage",
+                                      "width": 64,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "Z5Kfl",
+                                          "name": "t",
+                                          "context": "data ← tee.yardage",
+                                          "fill": "$a-ink",
+                                          "content": "7,258",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "Lulf7",
+                                      "name": "tee.rating",
+                                      "context": "td ← tee.rating",
+                                      "width": 58,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "BHt5E",
+                                          "name": "t",
+                                          "context": "data ← tee.rating",
+                                          "fill": "$a-ink",
+                                          "content": "76.1",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "bfzii",
+                                      "name": "tee.slope",
+                                      "context": "td ← tee.slope",
+                                      "width": 48,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "Bn8An",
+                                          "name": "t",
+                                          "context": "data ← tee.slope",
+                                          "fill": "$a-ink",
+                                          "content": "144",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "HKQkZ",
+                                      "name": "tee played count",
+                                      "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
+                                      "width": 52,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "x9eKs",
+                                          "name": "t",
+                                          "context": "data ← count(rounds where tee = this)",
+                                          "fill": "$a-ink",
+                                          "content": "—",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "b6YfSz",
+                                  "name": "Blue",
+                                  "context": "tr · tee row — most played (accent-soft bg, aria-current)",
+                                  "width": "fill_container",
+                                  "fill": "$a-accent-soft",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 8,
+                                  "padding": [
+                                    9,
+                                    12
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "DER71",
+                                      "name": "name",
+                                      "context": "th[scope=row] · swatch + tee.name",
+                                      "width": "fill_container",
+                                      "gap": 7,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "NKSHw",
+                                          "type": "ref",
+                                          "ref": "o0Q55N",
+                                          "name": "dot",
+                                          "context": "span[aria-hidden] · TeeSwatch ← tee.color",
+                                          "fill": "#3B6FD8"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "xJVWe",
+                                          "name": "t",
+                                          "context": "← tee.name",
+                                          "fill": "$a-ink",
+                                          "content": "Blue",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "JZkm8",
+                                      "name": "tee.yardage",
+                                      "context": "td ← tee.yardage",
+                                      "width": 64,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "PtMNS",
+                                          "name": "t",
+                                          "context": "data ← tee.yardage",
+                                          "fill": "$a-ink",
+                                          "content": "6,874",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "I7ZcA",
+                                      "name": "tee.rating",
+                                      "context": "td ← tee.rating",
+                                      "width": 58,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "S6WpBh",
+                                          "name": "t",
+                                          "context": "data ← tee.rating",
+                                          "fill": "$a-ink",
+                                          "content": "74.6",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "x8IZJB",
+                                      "name": "tee.slope",
+                                      "context": "td ← tee.slope",
+                                      "width": 48,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "lOVsX",
+                                          "name": "t",
+                                          "context": "data ← tee.slope",
+                                          "fill": "$a-ink",
+                                          "content": "136",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "lgeT3",
+                                      "name": "tee played count",
+                                      "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
+                                      "width": 52,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "HF2Qs",
+                                          "name": "t",
+                                          "context": "data ← count(rounds where tee = this)",
+                                          "fill": "$a-accent-text",
+                                          "content": "×5",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Gon87",
+                                  "name": "White",
+                                  "context": "tr · tee row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 8,
+                                  "padding": [
+                                    9,
+                                    12
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "c4KUQC",
+                                      "name": "name",
+                                      "context": "th[scope=row] · swatch + tee.name",
+                                      "width": "fill_container",
+                                      "gap": 7,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "EGwFO",
+                                          "type": "ref",
+                                          "ref": "o0Q55N",
+                                          "name": "dot",
+                                          "context": "span[aria-hidden] · TeeSwatch ← tee.color",
+                                          "fill": "#FFFFFF"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "rrrVM",
+                                          "name": "t",
+                                          "context": "← tee.name",
+                                          "fill": "$a-ink",
+                                          "content": "White",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "J5x4bT",
+                                      "name": "tee.yardage",
+                                      "context": "td ← tee.yardage",
+                                      "width": 64,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "AeJ4Y",
+                                          "name": "t",
+                                          "context": "data ← tee.yardage",
+                                          "fill": "$a-ink",
+                                          "content": "6,446",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "RQQ2m",
+                                      "name": "tee.rating",
+                                      "context": "td ← tee.rating",
+                                      "width": 58,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "W92UpL",
+                                          "name": "t",
+                                          "context": "data ← tee.rating",
+                                          "fill": "$a-ink",
+                                          "content": "72.4",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "ON1Pf",
+                                      "name": "tee.slope",
+                                      "context": "td ← tee.slope",
+                                      "width": 48,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "rV6vQ",
+                                          "name": "t",
+                                          "context": "data ← tee.slope",
+                                          "fill": "$a-ink",
+                                          "content": "131",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "NyW09",
+                                      "name": "tee played count",
+                                      "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
+                                      "width": 52,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "FHW9b",
+                                          "name": "t",
+                                          "context": "data ← count(rounds where tee = this)",
+                                          "fill": "$a-ink",
+                                          "content": "—",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "bmegQ",
+                                  "name": "Gold",
+                                  "context": "tr · tee row",
+                                  "width": "fill_container",
+                                  "gap": 8,
+                                  "padding": [
+                                    9,
+                                    12
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "frame",
+                                      "id": "FFzQY",
+                                      "name": "name",
+                                      "context": "th[scope=row] · swatch + tee.name",
+                                      "width": "fill_container",
+                                      "gap": 7,
+                                      "alignItems": "center",
+                                      "children": [
+                                        {
+                                          "id": "ZwapK",
+                                          "type": "ref",
+                                          "ref": "o0Q55N",
+                                          "name": "dot",
+                                          "context": "span[aria-hidden] · TeeSwatch ← tee.color",
+                                          "fill": "#D9A520"
+                                        },
+                                        {
+                                          "type": "text",
+                                          "id": "Xgutl",
+                                          "name": "t",
+                                          "context": "← tee.name",
+                                          "fill": "$a-ink",
+                                          "content": "Gold",
+                                          "fontFamily": "$af-ui",
+                                          "fontSize": 13,
+                                          "fontWeight": "500"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "c7alOu",
+                                      "name": "tee.yardage",
+                                      "context": "td ← tee.yardage",
+                                      "width": 64,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "L9oF3Q",
+                                          "name": "t",
+                                          "context": "data ← tee.yardage",
+                                          "fill": "$a-ink",
+                                          "content": "5,738",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "POmkJ",
+                                      "name": "tee.rating",
+                                      "context": "td ← tee.rating",
+                                      "width": 58,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "LsoHK",
+                                          "name": "t",
+                                          "context": "data ← tee.rating",
+                                          "fill": "$a-ink",
+                                          "content": "69.1",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "X77Es",
+                                      "name": "tee.slope",
+                                      "context": "td ← tee.slope",
+                                      "width": 48,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "upk40",
+                                          "name": "t",
+                                          "context": "data ← tee.slope",
+                                          "fill": "$a-ink",
+                                          "content": "122",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "Aoc53",
+                                      "name": "tee played count",
+                                      "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
+                                      "width": 52,
+                                      "justifyContent": "end",
+                                      "children": [
+                                        {
+                                          "type": "text",
+                                          "id": "g4Me17",
+                                          "name": "t",
+                                          "context": "data ← count(rounds where tee = this)",
+                                          "fill": "$a-ink",
+                                          "content": "—",
+                                          "fontFamily": "$af-mono",
+                                          "fontSize": 12,
+                                          "fontWeight": "normal"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Esh90",
+                          "name": "record",
+                          "context": "section · your record at this course ← last 20 rounds where course = this",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "NpPcL",
+                              "name": "head",
+                              "context": "header · h3 + meta",
+                              "width": "fill_container",
+                              "justifyContent": "space_between",
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "enpP7",
+                                  "name": "k",
+                                  "context": "h3 · eyebrow (mono)",
+                                  "fill": "$a-subtle",
+                                  "content": "YOUR ROUNDS HERE",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 10.5,
+                                  "fontWeight": "normal",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "mrAce",
+                                  "name": "m",
+                                  "context": "span ← count(rounds) + \" of last 20 · \" + count(rounds[counts]) + \" in best 8\"",
+                                  "fill": "$a-accent-text",
+                                  "content": "5 of last 20 · 3 in best 8",
+                                  "fontFamily": "$af-mono",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "koy7j",
+                              "name": "stats",
+                              "context": "dl · record stats",
+                              "width": "fill_container",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "LyQAp",
+                                  "name": "BEST",
+                                  "context": "div · dt/dd ← min(score)",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "fmguF",
+                                      "name": "k",
+                                      "context": "dt (mono) · static label",
+                                      "fill": "$a-subtle",
+                                      "content": "BEST",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "normal",
+                                      "letterSpacing": 0.8
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "ylAtZ",
+                                      "name": "v",
+                                      "context": "dd ← min(score)",
+                                      "fill": "$a-accent-text",
+                                      "content": "81",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "I1E0On",
+                                  "name": "AVG",
+                                  "context": "div · dt/dd ← avg(score) (1 dp)",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "P6Ux9",
+                                      "name": "k",
+                                      "context": "dt (mono) · static label",
+                                      "fill": "$a-subtle",
+                                      "content": "AVG",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "normal",
+                                      "letterSpacing": 0.8
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "LymY6",
+                                      "name": "v",
+                                      "context": "dd ← avg(score) (1 dp)",
+                                      "fill": "$a-ink",
+                                      "content": "84.2",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "JQ1pV",
+                                  "name": "BEST DIFF",
+                                  "context": "div · dt/dd ← min(differential)",
+                                  "width": "fill_container",
+                                  "layout": "vertical",
+                                  "gap": 2,
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "rTA0I",
+                                      "name": "k",
+                                      "context": "dt (mono) · static label",
+                                      "fill": "$a-subtle",
+                                      "content": "BEST DIFF",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "normal",
+                                      "letterSpacing": 0.8
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "I2uv2o",
+                                      "name": "v",
+                                      "context": "dd ← min(differential)",
+                                      "fill": "$a-ink",
+                                      "content": "5.3",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 18,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "QTD49",
+                              "name": "rounds",
+                              "context": "ol · rounds at course, date desc ← round{date, score, differential, counts}",
+                              "width": "fill_container",
+                              "stroke": "$a-line",
+                              "strokeWidth": {
+                                "top": 1
+                              },
+                              "layout": "vertical",
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "MNgLk",
+                                  "name": "round Nov 15, 2026",
+                                  "context": "li · round row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 12,
+                                  "padding": [
+                                    9,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "uU4gS",
+                                      "name": "d",
+                                      "context": "span ← round.date + \" · \" + round.tee.name",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Nov 15, 2026 · Blue",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "Xia3s",
+                                      "name": "spark",
+                                      "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
+                                      "width": 90,
+                                      "height": 6,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 3,
+                                      "children": [
+                                        {
+                                          "type": "rectangle",
+                                          "cornerRadius": 3,
+                                          "id": "ASQHs",
+                                          "name": "bar",
+                                          "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
+                                          "fill": "$a-accent",
+                                          "width": 60,
+                                          "height": 6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "s68B2t",
+                                      "name": "s",
+                                      "context": "data ← round.score",
+                                      "fill": "$a-accent-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": 32,
+                                      "content": "84",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "dkCsP",
+                                      "name": "df",
+                                      "context": "data ← round.differential",
+                                      "fill": "$a-ink",
+                                      "textGrowth": "fixed-width",
+                                      "width": 36,
+                                      "content": "7.8",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "lFpPB",
+                                  "name": "round Oct 5, 2026",
+                                  "context": "li · round row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 12,
+                                  "padding": [
+                                    9,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "xCEA0",
+                                      "name": "d",
+                                      "context": "span ← round.date + \" · \" + round.tee.name",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Oct 5, 2026 · Blue",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "fuF6L",
+                                      "name": "spark",
+                                      "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
+                                      "width": 90,
+                                      "height": 6,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 3,
+                                      "children": [
+                                        {
+                                          "type": "rectangle",
+                                          "cornerRadius": 3,
+                                          "id": "vdF5q",
+                                          "name": "bar",
+                                          "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
+                                          "fill": "$a-accent",
+                                          "width": 78,
+                                          "height": 6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "XGas1",
+                                      "name": "s",
+                                      "context": "data ← round.score",
+                                      "fill": "$a-accent-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": 32,
+                                      "content": "82",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "nJOU5",
+                                      "name": "df",
+                                      "context": "data ← round.differential",
+                                      "fill": "$a-ink",
+                                      "textGrowth": "fixed-width",
+                                      "width": 36,
+                                      "content": "6.1",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "I4smQI",
+                                  "name": "round Aug 10, 2026",
+                                  "context": "li · round row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 12,
+                                  "padding": [
+                                    9,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "v8Tul",
+                                      "name": "d",
+                                      "context": "span ← round.date + \" · \" + round.tee.name",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Aug 10, 2026 · Blue",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "ArKri",
+                                      "name": "spark",
+                                      "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
+                                      "width": 90,
+                                      "height": 6,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 3,
+                                      "children": [
+                                        {
+                                          "type": "rectangle",
+                                          "cornerRadius": 3,
+                                          "id": "f7oGl",
+                                          "name": "bar",
+                                          "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
+                                          "fill": "$a-line-2",
+                                          "width": 42,
+                                          "height": 6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "mWchv",
+                                      "name": "s",
+                                      "context": "data ← round.score",
+                                      "fill": "$a-ink",
+                                      "textGrowth": "fixed-width",
+                                      "width": 32,
+                                      "content": "86",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "BNRMi",
+                                      "name": "df",
+                                      "context": "data ← round.differential",
+                                      "fill": "$a-subtle",
+                                      "textGrowth": "fixed-width",
+                                      "width": 36,
+                                      "content": "9.5",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "vM8c0",
+                                  "name": "round Jun 15, 2026",
+                                  "context": "li · round row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 12,
+                                  "padding": [
+                                    9,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "q8AXVo",
+                                      "name": "d",
+                                      "context": "span ← round.date + \" · \" + round.tee.name",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Jun 15, 2026 · Blue",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "V0paz",
+                                      "name": "spark",
+                                      "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
+                                      "width": 90,
+                                      "height": 6,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 3,
+                                      "children": [
+                                        {
+                                          "type": "rectangle",
+                                          "cornerRadius": 3,
+                                          "id": "y0OU9C",
+                                          "name": "bar",
+                                          "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
+                                          "fill": "$a-accent",
+                                          "width": 87,
+                                          "height": 6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "s28xnJ",
+                                      "name": "s",
+                                      "context": "data ← round.score",
+                                      "fill": "$a-accent-text",
+                                      "textGrowth": "fixed-width",
+                                      "width": 32,
+                                      "content": "81",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "H4qUSY",
+                                      "name": "df",
+                                      "context": "data ← round.differential",
+                                      "fill": "$a-ink",
+                                      "textGrowth": "fixed-width",
+                                      "width": 36,
+                                      "content": "5.3",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "e22wc",
+                                  "name": "round Apr 6, 2026",
+                                  "context": "li · round row",
+                                  "width": "fill_container",
+                                  "stroke": "$a-line",
+                                  "strokeWidth": {
+                                    "bottom": 1
+                                  },
+                                  "gap": 12,
+                                  "padding": [
+                                    9,
+                                    0
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "DYi5I",
+                                      "name": "d",
+                                      "context": "span ← round.date + \" · \" + round.tee.name",
+                                      "fill": "$a-muted",
+                                      "textGrowth": "fixed-width",
+                                      "width": "fill_container",
+                                      "content": "Apr 6, 2026 · Blue",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    },
+                                    {
+                                      "type": "frame",
+                                      "id": "jRx6M",
+                                      "name": "spark",
+                                      "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
+                                      "width": 90,
+                                      "height": 6,
+                                      "fill": "$a-bg",
+                                      "cornerRadius": 3,
+                                      "children": [
+                                        {
+                                          "type": "rectangle",
+                                          "cornerRadius": 3,
+                                          "id": "vHH0X",
+                                          "name": "bar",
+                                          "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
+                                          "fill": "$a-line-2",
+                                          "width": 25,
+                                          "height": 6
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "UVkr7",
+                                      "name": "s",
+                                      "context": "data ← round.score",
+                                      "fill": "$a-ink",
+                                      "textGrowth": "fixed-width",
+                                      "width": 32,
+                                      "content": "88",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-ui",
+                                      "fontSize": 14,
+                                      "fontWeight": "600"
+                                    },
+                                    {
+                                      "type": "text",
+                                      "id": "I7veh4",
+                                      "name": "df",
+                                      "context": "data ← round.differential",
+                                      "fill": "$a-subtle",
+                                      "textGrowth": "fixed-width",
+                                      "width": 36,
+                                      "content": "11.1",
+                                      "textAlign": "right",
+                                      "fontFamily": "$af-mono",
+                                      "fontSize": 12,
+                                      "fontWeight": "normal"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "y55oe",
+                      "name": "actions",
+                      "context": "footer · drawer actions (pinned)",
+                      "width": "fill_container",
+                      "fill": "$a-surface",
+                      "stroke": "$a-line",
+                      "strokeWidth": {
+                        "top": 1
+                      },
+                      "gap": 10,
+                      "padding": [
+                        14,
+                        24
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "id": "Vs6jX",
+                          "type": "ref",
+                          "ref": "CTvHL",
+                          "name": "Ask",
+                          "context": "a · Button — variant: primary, icon: sparkles, label ← \"Ask Badger about \" + course.name → /?q=…",
+                          "width": "fill_container",
+                          "descendants": {
+                            "rlJpG": {
+                              "content": "Ask Badger about Torrey Pines"
+                            }
+                          }
+                        },
+                        {
+                          "id": "PRqJy",
+                          "type": "ref",
+                          "ref": "CTvHL",
+                          "name": "Website",
+                          "context": "ExternalLink · Button — variant: secondary, icon: arrow-up-right ← course.website (opens new tab)",
+                          "fill": "$a-bg",
+                          "stroke": "$a-line-2",
+                          "strokeWidth": 1,
+                          "descendants": {
+                            "JBkQr": {
+                              "fill": "$a-ink",
+                              "icon": "arrow-up-right"
+                            },
+                            "rlJpG": {
+                              "fill": "$a-ink",
+                              "content": "Website"
+                            }
+                          }
+                        }
+                      ]
                     }
                   ]
                 }
@@ -53634,1923 +55731,6 @@
           "y": 0,
           "height": 1000,
           "context": "dialog#course-drawer · CourseDrawer ← course{name, slug, location, access, holes, image, description, website, tees[]} + rounds at course from last 20 — state: open (Torrey Pines)"
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "SmYxa",
-      "x": -2860,
-      "y": 2249,
-      "name": "CountsPill",
-      "context": "span · CountsPill — accent Tag variant (soft-accent fill, accent-text mono). props: label ← \"Counts\" | count(rounds[counts]) + \" in best 8\" | \"Counted · N\"; icon? check (decorative, aria-hidden)",
-      "reusable": true,
-      "fill": "$a-accent-soft",
-      "cornerRadius": 20,
-      "gap": 4,
-      "padding": [
-        2,
-        8
-      ],
-      "alignItems": "center",
-      "children": [
-        {
-          "type": "icon",
-          "id": "S6iNDx",
-          "name": "i",
-          "context": "icon · check (decorative, aria-hidden); disable for count labels",
-          "width": 11,
-          "height": 11,
-          "icon": "check",
-          "library": "lucide",
-          "fill": "$a-accent-text"
-        },
-        {
-          "type": "text",
-          "id": "I4p1vu",
-          "name": "t",
-          "context": "span ← label",
-          "fill": "$a-accent-text",
-          "content": "Counts",
-          "fontFamily": "$af-mono",
-          "fontSize": 11,
-          "fontWeight": "normal"
-        }
-      ]
-    },
-    {
-      "type": "ellipse",
-      "id": "o0Q55N",
-      "x": -2660,
-      "y": 2249,
-      "name": "TeeSwatch",
-      "context": "span[aria-hidden] · TeeSwatch — props: color ← tee.color (content data, the only non-token colour); 1px --a-line-2 ring so white tees show",
-      "reusable": true,
-      "fill": "#FFFFFF",
-      "width": 10,
-      "height": 10,
-      "stroke": "$a-line-2",
-      "strokeWidth": 1
-    },
-    {
-      "type": "frame",
-      "id": "Yofc0",
-      "x": -2860,
-      "y": 2349,
-      "name": "HandicapCard",
-      "context": "div · HandicapCard — props: index ← handicap.index (1 dp) | empty (\"Needs N more rounds\", no number), trend ← index − index at start of previous month, note, source (ghin|computed). Computed = WHS Rule 5.2 (lowest 8 of last 20 differentials; 5.2a table when < 20), soft/hard cap vs Low HI (5.8), ESR (5.9); ghin = golfProfile.ghinIndex when newer than the last round",
-      "reusable": true,
-      "width": 360,
-      "height": 164,
-      "fill": "$a-surface",
-      "cornerRadius": 14,
-      "stroke": "$a-line",
-      "strokeWidth": 1,
-      "layout": "vertical",
-      "gap": 10,
-      "padding": [
-        18,
-        20
-      ],
-      "justifyContent": "space_between",
-      "children": [
-        {
-          "type": "text",
-          "id": "C70b3",
-          "name": "k",
-          "context": "h2 · eyebrow (mono) · static copy",
-          "fill": "$a-subtle",
-          "content": "HANDICAP INDEX",
-          "fontFamily": "$af-mono",
-          "fontSize": 10.5,
-          "fontWeight": "normal",
-          "letterSpacing": 1
-        },
-        {
-          "type": "frame",
-          "id": "DISSo",
-          "name": "vr",
-          "context": "div · value row",
-          "gap": 12,
-          "alignItems": "end",
-          "children": [
-            {
-              "type": "text",
-              "id": "XIpta",
-              "name": "v",
-              "context": "data ← handicap.index (1 dp) = golfProfile.ghinIndex ?? computed WHS index",
-              "fill": "$a-ink",
-              "content": "7.2",
-              "lineHeight": 1,
-              "fontFamily": "$af-display",
-              "fontSize": 60,
-              "fontWeight": "normal"
-            },
-            {
-              "type": "frame",
-              "id": "JfQfI",
-              "name": "trend",
-              "context": "span · trend pill ← handicap.index − index at start of previous month; down = better (icon trending-down/up)",
-              "fill": "$a-accent-soft",
-              "cornerRadius": 20,
-              "gap": 4,
-              "padding": [
-                3,
-                9
-              ],
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "icon",
-                  "id": "xykDT",
-                  "name": "i",
-                  "context": "icon · trending-down (decorative, aria-hidden)",
-                  "width": 13,
-                  "height": 13,
-                  "icon": "trending-down",
-                  "library": "lucide",
-                  "fill": "$a-accent-text"
-                },
-                {
-                  "type": "text",
-                  "id": "EaPpp",
-                  "name": "t",
-                  "context": "span · static copy",
-                  "fill": "$a-accent-text",
-                  "content": "0.6 since Oct",
-                  "fontFamily": "$af-mono",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "text",
-          "id": "kj81y",
-          "name": "note",
-          "context": "p · method note ← source=ghin: \"From GHIN, {ghinIndexDate}\"; computed: \"Average of the {usedCount} lowest score differentials from the last {n} rounds, per the World Handicap System.\" + \" Includes N estimated rounds\" when any differential is estimated",
-          "fill": "$a-muted",
-          "textGrowth": "fixed-width",
-          "width": "fill_container",
-          "content": "Average of the 8 lowest score differentials from the last 20 rounds, per the World Handicap System.",
-          "lineHeight": 1.45,
-          "fontFamily": "$af-ui",
-          "fontSize": 12.5,
-          "fontWeight": "normal"
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "q73kDI",
-      "x": -2460,
-      "y": 2349,
-      "name": "CourseCard",
-      "context": "article · CourseCard — props: name, location, image? | cover (token gradient when no photo), rating/slope of most-played tee, rounds, best, avg, lastPlayed, counting ← course{name, location, image, tees[]} + rounds in last 20; fixed 254 wide (set by the track)",
-      "reusable": true,
-      "clip": true,
-      "width": 254,
-      "fill": "$a-surface",
-      "cornerRadius": 14,
-      "stroke": "$a-line",
-      "strokeWidth": 1,
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "jfLkH",
-          "name": "photo",
-          "context": "img ← course.image (alt ← course.name); no photo → fill = gradientFor(course.slug) token gradient",
-          "metadata": {
-            "type": "unsplash",
-            "username": "robin3051010",
-            "link": "https://unsplash.com/@robin3051010",
-            "author": "Robin van Holst"
-          },
-          "width": "fill_container",
-          "height": 104,
-          "fill": {
-            "type": "image",
-            "enabled": true,
-            "url": "https://images.unsplash.com/photo-1740944777406-65b6900b8d94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTU3MTIxMDF8&ixlib=rb-4.1.0&q=80&w=1080",
-            "mode": "cover"
-          }
-        },
-        {
-          "type": "frame",
-          "id": "LLu7b",
-          "name": "body",
-          "context": "div · card body",
-          "width": "fill_container",
-          "layout": "vertical",
-          "gap": 12,
-          "padding": 16,
-          "children": [
-            {
-              "type": "frame",
-              "id": "LVpRC",
-              "name": "title",
-              "context": "header · title block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 3,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "q8ETT",
-                  "name": "name",
-                  "context": "h3 ← course.name",
-                  "fill": "$a-ink",
-                  "content": "Torrey Pines",
-                  "fontFamily": "$af-display",
-                  "fontSize": 19,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "text",
-                  "id": "B4act",
-                  "name": "loc",
-                  "context": "p ← course.location + \" · \" + mostPlayedTee.rating + \" / \" + mostPlayedTee.slope (course.tees[] · tee most played in last 20)",
-                  "fill": "$a-muted",
-                  "content": "La Jolla, CA · 74.6 / 136",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 12,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "GXdTs",
-              "name": "stats",
-              "context": "dl · course stats",
-              "width": "fill_container",
-              "stroke": "$a-line",
-              "strokeWidth": {
-                "top": 1,
-                "bottom": 1
-              },
-              "gap": 8,
-              "padding": [
-                10,
-                0
-              ],
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "IewY6",
-                  "name": "ROUNDS",
-                  "context": "div · dt/dd ← rounds (count in last 20)",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 2,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "pg5zT",
-                      "name": "k",
-                      "context": "dt (mono)",
-                      "fill": "$a-subtle",
-                      "content": "ROUNDS",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 10,
-                      "fontWeight": "normal",
-                      "letterSpacing": 0.8
-                    },
-                    {
-                      "type": "text",
-                      "id": "E2BA4",
-                      "name": "v",
-                      "context": "dd",
-                      "fill": "$a-ink",
-                      "content": "5",
-                      "fontFamily": "$af-ui",
-                      "fontSize": 16,
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "E1LFrx",
-                  "name": "BEST",
-                  "context": "div · dt/dd ← min(score) (accent-text)",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 2,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "ZaRuq",
-                      "name": "k",
-                      "context": "dt (mono)",
-                      "fill": "$a-subtle",
-                      "content": "BEST",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 10,
-                      "fontWeight": "normal",
-                      "letterSpacing": 0.8
-                    },
-                    {
-                      "type": "text",
-                      "id": "ciP9A",
-                      "name": "v",
-                      "context": "dd",
-                      "fill": "$a-accent-text",
-                      "content": "81",
-                      "fontFamily": "$af-ui",
-                      "fontSize": 16,
-                      "fontWeight": "600"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "l8MdmL",
-                  "name": "AVG",
-                  "context": "div · dt/dd ← avg(score) (1 dp)",
-                  "width": "fill_container",
-                  "layout": "vertical",
-                  "gap": 2,
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "tjnnt",
-                      "name": "k",
-                      "context": "dt (mono)",
-                      "fill": "$a-subtle",
-                      "content": "AVG",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 10,
-                      "fontWeight": "normal",
-                      "letterSpacing": 0.8
-                    },
-                    {
-                      "type": "text",
-                      "id": "x5lJQ",
-                      "name": "v",
-                      "context": "dd",
-                      "fill": "$a-ink",
-                      "content": "84.2",
-                      "fontFamily": "$af-ui",
-                      "fontSize": 16,
-                      "fontWeight": "600"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "ulI1f",
-              "name": "foot",
-              "context": "footer · card foot",
-              "width": "fill_container",
-              "justifyContent": "space_between",
-              "alignItems": "center",
-              "children": [
-                {
-                  "type": "text",
-                  "id": "n1sAeL",
-                  "name": "last",
-                  "context": "time ← course.lastPlayed (MMM D)",
-                  "fill": "$a-subtle",
-                  "content": "Last · Nov 15",
-                  "fontFamily": "$af-mono",
-                  "fontSize": 11,
-                  "fontWeight": "normal"
-                },
-                {
-                  "id": "brs1D",
-                  "type": "ref",
-                  "ref": "SmYxa",
-                  "name": "counting",
-                  "context": "span · CountsPill ← count(rounds in best 8); accent-soft if > 0, else bg/subtle",
-                  "descendants": {
-                    "S6iNDx": {
-                      "enabled": false
-                    },
-                    "I4p1vu": {
-                      "content": "3 in best 8"
-                    }
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "R4UF9",
-      "x": -2060,
-      "y": 2349,
-      "name": "CourseDrawer",
-      "context": "dialog#course-drawer[aria-modal=true][aria-labelledby] · CourseDrawer — props: course{name, slug, location, access, holes, par, image, description, website, tees[]{_key, name, color, gender, par, yardage, rating, slope}} + rounds at course from last 20 (date, tee.name, score, differential, counts); slides in from right 240ms, Esc/scrim/close dismiss, focus returns to trigger; ≤640px: full width",
-      "reusable": true,
-      "clip": true,
-      "width": 480,
-      "height": 1000,
-      "fill": "$a-surface",
-      "stroke": "$a-line",
-      "strokeWidth": {
-        "left": 1
-      },
-      "effect": {
-        "type": "shadow",
-        "shadowType": "outer",
-        "color": "#00000033",
-        "offset": {
-          "x": -6,
-          "y": 0
-        },
-        "blur": 30
-      },
-      "layout": "vertical",
-      "children": [
-        {
-          "type": "frame",
-          "id": "WhxJW",
-          "name": "bar",
-          "context": "header · drawer bar",
-          "width": "fill_container",
-          "stroke": "$a-line",
-          "strokeWidth": {
-            "bottom": 1
-          },
-          "padding": [
-            14,
-            20
-          ],
-          "justifyContent": "space_between",
-          "alignItems": "center",
-          "children": [
-            {
-              "type": "text",
-              "id": "U5xua",
-              "name": "k",
-              "context": "span · eyebrow (mono)",
-              "fill": "$a-subtle",
-              "content": "COURSE",
-              "fontFamily": "$af-mono",
-              "fontSize": 10.5,
-              "fontWeight": "normal",
-              "letterSpacing": 1
-            },
-            {
-              "id": "k0lupU",
-              "type": "ref",
-              "ref": "HFjfa",
-              "name": "Close",
-              "context": "button[aria-label=\"Close course details\"] · IconButton — icon: x",
-              "width": 32,
-              "height": 32,
-              "descendants": {
-                "PQHSe": {
-                  "width": 16,
-                  "height": 16,
-                  "icon": "x"
-                }
-              }
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "vA5bA",
-          "name": "body",
-          "context": "div · drawer body (scrolls; bar + actions stay pinned)",
-          "width": "fill_container",
-          "height": "fill_container",
-          "layout": "vertical",
-          "gap": 22,
-          "padding": [
-            20,
-            24
-          ],
-          "children": [
-            {
-              "type": "frame",
-              "id": "J7YJu",
-              "name": "photo",
-              "context": "img ← course.image (alt ← course.name)",
-              "metadata": {
-                "type": "unsplash",
-                "username": "randomlies",
-                "link": "https://unsplash.com/@randomlies",
-                "author": "Ashim D’Silva"
-              },
-              "width": "fill_container",
-              "height": 180,
-              "fill": {
-                "type": "image",
-                "enabled": true,
-                "url": "https://images.unsplash.com/photo-1547024842-fe39037cf223?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NDM0ODN8MHwxfHJhbmRvbXx8fHx8fHx8fDE3OTU3MTIzOTZ8&ixlib=rb-4.1.0&q=80&w=1080",
-                "mode": "cover"
-              },
-              "cornerRadius": 12
-            },
-            {
-              "type": "frame",
-              "id": "pCRYy",
-              "name": "title",
-              "context": "header · title block",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 6,
-              "children": [
-                {
-                  "type": "text",
-                  "id": "uiaCQ",
-                  "name": "name",
-                  "context": "h2#course-drawer-title ← course.name",
-                  "fill": "$a-ink",
-                  "content": "Torrey Pines",
-                  "fontFamily": "$af-display",
-                  "fontSize": 30,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "text",
-                  "id": "PUvri",
-                  "name": "loc",
-                  "context": "p ← course.location + \" · \" + course.access + \" · \" + course.holes + \" holes\"",
-                  "fill": "$a-muted",
-                  "content": "La Jolla, CA · Public · 18 holes",
-                  "fontFamily": "$af-ui",
-                  "fontSize": 13,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "text",
-                  "id": "nN04T",
-                  "name": "desc",
-                  "context": "p ← course.description (portable text, first block)",
-                  "fill": "$a-ink",
-                  "textGrowth": "fixed-width",
-                  "width": "fill_container",
-                  "content": "Clifftop municipal track above the Pacific. Long, exposed to the wind off the water, and home of my best round of the year.",
-                  "lineHeight": 1.5,
-                  "fontFamily": "$af-ui",
-                  "fontSize": 13.5,
-                  "fontWeight": "normal"
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "vh9sD",
-              "name": "tees",
-              "context": "section · tees ← course.tees[]{name, color, par, yardage, rating, slope}; highlight = the tee played most in the last 20",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 10,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "WlI8J",
-                  "name": "head",
-                  "context": "header · h3 + meta",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "BO6A1",
-                      "name": "k",
-                      "context": "h3 · eyebrow (mono)",
-                      "fill": "$a-subtle",
-                      "content": "TEES",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 10.5,
-                      "fontWeight": "normal",
-                      "letterSpacing": 1
-                    },
-                    {
-                      "type": "text",
-                      "id": "g0se3p",
-                      "name": "m",
-                      "context": "span ← \"Par \" + course par + \" · \" + count(tees) + \" tees\"",
-                      "fill": "$a-subtle",
-                      "content": "Par 72 · 4 tees",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "kpnkm",
-                  "name": "table",
-                  "context": "table · tees",
-                  "clip": true,
-                  "width": "fill_container",
-                  "cornerRadius": 12,
-                  "stroke": "$a-line",
-                  "strokeWidth": 1,
-                  "layout": "vertical",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "HBCG5",
-                      "name": "thead",
-                      "context": "thead · tr",
-                      "width": "fill_container",
-                      "fill": "$a-bg",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 8,
-                      "padding": [
-                        8,
-                        12
-                      ],
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "m9mzC",
-                          "name": "TEE",
-                          "context": "th[scope=col]",
-                          "width": "fill_container",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "aqspn",
-                              "name": "t",
-                              "context": "span · column label (static)",
-                              "fill": "$a-subtle",
-                              "content": "TEE",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 10,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "uZB9e",
-                          "name": "YARDS",
-                          "context": "th[scope=col]",
-                          "width": 64,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "g6c0fy",
-                              "name": "t",
-                              "context": "span · column label (static)",
-                              "fill": "$a-subtle",
-                              "content": "YARDS",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 10,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "CfG3r",
-                          "name": "RATING",
-                          "context": "th[scope=col]",
-                          "width": 58,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "IaCHs",
-                              "name": "t",
-                              "context": "span · column label (static)",
-                              "fill": "$a-subtle",
-                              "content": "RATING",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 10,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "ti8Nv",
-                          "name": "SLOPE",
-                          "context": "th[scope=col]",
-                          "width": 48,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "K4TnPj",
-                              "name": "t",
-                              "context": "span · column label (static)",
-                              "fill": "$a-subtle",
-                              "content": "SLOPE",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 10,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "kijWO",
-                          "name": "PLAYED",
-                          "context": "th[scope=col]",
-                          "width": 52,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "dasRO",
-                              "name": "t",
-                              "context": "span · column label (static)",
-                              "fill": "$a-subtle",
-                              "content": "PLAYED",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 10,
-                              "fontWeight": "normal",
-                              "letterSpacing": 0.6
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "JdUkd",
-                      "name": "Black",
-                      "context": "tr · tee row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 8,
-                      "padding": [
-                        9,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "ANdJt",
-                          "name": "name",
-                          "context": "th[scope=row] · swatch + tee.name",
-                          "width": "fill_container",
-                          "gap": 7,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "L5K04I",
-                              "type": "ref",
-                              "ref": "o0Q55N",
-                              "name": "dot",
-                              "context": "span[aria-hidden] · TeeSwatch ← tee.color",
-                              "fill": "#1E1E1E"
-                            },
-                            {
-                              "type": "text",
-                              "id": "SXRbr",
-                              "name": "t",
-                              "context": "← tee.name",
-                              "fill": "$a-ink",
-                              "content": "Black",
-                              "fontFamily": "$af-ui",
-                              "fontSize": 13,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "zQ0df",
-                          "name": "tee.yardage",
-                          "context": "td ← tee.yardage",
-                          "width": 64,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "Z5Kfl",
-                              "name": "t",
-                              "context": "data ← tee.yardage",
-                              "fill": "$a-ink",
-                              "content": "7,258",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Lulf7",
-                          "name": "tee.rating",
-                          "context": "td ← tee.rating",
-                          "width": 58,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "BHt5E",
-                              "name": "t",
-                              "context": "data ← tee.rating",
-                              "fill": "$a-ink",
-                              "content": "76.1",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "bfzii",
-                          "name": "tee.slope",
-                          "context": "td ← tee.slope",
-                          "width": 48,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "Bn8An",
-                              "name": "t",
-                              "context": "data ← tee.slope",
-                              "fill": "$a-ink",
-                              "content": "144",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "HKQkZ",
-                          "name": "tee played count",
-                          "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
-                          "width": 52,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "x9eKs",
-                              "name": "t",
-                              "context": "data ← count(rounds where tee = this)",
-                              "fill": "$a-ink",
-                              "content": "—",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "b6YfSz",
-                      "name": "Blue",
-                      "context": "tr · tee row — most played (accent-soft bg, aria-current)",
-                      "width": "fill_container",
-                      "fill": "$a-accent-soft",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 8,
-                      "padding": [
-                        9,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "DER71",
-                          "name": "name",
-                          "context": "th[scope=row] · swatch + tee.name",
-                          "width": "fill_container",
-                          "gap": 7,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "NKSHw",
-                              "type": "ref",
-                              "ref": "o0Q55N",
-                              "name": "dot",
-                              "context": "span[aria-hidden] · TeeSwatch ← tee.color",
-                              "fill": "#3B6FD8"
-                            },
-                            {
-                              "type": "text",
-                              "id": "xJVWe",
-                              "name": "t",
-                              "context": "← tee.name",
-                              "fill": "$a-ink",
-                              "content": "Blue",
-                              "fontFamily": "$af-ui",
-                              "fontSize": 13,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "JZkm8",
-                          "name": "tee.yardage",
-                          "context": "td ← tee.yardage",
-                          "width": 64,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "PtMNS",
-                              "name": "t",
-                              "context": "data ← tee.yardage",
-                              "fill": "$a-ink",
-                              "content": "6,874",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "I7ZcA",
-                          "name": "tee.rating",
-                          "context": "td ← tee.rating",
-                          "width": 58,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "S6WpBh",
-                              "name": "t",
-                              "context": "data ← tee.rating",
-                              "fill": "$a-ink",
-                              "content": "74.6",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "x8IZJB",
-                          "name": "tee.slope",
-                          "context": "td ← tee.slope",
-                          "width": 48,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "lOVsX",
-                              "name": "t",
-                              "context": "data ← tee.slope",
-                              "fill": "$a-ink",
-                              "content": "136",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "lgeT3",
-                          "name": "tee played count",
-                          "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
-                          "width": 52,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "HF2Qs",
-                              "name": "t",
-                              "context": "data ← count(rounds where tee = this)",
-                              "fill": "$a-accent-text",
-                              "content": "×5",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "Gon87",
-                      "name": "White",
-                      "context": "tr · tee row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 8,
-                      "padding": [
-                        9,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "c4KUQC",
-                          "name": "name",
-                          "context": "th[scope=row] · swatch + tee.name",
-                          "width": "fill_container",
-                          "gap": 7,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "EGwFO",
-                              "type": "ref",
-                              "ref": "o0Q55N",
-                              "name": "dot",
-                              "context": "span[aria-hidden] · TeeSwatch ← tee.color",
-                              "fill": "#FFFFFF"
-                            },
-                            {
-                              "type": "text",
-                              "id": "rrrVM",
-                              "name": "t",
-                              "context": "← tee.name",
-                              "fill": "$a-ink",
-                              "content": "White",
-                              "fontFamily": "$af-ui",
-                              "fontSize": 13,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "J5x4bT",
-                          "name": "tee.yardage",
-                          "context": "td ← tee.yardage",
-                          "width": 64,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "AeJ4Y",
-                              "name": "t",
-                              "context": "data ← tee.yardage",
-                              "fill": "$a-ink",
-                              "content": "6,446",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "RQQ2m",
-                          "name": "tee.rating",
-                          "context": "td ← tee.rating",
-                          "width": 58,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "W92UpL",
-                              "name": "t",
-                              "context": "data ← tee.rating",
-                              "fill": "$a-ink",
-                              "content": "72.4",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "ON1Pf",
-                          "name": "tee.slope",
-                          "context": "td ← tee.slope",
-                          "width": 48,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "rV6vQ",
-                              "name": "t",
-                              "context": "data ← tee.slope",
-                              "fill": "$a-ink",
-                              "content": "131",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "NyW09",
-                          "name": "tee played count",
-                          "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
-                          "width": 52,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "FHW9b",
-                              "name": "t",
-                              "context": "data ← count(rounds where tee = this)",
-                              "fill": "$a-ink",
-                              "content": "—",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "bmegQ",
-                      "name": "Gold",
-                      "context": "tr · tee row",
-                      "width": "fill_container",
-                      "gap": 8,
-                      "padding": [
-                        9,
-                        12
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "frame",
-                          "id": "FFzQY",
-                          "name": "name",
-                          "context": "th[scope=row] · swatch + tee.name",
-                          "width": "fill_container",
-                          "gap": 7,
-                          "alignItems": "center",
-                          "children": [
-                            {
-                              "id": "ZwapK",
-                              "type": "ref",
-                              "ref": "o0Q55N",
-                              "name": "dot",
-                              "context": "span[aria-hidden] · TeeSwatch ← tee.color",
-                              "fill": "#D9A520"
-                            },
-                            {
-                              "type": "text",
-                              "id": "Xgutl",
-                              "name": "t",
-                              "context": "← tee.name",
-                              "fill": "$a-ink",
-                              "content": "Gold",
-                              "fontFamily": "$af-ui",
-                              "fontSize": 13,
-                              "fontWeight": "500"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "c7alOu",
-                          "name": "tee.yardage",
-                          "context": "td ← tee.yardage",
-                          "width": 64,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "L9oF3Q",
-                              "name": "t",
-                              "context": "data ← tee.yardage",
-                              "fill": "$a-ink",
-                              "content": "5,738",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "POmkJ",
-                          "name": "tee.rating",
-                          "context": "td ← tee.rating",
-                          "width": 58,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "LsoHK",
-                              "name": "t",
-                              "context": "data ← tee.rating",
-                              "fill": "$a-ink",
-                              "content": "69.1",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "X77Es",
-                          "name": "tee.slope",
-                          "context": "td ← tee.slope",
-                          "width": 48,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "upk40",
-                              "name": "t",
-                              "context": "data ← tee.slope",
-                              "fill": "$a-ink",
-                              "content": "122",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Aoc53",
-                          "name": "tee played count",
-                          "context": "td ← count(rounds where round.tee.teeKey = tee._key)",
-                          "width": 52,
-                          "justifyContent": "end",
-                          "children": [
-                            {
-                              "type": "text",
-                              "id": "g4Me17",
-                              "name": "t",
-                              "context": "data ← count(rounds where tee = this)",
-                              "fill": "$a-ink",
-                              "content": "—",
-                              "fontFamily": "$af-mono",
-                              "fontSize": 12,
-                              "fontWeight": "normal"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "frame",
-              "id": "Esh90",
-              "name": "record",
-              "context": "section · your record at this course ← last 20 rounds where course = this",
-              "width": "fill_container",
-              "layout": "vertical",
-              "gap": 12,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "NpPcL",
-                  "name": "head",
-                  "context": "header · h3 + meta",
-                  "width": "fill_container",
-                  "justifyContent": "space_between",
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "text",
-                      "id": "enpP7",
-                      "name": "k",
-                      "context": "h3 · eyebrow (mono)",
-                      "fill": "$a-subtle",
-                      "content": "YOUR ROUNDS HERE",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 10.5,
-                      "fontWeight": "normal",
-                      "letterSpacing": 1
-                    },
-                    {
-                      "type": "text",
-                      "id": "mrAce",
-                      "name": "m",
-                      "context": "span ← count(rounds) + \" of last 20 · \" + count(rounds[counts]) + \" in best 8\"",
-                      "fill": "$a-accent-text",
-                      "content": "5 of last 20 · 3 in best 8",
-                      "fontFamily": "$af-mono",
-                      "fontSize": 11,
-                      "fontWeight": "normal"
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "koy7j",
-                  "name": "stats",
-                  "context": "dl · record stats",
-                  "width": "fill_container",
-                  "gap": 8,
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "LyQAp",
-                      "name": "BEST",
-                      "context": "div · dt/dd ← min(score)",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "fmguF",
-                          "name": "k",
-                          "context": "dt (mono) · static label",
-                          "fill": "$a-subtle",
-                          "content": "BEST",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 10,
-                          "fontWeight": "normal",
-                          "letterSpacing": 0.8
-                        },
-                        {
-                          "type": "text",
-                          "id": "ylAtZ",
-                          "name": "v",
-                          "context": "dd ← min(score)",
-                          "fill": "$a-accent-text",
-                          "content": "81",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 18,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "I1E0On",
-                      "name": "AVG",
-                      "context": "div · dt/dd ← avg(score) (1 dp)",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "P6Ux9",
-                          "name": "k",
-                          "context": "dt (mono) · static label",
-                          "fill": "$a-subtle",
-                          "content": "AVG",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 10,
-                          "fontWeight": "normal",
-                          "letterSpacing": 0.8
-                        },
-                        {
-                          "type": "text",
-                          "id": "LymY6",
-                          "name": "v",
-                          "context": "dd ← avg(score) (1 dp)",
-                          "fill": "$a-ink",
-                          "content": "84.2",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 18,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "JQ1pV",
-                      "name": "BEST DIFF",
-                      "context": "div · dt/dd ← min(differential)",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 2,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "rTA0I",
-                          "name": "k",
-                          "context": "dt (mono) · static label",
-                          "fill": "$a-subtle",
-                          "content": "BEST DIFF",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 10,
-                          "fontWeight": "normal",
-                          "letterSpacing": 0.8
-                        },
-                        {
-                          "type": "text",
-                          "id": "I2uv2o",
-                          "name": "v",
-                          "context": "dd ← min(differential)",
-                          "fill": "$a-ink",
-                          "content": "5.3",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 18,
-                          "fontWeight": "600"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "QTD49",
-                  "name": "rounds",
-                  "context": "ol · rounds at course, date desc ← round{date, score, differential, counts}",
-                  "width": "fill_container",
-                  "stroke": "$a-line",
-                  "strokeWidth": {
-                    "top": 1
-                  },
-                  "layout": "vertical",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "MNgLk",
-                      "name": "round Nov 15, 2026",
-                      "context": "li · round row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 12,
-                      "padding": [
-                        9,
-                        0
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "uU4gS",
-                          "name": "d",
-                          "context": "span ← round.date + \" · \" + round.tee.name",
-                          "fill": "$a-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Nov 15, 2026 · Blue",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "Xia3s",
-                          "name": "spark",
-                          "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
-                          "width": 90,
-                          "height": 6,
-                          "fill": "$a-bg",
-                          "cornerRadius": 3,
-                          "children": [
-                            {
-                              "type": "rectangle",
-                              "cornerRadius": 3,
-                              "id": "ASQHs",
-                              "name": "bar",
-                              "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
-                              "fill": "$a-accent",
-                              "width": 60,
-                              "height": 6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "s68B2t",
-                          "name": "s",
-                          "context": "data ← round.score",
-                          "fill": "$a-accent-text",
-                          "textGrowth": "fixed-width",
-                          "width": 32,
-                          "content": "84",
-                          "textAlign": "right",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "dkCsP",
-                          "name": "df",
-                          "context": "data ← round.differential",
-                          "fill": "$a-ink",
-                          "textGrowth": "fixed-width",
-                          "width": 36,
-                          "content": "7.8",
-                          "textAlign": "right",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "lFpPB",
-                      "name": "round Oct 5, 2026",
-                      "context": "li · round row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 12,
-                      "padding": [
-                        9,
-                        0
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "xCEA0",
-                          "name": "d",
-                          "context": "span ← round.date + \" · \" + round.tee.name",
-                          "fill": "$a-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Oct 5, 2026 · Blue",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "fuF6L",
-                          "name": "spark",
-                          "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
-                          "width": 90,
-                          "height": 6,
-                          "fill": "$a-bg",
-                          "cornerRadius": 3,
-                          "children": [
-                            {
-                              "type": "rectangle",
-                              "cornerRadius": 3,
-                              "id": "vdF5q",
-                              "name": "bar",
-                              "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
-                              "fill": "$a-accent",
-                              "width": 78,
-                              "height": 6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "XGas1",
-                          "name": "s",
-                          "context": "data ← round.score",
-                          "fill": "$a-accent-text",
-                          "textGrowth": "fixed-width",
-                          "width": 32,
-                          "content": "82",
-                          "textAlign": "right",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "nJOU5",
-                          "name": "df",
-                          "context": "data ← round.differential",
-                          "fill": "$a-ink",
-                          "textGrowth": "fixed-width",
-                          "width": 36,
-                          "content": "6.1",
-                          "textAlign": "right",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "I4smQI",
-                      "name": "round Aug 10, 2026",
-                      "context": "li · round row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 12,
-                      "padding": [
-                        9,
-                        0
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "v8Tul",
-                          "name": "d",
-                          "context": "span ← round.date + \" · \" + round.tee.name",
-                          "fill": "$a-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Aug 10, 2026 · Blue",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "ArKri",
-                          "name": "spark",
-                          "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
-                          "width": 90,
-                          "height": 6,
-                          "fill": "$a-bg",
-                          "cornerRadius": 3,
-                          "children": [
-                            {
-                              "type": "rectangle",
-                              "cornerRadius": 3,
-                              "id": "f7oGl",
-                              "name": "bar",
-                              "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
-                              "fill": "$a-line-2",
-                              "width": 42,
-                              "height": 6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "mWchv",
-                          "name": "s",
-                          "context": "data ← round.score",
-                          "fill": "$a-ink",
-                          "textGrowth": "fixed-width",
-                          "width": 32,
-                          "content": "86",
-                          "textAlign": "right",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "BNRMi",
-                          "name": "df",
-                          "context": "data ← round.differential",
-                          "fill": "$a-subtle",
-                          "textGrowth": "fixed-width",
-                          "width": 36,
-                          "content": "9.5",
-                          "textAlign": "right",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "vM8c0",
-                      "name": "round Jun 15, 2026",
-                      "context": "li · round row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 12,
-                      "padding": [
-                        9,
-                        0
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "q8AXVo",
-                          "name": "d",
-                          "context": "span ← round.date + \" · \" + round.tee.name",
-                          "fill": "$a-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Jun 15, 2026 · Blue",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "V0paz",
-                          "name": "spark",
-                          "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
-                          "width": 90,
-                          "height": 6,
-                          "fill": "$a-bg",
-                          "cornerRadius": 3,
-                          "children": [
-                            {
-                              "type": "rectangle",
-                              "cornerRadius": 3,
-                              "id": "y0OU9C",
-                              "name": "bar",
-                              "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
-                              "fill": "$a-accent",
-                              "width": 87,
-                              "height": 6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "s28xnJ",
-                          "name": "s",
-                          "context": "data ← round.score",
-                          "fill": "$a-accent-text",
-                          "textGrowth": "fixed-width",
-                          "width": 32,
-                          "content": "81",
-                          "textAlign": "right",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "H4qUSY",
-                          "name": "df",
-                          "context": "data ← round.differential",
-                          "fill": "$a-ink",
-                          "textGrowth": "fixed-width",
-                          "width": 36,
-                          "content": "5.3",
-                          "textAlign": "right",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "e22wc",
-                      "name": "round Apr 6, 2026",
-                      "context": "li · round row",
-                      "width": "fill_container",
-                      "stroke": "$a-line",
-                      "strokeWidth": {
-                        "bottom": 1
-                      },
-                      "gap": 12,
-                      "padding": [
-                        9,
-                        0
-                      ],
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "DYi5I",
-                          "name": "d",
-                          "context": "span ← round.date + \" · \" + round.tee.name",
-                          "fill": "$a-muted",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "Apr 6, 2026 · Blue",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        },
-                        {
-                          "type": "frame",
-                          "id": "jRx6M",
-                          "name": "spark",
-                          "context": "span[aria-hidden] · bar ∝ (13.5 − differential), accent if counts",
-                          "width": 90,
-                          "height": 6,
-                          "fill": "$a-bg",
-                          "cornerRadius": 3,
-                          "children": [
-                            {
-                              "type": "rectangle",
-                              "cornerRadius": 3,
-                              "id": "vHH0X",
-                              "name": "bar",
-                              "context": "span · fill width ∝ (13.5 − differential); accent if counts else line-2",
-                              "fill": "$a-line-2",
-                              "width": 25,
-                              "height": 6
-                            }
-                          ]
-                        },
-                        {
-                          "type": "text",
-                          "id": "UVkr7",
-                          "name": "s",
-                          "context": "data ← round.score",
-                          "fill": "$a-ink",
-                          "textGrowth": "fixed-width",
-                          "width": 32,
-                          "content": "88",
-                          "textAlign": "right",
-                          "fontFamily": "$af-ui",
-                          "fontSize": 14,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "I7veh4",
-                          "name": "df",
-                          "context": "data ← round.differential",
-                          "fill": "$a-subtle",
-                          "textGrowth": "fixed-width",
-                          "width": 36,
-                          "content": "11.1",
-                          "textAlign": "right",
-                          "fontFamily": "$af-mono",
-                          "fontSize": 12,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "frame",
-          "id": "y55oe",
-          "name": "actions",
-          "context": "footer · drawer actions (pinned)",
-          "width": "fill_container",
-          "fill": "$a-surface",
-          "stroke": "$a-line",
-          "strokeWidth": {
-            "top": 1
-          },
-          "gap": 10,
-          "padding": [
-            14,
-            24
-          ],
-          "alignItems": "center",
-          "children": [
-            {
-              "id": "Vs6jX",
-              "type": "ref",
-              "ref": "CTvHL",
-              "name": "Ask",
-              "context": "a · Button — variant: primary, icon: sparkles, label ← \"Ask Badger about \" + course.name → /?q=…",
-              "width": "fill_container",
-              "descendants": {
-                "rlJpG": {
-                  "content": "Ask Badger about Torrey Pines"
-                }
-              }
-            },
-            {
-              "id": "PRqJy",
-              "type": "ref",
-              "ref": "CTvHL",
-              "name": "Website",
-              "context": "ExternalLink · Button — variant: secondary, icon: arrow-up-right ← course.website (opens new tab)",
-              "fill": "$a-bg",
-              "stroke": "$a-line-2",
-              "strokeWidth": 1,
-              "descendants": {
-                "JBkQr": {
-                  "fill": "$a-ink",
-                  "icon": "arrow-up-right"
-                },
-                "rlJpG": {
-                  "fill": "$a-ink",
-                  "content": "Website"
-                }
-              }
-            }
-          ]
         }
       ]
     },
