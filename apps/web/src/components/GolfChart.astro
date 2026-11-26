@@ -1,0 +1,165 @@
+---
+/**
+ * GolfChart — pen `ChartCard` (`SmDG7`).
+ * context: figure · last 20 rounds, oldest → newest; accent = counts toward handicap
+ *
+ * Head: LAST 20 ROUNDS eyebrow + a legend ("Counts · best 8" accent, "Dropped"
+ * line-2). The bars are an `ol` of 140px-tall columns: score above, bar below,
+ * height ∝ how good the differential is (lower differential = taller). Fewer
+ * than 20 rounds draw only those, left-aligned at the same width (each column is
+ * 1/20th of the row). The x-axis names the first and last month.
+ */
+import type { ChartCol } from "../lib/golf-view.ts";
+
+interface Props {
+  cols: ChartCol[];
+  used: number;
+  first?: string;
+  last?: string;
+}
+
+const { cols, used, first, last } = Astro.props;
+---
+
+<figure class="chart" data-item data-search="last 20 rounds chart bars handicap counts">
+  <figcaption class="head">
+    <span class="cl">Last {cols.length === 1 ? "round" : `${cols.length} rounds`}</span>
+    {
+      used > 0 && (
+        <ul class="legend" aria-hidden="true">
+          <li><i class="sw on"></i>Counts · best {used}</li>
+          <li><i class="sw"></i>Dropped</li>
+        </ul>
+      )
+    }
+  </figcaption>
+  <ol class="bars">
+    {
+      cols.map((c) => (
+        <li class:list={["col", c.counts && "counts"]} aria-label={c.label}>
+          <span class="s">{c.score}</span>
+          <span class="bar" style={`height:${Math.round(c.height * 100)}%`}></span>
+        </li>
+      ))
+    }
+  </ol>
+  {
+    first && last && (
+      <div class="axis" aria-hidden="true">
+        <span>{first}</span>
+        <span>{last}</span>
+      </div>
+    )
+  }
+</figure>
+
+<style>
+  .chart {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 18px;
+    border: 1px solid var(--a-line);
+    border-radius: 14px;
+    background: var(--a-surface);
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .cl {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 11.5px;
+    color: var(--a-muted);
+  }
+  .legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sw {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    background: var(--a-line-2);
+  }
+  .sw.on {
+    background: var(--a-accent);
+  }
+  .bars {
+    display: flex;
+    align-items: stretch;
+    gap: 6px;
+    height: 140px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* One column is a 20th of the row, so a short record keeps the same bar width. */
+  .col {
+    display: flex;
+    flex: 0 0 calc((100% - 19 * 6px) / 20);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    min-width: 0;
+  }
+  .s {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--a-subtle);
+  }
+  .bar {
+    display: block;
+    width: 100%;
+    min-height: 6px;
+    border-radius: 5px;
+    background: var(--a-line-2);
+  }
+  .counts .s {
+    color: var(--a-accent-text);
+  }
+  .counts .bar {
+    background: var(--a-accent);
+  }
+  .axis {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  @media (max-width: 720px) {
+    .chart {
+      padding: 14px;
+    }
+    .bars {
+      gap: 3px;
+    }
+    .col {
+      flex-basis: calc((100% - 19 * 3px) / 20);
+    }
+    .s {
+      font-size: 9px;
+    }
+  }
+</style>

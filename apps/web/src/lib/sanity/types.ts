@@ -14,7 +14,7 @@ import type {
   EducationQueryResult,
   ExperienceQueryResult,
   ExperimentsQueryResult,
-  GolfScoresQueryResult,
+  GolfPageQueryResult,
   ProjectsQueryResult,
   SettingsQueryResult,
   SkillsQueryResult,
@@ -36,8 +36,11 @@ export type Testimonial = TestimonialsQueryResult[number];
 export type Bookmark = BookmarksQueryResult[number];
 export type ExperienceEntry = ExperienceQueryResult[number];
 export type EducationEntry = EducationQueryResult[number];
-/** pen: `tr · GolfRow ← golfScore{course,date,score}` */
-export type GolfScore = GolfScoresQueryResult[number];
+/** The golf page's one fetch: every round (oldest first), the courses, the GHIN profile. */
+export type GolfPage = GolfPageQueryResult;
+export type GolfRoundRow = GolfPage["rounds"][number];
+export type GolfCourse = GolfPage["courses"][number];
+export type GolfTeeRow = GolfCourse["tees"][number];
 /** `backgroundColor` is a hex string; the projection unwraps the colour object. */
 export type Topic = TopicsQueryResult[number];
 /** pen: `AvatarUser ← settings.name`. Null when there is no settings document. */

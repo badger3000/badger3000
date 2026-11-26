@@ -1,0 +1,407 @@
+---
+/**
+ * CourseDrawer — pen `CourseDrawer` (`R4UF9`, open in `pe68N`).
+ * context: dialog#course-drawer[aria-modal][aria-labelledby=course-drawer-title]
+ *
+ * One `<dialog>` for the page, opened with `showModal()` (Esc, focus trap and
+ * the `::backdrop` scrim come with it; MobileDrawer.astro's pattern). Each
+ * course's body is rendered once into a `<template data-course-body="slug">`
+ * and cloned in by `lib/golf-page.ts` — markup stays here, nothing is fetched.
+ *
+ *   bar       COURSE eyebrow + close (pinned)
+ *   body      photo 180 · title block (name 30 display, location · access ·
+ *             holes, first description block) · TEES table (the most-played
+ *             tee highlighted, `aria-current`) · YOUR ROUNDS HERE (best / avg /
+ *             best diff, then one spark row per round)
+ *   actions   Ask Badger about {course} + the course website (pinned)
+ *
+ * Right-hand, `min(480px, 100vw)`, 100dvh; slides in over 240ms (none under
+ * reduced motion, from base.css).
+ */
+import { Button, CountsPill, ExternalLink, Icon, IconButton, TeeSwatch } from "@badger3000/ui";
+import type { CourseView } from "../lib/golf-view.ts";
+
+interface Props {
+  courses: CourseView[];
+  windowSize: number;
+}
+
+const { courses, windowSize } = Astro.props;
+const yards = (n?: number) => (n ? n.toLocaleString("en-US") : "—");
+---
+
+<dialog class="drawer" id="course-drawer" aria-labelledby="course-drawer-title" data-course-drawer>
+  <header class="bar">
+    <span class="eyebrow">Course</span>
+    <IconButton icon="x" label="Close course details" data-course-close />
+  </header>
+  <div class="slot" data-course-slot></div>
+</dialog>
+
+{
+  courses.map((c) => (
+    <template data-course-body={c.slug}>
+      <div class="body">
+        <div class="photo" style={c.image ? undefined : `background:${c.cover}`}>
+          {c.image && <img src={c.image.src} srcset={c.image.srcset} sizes="432px" alt={c.image.alt} width="432" height="180" decoding="async" />}
+        </div>
+
+        <header class="title">
+          <h2 id="course-drawer-title">{c.name}</h2>
+          {c.meta && <p class="loc">{c.meta}</p>}
+          {c.description && <p class="desc">{c.description}</p>}
+        </header>
+
+        {
+          c.tees.length > 0 && (
+            <section class="sec" aria-labelledby="tees-h">
+              <header class="sh">
+                <h3 id="tees-h">Tees</h3>
+                {c.parLine && <span class="m">{c.parLine}</span>}
+              </header>
+              <table class="tees">
+                <thead>
+                  <tr>
+                    <th scope="col">Tee</th>
+                    <th scope="col" class="r y">Yards</th>
+                    <th scope="col" class="r g">Rating</th>
+                    <th scope="col" class="r s">Slope</th>
+                    <th scope="col" class="r p">Played</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {c.tees.map((t) => (
+                    <tr class:list={[t.mostPlayed && "most"]} aria-current={t.mostPlayed ? "true" : undefined}>
+                      <th scope="row">
+                        <span class="tn"><TeeSwatch color={t.color} /><span>{t.name}</span></span>
+                      </th>
+                      <td class="r">{yards(t.yardage)}</td>
+                      <td class="r">{t.rating}</td>
+                      <td class="r">{t.slope}</td>
+                      <td class:list={["r", t.mostPlayed && "acc"]}>{t.played ? `×${t.played}` : "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )
+        }
+
+        <section class="sec" aria-labelledby="rec-h">
+          <header class="sh">
+            <h3 id="rec-h">Your rounds here</h3>
+            <span class="m acc">
+              {c.rounds} of last {windowSize}
+              {c.counting > 0 ? ` · ${c.counting} counted` : ""}
+            </span>
+          </header>
+          <dl class="rec">
+            <div><dt>Best</dt><dd class="acc">{c.best}</dd></div>
+            <div><dt>Avg</dt><dd>{c.avg}</dd></div>
+            <div><dt>Best diff</dt><dd>{c.bestDiff}</dd></div>
+          </dl>
+          <ol class="rounds">
+            {c.recent.map((r) => (
+              <li>
+                <span class="d">{r.label}</span>
+                <span class="spark" aria-hidden="true"><i class:list={[r.counts && "on"]} style={`width:${Math.round(r.width * 100)}%`}></i></span>
+                <span class:list={["sc", r.counts && "acc"]}>{r.score}</span>
+                <span class:list={["df", !r.counts && "dim"]}>{r.diff}</span>
+                {r.counts && <CountsPill label="Counts" icon={false} class="cp" />}
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+
+      <footer class="actions">
+        <Button variant="primary" href={`/?q=${encodeURIComponent(`Tell me about ${c.name}`)}`} label={`Ask Badger about ${c.name}`}>
+          <Icon slot="icon" name="sparkles" size={16} />
+        </Button>
+        {c.website && (
+          <ExternalLink href={c.website} class="site">
+            Website
+          </ExternalLink>
+        )}
+      </footer>
+    </template>
+  ))
+}
+
+<style is:global>
+  /* The template's contents are cloned into the dialog, so they are styled from
+     here by the drawer's own classes (global, but all under .drawer). */
+  .drawer .body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 22px;
+    padding: 20px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .drawer .photo {
+    flex: none;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--a-bg);
+  }
+  .drawer .photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .drawer .title {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .drawer .title h2 {
+    margin: 0;
+    font-family: var(--af-display), ui-serif, Georgia, serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--a-ink);
+  }
+  .drawer .loc {
+    margin: 0;
+    font-size: 13px;
+    color: var(--a-muted);
+  }
+  .drawer .desc {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--a-ink);
+  }
+  .drawer .sec {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .drawer .sh {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .drawer .sh h3 {
+    margin: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .drawer .sh .m {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--a-subtle);
+  }
+  .drawer .acc {
+    color: var(--a-accent-text) !important;
+  }
+
+  .drawer .tees {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+  }
+  .drawer .tees th,
+  .drawer .tees td {
+    padding: 9px 12px;
+    border-top: 1px solid var(--a-line);
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--a-ink);
+  }
+  .drawer .tees thead th {
+    padding-block: 8px;
+    border-top: 0;
+    background: var(--a-bg);
+    font-size: 10px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .drawer .tees .r {
+    text-align: right;
+  }
+  .drawer .tees tbody th {
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .drawer .tees tr.most {
+    background: var(--a-accent-soft);
+  }
+  .drawer .tn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .drawer .rec {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+  }
+  .drawer .rec div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .drawer .rec dt {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .drawer .rec dd {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--a-ink);
+  }
+  .drawer .rounds {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--a-line);
+  }
+  .drawer .rounds li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--a-line);
+  }
+  .drawer .rounds .d {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--a-muted);
+  }
+  .drawer .spark {
+    flex: none;
+    width: 90px;
+    height: 6px;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--a-bg);
+  }
+  .drawer .spark i {
+    display: block;
+    height: 100%;
+    border-radius: 3px;
+    background: var(--a-line-2);
+  }
+  .drawer .spark i.on {
+    background: var(--a-accent);
+  }
+  .drawer .rounds .sc {
+    min-width: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--a-ink);
+    text-align: right;
+  }
+  .drawer .rounds .df {
+    min-width: 32px;
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--a-ink);
+    text-align: right;
+  }
+  .drawer .rounds .df.dim {
+    color: var(--a-subtle);
+  }
+  .drawer .rounds .cp {
+    display: none;
+  }
+
+  .drawer .actions {
+    display: flex;
+    flex: none;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    border-top: 1px solid var(--a-line);
+    background: var(--a-surface);
+  }
+  .drawer .actions .site {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 16px;
+    border: 1px solid var(--a-line-2);
+    border-radius: 11px;
+    color: var(--a-ink);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>
+
+<style>
+  .drawer {
+    width: min(480px, 100vw);
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: 0;
+    border-left: 1px solid var(--a-line);
+    background: var(--a-surface);
+    color: var(--a-ink);
+    font-family: var(--af-ui), ui-sans-serif, system-ui, sans-serif;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .drawer::backdrop {
+    background: var(--a-scrim);
+  }
+  .drawer[open] {
+    display: flex;
+    animation: course-in 0.24s ease;
+  }
+  @keyframes course-in {
+    from {
+      transform: translateX(100%);
+    }
+  }
+  .bar {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--a-line);
+  }
+  .eyebrow {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--a-subtle);
+  }
+  .slot {
+    display: contents;
+  }
+</style>
