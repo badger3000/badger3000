@@ -7,14 +7,15 @@ import {API_VERSION} from "../../index";
 const SWATCH = {black: "#111", blue: "#1d4ed8", white: "#fff", gold: "#d4a017", red: "#c62828", green: "#2e7d32", silver: "#b0b4ba"};
 
 // Copy the tee's values at pick time, so re-rating a course never moves an old round.
-const snapshot = (t) => ({
+// A tee without its own par takes the course par: the course handicap needs one.
+const snapshot = (t, coursePar) => ({
   _type: "object",
   teeKey: t._key,
   name: t.name,
   color: t.color,
   customColor: t.customColor,
   gender: t.gender,
-  par: t.par,
+  par: t.par ?? coursePar ?? undefined,
   yardage: t.yardage,
   rating: t.rating,
   slope: t.slope,
@@ -26,17 +27,23 @@ export default function TeePicker(props) {
   const courseId = courseRef?.replace(/^drafts\./, "");
   const client = useClient({apiVersion: API_VERSION});
   const [tees, setTees] = useState(null);
+  const [coursePar, setCoursePar] = useState(null);
 
   // Fetch tees including drafts, so a course you just created works straight away.
   useEffect(() => {
     if (!courseId) {
       setTees(null);
+      setCoursePar(null);
       return undefined;
     }
     let live = true;
     client
-      .fetch(`coalesce(*[_id == "drafts." + $id][0].tees, *[_id == $id][0].tees)`, {id: courseId}, {perspective: "raw"})
-      .then((r) => live && setTees(r ?? []))
+      .fetch(`coalesce(*[_id == "drafts." + $id][0], *[_id == $id][0]){tees, par}`, {id: courseId}, {perspective: "raw"})
+      .then((r) => {
+        if (!live) return;
+        setTees(r?.tees ?? []);
+        setCoursePar(r?.par ?? null);
+      })
       .catch(() => live && setTees([]));
     return () => {
       live = false;
@@ -52,7 +59,7 @@ export default function TeePicker(props) {
     }
   }, [courseId, lastCourse, value?.teeKey, onChange]);
 
-  const pick = useCallback((t) => onChange(set(snapshot(t))), [onChange]);
+  const pick = useCallback((t) => onChange(set(snapshot(t, coursePar))), [onChange, coursePar]);
   const selected = tees?.find((t) => t._key === value?.teeKey);
 
   if (!courseId) return <Card padding={3} tone="transparent" border radius={2}><Text size={1} muted>Pick a course first</Text></Card>;
