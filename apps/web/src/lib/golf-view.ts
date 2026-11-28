@@ -6,7 +6,7 @@
  */
 import { gradientFor } from "@badger3000/tokens/covers";
 import { imageUrl } from "@badger3000/sanity";
-import { barHeight, courseStats, current, history, lastRounds, shortCourseName, trend, usedCount, WINDOW, type CourseStat, type ShownRound } from "./golf.ts";
+import { barHeight, courseHandicap, courseStats, current, history, indexOn, lastRounds, shortCourseName, trend, usedCount, WINDOW, type CourseStat, type ShownRound } from "./golf.ts";
 import { toRound } from "./sanity/golf.ts";
 import type { GolfCourse, GolfPage } from "./sanity/types.ts";
 
@@ -57,6 +57,8 @@ export type RoundView = {
   diff: string;
   estimated: boolean;
   counts: boolean;
+  /** Course handicap for the round (Rule 6.1a, 1 dp), or "—". */
+  courseHcp: string;
   label: string;
 };
 
@@ -119,8 +121,13 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
   const shown = lastRounds(all, WINDOW);
   const scored = shown.filter((r): r is ShownRound & { diff: number } => r.diff !== null);
 
+  const parOf = new Map(page.courses.map((c) => [c.slug ?? c.name, c.par ?? null]));
   const toView = (r: ShownRound): RoundView => {
     const counts = counted.has(r.id);
+    // Index in effect that day; the tee's par, else the course's.
+    const hcp = r.tee
+      ? courseHandicap(indexOn(h, r.date), { ...r.tee, par: r.tee.par ?? (r.course ? parOf.get(r.course.slug) : null) }, r.holes)
+      : null;
     const view = {
       id: r.id,
       course: r.course ?? undefined,
@@ -132,6 +139,7 @@ export function buildGolfView(page: GolfPage, today = new Date()): GolfView {
       diff: diffText(r.diff),
       estimated: r.estimated,
       counts,
+      courseHcp: hcp === null ? "—" : hcp.toFixed(1),
     };
     return {
       ...view,

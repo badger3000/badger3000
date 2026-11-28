@@ -12,11 +12,13 @@
 import {
   adjustment,
   barHeight,
+  courseHandicap,
   courseStats,
   current,
   lastRounds,
   differential,
   history,
+  indexOn,
   listNames,
   round1,
   shortCourseName,
@@ -249,6 +251,21 @@ check("no shared prefix keeps the full name", shortCourseName("Desert Mountain",
 check("a name equal to the facility stays whole", shortCourseName("Antelope Hills", "Antelope Hills"), "Antelope Hills");
 check("no facility keeps the name", shortCourseName("Eastmoreland", undefined), "Eastmoreland");
 check("listNames joins", [listNames([]), listNames(["North"]), listNames(["North", "South"]), listNames(["A", "B", "C"])], ["", "North", "North and South", "A, B and C"]);
+
+// Course handicap (Rule 6.1a, unrounded, 1 dp) and the index in effect that day.
+{
+  const h = history(series([10, 11, 12]));
+  check("indexOn: before any round", indexOn(h, day(0)), null);
+  check("indexOn: 2 rounds give no index yet", indexOn(h, day(2)), null);
+  check("indexOn: the day after round 3 uses its index", indexOn(h, day(3)), 8);
+  check("indexOn: a later day keeps the last index", indexOn(h, day(40)), 8);
+  check("courseHandicap 7.2 on 74.6/136 par 72", courseHandicap(7.2, { rating: 74.6, slope: 136, par: 72 }), 11.3);
+  check("courseHandicap can be negative", courseHandicap(0, { rating: 69, slope: 120, par: 72 }), -3);
+  check("courseHandicap null without an index", courseHandicap(null, { rating: 72, slope: 130, par: 72 }), null);
+  check("courseHandicap null without par", courseHandicap(7.2, { rating: 72, slope: 130 }), null);
+  check("courseHandicap null for 9 holes", courseHandicap(7.2, { rating: 72, slope: 130, par: 72 }, 9), null);
+  check("courseHandicap null without a tee", courseHandicap(7.2, undefined), null);
+}
 
 // GHIN agreement (hook): the schema/query for golfProfile.ghinIndex is built elsewhere.
 /** Warns when the computed index differs from GHIN's by more than 0.1. */

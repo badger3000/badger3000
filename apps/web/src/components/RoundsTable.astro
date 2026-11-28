@@ -3,14 +3,16 @@
  * RoundsTable — pen `RoundsHead` + `Table` (`UsVzY`, `ufeMY`).
  * context: table ← golfPageQuery.rounds | order(date desc)[0...20]
  *
- * COURSE · TEE · DATE · SCORE · DIFF · HANDICAP. Each row is a `GolfRow` with
+ * COURSE · TEE · DATE · SCORE · DIFF · COURSE HCP. Each row is a `GolfRow` with
  * `data-counts`; the All / Counted chips (`FilterChip group="rounds"`) set
  * `data-filter` on the table and CSS hides the rows that do not count. The
- * course is a button that opens the drawer (`data-course`). Newest first.
+ * course is a button with an info icon that opens the drawer (`data-course`).
+ * A counted differential sits in a `CountsPill`; COURSE HCP is Rule 6.1a for
+ * the index in effect that day, to 1 dp. Newest first.
  * `~` marks a differential estimated from score, rating and slope.
  * On a phone the TEE and DATE columns fold into the course cell.
  */
-import { CountsPill, FilterChip, TeeSwatch } from "@badger3000/ui";
+import { CountsPill, FilterChip, Icon, TeeSwatch } from "@badger3000/ui";
 import type { RoundView } from "../lib/golf-view.ts";
 
 interface Props {
@@ -47,8 +49,8 @@ const rows = [...rounds].reverse();
           <th scope="col" class="tee">Tee</th>
           <th scope="col" class="date">Date</th>
           <th scope="col" class="num">Score</th>
-          <th scope="col" class="num">Diff</th>
-          <th scope="col" class="hcp">Handicap</th>
+          <th scope="col" class="num diffcol">Diff</th>
+          <th scope="col" class="hcp" title="Course handicap: index that day × slope ÷ 113 + (rating − par)"><span class="long">Course HCP</span><span class="short" aria-hidden="true">HCP</span></th>
         </tr>
       </thead>
       <tbody>
@@ -57,8 +59,16 @@ const rows = [...rounds].reverse();
             <tr data-counts={r.counts ? "true" : "false"}>
               <td class="course">
                 {r.course ? (
-                  <button type="button" class="open" aria-haspopup="dialog" aria-controls="course-drawer" data-course={r.course.slug}>
-                    {r.course.name}
+                  <button
+                    type="button"
+                    class="open"
+                    aria-haspopup="dialog"
+                    aria-controls="course-drawer"
+                    aria-label={`${r.course.name} — course details`}
+                    data-course={r.course.slug}
+                  >
+                    <span>{r.course.name}</span>
+                    <Icon name="info" size={14} class="info" />
                   </button>
                 ) : (
                   <span class="none" title="Course not recorded">—</span>
@@ -77,11 +87,12 @@ const rows = [...rounds].reverse();
               </td>
               <td class="date"><time datetime={r.dateIso}>{r.date}</time></td>
               <td class:list={["num", "score", r.counts && "on"]}>{r.score}</td>
-              <td class:list={["num", "diff", r.counts && "on"]}>
-                {r.diff}
+              <td class:list={["num", "diff", "diffcol", r.counts && "on"]}>
+                {r.counts ? <CountsPill label={r.diff} class="dpill" /> : r.diff}
                 {r.estimated && <span class="est" title="Estimated from score, rating and slope" aria-label="estimated">~</span>}
+                {r.counts && <span class="sr">counts</span>}
               </td>
-              <td class="hcp">{r.counts ? <CountsPill label="Counts" /> : <span class="none" aria-label="Not counted">—</span>}</td>
+              <td class="hcp">{r.courseHcp === "—" ? <span class="none" title="Needs a tee with par and an index on that day">—</span> : r.courseHcp}</td>
             </tr>
           ))
         }
@@ -166,8 +177,22 @@ const rows = [...rounds].reverse();
   .num {
     width: 70px;
   }
+  .diffcol {
+    width: 96px;
+    white-space: nowrap;
+  }
+  th .short {
+    display: none;
+  }
   .hcp {
     width: 110px;
+    text-align: right;
+  }
+  td.hcp {
+    font-family: var(--af-mono), ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--a-ink);
   }
   td.score {
     font-size: 14px;
@@ -203,9 +228,22 @@ const rows = [...rounds].reverse();
     text-align: left;
     cursor: pointer;
   }
-  .open:hover {
+  .open {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .open :global(.info) {
+    flex: none;
+    color: var(--a-subtle);
+  }
+  .open:hover span {
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+  .open:hover :global(.info),
+  .open:focus-visible :global(.info) {
+    color: var(--a-accent-text);
   }
   .none {
     color: var(--a-subtle);
@@ -242,7 +280,19 @@ const rows = [...rounds].reverse();
   @media (max-width: 720px) {
     th,
     td {
-      padding-inline: 12px;
+      padding-inline: 10px;
+    }
+    /* Visually hidden, still the header's accessible name. */
+    th .long {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    th .short {
+      display: inline;
     }
     th.tee,
     td.tee,
@@ -258,10 +308,13 @@ const rows = [...rounds].reverse();
       color: var(--a-subtle);
     }
     .num {
-      width: 52px;
+      width: 44px;
+    }
+    .diffcol {
+      width: 66px;
     }
     .hcp {
-      width: 84px;
+      width: 44px;
     }
   }
 </style>
