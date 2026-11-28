@@ -231,6 +231,7 @@ Pure functions, no Sanity imports:
 - `differential(round)`: the stored value, else `round1((113 / tee.slope) × (score − tee.rating))` flagged `estimated`; `null` without a tee (the round shows `—` and can't count)
 - `usedCount(n)` / `adjustment(n)`: the Rule 5.2a table as data
 - `history(rounds)`: replays rounds in date order. After each round it computes the index (5.2/5.2a) and the Low HI over 365 days (5.7), then applies the soft and hard caps (5.8), ESR (5.9) and the 54.0 maximum (5.3). Returns `{ index, lowIndex, counted: Set<id>, window: rounds[] }` for each date.
+- `courseHandicap(round, history)` = `indexOn(round.date) × tee.slope / 113 + (tee.rating − tee.par)` (Rule 6.1), **shown to 1 dp** (owner decision 2026-11-27). Rule 6.1 rounds this to a whole number for play; the page shows the unrounded value. It uses the index in effect on the day played, not today's, and the tee snapshot. A 9-hole round uses half the index and the 9-hole rating, slope and par. It's `null` without a tee, a par, or an index yet (fewer than 3 rounds), and the cell shows `—`. The page falls back to the course par when the snapshot has none, and `TeePicker` now snapshots `tee.par ?? course.par`. Use "Refresh from course" to backfill old rounds
 - `current(history)` is the latest index; `trend(history, date)` is the change since a date
 - `courseStats(window, counted)` → per course `{ rounds, best, avg, bestDiff, lastPlayed, counting, teesPlayed: Map<teeKey, count> }`. `teesPlayed` drives the drawer's PLAYED column and the highlighted row, sorted rounds desc, then `lastPlayed` desc
 - `barHeight(diff, window)`: the chart scale, normalised to the rounds shown
@@ -258,7 +259,7 @@ Promote in the pen first (Change the `.pen` first), then port:
 | `HandicapCard` (`w8ujm`) | `HandicapCard.astro`: props `index, trend, note, source ("ghin" \| "computed")` | `packages/ui` |
 | Counts pill | extend `Tag` with `tone="accent"`, or add `CountsPill.astro` | `packages/ui` |
 | `ChartCard` (`SmDG7`) | `GolfChart.astro` | `apps/web/src/components` |
-| `Table` + `Filter` (`ufeMY`, `l3OmuO`) | `RoundsTable.astro` uses `FilterChip`; TEE column = swatch + `tee.name` | `apps/web/src/components` |
+| `Table` + `Filter` (`ufeMY`, `l3OmuO`) | `RoundsTable.astro` uses `FilterChip`. Columns: COURSE, TEE (swatch + `tee.name`), DATE, SCORE, DIFF (a `CountsPill` showing the differential when it counts) and COURSE HCP (`courseHandicap`) | `apps/web/src/components` |
 | Drawer `tees` (`I2Xcg`) | `TeesTable` section inside `CourseDrawer`: tee, yards, rating, slope, times played; the most-played row is highlighted (`aria-current`) | `apps/web/src/components` |
 | Tee swatch | `TeeSwatch.astro`: `color` prop, 1px `--a-line-2` ring so white tees show | `packages/ui` |
 | `CourseDrawer` (`hSxF6`) | `CourseDrawer.astro` | `apps/web/src/components` |

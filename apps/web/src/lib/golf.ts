@@ -223,6 +223,31 @@ export function lastRounds(rounds: Round[], n = WINDOW): ShownRound[] {
     });
 }
 
+/**
+ * The Handicap Index in effect when playing on `date` (YYYY-MM-DD): the index
+ * after the last round *before* that day. Null when no index existed yet.
+ */
+export function indexOn(h: HistoryEntry[], date: string): number | null {
+  for (let i = h.length - 1; i >= 0; i--) if (h[i].date < date) return h[i].index;
+  return null;
+}
+
+/**
+ * Rule 6.1a, unrounded: `index × slope / 113 + (rating − par)`. The rules round
+ * this to a whole number for play; the page shows it to 1 dp (owner decision,
+ * docs/prd/golf-handicap-and-courses.md). Null without an index or a par, and
+ * for a 9-hole round (the tee snapshot holds 18-hole ratings only).
+ */
+export function courseHandicap(
+  index: number | null,
+  tee: { rating: number; slope: number; par?: number | null } | null | undefined,
+  holes?: number | null,
+): number | null {
+  if (index === null || !tee || holes === 9) return null;
+  if (!(tee.slope > 0) || !Number.isFinite(tee.rating) || tee.par == null) return null;
+  return round1(index * (tee.slope / 113) + (tee.rating - tee.par));
+}
+
 /** The latest entry, or null with no scored rounds. */
 export const current = (h: HistoryEntry[]): HistoryEntry | null => h[h.length - 1] ?? null;
 
